@@ -1,0 +1,2 @@
+class CustomizedProteinSequence < ApplicationRecord
+end

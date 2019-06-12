@@ -1,0 +1,2 @@
+class ProteinSequence < ApplicationRecord
+end

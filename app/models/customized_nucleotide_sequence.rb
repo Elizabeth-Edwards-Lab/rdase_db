@@ -1,0 +1,2 @@
+class CustomizedNucleotideSequence < ApplicationRecord
+end
