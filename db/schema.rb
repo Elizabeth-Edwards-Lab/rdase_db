@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190612172617) do
+ActiveRecord::Schema.define(version: 20190613222858) do
 
   create_table "customized_nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "header"
@@ -18,6 +18,14 @@ ActiveRecord::Schema.define(version: 20190612172617) do
     t.integer "uploader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reference"
+    t.integer "group"
+    t.date "update_date"
+    t.date "publication_date"
+    t.string "tree_name"
+    t.string "key_group"
+    t.string "organism"
+    t.string "key"
   end
 
   create_table "customized_protein_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -33,6 +41,14 @@ ActiveRecord::Schema.define(version: 20190612172617) do
     t.text "chain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reference"
+    t.integer "group"
+    t.date "update_date"
+    t.date "publication_date"
+    t.string "tree_name"
+    t.string "key_group"
+    t.string "organism"
+    t.string "key"
   end
 
   create_table "protein_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

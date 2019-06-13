@@ -1,24 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Schema Explaination
+customized_nucleotide_sequences: orignal database + user uploaded sequence
+customized_protein_sequences: orignal database + user uploaded sequence
+nucleotide_sequences: orignal database (forbid to change)
+protein_sequences: orignal database (forbid to change)
+queries: keep track of user's query
+uploaders: keep track of uploaders' information

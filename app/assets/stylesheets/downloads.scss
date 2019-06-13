@@ -1,0 +1,27 @@
+.downloads {
+  // @extend .col-md-8;
+  table {
+    th.text-col { width: 50% }
+    th.text-col-seq { width: 30% }
+    th.download-col { width: 20%; }
+    th.release-col { width: 15%; }
+    th.size-col { width: 15%; }
+  }
+}
+
+.alert-citation {
+  margin-top: 2em;
+  background: #515151;
+  color: white;
+  a { color: white; text-decoration: underline;}
+
+  blockquote.primary-citation {
+    font-size: 15px;
+    border-left: 5px solid silver;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    padding-top: 0;
+    a { color: white; text-decoration: underline;}
+  }
+}
