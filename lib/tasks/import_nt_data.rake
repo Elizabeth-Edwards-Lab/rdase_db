@@ -78,6 +78,8 @@ require 'csv'
 		# abort("Message goes here")
 
 
+		# above tries to parse the file and put into dictionary that for extracting data
+		# below tries to import sequence data and bind to above sequence information 
 
 
 		separation = Array.new
@@ -108,10 +110,10 @@ require 'csv'
 
 
 		# unique_string = Array.new
-		
+		exception = Hash.new
 		split.each { |x| 
 			# puts file_line[x[0]].gsub(">","")
-			record = file_line[x[0]].gsub(">","")
+			record = file_line[x[0]].gsub(">","").gsub(/\n/,"").gsub(/\r/,"")
 			sequence = ""
 			# puts x[0], x[1]
 			(x[0]+1..x[1]-1).step(1) do |n|
@@ -119,9 +121,9 @@ require 'csv'
 				# puts file_line[n]
 				sequence << file_line[n].gsub(/\n/,"").gsub(/\r/,"")
 			end
-			puts sequence
-			puts record
-			puts "#{x[0]} and #{x[1]}"
+			# puts sequence
+			# puts record
+			# puts "#{x[0]} and #{x[1]}"
 
 			begin
 				n_seq = NucleotideSequence.new
@@ -133,16 +135,17 @@ require 'csv'
 
 				# [group_by_year,group,publication_date,reference,earliest_date]
 				if !orth_naming[record].nil?
+					# puts orth_naming[record]
 					extraction = orth_naming[record]
 					n_seq.group = extraction[1]
 					n_seq.publication_date = extraction[2]
 					n_seq.reference = extraction[3]
-					n_seq.earliest_date = extraction[4]
+					n_seq.update_date = extraction[4]
 					# \\\\
 					c_n_seq.group = extraction[1]
 					c_n_seq.publication_date = extraction[2]
 					c_n_seq.reference = extraction[3]
-					c_n_seq.earliest_date = extraction[4]
+					c_n_seq.update_date = extraction[4]
 				end
 				# rdh_information[name_tree.gsub(" ","")] = [organism,key,key_origin]
 				if !rdh_information[record].nil?
@@ -159,19 +162,42 @@ require 'csv'
 				end
 
 
-
+				# puts n_seq.inspect
+				# puts "===================="
+				# puts c_n_seq.inspect
 
 				n_seq.save!
 				c_n_seq.save!
 				puts "#{x[0]} and #{x[1]} saved!"
 			rescue
+				exception[record] = sequence
 				puts record
+				# puts exception.backtrace
 			end
 
 		}
 
 
+		File.open("data/rdh_all_nt_09052016_exception.fas", 'w') { |file| 
 
+
+			exception.each do |key, array|
+				file.write(">#{key}\n")
+				file.write("#{array}\n") 
+			end
+
+		}
+		
+
+
+
+	end
+
+
+
+	task :destory_all => [:environment] do
+		NucleotideSequence.delete_all
+  	CustomizedNucleotideSequence.delete_all
 	end
 
 end

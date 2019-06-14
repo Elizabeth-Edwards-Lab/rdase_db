@@ -1,0 +1,2 @@
+class SequenceInfo < ApplicationRecord
+end

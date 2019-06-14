@@ -104,30 +104,20 @@ namespace :import_aa_nt_data do
 
 		split.pop
 
-
 		# unique_string = Array.new
-		
+		exception = Hash.new
 		split.each { |x| 
 			# puts file_line[x[0]].gsub(">","")
-			record = file_line[x[0]].gsub(">","")
+			record = file_line[x[0]].gsub(">","").gsub(/\n/,"").gsub(/\r/,"")
 			sequence = ""
 			# puts x[0], x[1]
 			(x[0]+1..x[1]-1).step(1) do |n|
 				# puts n
 				# puts file_line[n]
 				sequence << file_line[n].gsub(/\n/,"").gsub(/\r/,"")
-				# file_line[n].gsub(/\n/,"").gsub(/\r/,"").each_byte do |i|
-				# 	if unique_string.include? i
-				# 		next
-				# 	else
-				# 		unique_string << i
-				# 	end
-				# 	if i == 63
-				# 		puts record
-				# 	end
-				# end
 			end
 			# puts sequence
+			# puts record
 			# puts "#{x[0]} and #{x[1]}"
 
 			begin
@@ -137,42 +127,73 @@ namespace :import_aa_nt_data do
 				p_seq.chain  = sequence
 				c_p_seq.header = record
 				c_p_seq.chain = sequence
-				c_p_seq.save!
+
+				# [group_by_year,group,publication_date,reference,earliest_date]
+				if !orth_naming[record].nil?
+					# puts orth_naming[record]
+					extraction = orth_naming[record]
+					p_seq.group = extraction[1]
+					p_seq.publication_date = extraction[2]
+					p_seq.reference = extraction[3]
+					p_seq.update_date = extraction[4]
+					# \\\\
+					c_p_seq.group = extraction[1]
+					c_p_seq.publication_date = extraction[2]
+					c_p_seq.reference = extraction[3]
+					c_p_seq.update_date = extraction[4]
+				end
+				# rdh_information[name_tree.gsub(" ","")] = [organism,key,key_origin]
+				if !rdh_information[record].nil?
+					extraction = rdh_information[record]
+					p_seq.organism = extraction[0]
+					p_seq.tree_name = record
+					p_seq.key = extraction[1]
+					p_seq.key_group = extraction[2]
+					# \\\\
+					c_p_seq.organism = extraction[0]
+					c_p_seq.tree_name = record
+					c_p_seq.key = extraction[1]
+					c_p_seq.key_group = extraction[2]
+				end
+
+
+				puts p_seq.inspect
+				puts "===================="
+				puts c_p_seq.inspect
+
 				p_seq.save!
+				c_p_seq.save!
 				puts "#{x[0]} and #{x[1]} saved!"
-			rescue
-				puts record
+			rescue # => exception
+				exception[record] = sequence
+				# puts record
+				# puts exception.backtrace
 			end
-
-
-			# p_seq.save!
-			# c_p_seq.save!
-			
-			
 			# break
-			
 
 		}
-		# puts unique_string
+		# abort("")
 
-		
+		File.open("data/rdh_all_aa_09052016_exception.fas", 'w') { |file| 
+
+
+			exception.each do |key, array|
+				file.write(">#{key}\n")
+				file.write("#{array}\n") 
+			end
+
+		}
 
   end
 
   task :add_individual_aa => [:environment] do
-  	# seq_AF115542 = "MENNEQRQQTGMNRRSFLKVGAAATTMGVIGAIKAPAKVANAAETMNYVPGPTNARSKLRPVHDFAGAKVRFVENNDEWLGTTKIISKVKKTSEADAGFMQAVRGLYGPDPQRGFFQFIAKHPFGGTISWARNLIAAEDVVDGDAEPTKTPIPDPEQMSQHIRDCCYFLRADEVGIGKMPEYGYYTHHVSDTVGLMSKPVEECVTPVTKIYPNVIVVMIDQGIETMWASTGYDGISGAMSMQSYFTSGCIAVIMAKYIRTLGYNAR?HHAKNYEAIMPVCIMAAGLGELSRTGDCAIHPRLGYRHKVAAVTTDLPLAPDKPIDFGLLDFCRVCKKCADNCPNDAITFDEDPIEYNGYLRWNSDFKKCTEFRTTNEEGSSCGTCLKVCPWNSKEDSWFHKAGVWVGSKGEAASTFLKSIDDIFGYGTETIEKYKWWLEWPEKYPLKPM"
-  	# seq_AY013361 = "LYAWDEEKSRQKATFTDLKEASLIVKDAARFLGASLVGIAEYDQKWVYSTWYDFSTKESIPAEFPFPVKSVIVI?VDT?YRGCLTSPSLISSAATGLGYSKMAETARKMATFIRMLGYNAIPSGNDTAISIPLAIQAGLGELGRNGMLITPEYGP?VRLLKVLTDMPLQPDKPITFGVSQFCMKCKKCAYSCPTGAIPLDSKPTMYGDSMSNCDGVLKWYTDPERCYKFWALNGAECSNCIACCPYNKWSSWHHGLTQRLRESIRDKPSVKKAEKNDS?IEKNTVPSEPGTSMADQSSKKREYNIVDYAICKAAAAISDY?AKDNCFVIHEQDLCEWSSKHNQSKMKFQTLHKL"
-  	# seq_AY013364 = "MFRSSDRQ?KPQEQKFQMNRRKFLKAGVASALTAGMVGAMRTLPVSAAEAVASTGSSGSVNGARS?LHPKVDYGGAS?RFVENNDQWLGTSQIVGTVSRTHEAEQGFNLALRGKLSSEAQVAMYHY?FVMKHPFDGTLGIFSNYVSAENIVGGTPNQEKLPIPDPEQMSQNIKDTAYFLRADEVGIGKMPEYAYYSHKAPFSHEELIRDDISHSTPVTEKLPYVIVVMVDQPLETMLASTGYDGISSAQSMRGYHATAVISVILAQYIRNLGYNARAHHFANYAAAMPPVTIAAGLGELSRTGDCTVHPRLATATK"
-  	# seq_AY013365 = 
-  	# seq_AY013367 = 
-  	# seq_CR1_tceA = 
-  	# seq_KB1_11   =
 
 
 
 
   end
 
+  # rake import_aa_nt_data:destory_import_aa
   task :destory_import_aa => [:environment] do
   	ProteinSequence.delete_all
   	CustomizedProteinSequence.delete_all

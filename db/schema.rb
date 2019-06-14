@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190613222858) do
+ActiveRecord::Schema.define(version: 20190614164046) do
 
   create_table "customized_nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "header"
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(version: 20190613222858) do
     t.integer "uploader_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reference"
+    t.integer "group"
+    t.date "update_date"
+    t.date "publication_date"
+    t.string "tree_name"
+    t.string "key_group"
+    t.string "organism"
+    t.string "key"
   end
 
   create_table "nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -57,6 +65,14 @@ ActiveRecord::Schema.define(version: 20190613222858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "uploader"
+    t.string "reference"
+    t.integer "group"
+    t.date "update_date"
+    t.date "publication_date"
+    t.string "tree_name"
+    t.string "key_group"
+    t.string "organism"
+    t.string "key"
   end
 
   create_table "queries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -70,6 +86,19 @@ ActiveRecord::Schema.define(version: 20190613222858) do
     t.string "algorithm"
     t.string "email"
     t.boolean "file_upload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sequence_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "generic_id"
+    t.string "origin"
+    t.string "reference"
+    t.string "type"
+    t.date "publish_date"
+    t.string "organism"
+    t.string "key"
+    t.string "key_origin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
