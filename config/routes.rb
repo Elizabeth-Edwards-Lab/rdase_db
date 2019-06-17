@@ -18,5 +18,9 @@ Rails.application.routes.draw do
 
 
 
-	root to: 'query#query'
+	match "search" => 'query#search',
+		as: :search,
+		via: [:get, :post]
+
+	root to: 'query#search'
 end

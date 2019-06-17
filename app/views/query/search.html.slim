@@ -1,0 +1,55 @@
+.well
+  = form_tag search_path(anchor: :results), id: 'seq-search-form' do
+    fieldset
+      legend
+        | Enter one or more DNA/amino acid sequences in 
+        | #{link_to 'FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', target: '_blank'}
+      = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
+      - if lookup_context.find_all('seq_search/_example').any?
+        span.help-block
+          a.seq-search-example-loader.btn.btn-default.btn-sm href="#" data-example=render('seq_search/example') data-update="sequence" Load Example
+    fieldset
+      legend BLAST Parameters
+      .row
+        .col-md-4.col-sm-4
+          .form-group
+            = label_tag :gap_cost, 'Cost to open a gap'
+            = text_field_tag :gap_cost, params[:gap_cost], class: 'form-control'
+          .form-group
+            = label_tag :extend_cost, 'Cost to extend a gap'
+            = text_field_tag :extend_cost, params[:extend_cost], class: 'form-control'
+        .col-md-4.col-sm-4
+          .form-group
+            = label_tag :mismatch_penalty, 'Penalty for mismatch'
+            = text_field_tag :mismatch_penalty, params[:mismatch_penalty], class: 'form-control'
+          .form-group
+            = label_tag :match_reward, 'Reward for match'
+            = text_field_tag :match_reward, params[:match_reward], class: 'form-control'
+        .col-md-4.col-sm-4
+          .form-group
+            = label_tag :evalue, 'Expectation value'
+            = text_field_tag :evalue, (params[:evalue] || '0.00001'), class: 'form-control'
+          .checkbox
+            = label_tag :gapped_alignment, class: 'checkbox' do
+              = check_box_tag :gapped_alignment, 1, params[:gapped_alignment] 
+              | Perform gapped alignment
+          .checkbox            
+            = label_tag :lower_case_filtering, class: 'checkbox' do
+              = check_box_tag :lower_case_filtering, 1, params[:lower_case_filtering]
+              | Lower case filtering of FASTA sequence
+          .checkbox
+            = label_tag :filter_query_sequence, class: 'checkbox' do
+              = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
+              | Filter query sequence (DUST &amp; SEG)
+
+    - if lookup_context.find_all('seq_search/_filters').any?
+      fieldset
+        = render 'seq_search/filters'
+    .form-actions
+      = submit_tag 'Search', class: 'btn btn-primary'
+      = link_to 'Reset', search_path, class: 'btn'
+- if @sequences.present?
+  hr
+  = render partial: "results"
+- elsif params[:commit].present?
+  .seq-search-no-results No Results
