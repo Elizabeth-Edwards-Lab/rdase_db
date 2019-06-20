@@ -1,0 +1,14 @@
+development:
+  blastall: blastall 
+  formatdb: formatdb
+  index: index/blast
+
+test:
+  blastall: /usr/local/blast/bin/blastall 
+  formatdb: /usr/local/blast/bin/formatdb
+  index: index/blast
+
+production:
+  blastall: /usr/local/blast/bin/blastall 
+  formatdb: /usr/local/blast/bin/formatdb
+  index: index/blast
