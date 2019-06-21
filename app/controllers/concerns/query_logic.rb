@@ -33,6 +33,8 @@ module QueryLogic
 	end
 
 
+
+	
 	def other_blast_infomation()
 		    # # *Arguments*:
 		    # # * _program_ (required): 'blastn', 'blastp', 'blastx', 'tblastn' or 'tblastx'

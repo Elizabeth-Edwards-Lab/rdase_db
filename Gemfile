@@ -1,26 +1,23 @@
 source 'https://rubygems.org'
 
-# git_source(:github) do |repo_name|
-#   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-#   "https://github.com/#{repo_name}.git"
-# end
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
 
 gem 'rails', '~> 5.1.7'
-gem 'sqlite3'
 gem 'mysql2', '~> 0.4.9'
 gem 'puma', '~> 3.7'
-gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
-# gem 'turbolinks', '~> 5'
 gem 'turbolinks', github: 'turbolinks/turbolinks-classic'
 gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'jquery-rails'
 gem 'sass-rails', '~> 5.0'
-gem 'jquery-turbolinks'
 gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
+gem 'popper_js', '~> 1.14.5'
 gem 'bio'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -30,9 +27,8 @@ gem 'bio'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-
 # Wishartlab Gems
-gem 'admin_mailer', git: 'git@bitbucket.org:wishartlab/admin-mailer'
+# gem 'admin_mailer', git: 'git@bitbucket.org:wishartlab/admin-mailer'
 # gem 'wishart', git: 'git@bitbucket.org:wishartlab/wishart'
 
 

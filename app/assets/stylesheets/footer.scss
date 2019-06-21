@@ -1,0 +1,125 @@
+#page_footer{font-size: 13px;
+             padding: 0 1em;
+             border-top: 2px solid #D5D5D5;
+             clear: both}
+
+#page_footer .foot_wrap {overflow: auto;}
+#page_footer div.thick_border {border-top: 2px solid #D5D5D5;}
+#page_footer div.two_col {padding: 0 .6em 1em;}
+#page_footer a {text-decoration: none;}
+#page_footer, #page_footer .col {background-color: #EAEAEA;}
+#page_footer ul {padding-left: 0;
+                 margin: .25em 0 1em 0;}
+#page_footer .two_col li {padding-top: .25em;}
+#page_footer h3 {margin-bottom: 0;border-bottom:none;letter-spacing:normal;}
+#page_footer a, #page_footer h3.ncbi_blue {color: #336699;}
+
+/* bottom section of footer */
+#page_footer h3.ncbi_blue {margin-bottom: .25em;}
+#page_footer .footer_border {border-top: 1px solid #D5D5D5;}
+#page_footer .footer_padding {padding: 0 .5em 3em .5em;}
+#page_footer .h-adr {display: block;}
+
+/* social media */
+#page_footer .social {clear: both;
+                      width: 50%;}
+#page_footer .social h3 {margin-top: 0;}
+#page_footer .social_media li {float: left;
+                               width: 10%;
+                               padding: .5em 0 1em;}
+#page_footer .help_desk {padding: 2.5em 10em 0;}
+
+/* ncbi info */
+#page_footer .about_list {margin-top: 1em;
+                          color: #555555;}
+#page_footer address, #page_footer address a {color: #555555;
+                                              font-style: normal;}
+
+/* new_grid.css */
+
+.two_col {
+    width: 16.6666%;
+}
+
+.col {    
+    background-color: #FFFFFF;    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*standard_base.css*/
+
+.gray-medium {
+    opacity: .5;
+}
+icon-medium, .icon-small {
+    vertical-align: top;
+}
+.icon-medium {
+    height: 2em;
+    width: 2em;
+    display: inline-block;
+}
+img {
+    border: 0;
+}
+
+.icon-fallback-text {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+.inline_list, .inline_list_right {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.inline_list li {
+    display: inline;
+    margin-right: .3em;
+}
+#page_footer, #page_footer *
+{
+    font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+}
+#contentinfo { 
+  width:100%;
+}
+
+#type-d #page_footer 
+{  
+  padding:0; 
+  border:none;
+}
+
+#page_footer h3.ncbi_blue {
+  font-size: 100%;  
+  margin-top: 0;
+  clear:none;
+  padding-top: 1em;
+}
+
+
+#page_footer a.help_desk {
+  color: #0071bc !important;
+  font-size: 111%;
+  padding: 0 1em !important;
+}
+#page_footer_54 img {  
+  vertical-align: middle;
+}
+
+#page_footer div.two_col {    
+  padding: 1em 0.6em !important;
+  width:50%;
+}
+
+.foot_wrap div {
+  padding-bottom: 1em;
+  padding-top: 1em;
+}
+
+
