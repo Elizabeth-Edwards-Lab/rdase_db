@@ -56,3 +56,10 @@ report = blaster.query(@sequence.seq)
 IMPORTANT:
 legacy_blast.pl use default /usr/bin for all executable blast program.
 if use legacy_blast.pl, should modify the legacy_blast.pl
+
+
+
+
+If the system is under ubuntu, the following file should be modified
+1. config/initializers/blast.rb => change back to original code because blastall exist in ubuntu
+2. database.yml => change the location of msyql.sock due to installation place

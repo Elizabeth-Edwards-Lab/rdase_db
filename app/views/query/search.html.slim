@@ -28,7 +28,7 @@
         .col-md-4.col-sm-4
           .form-group
             = label_tag :evalue, 'Expectation value'
-            = text_field_tag :evalue, (params[:evalue] || '0.00001'), class: 'form-control'
+            = text_field_tag :evalue, (params[:evalue]), class: 'form-control'
           .checkbox
             = label_tag :gapped_alignment, class: 'checkbox' do
               = check_box_tag :gapped_alignment, 1, params[:gapped_alignment] 
