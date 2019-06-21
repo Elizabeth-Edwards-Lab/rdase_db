@@ -29,7 +29,9 @@ BioRuby still use blastall so currently have to use legacy_blast.pl
 
 Use legacy_blast.pl in /usr/local/ncbi/blast/bin for ruby on rails
 then override following function 
-see reference: https://stackoverflow.com/questions/580314/overriding-a-module-method-from-a-gem-in-rails
+To override function from gem, create new file (with same name as original file) in config/initializers
+And copy everything except making customized modification for overriding
+See reference: https://stackoverflow.com/questions/580314/overriding-a-module-method-from-a-gem-in-rails
 
 module Bio
   class Blast

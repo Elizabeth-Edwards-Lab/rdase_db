@@ -13,3 +13,7 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
+
+// Application JS
+//= require query
+//= require simple
