@@ -2,6 +2,35 @@ module QueryLogic
 	extend ActiveSupport::Concern
 
 
+
+	def set_blast_options(program, params)
+		
+		if program == "blastp"
+		  blast_options = { 'e' => params[:evalue].to_f, 'G' => params[:gap_cost].to_i,
+		                  'E' => params[:extend_cost].to_i,
+		                  'U' => (params[:lower_case_filtering].present? ? 'T' : 'F'), 
+		                  'F' => (params[:filter_query_sequence].present? ? 'T' : 'F'),
+		                  'g' => (params[:gapped_alignment].present? ? 'T' : 'F') }
+		  
+		  blast_options = blast_options.collect { |key, value| value.present? ? "-#{key} #{value}" : nil }.compact.join(" ")
+		  
+		  return blast_options
+
+		elsif program == "blastn"
+		  blast_options = { 'e' => params[:evalue].to_f, 'G' => params[:gap_cost].to_i,
+		                  'E' => params[:extend_cost].to_i, 'q' => params[:mismatch_penalty].to_i, 'r' => params[:match_reward].to_i,
+		                  'U' => (params[:lower_case_filtering].present? ? 'T' : 'F'), 
+		                  'F' => (params[:filter_query_sequence].present? ? 'T' : 'F'),
+		                  'g' => (params[:gapped_alignment].present? ? 'T' : 'F') }
+		  
+		  blast_options = blast_options.collect { |key, value| value.present? ? "-#{key} #{value}" : nil }.compact.join(" ")
+		  
+		  return blast_options
+
+		end
+
+	end
+
 	def describt_hit(hit)
 		puts hit.evalue           # E-value
 		# puts hit.sw               # Smith-Waterman score (*)

@@ -2,7 +2,7 @@
   = form_tag search_path(anchor: :results), id: 'seq-search-form' do
     fieldset
       legend
-        | Enter one or more DNA/amino acid sequences in 
+        | Enter one amino acid sequences in 
         | #{link_to 'FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', target: '_blank'}
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
       - if lookup_context.find_all('seq_search/_example').any?

@@ -1,44 +1,37 @@
-<!--#include file="footer.html"-->
   <footer id="page_footer">
-    <div class="foot_wrap">
-      <div class="left col two_col">
-        BLAST is a registered trademark of the <a href="https://www.nlm.nih.gov/"> National Library of Medicine </a>
-      </div>
-    </div>
 
-    <!-- bottom section of footer -->
     <div class="col" id="contentinfo">
-      <ul class="right inline_list logos">
-        <li>
-          <%= link_to href: 'https://www.ualberta.ca/', target: "_blank" do %>
-              <%= image_tag 'uofa.png', width: 140, height: 60, alt: 'UofA'%>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to href: 'https://www.utoronto.ca/', target: "_blank" do %>
-              <%= image_tag 'UofT-Logo.png', width: 160, height: 80, alt: 'UofT'%>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to href: 'https://www.metabolomicscentre.ca/', target: "_blank" do %>
-              <%= image_tag 'tmic-logo.png', :class => "ray-medium", width: 180, height: 60, alt: 'TMIC'%>
-          <% end %>
-        </li>
-      </ul>
-
       <div class="footer_padding">
-
         <div class="footer_border h-card">
           <p>
-            Orthdatabase is joint project from <a href="http://www.wishartlab.com/" target="_blank"> Wishart Lab Group</a> at University of Alberta and <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a>.
+            Orthdatabase is joint project from <a href="http://www.wishartlab.com/" target="_blank"> Wishart Lab Group</a> at University of Alberta and <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a> at
+            University of Toronto. BLAST is a registered trademark of the <a href="https://www.nlm.nih.gov/"> National Library of Medicine </a>
           </p>
-
         </div>
         <div class="inline_list about_list">
-          <%= link_to "Policies and Guidelines", href="#", target: "_blank" %>
-          |
-          <%= link_to "Contact", href="#", target: "_blank" %>
+            <%= link_to "Policies and Guidelines", href="#", target: "_blank" %>
+            |
+            <%= link_to "Contact", href="#", target: "_blank" %>
+          </div>
         </div>
-      </div>
+        <ul class="right inline_list logos">
+          <li>
+            <%= link_to href: 'https://www.ualberta.ca/', target: "_blank" do %>
+              <%= image_tag 'uofa.png', width: 140, height: 60, alt: 'UofA'%>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to href: 'https://www.utoronto.ca/', target: "_blank" do %>
+              <%= image_tag 'UofT-Logo.png', width: 160, height: 80, alt: 'UofT'%>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to href: 'https://www.metabolomicscentre.ca/', target: "_blank" do %>
+              <%= image_tag 'tmic-logo.png', :class => "ray-medium", width: 180, height: 60, alt: 'TMIC'%>
+            <% end %>
+          </li>
+        </ul>
+
+      
     </div>
   </footer>
