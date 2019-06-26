@@ -19,6 +19,7 @@ gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'popper_js', '~> 1.14.5'
 gem 'bio'
+gem 'whenever', require: false
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

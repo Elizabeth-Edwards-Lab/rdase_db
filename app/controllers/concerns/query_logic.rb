@@ -48,7 +48,7 @@ module QueryLogic
 			num_seq = ProteinSequence.count
 			percentage = num_report.to_f / num_seq.to_f
 		elsif type == "gene"
-			
+
 			num_seq = NucleotideSequence.count
 			percentage = num_report.to_f / num_seq.to_f	
 		end
@@ -71,6 +71,7 @@ module QueryLogic
 		if blast_options.nil?
 			# set default evalue
 			blast_options = { 'e' => 0.10 }
+			blast_options = blast_options.collect { |key, value| value.present? ? "-#{key} #{value}" : nil }.compact.join(" ")
 			blaster = Bio::Blast.local('tblastn', "#{Rails.root}/index/blast/#{database}",blast_options)
 			report = blaster.query(seq)
 
@@ -84,6 +85,70 @@ module QueryLogic
 		return report
 	end
 
+
+	def append_seq_to_rd_og(seq,defination)
+		# given aa seq and save it to database
+		# have to be customized database; the original database 
+		# should not be changed at any circumstances (after publication)
+		# Params: Bio:Blast:Report
+		# Return: float
+		# +command+:: 
+		# +outhandler+:: +Proc+ 
+		# +errhandler+:: +Proc+
+		status = nil
+		begin
+			new_aa_seq = CustomizedProteinSequence.new 
+			new_aa_seq.chain = seq
+			new_aa_seq.header = defination
+			# add submiter information
+
+			new_aa_seq.save!
+			# convert rna to dna
+			# should ask user if the converted seq is correct or not
+			# it should be correct otherwise how did they get the aa seq
+			new_nt_seq = CustomizedNucleotideSequence.new
+			aa = Bio::Sequence::NA.new(seq)
+			new_nt_seq.header = defination
+			new_nt_seq.chain = aa.dna
+			new_nt_seq.save!
+
+			status = "success"
+		rescue 
+			status = "fail"
+		end
+
+		return status
+
+	end
+
+	def append_seq_to_relative_rd_og(seq, defination)
+		
+	end
+	
+	def append_seq_to_new_rd_og(seq,defination)
+		
+	end
+
+	def append_seq_to_rd_og_info(input_info)
+
+		saved = false
+		begin
+			seq_info = SequenceInfo.new
+			seq_info.generic_id = input_info[:generic_id] || nil
+			seq_info.organism   = input_info[:organism] || nil
+			seq_info.key        = input_info[:key] || nil
+			seq_info.key_origin = input_info[:key_origin] || nil
+			seq_info.reference  = input_info[:reference]
+			seq_info.publish_date = input_info[:publish_date] || nil
+			seq_info.save! 
+			saved = true
+		rescue
+			return saved
+		end
+
+		return saved
+
+	end
 
 
 	def describt_hit(hit)

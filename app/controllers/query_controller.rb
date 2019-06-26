@@ -2,7 +2,7 @@ class QueryController < ApplicationController
   # include concerns
   include QueryLogic
 
-	before_action :set_search_defaults_for_nt
+	before_action :set_blast_defaults_for_aa
 
   def search
   	# params.inspect
@@ -32,8 +32,6 @@ class QueryController < ApplicationController
         query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
         program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
         database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-
-
             
         blast_options = set_blast_options(program,params)
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
@@ -51,14 +49,17 @@ class QueryController < ApplicationController
         end
 
         similarity = sequence_similarity(num_report,"protein")
-
-        if similarity > 0.90
-          
+        puts "similarity => #{similarity}"
+        # for first sequence in aa_fasta
+        # note: 0.9 for 11,1 is too high; 0.8 is good
+        # same for tblastn, 0.8 is good
+        if similarity > 0.80
           if hit_array.length > 0
+            puts "hit_array length is larger than 0 => #{hit_array.length}"
             # belong to some group
             # if user want to define the tblastn option?
             # or just use default value?
-            report = run_tblastn(@sequence.seq,database)
+            report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
 
             num_report_nt = 0
             report.each do |hit|
@@ -66,15 +67,22 @@ class QueryController < ApplicationController
               num_report_nt += 1
             end
             nt_similarity = sequence_similarity(num_report_nt,"gene")
+            puts "nt_similarity is  => #{nt_similarity}"
+
             if nt_similarity > 0.90
-              append_seq_to_rd_og(@sequence.seq)
+              
+              append_seq_to_rd_og(@sequence.seq, @sequence.definition)
+              # ask user to input more information about the sequence
+              append_seq_to_rd_og_info(input_info)
             else
-              append_seq_to_relative_rd_og(@sequence.seq)
+
+              append_seq_to_relative_rd_og(@sequence.seq, @sequence.definition)
 
             end
+
           else
             # create new rd_og group
-            append_seq_to_new_rd_og(@sequence.seq)
+            append_seq_to_new_rd_og(@sequence.seq, @sequence.definition)
 
           end
 
@@ -113,8 +121,8 @@ class QueryController < ApplicationController
   end
 
   def set_blast_defaults_for_aa
-    params[:gap_cost] ||= '5'
-    params[:extend_cost] ||= '2'
+    params[:gap_cost] ||= '11'
+    params[:extend_cost] ||= '1'
     params[:mismatch_penalty] ||= '-3'
     params[:match_reward] ||= '2'
     params[:evalue] ||= '0.01'
