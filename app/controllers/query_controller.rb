@@ -34,32 +34,63 @@ class QueryController < ApplicationController
         database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
 
 
-                
+            
         blast_options = set_blast_options(program,params)
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
         report = blaster.query(@sequence.seq)
 
 
         hit_array = Hash.new
-
-        puts "display Identity"
-        puts "total => #{report.length}"
+        num_report = 0
         report.each do |hit|
-          puts hit.evalue
-          # puts similartiy_percent(hit.identity,hit.query_len)
-          puts "-----------"
-          # identify the target_id by hit.target_id
-          # search through database to find the group
-
-        end
-        # also need recreate the blast database every weeek for updated new sequenece
-
-        report.each do |hit|
-          if hit.target_def =~ /(\d+)/
-            hit_array[$1.to_i] = hit
-            @hits[[$1.to_i, query_name]] = hit
+          # puts hit.evalue
+          if hit.evalue == 0
+            hit_array[hit.target_id] = hit.target_seq
           end
+          num_report += 1
         end
+
+        similarity = sequence_similarity(num_report,"protein")
+
+        if similarity > 0.90
+          
+          if hit_array.length > 0
+            # belong to some group
+            # if user want to define the tblastn option?
+            # or just use default value?
+            report = run_tblastn(@sequence.seq,database)
+
+            num_report_nt = 0
+            report.each do |hit|
+              # puts hit.evalue
+              num_report_nt += 1
+            end
+            nt_similarity = sequence_similarity(num_report_nt,"gene")
+            if nt_similarity > 0.90
+              append_seq_to_rd_og(@sequence.seq)
+            else
+              append_seq_to_relative_rd_og(@sequence.seq)
+
+            end
+          else
+            # create new rd_og group
+            append_seq_to_new_rd_og(@sequence.seq)
+
+          end
+
+        else
+          # no idea about this step
+
+        end
+
+        
+
+        # report.each do |hit|
+        #   if hit.target_def =~ /(\d+)/
+        #     hit_array[$1.to_i] = hit
+        #     @hits[[$1.to_i, query_name]] = hit
+        #   end
+        # end
 
       end
     end    
@@ -86,7 +117,7 @@ class QueryController < ApplicationController
     params[:extend_cost] ||= '2'
     params[:mismatch_penalty] ||= '-3'
     params[:match_reward] ||= '2'
-    params[:evalue] ||= '0.000001'
+    params[:evalue] ||= '0.01'
     params[:gapped_alignment] = true if params[:commit].blank?
     params[:filter_query_sequence] = true if params[:commit].blank?
   end

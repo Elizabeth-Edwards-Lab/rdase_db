@@ -84,7 +84,7 @@ require 'csv'
 
 		separation = Array.new
 		file_line = Array.new
-		File.open("data/rdh_all_nt_09052016.fas", "r") do |f|
+		File.open("data/rdhA_all_nt_17-June-2019.fasta", "r") do |f|
 			
 			ind = 0
 		  f.each_line do |line|
@@ -178,7 +178,7 @@ require 'csv'
 		}
 
 
-		File.open("data/rdh_all_nt_09052016_exception.fas", 'w') { |file| 
+		File.open("data/rdhA_all_nt_17-June-2019_exception.fasta", 'w') { |file| 
 
 
 			exception.each do |key, array|
@@ -194,7 +194,7 @@ require 'csv'
 	end
 
 
-
+	# rake import_nt_data:destory_all
 	task :destory_all => [:environment] do
 		NucleotideSequence.delete_all
   	CustomizedNucleotideSequence.delete_all

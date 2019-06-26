@@ -81,7 +81,7 @@ namespace :import_aa_nt_data do
 
 		separation = Array.new
 		file_line = Array.new
-		File.open("data/rdh_all_aa_09052016.fas", "r") do |f|
+		File.open("data/rdhA_all_aa_17-June-2019.fasta", "r") do |f|
 			
 			ind = 0
 		  f.each_line do |line|
@@ -174,7 +174,7 @@ namespace :import_aa_nt_data do
 		}
 		# abort("")
 
-		File.open("data/rdh_all_aa_09052016_exception.fas", 'w') { |file| 
+		File.open("data/rdhA_all_aa_17-June-2019_exception.fasta", 'w') { |file| 
 
 
 			exception.each do |key, array|
