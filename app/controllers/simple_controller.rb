@@ -12,9 +12,10 @@ class SimpleController < ApplicationController
 	def downloads
 	end
 
-	def help
+	def citation
 	end
 
-	def contacts
+	def other_database
 	end
+
 end
