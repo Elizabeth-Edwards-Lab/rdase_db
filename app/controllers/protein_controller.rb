@@ -2,23 +2,12 @@ class ProteinController < ApplicationController
 
 
 	
-	def index
-    @proteins = Protein.exported.
-      order("#{@sorted_column} #{@sorted_order}").
-      includes(:exported_metabolites).
-      page(params[:page])
+  def index
+    @protein = CustomizedProteinSequence.limit(25).page(params[:page])
   end
 
   def show
-    load_protein_objects!
-
-    if @revocation.present?
-      respond_to do |format|
-        format.html { render action: 'revoked' }
-        format.xml { render xml: @revocation, status: 404 }
-        format.any { raise ActiveRecord::RecordNotFound }
-      end
-      return
-    end
+    # puts params.inspect
+    @protein_s = CustomizedProteinSequence.find(params[:id])
   end
 end

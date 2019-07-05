@@ -1,0 +1,24 @@
+
+<div class="well">
+
+<h3> Sequence result for @query.definition</h3>
+	<% if @aa_sequence_result %>
+			<!-- render sequence -->
+	  		<% @aa_sequence_result.each do |key, value| %>
+	  		<hr>
+	  				<p>Comparing to: <%= key %></p>
+	  				<p>E-value:  <%= value.evalue %></p>
+	  				<p>BitScore: <%= value.bit_score %></p>
+	  			
+	  				<p>Query: <%= @sequence.seq %></p>
+	  				<p>middine: <%= value.midline %></p>
+	  				<p>Subject: <%= value.target_seq %></p>
+	    	<% end %>
+	    	
+	    	<%= paginate @aa_sequence_result %>
+	    	<hr>
+	<% else %>
+		<p>No top hit available</p>
+	<% end %>
+
+</div>

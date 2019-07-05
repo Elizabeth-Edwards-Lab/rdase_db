@@ -1,0 +1,54 @@
+<!-- send important field to backend, store the data into customized database -->
+<!-- also send an email to our group about the new sequence -->
+<!-- create the button in download that can download the new database package -->
+<!-- also make download for graph happens -->
+
+<!-- submit the param to function in query_controller by the url through ajax-->
+<!-- do field validation in javascript -->
+<!-- send request and get back the response -->
+<!-- do all the backend at backend -->
+<div class="well">
+	<p>Submit your sequence to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/">Elizabeth Edwards Lab</a></p>
+
+	<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f| %>
+	  <%= f.text_field :name, placeholder: "Your Name (Required) " %><br/>
+	  <%= f.text_field :email, placeholder: "example@abc.com (Required) "%><br/>
+		<%= f.text_field :institution, placeholder: "Your Institution (Optional)"%><br/>
+		<%= f.text_field :publications, placeholder: "Citation (Optional)" %><br/>
+		<%= f.text_field :organism, placeholder: "Organism (Optional)" %><br/>
+
+		<%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
+		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
+	<% end %>
+
+
+</div>
+<!-- ajax send request to controller, but the form_with also send the request -->
+<!-- two requests => limit to one request -->
+<script>
+
+	$('#submit-seq').submit(function(e){
+		e.preventDefault();
+		var sequence = $('.seq-search-sequence').val();
+		var form = $(this);
+		form.attr('sequence',sequence);
+		
+		console.log(typeof(form.serialize()));
+		$.ajax({
+			type:"POST",
+			url: "/submit_sequence",
+			// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
+			data: form.serialize()+ '&sequence=' + sequence,
+			success: function(data){
+				console.log("success");
+				console.log(data);
+
+			},
+			error: function(data){
+				console.log("failed");
+				console.log(data);
+			}
+		})
+	})
+
+</script>

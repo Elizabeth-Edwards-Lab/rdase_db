@@ -18,9 +18,10 @@ class QueryController < ApplicationController
       end
 
       fasta_array = params[:sequence].scan(/>[^>]*/)
+      
       @hits = Hash.new
       @sequences = ActiveSupport::OrderedHash.new
-
+      @new_customized_sequence = CustomizedProteinSequence.new
 
       # should do one for each request or can do multiple alignment at same time?
       fasta_array.each do |fasta_seq|
@@ -32,64 +33,60 @@ class QueryController < ApplicationController
         query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
         program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
         database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-            
+        
         blast_options = set_blast_options(program,params)
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
-        report = blaster.query(@sequence.seq)
+        aa_report = blaster.query(@sequence.seq)
+        @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
 
 
-        hit_array = Hash.new
-        num_report = 0
-        report.each do |hit|
-          # puts hit.evalue
-          if hit.evalue == 0
-            hit_array[hit.target_id] = hit.target_seq
-          end
-          num_report += 1
-        end
 
-        similarity = sequence_similarity(num_report,"protein")
-        puts "similarity => #{similarity}"
+
+        @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
+        @aa_sequence_result = Kaminari.paginate_array(@aa_sequence_result,total_count: @aa_sequence_result.count).page(params[:page]).per(5)
+
+        ## search aa level > 90%
+        ## if >90%, do nt level
+        
+
         # for first sequence in aa_fasta
         # note: 0.9 for 11,1 is too high; 0.8 is good
         # same for tblastn, 0.8 is good
-        if similarity > 0.80
-          if hit_array.length > 0
-            puts "hit_array length is larger than 0 => #{hit_array.length}"
-            # belong to some group
-            # if user want to define the tblastn option?
-            # or just use default value?
-            report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
+        if @aa_similarity > 0.80
+          
+          # if in the ortholog_group (HOW?), confirm with blast gene
+          #    if blast gene is > 90% from that group
+          #       Step3
+          #    else
+          #       Step3 with condition (dont add to database)
+          # else
+          #    Step2
+          # end
+          # 
+          nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
+          @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
+          if @nt_similarity > 0.80
 
-            num_report_nt = 0
-            report.each do |hit|
-              # puts hit.evalue
-              num_report_nt += 1
-            end
-            nt_similarity = sequence_similarity(num_report_nt,"gene")
-            puts "nt_similarity is  => #{nt_similarity}"
-
-            if nt_similarity > 0.90
-              
-              append_seq_to_rd_og(@sequence.seq, @sequence.definition)
-              # ask user to input more information about the sequence
-              append_seq_to_rd_og_info(input_info)
-            else
-
-              append_seq_to_relative_rd_og(@sequence.seq, @sequence.definition)
-
-            end
+            # append_seq_to_rd_og(@sequence.seq, @sequence.definition)
+            # append_seq_to_rd_og_info(input_info)
 
           else
-            # create new rd_og group
-            append_seq_to_new_rd_og(@sequence.seq, @sequence.definition)
+
+            # append_seq_to_relative_rd_og(@sequence.seq, @sequence.definition)
 
           end
 
+
+          
+
+
         else
-          # no idea about this step
+          # lanuch the muscle program to draw the ploysth. graph (under user's request)
 
         end
+
+        # no matter what, display the top hit
+
 
         
 
@@ -103,6 +100,63 @@ class QueryController < ApplicationController
       end
     end    
   end
+
+
+  def result
+
+
+  end
+
+
+  def phylogenies
+
+  end
+
+  def submit_sequence
+    # puts "inspectparams"
+    # puts params[:name]
+    # puts params[:institution]
+    # puts params[:email]
+    # puts params[:publications]
+    # puts params[:sequence]
+    fasta_array = params[:sequence].scan(/>[^>]*/)
+
+    query_name = nil
+    aa_sequence = nil
+    nt_sequence = nil
+    if fasta_array.length > 1
+      @query = Bio::FastaFormat.new( fasta_array[0] )
+      query_name = @query.definition
+      sequence = @query.to_seq
+      aa = Bio::Sequence::AA.new(sequence)
+      nt_sequence = aa.dna
+
+    end
+    # organism should be similar, otherwise it won't get to this step
+    new_sequence_info = SequenceInfo.new
+    new_sequence_info.organism = params[:organism] || nil
+    new_sequence_info.reference = params[:publications] || nil
+    new_sequence_info.type = "Enzyme"
+
+
+    new_customized_protein_sequences = CustomizedProteinSequence.new
+    new_customized_protein_sequences.header = query_name
+    new_customized_protein_sequences.chain  = sequence
+    # new_customized_protein_sequences.group  = "novel" or "some group"
+    new_customized_protein_sequences.reference = params[:publications] || nil
+    new_customized_protein_sequences.organism  = params[:organism] || nil
+
+
+    puts params.inspect
+
+    # begin
+
+    # rescue
+    # end
+    render json: {"message": "Your Sequence has been sent to 
+      Elizabeth Edwards Lab. Thank you for your contribution"} 
+  end
+
 
   private
 

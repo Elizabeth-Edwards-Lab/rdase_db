@@ -1,13 +1,10 @@
 class SimpleController < ApplicationController
 
-	def about
-	end
-
 	def contact
 	end
 
 	def statistics
-  end
+  	end
 
 	def downloads
 	end
@@ -16,6 +13,9 @@ class SimpleController < ApplicationController
 	end
 
 	def other_database
+	end
+
+	def help
 	end
 
 end

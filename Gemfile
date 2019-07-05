@@ -15,11 +15,13 @@ gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'jquery-rails'
 gem 'sass-rails', '~> 5.0'
-gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
+gem 'bootstrap', '~> 4.0.0'
 gem 'popper_js', '~> 1.14.5'
 gem 'bio'
 gem 'whenever', require: false
+gem 'kaminari'
+gem 'recaptcha'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

@@ -1,0 +1,37 @@
+
+
+
+<div class="container">
+	<h1>Listing Sequence</h1>
+	<hr>
+	<table>
+	  <thead>
+	    <tr>
+	    	<th colspan="1"></th>
+	      <th>Header</th>
+	      <th>Group</th>
+	      <th>Organism</th>
+	      <th>Update</th>
+	      
+	    </tr>
+	  </thead>
+	 
+	  <tbody>
+	    <% @protein.each do |pt| %>
+	      <tr>
+	      	<td><%= link_to "show", protein_path(pt.id) %></td>
+	        <td><%= pt.header %></td>
+	        <td><%= pt.group %></td>
+	        <td><%= pt.organism %></td>
+	        <td><%= pt.update_date %></td>
+	        
+	        
+	      </tr>
+	    <% end %>
+	    
+	  </tbody>
+	</table>
+	<hr>
+	<%= paginate @protein %>
+	<br>
+</div>

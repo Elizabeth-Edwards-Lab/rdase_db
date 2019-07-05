@@ -48,8 +48,19 @@
     .form-actions
       = submit_tag 'Search', class: 'btn btn-primary'
       = link_to 'Reset', search_path, class: 'btn'
-- if @sequences.present?
+
+
+/ = render "submit_sequence"  
+/ need to think more robust way for error handling
+- if @aa_similarity.present?
   hr
-  = render partial: "results"
+  = render partial: "result"
+  = render partial: "seqresult"
+  / if can't pass the same group, then do gene blast so nt_similarity will present; otherwise, nt_similiarity won't present, do phylogenies diagram
+  - if @nt_similarity.present?
+    = render "submit_sequence"
+  - else
+    = render partial: "phylogenies"
+    
 - elsif params[:commit].present?
   .seq-search-no-results No Results

@@ -35,30 +35,6 @@ module QueryLogic
 
 	end
 
-	def sequence_similarity(num_report,type)
-		# print all hit information
-		# Params: Bio:Blast:Report
-		# Return: float
-		# +command+:: 
-		# +outhandler+:: +Proc+ 
-		# +errhandler+:: +Proc+
-		percentage = nil
-		if type == "protein"
-
-			num_seq = ProteinSequence.count
-			percentage = num_report.to_f / num_seq.to_f
-		elsif type == "gene"
-
-			num_seq = NucleotideSequence.count
-			percentage = num_report.to_f / num_seq.to_f	
-		end
-
-
-		return percentage
-
-	end
-
-
 	def run_tblastn(seq,database,blast_options=nil)
 		# run tblastn program
 		# Params: Bio:Blast:Report
@@ -85,6 +61,18 @@ module QueryLogic
 		return report
 	end
 
+	def generate_hit_array(report,query_name,query_sequence_type)
+		# for each hit sequence, get all hit report
+		sequences = ActiveSupport::OrderedHash.new
+		sequence_class = query_sequence_type == 'protein' ? ProteinSequence : NucleotideSequence
+		report.each do |hit|
+		  sequences[hit.target_def] = hit
+		end
+		sequences.sort_by { |query,hit| hit.evalue }
+
+		return sequences
+	end
+
 
 	def append_seq_to_rd_og(seq,defination)
 		# given aa seq and save it to database
@@ -96,26 +84,26 @@ module QueryLogic
 		# +outhandler+:: +Proc+ 
 		# +errhandler+:: +Proc+
 		status = nil
-		begin
-			new_aa_seq = CustomizedProteinSequence.new 
-			new_aa_seq.chain = seq
-			new_aa_seq.header = defination
-			# add submiter information
+		# begin
+		# 	new_aa_seq = CustomizedProteinSequence.new 
+		# 	new_aa_seq.chain = seq
+		# 	new_aa_seq.header = defination
+		# 	# add submiter information
 
-			new_aa_seq.save!
-			# convert rna to dna
-			# should ask user if the converted seq is correct or not
-			# it should be correct otherwise how did they get the aa seq
-			new_nt_seq = CustomizedNucleotideSequence.new
-			aa = Bio::Sequence::NA.new(seq)
-			new_nt_seq.header = defination
-			new_nt_seq.chain = aa.dna
-			new_nt_seq.save!
+		# 	new_aa_seq.save!
+		# 	# convert rna to dna
+		# 	# should ask user if the converted seq is correct or not
+		# 	# it should be correct otherwise how did they get the aa seq
+		# 	new_nt_seq = CustomizedNucleotideSequence.new
+		# 	aa = Bio::Sequence::NA.new(seq)
+		# 	new_nt_seq.header = defination
+		# 	new_nt_seq.chain = aa.dna
+		# 	new_nt_seq.save!
 
-			status = "success"
-		rescue 
-			status = "fail"
-		end
+		# 	status = "success"
+		# rescue 
+		# 	status = "fail"
+		# end
 
 		return status
 
@@ -131,24 +119,25 @@ module QueryLogic
 
 	def append_seq_to_rd_og_info(input_info)
 
-		saved = false
-		begin
-			seq_info = SequenceInfo.new
-			seq_info.generic_id = input_info[:generic_id] || nil
-			seq_info.organism   = input_info[:organism] || nil
-			seq_info.key        = input_info[:key] || nil
-			seq_info.key_origin = input_info[:key_origin] || nil
-			seq_info.reference  = input_info[:reference]
-			seq_info.publish_date = input_info[:publish_date] || nil
-			seq_info.save! 
-			saved = true
-		rescue
-			return saved
-		end
+		# saved = false
+		# begin
+		# 	seq_info = SequenceInfo.new
+		# 	seq_info.generic_id = input_info[:generic_id] || nil
+		# 	seq_info.organism   = input_info[:organism] || nil
+		# 	seq_info.key        = input_info[:key] || nil
+		# 	seq_info.key_origin = input_info[:key_origin] || nil
+		# 	seq_info.reference  = input_info[:reference]
+		# 	seq_info.publish_date = input_info[:publish_date] || nil
+		# 	seq_info.save! 
+		# 	saved = true
+		# rescue
+		# 	return saved
+		# end
 
-		return saved
+		# return saved
 
 	end
+
 
 
 	def describt_hit(hit)

@@ -1,0 +1,127 @@
+<style>
+  
+</style>
+
+
+<div class="container">
+
+  <h2>Showing Protein Sequence: <%= @protein_s.header %></h2>
+
+
+  <hr>
+  <h4>Identification</h4>
+  <table>
+    <tr>
+      <th>Protein Header</th>
+      <td><%= @protein_s.header %></td>
+    </tr>
+    <tr>
+      <th>Gene Name</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Protein Type</th>
+      <td>Enzyme</td>
+    </tr>
+  </table>
+
+  <hr>
+  <h4>Biological Properties</h4>
+  <table>
+   
+    <tr>
+      <th>General Function</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Specific Function</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>GO Classification</th>
+      <td>
+        null
+      </td>
+    </tr>
+    <tr>
+      <th>Cellular Location</th>
+      <td>
+        null
+      </td>
+    </tr>
+  </table>
+
+  <hr>
+  <h4>Gene Properties</h4>
+  <table>
+    <tr>
+      <th>Chromosome Location</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Locus</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>SNPs</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Amino Acid Sequence</th>
+      <td>
+        <% if @protein_s.chain.present? %>
+          <pre><%= @protein_s.chain %></pre>
+        <% else %>
+          <%= nah %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
+  <hr>
+  <h4>Protein Properties</h4>
+  <table>
+    <tr>
+      <th>Number of Residues</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Molecular Weight</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Theoretical pI</th>
+      <td>null</td>
+    </tr>
+    <tr>
+      <th>Pfam Domain Function</th>
+      <td>
+        null
+      </td>
+    </tr>
+    <tr>
+      <th>Signals</th>
+      <td>
+        null
+      </td>
+    </tr>
+    <tr>
+      <th>
+         Transmembrane Regions
+      </td>
+      <td>
+        null
+      </th>
+    </tr>
+  </table>
+
+  <hr>
+  <h4>External Links</h4>
+  <table>
+    <tr>
+      <th>GenBank ID Protein</th>
+      <td>null</td>
+    </tr>
+  </table>
+
+</div>
