@@ -5,9 +5,9 @@
         | Enter one amino acid sequences in 
         | #{link_to 'FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', target: '_blank'}
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
-      - if lookup_context.find_all('seq_search/_example').any?
-        span.help-block
-          a.seq-search-example-loader.btn.btn-default.btn-sm href="#" data-example=render('seq_search/example') data-update="sequence" Load Example
+      br
+      = button_tag 'Load Example', type: 'button', class: 'load-example'
+
     fieldset
       legend BLAST Parameters
       .row
@@ -57,7 +57,7 @@
   = render partial: "result"
   = render partial: "seqresult"
   / if can't pass the same group, then do gene blast so nt_similarity will present; otherwise, nt_similiarity won't present, do phylogenies diagram
-  - if @nt_similarity.present?
+  - if @nt_similarity.present? and @is_match == false
     = render "submit_sequence"
   - else
     = render partial: "phylogenies"

@@ -53,6 +53,7 @@ module QueryLogic
 
 		else
 
+			blast_options = blast_options.collect { |key, value| value.present? ? "-#{key} #{value}" : nil }.compact.join(" ")
 			blaster = Bio::Blast.local('tblastn', "#{Rails.root}/index/blast/#{database}",blast_options)
 			report = blaster.query(seq)
 

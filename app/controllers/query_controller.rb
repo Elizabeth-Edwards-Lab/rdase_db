@@ -37,9 +37,18 @@ class QueryController < ApplicationController
         blast_options = set_blast_options(program,params)
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
         aa_report = blaster.query(@sequence.seq)
+
         @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
 
 
+
+        # if there is sequence in db has evalue 0, indicates the sequence is already in database
+        @is_match = false
+        aa_report.each do |hit|
+          if hit.evalue == 0
+            @is_match = true
+          end
+        end
 
 
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
@@ -81,24 +90,13 @@ class QueryController < ApplicationController
 
 
         else
-          # lanuch the muscle program to draw the ploysth. graph (under user's request)
 
-        end
+        end # end of @aa_similarity > 0.80
 
-        # no matter what, display the top hit
+      end # end of fasta_array.each
 
+    end   
 
-        
-
-        # report.each do |hit|
-        #   if hit.target_def =~ /(\d+)/
-        #     hit_array[$1.to_i] = hit
-        #     @hits[[$1.to_i, query_name]] = hit
-        #   end
-        # end
-
-      end
-    end    
   end
 
 
@@ -109,6 +107,89 @@ class QueryController < ApplicationController
 
 
   def phylogenies
+    # <!-- Step -->
+    # <!-- make sure the base alignment is exist (sys) -->
+    # <!-- add new sequence to fasta file -->
+    # <!-- do MUSCLE alignment -->
+    # <!-- iqtree generate the graph -->
+    # <!-- use biojs load the graph -->
+    raw_sequence = params[:sequence]
+    fasta_array = raw_sequence.scan(/>[^>]*/)
+
+    # base fasta file
+    fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
+    # new fasta file 
+    current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S").gsub("/","_").gsub(" ","_").gsub(":","_")
+    fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
+    fasta_new << raw_sequence + "\n"
+    fasta_base.each do |line|
+      fasta_new << line
+    end
+
+    fasta_base.close()
+    fasta_new.close()
+
+
+    # the tree is based on AA (amino acid)
+    # muscle -in seqs.fa -out seqs.afa -maxiters 1 -diags -sv -distance1 kbit20_3
+    # muscle can't do multi-core feature
+    # cmd = "vendor/MUSCLE/muscle3.8.31_i86darwin64 
+    # -in tmp/tmp_fasta/fasta_#{current_time}.fasta 
+    # -out tmp/tmp_fasta/#{current_time}.afa 
+    # -tree1 tmp/tmp_fasta/#{current_time}.phy 
+    # -maxiters 1 
+    # -diags -sv 
+    # -distance1 kbit20_3" 
+    muscle = system( "vendor/MUSCLE/muscle3.8.31_i86darwin64",
+                      "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
+                      "-out","tmp/tmp_fasta/#{current_time}.afa",
+                      "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
+                      "-maxiters", "1",
+                      "-diags","-sv",
+                      "-distance1","kbit20_3","-quiet")
+
+
+    puts muscle
+
+    phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+    tree_data = ""
+    phy.each do |line|
+      tree_data = tree_data + line.gsub("\n","")
+    end
+    phy.close()
+
+
+    render json: { "tree": tree_data }
+
+    # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
+
+
+    # do iqtree
+    # since MUSCLE come with approximate tree development, don't do iqtree for now
+    # -s path/to/this/file/rdha_aligned.afa -nt AUTO -m Dayhoff -bb 1000 -redo
+    # render the .treefile => #{current_time}.afa.treefile
+    iqtree = system ( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
+                      "-s","tmp/tmp_fasta/#{current_time}.afa",
+                      "-nt", "AUTO",
+                      "-m", "Dayhoff",
+                      "-bb", "1000",
+                      "-quiet",
+                      "-st","AA")
+    phy = File.open("tmp/tmp_fasta/#{current_time}.afa.treefile","r")
+    tree_data = ""
+    phy.each do |line|
+      tree_data = tree_data + line.gsub("\n","")
+    end
+    phy.close()
+
+
+    render json: { "tree": tree_data }
+    puts iqtree
+    # if muscle == true
+
+
+
+
 
   end
 
@@ -122,39 +203,40 @@ class QueryController < ApplicationController
     fasta_array = params[:sequence].scan(/>[^>]*/)
 
     query_name = nil
-    aa_sequence = nil
-    nt_sequence = nil
+    sequence = nil
     if fasta_array.length > 1
       @query = Bio::FastaFormat.new( fasta_array[0] )
       query_name = @query.definition
       sequence = @query.to_seq
-      aa = Bio::Sequence::AA.new(sequence)
-      nt_sequence = aa.dna
+    end
+    # puts params.inspect
+
+    begin
+      # organism should be similar, otherwise it won't get to this step
+      new_sequence_info = SequenceInfo.new
+      new_sequence_info.organism = params[:organism] || nil
+      new_sequence_info.reference = params[:publications] || nil
+      new_sequence_info.type = "Enzyme"
+
+
+      new_customized_protein_sequences = CustomizedProteinSequence.new
+      new_customized_protein_sequences.header = query_name
+      new_customized_protein_sequences.chain  = sequence
+      # new_customized_protein_sequences.group  = "novel" or "some group"
+      new_customized_protein_sequences.reference = params[:publications] || nil
+      new_customized_protein_sequences.organism  = params[:organism] || nil
+      
+
+      # also send a email to our lab to indicate the new sequence has been inserted
+      # make sure no malicious traffic and garbage input
+      render json: {"message": "Your Sequence has been sent to 
+        Elizabeth Edwards Lab. Thank you for your contribution"} 
+    rescue Exception => e 
+      render json: {"message_err": e.message }
 
     end
-    # organism should be similar, otherwise it won't get to this step
-    new_sequence_info = SequenceInfo.new
-    new_sequence_info.organism = params[:organism] || nil
-    new_sequence_info.reference = params[:publications] || nil
-    new_sequence_info.type = "Enzyme"
 
-
-    new_customized_protein_sequences = CustomizedProteinSequence.new
-    new_customized_protein_sequences.header = query_name
-    new_customized_protein_sequences.chain  = sequence
-    # new_customized_protein_sequences.group  = "novel" or "some group"
-    new_customized_protein_sequences.reference = params[:publications] || nil
-    new_customized_protein_sequences.organism  = params[:organism] || nil
-
-
-    puts params.inspect
-
-    # begin
-
-    # rescue
-    # end
-    render json: {"message": "Your Sequence has been sent to 
-      Elizabeth Edwards Lab. Thank you for your contribution"} 
+    
   end
 
 

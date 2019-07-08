@@ -1,1 +1,54 @@
-<h1> phylogenies </h1>
+<!-- Step -->
+<!-- make sure the base alignment is exist (sys) -->
+<!-- add new sequence to fasta file -->
+<!-- do MUSCLE alignment -->
+<!-- iqtree generate the graph -->
+<!-- use biojs load the graph -->
+<!-- tell user the default iteration for both program is 1, if user require more, ask user to do at their home, but provide the fasta file (unaligned) -->
+
+<div class="well">
+	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>, <a href="http://www.iqtree.org/">IQ-Tree</a> and </p>
+
+	<%= form_with url:'/phylogenetic_tree', remote: true, :html => {:id => "do-tree"} do |f| %>
+
+		<%= f.submit "Generate Phylogenetic Tree", :class => "btn btn-primary", id: "generate-phylogenetic-tree" %>
+		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
+	<% end %>
+
+	<div id="phylocanvas"></div>
+	<p id="graph-note"></p>
+
+</div>
+
+<script type="application/javascript" src="https://cdn.rawgit.com/phylocanvas/phylocanvas-quickstart/v2.8.1/phylocanvas-quickstart.js"></script>
+<script>
+
+	var create_phylocanvas = function phylocanvas(data) {
+		var tree = Phylocanvas.createTree('phylocanvas');
+		tree.load(data);
+	}
+
+	$('#do-tree').submit(function(e){
+		e.preventDefault();
+		var sequence = $('.seq-search-sequence').val();
+		var form = $(this);
+		$.ajax({
+			type:"POST",
+			url: "/phylogenetic_tree",
+			// give the sequence back for generating new fasta file
+			data: form.serialize() + '&sequence=' + sequence,
+			success: function(data){
+
+				create_phylocanvas(data.tree);
+				$('#graph-note').text("For more advanced graph viewer, plesase see https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software")
+
+			},
+			error: function(data){
+				$("#submit-message").text(data.message_err);
+			}
+		})
+	})
+
+	
+
+</script>

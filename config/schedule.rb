@@ -22,7 +22,7 @@
 set :output, { error: '/apps/orthdb/project/shared/log/whenever-error.log',
                standard: '/apps/orthdb/project/shared/log/whenever.log' }
 
-# create new nt.fasta, aa.fasta, or.docx 
+# create new nt.fasta, aa.fasta, and .docx from database
 every :day, at: '12am' do
   runner "Cron.create_fasta"
 end

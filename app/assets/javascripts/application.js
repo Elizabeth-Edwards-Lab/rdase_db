@@ -16,11 +16,11 @@
 //= require jquery
 // 	require jquery_ujs // don't need this in this app
 //= require bootstrap
-//= require turbolinks
-//= require_tree .
 
 // Application JS
 //= require query
 //= require simple
 
-
+// Always load turbolinks last
+//= require turbolinks
+//= require_tree .

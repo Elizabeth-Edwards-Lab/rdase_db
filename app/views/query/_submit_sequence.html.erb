@@ -8,11 +8,12 @@
 <!-- send request and get back the response -->
 <!-- do all the backend at backend -->
 <div class="well">
-	<p>Submit your sequence to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/">Elizabeth Edwards Lab</a></p>
+	<p id="_submit_seq_p">Submit your sequence to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/">Elizabeth Edwards Lab</a></p>
 
 	<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f| %>
 	  <%= f.text_field :name, placeholder: "Your Name (Required) " %><br/>
 	  <%= f.text_field :email, placeholder: "example@abc.com (Required) "%><br/>
+	  <%= f.text_field :dna, placeholder: "DNA Sequence in FASTA format (Optional)" %><br/>
 		<%= f.text_field :institution, placeholder: "Your Institution (Optional)"%><br/>
 		<%= f.text_field :publications, placeholder: "Citation (Optional)" %><br/>
 		<%= f.text_field :organism, placeholder: "Organism (Optional)" %><br/>
@@ -20,11 +21,11 @@
 		<%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
 		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
 	<% end %>
+	<h3 id="submit-message"></h3>
 
 
 </div>
-<!-- ajax send request to controller, but the form_with also send the request -->
-<!-- two requests => limit to one request -->
+
 <script>
 
 	$('#submit-seq').submit(function(e){
@@ -42,11 +43,13 @@
 			success: function(data){
 				console.log("success");
 				console.log(data);
+				$("#submit-message").text(data.message);
+				$("#submit-seq").remove();
+				$("#_submit_seq_p").remove();
 
 			},
 			error: function(data){
-				console.log("failed");
-				console.log(data);
+				$("#submit-message").text(data.message_err);
 			}
 		})
 	})

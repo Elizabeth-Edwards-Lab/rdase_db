@@ -19,7 +19,10 @@ Rails.application.routes.draw do
 	match "submit_sequence" => 'query#submit_sequence',
 		as: :submit_sequence,
 		via: [:post]
-	
+	match "phylogenetic_tree" => 'query#phylogenies',
+		as: :phylogenetic_tree,
+		via: [:post]
+
 
 
 	resources :protein, only: [:show, :index] do
