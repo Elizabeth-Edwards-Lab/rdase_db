@@ -1,3 +1,22 @@
 // Place all the styles related to the protein controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.protein-info table {
+	border-collapse: collapse;
+}
+
+.protein-info table th,td {
+	text-align: left;
+	padding: 8px;
+}
+
+.protein-info table tr td.sequence-wrap {
+	white-space: normal;
+}
+
+
+.protein-info table tr:nth-child(even) {
+	background-color: #E3EEFC;
+}

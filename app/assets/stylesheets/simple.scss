@@ -1,17 +1,30 @@
-table {
+
+.sequence-index table {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-th, td {
+.sequence-index table th,td {
 	text-align: left;
 	padding: 8px;
 }
 
-tr:nth-child(even) {
+.sequence-index table tr:nth-child(even) {
 	background-color: #E3EEFC;
 }
 
 
+.other-database table {
+	border-collapse: collapse;
+	width: 100%;
+}
 
+.other-database table th,td {
+	text-align: left;
+	padding: 8px;
+}
+
+.other-database table tr:nth-child(even) {
+	background-color: #E3EEFC;
+}
 

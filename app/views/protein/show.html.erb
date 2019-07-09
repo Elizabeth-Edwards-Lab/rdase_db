@@ -1,9 +1,10 @@
-<style>
-  
+<style type="text/css">
+.protein-info table tr td.sequence-wrap pre {
+  overflow-wrap: break-word;
+}
 </style>
 
-
-<div class="container">
+<div class="container protein-info">
 
   <h2>Showing Protein Sequence: <%= @protein_s.header %></h2>
 
@@ -31,7 +32,7 @@
    
     <tr>
       <th>General Function</th>
-      <td>null</td>
+      <td><%= @protein_s.header %></td>
     </tr>
     <tr>
       <th>Specific Function</th>
@@ -68,7 +69,7 @@
     </tr>
     <tr>
       <th>Amino Acid Sequence</th>
-      <td>
+      <td class="sequence-wrap">
         <% if @protein_s.chain.present? %>
           <pre><%= @protein_s.chain %></pre>
         <% else %>
