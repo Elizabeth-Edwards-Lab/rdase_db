@@ -22,10 +22,38 @@
 
 <script type="application/javascript" src="https://cdn.rawgit.com/phylocanvas/phylocanvas-quickstart/v2.8.1/phylocanvas-quickstart.js"></script>
 <script>
-
-	var create_phylocanvas = function phylocanvas(data) {
+	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F 
+	var create_phylocanvas = function phylocanvas(data,highlight) {
 		var tree = Phylocanvas.createTree('phylocanvas');
+		tree.setTreeType('rectangular');
+		
+		// highlight the node for user
+		// for(var i = 0; i < tree.leaves.length; i++){
+		// 	if(tree.leaves[i].id == highlight || tree.leaves[i].label == highlight){
+		// 		tree.leaves[i].highlighted = true;
+		// 		break;
+		// 	}
+		// }
 		tree.load(data);
+		var re = new RegExp(highlight);
+		var leaves = tree.findLeaves(re);
+		// require check the sequence header to make sure it doesn't have duplicates
+		leaves[0].highlighted = true;
+
+		// fit the panel
+		tree.fitInPanel(leaves);
+		tree.draw();
+
+
+		tree.on('click', function (e) {
+			var node = tree.getNodeAtMousePosition(e);
+			if (node) {
+				tree.redrawFromBranch(node);
+			} else {
+				tree.redrawOriginalTree();
+			}
+		});
+		
 	}
 
 	$('#do-tree').submit(function(e){
@@ -38,8 +66,8 @@
 			// give the sequence back for generating new fasta file
 			data: form.serialize() + '&sequence=' + sequence,
 			success: function(data){
-
-				create_phylocanvas(data.tree);
+				$('#generate-phylogenetic-tree').hide();
+				create_phylocanvas(data.tree, data.highlight);
 				$('#graph-note').text("For more advanced graph viewer, plesase see https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software")
 
 			},

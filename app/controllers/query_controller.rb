@@ -149,7 +149,7 @@ class QueryController < ApplicationController
                       "-distance1","kbit20_3","-quiet")
 
 
-    puts muscle
+    # puts muscle
 
     phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
     tree_data = ""
@@ -159,7 +159,7 @@ class QueryController < ApplicationController
     phy.close()
 
 
-    render json: { "tree": tree_data }
+    render json: { "tree": tree_data; "highlight": fasta_array.definition }
 
     # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
 
@@ -168,23 +168,23 @@ class QueryController < ApplicationController
     # since MUSCLE come with approximate tree development, don't do iqtree for now
     # -s path/to/this/file/rdha_aligned.afa -nt AUTO -m Dayhoff -bb 1000 -redo
     # render the .treefile => #{current_time}.afa.treefile
-    iqtree = system ( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
-                      "-s","tmp/tmp_fasta/#{current_time}.afa",
-                      "-nt", "AUTO",
-                      "-m", "Dayhoff",
-                      "-bb", "1000",
-                      "-quiet",
-                      "-st","AA")
-    phy = File.open("tmp/tmp_fasta/#{current_time}.afa.treefile","r")
-    tree_data = ""
-    phy.each do |line|
-      tree_data = tree_data + line.gsub("\n","")
-    end
-    phy.close()
+    # iqtree = system ( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
+    #                   "-s","tmp/tmp_fasta/#{current_time}.afa",
+    #                   "-nt", "AUTO",
+    #                   "-m", "Dayhoff",
+    #                   "-bb", "1000",
+    #                   "-quiet",
+    #                   "-st","AA")
+    # phy = File.open("tmp/tmp_fasta/#{current_time}.afa.treefile","r")
+    # tree_data = ""
+    # phy.each do |line|
+    #   tree_data = tree_data + line.gsub("\n","")
+    # end
+    # phy.close()
 
 
-    render json: { "tree": tree_data }
-    puts iqtree
+    # render json: { "tree": tree_data }
+    # puts iqtree
     # if muscle == true
 
 
