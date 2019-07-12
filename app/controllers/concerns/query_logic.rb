@@ -64,12 +64,16 @@ module QueryLogic
 
 	def generate_hit_array(report,query_name,query_sequence_type)
 		# for each hit sequence, get all hit report
-		sequences = ActiveSupport::OrderedHash.new
-		sequence_class = query_sequence_type == 'protein' ? ProteinSequence : NucleotideSequence
+		# sequences = ActiveSupport::OrderedHash.new
+		# sequence_class = query_sequence_type == 'protein' ? ProteinSequence : NucleotideSequence
+		sequences = Array.new
 		report.each do |hit|
-		  sequences[hit.target_def] = hit
+		  # sequences[hit.target_def] = hit
+		  sequences << [hit.target_def, hit.evalue, hit.bit_score, hit.midline, hit.target_seq]
 		end
-		sequences.sort_by { |query,hit| hit.evalue }
+		sequences.sort_by { |seq| seq[1] }
+		# sequences.sort_by { |query,hit| hit.evalue }
+
 
 		return sequences
 	end

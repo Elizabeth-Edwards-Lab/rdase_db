@@ -52,7 +52,14 @@ class QueryController < ApplicationController
 
 
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
-        @aa_sequence_result = Kaminari.paginate_array(@aa_sequence_result,total_count: @aa_sequence_result.count).page(params[:page]).per(5)
+        # @aa_sequence_result = @aa_sequence_result.paginate(:page => params[:page], :per_page => 5)
+        # @aa_sequence_result = @aa_sequence_result.paginate(:page => params[:page], :per_page => 5)
+        # @aa_sequence_result = WillPaginate::Collection.create(1, 5, aa_sequence_result.length) do |pager|
+        #   pager.replace aa_sequence_result
+        # end
+
+
+        # @aa_sequence_result = Kaminari.paginate_array(@aa_sequence_result,total_count: @aa_sequence_result.count).page(params[:page]).per(5)
 
         ## search aa level > 90%
         ## if >90%, do nt level
