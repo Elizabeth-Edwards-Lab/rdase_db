@@ -9,18 +9,54 @@ $(document).ready(function(){
 
 	// $('.option').on('click', function(){ } // this only work once
 
-	$('.seq-result-container').pagination({
-		dataSource: ConstructDataSource(),
-		pageSize: 5,
-		callback: function(data, pagination) {
-			// template method of yourself
-			// so I can access all the value from $('.well.hit-result')[0].children
-			// put all value into javascript array
-			// and then do the pagination
-			var html = simpleTemplating(data);
-			$('.data-container').html(html);
-		}
+	// $('.seq-result-container').pagination({
+	// 	dataSource: ConstructDataSource(),
+	// 	pageSize: 5,
+	// 	callback: function(data, pagination) {
+	// 		// template method of yourself
+	// 		// so I can access all the value from $('.well.hit-result')[0].children
+	// 		// put all value into javascript array
+	// 		// and then do the pagination
+	// 		var html = simpleTemplating(data);
+	// 		$('.data-container').html(html);
+	// 	}
+	// })
+	
+})
+
+jQuery(function($){
+	var items = $('.each-result');
+	items.promise().done(function(){
+		console.log(items);
+		var numItems = items.length;
+		var perPage = 5;
+		items.slice(perPage).hide();
+
+		$('#data-container').pagination({
+			items: numItems,
+			itemsOnPage: perPage,
+			cssStyle: "light-theme",
+			onPageClick: function(pageNumber){
+				var showFrom = perPage * (pageNumber - 1);
+				var showTo = showFrom + perPage;
+				items.hide().slice(showFrom,showTo).show();
+			}
+		})
 	})
+	// var numItems = items.length;
+	// var perPage = 5;
+	// items.slice(perPage).hide();
+
+	// $('.data-container').pagination({
+	// 	items: numItems,
+	// 	itemsOnPage: perPage,
+	// 	cssStyle: "light-theme",
+	// 	onPageClick: function(pageNumber){
+	// 		var showFrom = perPage * (pageNumber - 1);
+	// 		var showTo = showFrom + perPage;
+	// 		items.hide().slice(showFrom,showTo).show();
+	// 	}
+	// })
 })
 
 

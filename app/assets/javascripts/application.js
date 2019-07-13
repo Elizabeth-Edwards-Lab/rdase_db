@@ -22,7 +22,8 @@
 //= require simple
 
 // Third Party
-//= require pagination.min
+//  require pagination.min
+//= require jquery.simplePagination
 
 // Always load turbolinks last
 // require turbolinks

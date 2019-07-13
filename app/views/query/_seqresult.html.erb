@@ -1,29 +1,26 @@
-
-<div class="well hit-result">
-
 <h3> Sequence result for <%= @query.definition %></h3>
 	<% if @aa_sequence_result %>
 			<!-- render sequence -->
 
-			<div class="data-container">
-			<div class="seq-result-container">
-	  		<% @aa_sequence_result.each do |value| %>
-	  			<hr>
-	  			<div class="each-result">
-	  				<p>Comparing to: <%= value[0] %></p>
-	  				<p>E-value:  <%= value[1] %></p>
-	  				<p>BitScore: <%= value[2] %></p>
-	  				<p>Query: <%= @sequence.seq %></p>
-	  				<p>middine: <%= value[3] %></p>
-	  				<p>Subject: <%= value[4] %></p>
-	  			</div>
-	    	<% end %>
-	    	
-	    	
+			
+			<!-- <div class="seq-result-container"> -->
+		  		<% @aa_sequence_result.each do |value| %>
+		  			<div class="each-result">
+		  				<hr>
+
+		  				<p>Comparing to: <%= value[0] %></p>
+		  				<p>E-value:  <%= value[1] %></p>
+		  				<p>BitScore: <%= value[2] %></p>
+		  				<p>Query: <%= @sequence.seq %></p>
+		  				<p>middine: <%= value[3] %></p>
+		  				<p>Subject: <%= value[4] %></p>
+		  			</div>
+		    	<% end %>
 	    	<%# <%= paginate @aa_sequence_result %> 
 	    	<%# <%= <%= will_paginate @aa_sequence_result %> 
 	    	<hr>
-	    	</div>
+	    	<!-- </div> -->
+	    	<div id="data-container"></div>
 	<% else %>
 		<p>No top hit available</p>
 	<% end %>
