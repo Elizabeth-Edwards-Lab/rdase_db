@@ -66,7 +66,7 @@
 			// give the sequence back for generating new fasta file
 			data: form.serialize() + '&sequence=' + sequence,
 			success: function(data){
-				$('#generate-phylogenetic-tree').hide();
+				$('#generate-phylogenetic-tree').remove();
 				create_phylocanvas(data.tree, data.highlight);
 				$('#graph-note').text("For more advanced graph viewer, plesase see https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software")
 

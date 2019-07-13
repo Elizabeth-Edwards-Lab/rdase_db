@@ -21,6 +21,9 @@
 //= require query
 //= require simple
 
+// Third Party
+//= require pagination.min
+
 // Always load turbolinks last
-//= require turbolinks
+// require turbolinks
 //= require_tree .

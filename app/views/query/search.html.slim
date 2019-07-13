@@ -1,5 +1,6 @@
 .well
   = form_tag search_path(anchor: :results), id: 'seq-search-form' do
+    / should add javascript valiation to make sure that user has input
     fieldset
       legend
         | Enter one amino acid sequences in 
@@ -47,7 +48,7 @@
         = render 'seq_search/filters'
     .form-actions
       = submit_tag 'Search', class: 'btn btn-primary'
-      = link_to 'Reset', search_path, class: 'btn'
+      = link_to 'Reset', root_path, class: 'btn'
 
 
 / = render "submit_sequence"  
