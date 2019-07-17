@@ -21,13 +21,22 @@ $(document).ready(function(){
 	// 		$('.data-container').html(html);
 	// 	}
 	// })
+
+	$('.result-send-email').on('click', function(){
+		// console.log("result-send-email");
+		if(this.checked){
+			$('.send-email-box').attr('hidden',false);
+		}else{
+			$('.send-email-box').attr('hidden',true);
+		}
+	})
 	
 })
 
 jQuery(function($){
 	var items = $('.each-result');
 	items.promise().done(function(){
-		console.log(items);
+		// console.log(items);
 		var numItems = items.length;
 		var perPage = 5;
 		items.slice(perPage).hide();
@@ -57,6 +66,9 @@ jQuery(function($){
 	// 		items.hide().slice(showFrom,showTo).show();
 	// 	}
 	// })
+
+
+	
 })
 
 

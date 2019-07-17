@@ -7,7 +7,7 @@
 <!-- tell user the default iteration for both program is 1, if user require more, ask user to do at their home, but provide the fasta file (unaligned) -->
 
 <div class="well">
-	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>, <a href="http://www.iqtree.org/">IQ-Tree</a> and </p>
+	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>, <a href="http://www.iqtree.org/">IQ-Tree</a> and <a href="http://phylocanvas.org/">Phylocanvas</a> </p>
 
 	<%= form_with url:'/phylogenetic_tree', remote: true, :html => {:id => "do-tree"} do |f| %>
 
@@ -20,12 +20,12 @@
 
 </div>
 
-<script type="application/javascript" src="https://cdn.rawgit.com/phylocanvas/phylocanvas-quickstart/v2.8.1/phylocanvas-quickstart.js"></script>
 <script>
 	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F 
 	var create_phylocanvas = function phylocanvas(data,highlight) {
 		var tree = Phylocanvas.createTree('phylocanvas');
-		tree.setTreeType('rectangular');
+		// tree.setTreeType('rectangular');
+		tree.setTreeType('hierarchical');
 		
 		// highlight the node for user
 		// for(var i = 0; i < tree.leaves.length; i++){
@@ -38,10 +38,11 @@
 		var re = new RegExp(highlight);
 		var leaves = tree.findLeaves(re);
 		// require check the sequence header to make sure it doesn't have duplicates
-		leaves[0].highlighted = true;
+		if (leaves[0] !== undefined ){
+			leaves[0].highlighted = true;
+			tree.fitInPanel(leaves);
+		}
 
-		// fit the panel
-		tree.fitInPanel(leaves);
 		tree.draw();
 
 
@@ -68,7 +69,8 @@
 			success: function(data){
 				$('#generate-phylogenetic-tree').remove();
 				create_phylocanvas(data.tree, data.highlight);
-				$('#graph-note').text("For more advanced graph viewer, plesase see https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software")
+				$('#graph-note').text("For more advanced graph viewer, plesase see");
+				$('#graph-note').append("<a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software'> Wiki </a>");
 
 			},
 			error: function(data){
