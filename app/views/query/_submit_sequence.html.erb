@@ -17,7 +17,7 @@
 		<%= f.text_field :institution, placeholder: "Your Institution (Optional)"%><br/>
 		<%= f.text_field :publications, placeholder: "Citation (Optional)" %><br/>
 		<%= f.text_field :organism, placeholder: "Organism (Optional)" %><br/>
-
+		<%= recaptcha_tags %>
 		<%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
 		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
 	<% end %>

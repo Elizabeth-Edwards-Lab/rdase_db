@@ -236,6 +236,21 @@ class QueryController < ApplicationController
 
       # also send a email to our lab to indicate the new sequence has been inserted
       # make sure no malicious traffic and garbage input
+      # new_sequence_info.save!
+      # new_customized_protein_sequences.save!
+      # if recaptcha is selected, it will encrypt all input invalues
+      # verify_recaptcha() will verify the sent encrypt value to actual input value
+      if verify_recaptcha(params) 
+        # puts "verify_recaptcha=>>>>"
+        new_sequence_info.save!
+        new_customized_protein_sequences.save!
+        ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver
+      else
+        # create a new form to submit sequence
+        render json: {"message": "Your Sequence has been sent to 
+        Elizabeth Edwards Lab. Thank you for your contribution"}
+      end
+
       render json: {"message": "Your Sequence has been sent to 
         Elizabeth Edwards Lab. Thank you for your contribution"} 
     rescue Exception => e 

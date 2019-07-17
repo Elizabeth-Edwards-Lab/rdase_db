@@ -20,3 +20,9 @@
 .protein-info table tr:nth-child(even) {
 	background-color: #E3EEFC;
 }
+
+.sequence-wrap {
+	word-break: break-word;
+	font-family: monospace;
+	font-size: large;
+}
