@@ -166,7 +166,7 @@ class QueryController < ApplicationController
     phy.close()
 
 
-    render json: { "tree": tree_data, "highlight": fasta_array.definition }
+    render json: { "tree": tree_data, "highlight": 'db_num' }
 
     # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
 
