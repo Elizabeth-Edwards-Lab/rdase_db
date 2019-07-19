@@ -5,7 +5,12 @@ class QueryController < ApplicationController
 	before_action :set_blast_defaults_for_aa
 
   def search
-  	# params.inspect
+    @available_database = ["eductive_dehalogenase","eductive_dehalogenase (customized)"]
+    @available_organism = ["fake fake fake fake organism_1_","fake organism_2"]
+
+    # return {... "Database"=>"eductive_dehalogenase (customized)" ...}
+  	
+    # params.inspect
     params[:filters] ||= {}
 
     if params[:commit].present?
@@ -122,7 +127,7 @@ class QueryController < ApplicationController
     # <!-- use biojs load the graph -->
     raw_sequence = params[:sequence]
     fasta_array = raw_sequence.scan(/>[^>]*/)
-
+    sequence_def = Bio::FastaFormat.new( fasta_array[0] )
     # base fasta file
     fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
     # new fasta file 
@@ -158,30 +163,42 @@ class QueryController < ApplicationController
 
     # puts muscle
 
-    phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+    # phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+    phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
     tree_data = ""
     phy.each do |line|
       tree_data = tree_data + line.gsub("\n","")
     end
     phy.close()
 
+<<<<<<< HEAD
 
     render json: { "tree": tree_data, "highlight": 'db_num' }
+=======
+    # puts sequence_def
+    # in development, highlight should be static
+    render json: { "tree": tree_data, "highlight": sequence_def.definition }
+>>>>>>> 4047f9af7ec1bcbddec28843c2a78e72078ad85a
 
     # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
 
+    # puts "DONE MUSCLE"
+    # # do iqtree
+    # # since MUSCLE come with approximate tree development, don't do iqtree for now
+    # # -s path/to/this/file/rdha_aligned.afa -nt AUTO -m Dayhoff -bb 1000 -redo
+    # # render the .treefile => #{current_time}.afa.treefile
 
-    # do iqtree
-    # since MUSCLE come with approximate tree development, don't do iqtree for now
-    # -s path/to/this/file/rdha_aligned.afa -nt AUTO -m Dayhoff -bb 1000 -redo
-    # render the .treefile => #{current_time}.afa.treefile
-    # iqtree = system ( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
+    # puts "START IQTREE"
+    # iqtree = system( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
     #                   "-s","tmp/tmp_fasta/#{current_time}.afa",
     #                   "-nt", "AUTO",
     #                   "-m", "Dayhoff",
     #                   "-bb", "1000",
     #                   "-quiet",
     #                   "-st","AA")
+    # puts iqtree
+    # puts "DONE IQTREE"
+
     # phy = File.open("tmp/tmp_fasta/#{current_time}.afa.treefile","r")
     # tree_data = ""
     # phy.each do |line|
@@ -236,6 +253,21 @@ class QueryController < ApplicationController
 
       # also send a email to our lab to indicate the new sequence has been inserted
       # make sure no malicious traffic and garbage input
+      # new_sequence_info.save!
+      # new_customized_protein_sequences.save!
+      # if recaptcha is selected, it will encrypt all input invalues
+      # verify_recaptcha() will verify the sent encrypt value to actual input value
+      if verify_recaptcha(params) 
+        # puts "verify_recaptcha=>>>>"
+        new_sequence_info.save!
+        new_customized_protein_sequences.save!
+        ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver
+      else
+        # create a new form to submit sequence
+        render json: {"message": "Your Sequence has been sent to 
+        Elizabeth Edwards Lab. Thank you for your contribution"}
+      end
+
       render json: {"message": "Your Sequence has been sent to 
         Elizabeth Edwards Lab. Thank you for your contribution"} 
     rescue Exception => e 

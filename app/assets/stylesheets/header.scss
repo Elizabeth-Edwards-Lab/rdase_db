@@ -1,21 +1,23 @@
-h1{
-  font-size: 20px;
-  font-family: 'Maven Pro', sans-serif;
-  padding-top: 49.5px;
+#first{
   padding-left: 25px;
-  padding-right: 50px;
+  width: 300px;
+
 }
 
+#titlnav{
+  width: 100%;
+}
 .nav-link:hover, .nav-link:active {
   color: grey !important;
 }
+
 
 .nav-item{
   padding-top: 40px;
 }
 
 .nav-link{
-  color: black !important;
+  color: #002a5c !important;
   font-size: 20px;
 }
 
@@ -29,10 +31,22 @@ h1{
   background-color: white;
 }
 
+
+
+
+.dontcollapse_navbar-collapse {
+  display: inline;
+  width:100%;
+}
+
 .collapse_navbar-collapse{
   background-color: white;
-  color: black;
   width: 100%;
+  height: 140px;
+}
+
+#navbarSupportedContent {
+  background-color: white;
 }
 
 .container{
@@ -55,13 +69,8 @@ fieldset{
   padding-bottom: 10px;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-}
-
-footer{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+@media (max-width: 1000px){
+  .collapse_navbar-collapse{
+    display: none;
+  }
 }

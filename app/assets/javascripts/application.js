@@ -24,6 +24,7 @@
 // Third Party
 //  require pagination.min
 //= require jquery.simplePagination
+//= require phylocanvas-quickstart
 
 // Always load turbolinks last
 // require turbolinks

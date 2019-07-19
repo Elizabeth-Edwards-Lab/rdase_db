@@ -153,7 +153,7 @@ module QueryLogic
 		# +errhandler+:: +Proc+
 		puts hit.evalue           # E-value
 		# puts hit.sw               # Smith-Waterman score (*)
-		puts hit.identity         # % identity
+		puts hit.identity         # % identity use this to compare the sequence 
 		puts hit.overlap          # length of overlapping region
 		puts hit.query_id         # identifier of query sequence
 		puts hit.query_def        # definition(comment line) of query sequence

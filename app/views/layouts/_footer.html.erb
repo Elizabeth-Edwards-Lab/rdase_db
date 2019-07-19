@@ -19,20 +19,20 @@
           <div class="col-md-6 mb-md-0 mb-3">
             <ul class="list-unstyled" style="display:flex;">
               <li>
+                <%= link_to href: 'https://www.utoronto.ca/', target: "_blank" do %>
+                <%= image_tag 'UofT-Logo.png', width: 160, height: 60, alt: 'UofT'%>
+                <% end %>
+              </li>
+              <li>
                 <%= link_to href: 'https://www.ualberta.ca/', target: "_blank" do %>
                   <%= image_tag 'uofa.png', width: 140, height: 60, alt: 'UofA'%>
                 <% end %>
               </li>
-              <li>
-                <%= link_to href: 'https://www.utoronto.ca/', target: "_blank" do %>
-                <%= image_tag 'UofT-Logo.png', width: 160, height: 80, alt: 'UofT'%>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to href: 'https://www.metabolomicscentre.ca/', target: "_blank" do %>
-                <%= image_tag 'tmic-logo.png', :class => "ray-medium", width: 180, height: 60, alt: 'TMIC'%>
-                <% end %>
-              </li>
+              <!-- <li> -->
+                <%#<%= link_to href: 'https://www.metabolomicscentre.ca/', target: "_blank" do %>
+                <%#<%= image_tag 'tmic-logo.png', :class => "ray-medium", width: 180, height: 60, alt: 'TMIC'%>
+                <%#<% end %>
+              <!-- </li> -->
             </ul>
 
           </div>
