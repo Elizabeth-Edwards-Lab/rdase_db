@@ -43,7 +43,7 @@ group :production do
   gem 'execjs'
   gem 'libv8', '~> 6.3.0'
   gem 'mini_racer', '0.2.4'
-  #gem 'therubyracer', require: 'v8'
+  # gem 'therubyracer', require: 'v8'
   gem 'puma'
   gem 'puma_worker_killer'
 end
