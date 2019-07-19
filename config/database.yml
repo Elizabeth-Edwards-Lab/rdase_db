@@ -4,8 +4,8 @@ development:
   database: orthdb_development
   username: root
   password:
-  # socket: /tmp/mysql.sock
-  socket: /var/run/mysqld/mysqld.sock 
+  socket: /tmp/mysql.sock
+  # socket: /var/run/mysqld/mysqld.sock 
 
 
 # Warning: The database defined as "test" will be erased and
@@ -17,8 +17,8 @@ test:
   database: orthdb_test
   username: root
   password:
-  # socket: /tmp/mysql.sock
-  socket: /var/run/mysqld/mysqld.sock 
+  socket: /tmp/mysql.sock
+  # socket: /var/run/mysqld/mysqld.sock 
 
 
 production:
