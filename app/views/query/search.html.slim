@@ -15,6 +15,7 @@
         .col-md-4.col-sm-4
           .form-group
             = label_tag :Database, 'Choose Database'
+            .br
             = select_tag :Database, options_for_select(@available_database.collect{ |u| [u] })
         .col-md-4.col-sm-4
           .form-group
