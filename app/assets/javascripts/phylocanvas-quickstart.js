@@ -2889,13 +2889,8 @@
                     f = n(23),
                     d = r(f);
                 e.default = {
-<<<<<<< HEAD
-                    rectangular: s.default,
-                    circular: i.default,
-=======
                     rectangular: i.default,
                     circular: s.default,
->>>>>>> 4047f9af7ec1bcbddec28843c2a78e72078ad85a
                     radial: c.default,
                     diagonal: u.default,
                     hierarchical: d.default
@@ -3873,11 +3868,7 @@
                     if (!t.metadata.showHeaders) return !1;
                     var e = t.treeType,
                         n = t.alignLabels;
-<<<<<<< HEAD
-                    return "circular" === e || n && "circular" === e || "circular" === e
-=======
                     return "diagonal" === e || n && "rectangular" === e || "hierarchical" === e
->>>>>>> 4047f9af7ec1bcbddec28843c2a78e72078ad85a
                 }
 
                 function c(t) {
@@ -4125,13 +4116,8 @@
                                 l = s._maxHeaderWidth,
                                 c = s._maxHeaderHeight,
                                 h = this.treeType,
-<<<<<<< HEAD
-                                u = "circular" === h || "circular" === h,
-                                f = "circular" === h;
-=======
                                 u = "rectangular" === h || "diagonal" === h,
                                 f = "hierarchical" === h;
->>>>>>> 4047f9af7ec1bcbddec28843c2a78e72078ad85a
                             return [
                                 [r - (f ? l + c : 0), a - (u ? l + c : 0)],
                                 [i, o]
