@@ -171,14 +171,11 @@ class QueryController < ApplicationController
     end
     phy.close()
 
-<<<<<<< HEAD
 
     render json: { "tree": tree_data, "highlight": 'db_num' }
-=======
     # puts sequence_def
     # in development, highlight should be static
     render json: { "tree": tree_data, "highlight": sequence_def.definition }
->>>>>>> 4047f9af7ec1bcbddec28843c2a78e72078ad85a
 
     # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
 
