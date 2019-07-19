@@ -1,17 +1,17 @@
 GIT
+  remote: git://github.com/turbolinks/turbolinks-classic.git
+  revision: 80216ce9d89920bf073709405e3fce6d0a3ccd9a
+  specs:
+    turbolinks (3.0.0)
+      coffee-rails
+
+GIT
   remote: git@bitbucket.org:wishartlab/syncfast
   revision: b06de390693335692b2c389870e7c9beed451644
   specs:
     syncfast (1.0.6)
       highline
       net-ssh
-
-GIT
-  remote: https://github.com/turbolinks/turbolinks-classic.git
-  revision: 80216ce9d89920bf073709405e3fce6d0a3ccd9a
-  specs:
-    turbolinks (3.0.0)
-      coffee-rails
 
 GEM
   remote: https://rubygems.org/
@@ -336,6 +336,9 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   whenever
   will_paginate (~> 3.1.0)
+
+RUBY VERSION
+   ruby 2.5.0p0
 
 BUNDLED WITH
    1.17.3
