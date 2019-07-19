@@ -42,7 +42,7 @@ group :production do
   gem 'appsignal'
   gem 'execjs'
   gem 'libv8', '~> 6.3.0'
-  gem 'mini_racer', '0.2.4'
+  gem 'mini_racer', '0.2.6'
   # gem 'therubyracer', require: 'v8'
   gem 'puma'
   gem 'puma_worker_killer'
