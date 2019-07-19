@@ -22,6 +22,11 @@ role :app, %w{orth@159.89.189.226}
 role :web, %w{orth@159.89.189.226}
 role :db,  %w{orth@159.89.189.226}
 
+# production.rb
+config.assets.js_compressor = :uglifier
+# with
+config.assets.js_compressor = Uglifier.new(harmony: true)
+
 # role-based syntax
 # ==================
 
