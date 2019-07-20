@@ -23,6 +23,24 @@ apt install ncbi-blast+
 note: ubuntu doesn't need to worry about the issue from MacOS since the blastall program can be installed 
 through apt install ncbi-blast+-legacy
 
+if you want to use ncbi-blast+ and perl script of legacy_blast, then
+you don't need to worry about legacy_blast's default file path
+but you need to change the path at config/initializers/blast.rb
+
+def make_command_line
+  path = "//usr/local/ncbi/blast/bin"  # CHANGE ME
+  cmd = make_command_line_options
+  cmd.unshift @blastall
+  cmd.unshift "#{path}/legacy_blast.pl"    # ADDED
+  cmd.push "--path"                        # ADDED
+  cmd.push path                            # ADDED
+  cmd
+end
+
+I guess have to run some sort script to replace the blast.rb for every deployment
+
+
+
 ## MacOS
 Below instruction is for using old blastall program 
 BioRuby still use blastall so currently have to use legacy_blast.pl

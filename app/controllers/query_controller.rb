@@ -175,7 +175,7 @@ class QueryController < ApplicationController
     render json: { "tree": tree_data, "highlight": 'db_num' }
     # puts sequence_def
     # in development, highlight should be static
-    render json: { "tree": tree_data, "highlight": sequence_def.definition }
+    # render json: { "tree": tree_data, "highlight": sequence_def.definition }
 
     # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
 
