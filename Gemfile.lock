@@ -58,8 +58,6 @@ GEM
     airbrussh (1.3.2)
       sshkit (>= 1.6.1, != 1.7.0)
     ansi (1.5.0)
-    appsignal (2.9.10)
-      rack
     arel (8.0.0)
     autoprefixer-rails (9.6.1)
       execjs
@@ -292,7 +290,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  appsignal
   awesome_print
   better_errors
   binding_of_caller
