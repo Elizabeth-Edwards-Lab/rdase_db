@@ -5,8 +5,8 @@ set :application, "orth"
 set :repo_url, "git@bitbucket.org:xcao2333/orthology_db.git"
 set :deploy_to, '/apps/orth/project'
 set :use_sudo, false
-set :linked_files, ['config/database.yml']
-set :linked_dirs, %w{tmp/tmp_fasta log}
+set :linked_files, []
+set :linked_dirs, %w{tmp/tmp_fasta log tmp/pids tmp/sockets}
 set :keep_releases, 3
 
 namespace :deploy do
