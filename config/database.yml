@@ -24,7 +24,7 @@ test:
 production:
   adapter: mysql2
   encoding: utf8
-  database: orthdb_development
+  database: orthdb
   username: orth
   password: kAG*gZrm*e$#2PUK
   # socket: /tmp/mysql.sock
