@@ -31,6 +31,7 @@ puma_is_running() {
 case "$1" in
   start)
     echo "Starting puma..."
+    pwd
     rm -f $PUMA_SOCKET
     bundle exec puma --daemon --bind unix://$PUMA_SOCKET --pidfile $PUMA_PID_FILE --config $PUMA_CONFIG_FILE
  
