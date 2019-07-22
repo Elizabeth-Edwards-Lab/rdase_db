@@ -1,8 +1,8 @@
-<h3> Sequence result for <%= @query.definition %></h3>
+<h3 id="seqresulttag"> Sequence result for <%= @query.definition %></h3>
 	<% if @aa_sequence_result %>
 			<!-- render sequence -->
 
-			
+
 			<!-- <div class="seq-result-container"> -->
 		  		<% @aa_sequence_result.each do |value| %>
 		  			<div class="each-result">
@@ -16,8 +16,8 @@
 		  				<p>Subject: <%= value[4] %></p>
 		  			</div>
 		    	<% end %>
-	    	<%# <%= paginate @aa_sequence_result %> 
-	    	<%# <%= <%= will_paginate @aa_sequence_result %> 
+	    	<%# <%= paginate @aa_sequence_result %>
+	    	<%# <%= <%= will_paginate @aa_sequence_result %>
 	    	<hr>
 	    	<!-- </div> -->
 	    	<div id="data-container"></div>
