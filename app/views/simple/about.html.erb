@@ -1,15 +1,53 @@
-<div class="page-header">
-  <h1>About the Reductive Dehalogenases Database</h1>
+<div class="about-page-header">
+  <h2>About the Reductive Dehalogenases Database</h2>
 </div>
 
-<h2>What is the Reductive Dehalogenases Database?</h2>
-<div class="well">
-  <%= render :partial => "simple/intro" %>
-  <p>
-    
+<div class="well about-page-header">
+<h3 class ="about-page-header">What is the Reductive Dehalogenases Database?</h3>
+<div id="abouttext">
+  <p id = "theabouttext">
+    The GWAS-ROCS Database is a freely available electronic database containing the largest
+    and most comprehensive set of SNP-derived AUROCs. All of the data is either directly from,
+     or derived from, GWAS Central — an open-access online repository of summary-level genome-wide
+      association study (GWAS) data. The database currently houses 569 simulated populations
+       (corresponding to 219 different conditions) and SNP data (odds ratio, risk allele frequency,
+        and p-values) for 2809 unique SNPs. Each study simulation record (GR-Card) contains study
+         information web-scraped from GWAS Central and simulated population data (e.g. ROC curves,
+          AUROCs, SNP-heritability scores) determined from careful population modelling to recreate
+           individual-level GWAS data. All GWAS-ROCS data is downloadable and is intended for applications
+            in genomics, biomarker discovery, and general education.
+  </p>
+<p id = "theabouttext">
+A GWAS-ROCS simulated population is a csv file with computer-generated individuals who are marked as either
+ cases or controls, and given data about the presence of risk alleles (1 having the risk allele, or 0 not having
+  the risk allele) at SNPs previously identified as being significant. Users can download these simulated populations
+   to test their own genetic risk models, build their own simulated populations, and do much, much more!
+ </p>
+ <p id = "theabouttext">
+
+The GWAS-ROCS Database was assembled in the hopes of accomplishing several objectives: (1) create the largest and
+ most comprehensive set of SNP-derived AUROCs; (2) assist the scientific community in identifying conditions that appear
+  to exhibit the best AUROC performance with multi-component SNP data; (3) identify conditions where SNP information appears
+   to be relatively uninformative with regard to disease risk prediction; and (4) demonstrate the utility of using simulated
+    populations to model SNP distributions and to show that these populations, along with logistic regression modelling, could
+     be used to create multi-marker SNP profiles from publicly available GWAS data.
   </p>
 </div>
+</div>
 
-<h2>Citing the Reductive Dehalogenases Database</h2>
-<%= render :partial => "simple/cite" %>
 
+<h3 class ="about-page-header">Citing the Reductive Dehalogenases Database</h3>
+<div id="abouttext2">
+  <p id="theabouttext">
+    The GWAS-ROCS Database is offered to the public as a freely available resource.
+    Use and re-distribution of the data, in whole or in part, for commercial purposes
+    requires explicit permission of the authors and explicit acknowledgment of the source
+    material (GWAS-ROCS Database) and the original publication (see below). We ask that
+    users who download significant portions of the database cite the following paper in
+    any resulting publications.
+  </p>
+  <hr>
+  <h4>Please Cite:</h4>
+  <p> 1. J Doe, et al., Sample Paper 2019, Potential Journal <p>
+</div>
+</div>

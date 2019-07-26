@@ -1,15 +1,16 @@
 
 
-<div class="well result-table">
-<h3> Smiliarity to Reductive Dehalogenases Blast Database </h3>
-<table>
+<div>
+<h3 id="seqresulttag"> Smiliarity to Reductive Dehalogenases Blast Database </h3>
+<table class="each-result">
   <tr id="aasim">
     <th id="simthtag">AA Similarity</th>
     <td id="simtext"><%= @aa_similarity %></td>
   </tr>
-  <tr id = "ntsim">
+  <tr id = "aasim">
     <th id="simthtag">NT Similarity</th>
     <td id="simtext"><%= @nt_similarity %></td>
   </tr>
 </table>
 </div>
+<hr id="hrtg">

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 
-	
+
 
 
 	# static routes
@@ -9,8 +9,10 @@ Rails.application.routes.draw do
 	get 'downloads' => 'simple#downloads', as: :downloads
 	get 'contact'  => 'simple#contact', as: :contact
 	get 'citation' => 'simple#citation', as: :cite
+	get 'about' => 'simple#about', as: :about
 	get 'other_database' => 'simple#other_database', as: :other_database
 	get 'help' => 'simple#help', as: :help
+	get 'home' => 'simple#home', as: :home
 
 
 	match "search" => 'query#search',
@@ -26,9 +28,9 @@ Rails.application.routes.draw do
 
 
 	resources :protein, only: [:show, :index] do
-		
+
 	end
 
-	root to: 'query#search'
+	root to: 'simple#home'
 
 end
