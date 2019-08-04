@@ -15,6 +15,13 @@ Rails.application.routes.draw do
 	get 'home' => 'simple#home', as: :home
 
 
+
+	# download route
+	get "simple/download_aa_original"
+	get "simple/download_nt_original"
+	get "simple/download_aa_cus"
+	get "simple/download_nt_cus"
+
 	match "search" => 'query#search',
 		as: :search,
 		via: [:get, :post]

@@ -5,7 +5,7 @@ class QueryController < ApplicationController
 	before_action :set_blast_defaults_for_aa
 
   def search
-    @available_database = ["eductive_dehalogenase","eductive_dehalogenase (customized)"]
+    @available_database = ["eductive_dehalogenase (revised)","eductive_dehalogenase (non-revised)"]
     @available_organism = ["fake fake fake fake organism_1_","fake organism_2"]
 
     # return {... "Database"=>"eductive_dehalogenase (customized)" ...}
@@ -29,6 +29,7 @@ class QueryController < ApplicationController
       @new_customized_sequence = CustomizedProteinSequence.new
 
       # should do one for each request or can do multiple alignment at same time?
+      # haven't check for the inapporiate sequence 
       fasta_array.each do |fasta_seq|
 
         @query = Bio::FastaFormat.new( fasta_seq )
@@ -57,12 +58,14 @@ class QueryController < ApplicationController
 
 
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
-        # @aa_sequence_result = @aa_sequence_result.paginate(:page => params[:page], :per_page => 5)
-        # @aa_sequence_result = @aa_sequence_result.paginate(:page => params[:page], :per_page => 5)
-        # @aa_sequence_result = WillPaginate::Collection.create(1, 5, aa_sequence_result.length) do |pager|
-        #   pager.replace aa_sequence_result
-        # end
 
+
+        # group by group id,
+        # check each group if the new sequence is 90% similar with the group
+        # report the similar group number
+
+
+        
 
         # @aa_sequence_result = Kaminari.paginate_array(@aa_sequence_result,total_count: @aa_sequence_result.count).page(params[:page]).per(5)
 
@@ -75,35 +78,150 @@ class QueryController < ApplicationController
         # same for tblastn, 0.8 is good
         if @aa_similarity > 0.80
           
-          # if in the ortholog_group (HOW?), confirm with blast gene
-          #    if blast gene is > 90% from that group
-          #       Step3
-          #    else
-          #       Step3 with condition (dont add to database)
-          # else
-          #    Step2
-          # end
-          # 
-          nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
-          @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
-          if @nt_similarity > 0.80
+          # load the group
+          group_hash = Hash.new
+          reversed_group_hash = Hash.new
+          protein_sequence = ProteinSequence.all
+          protein_sequence.each do |single_entry|
+            # puts single_entry
+            if single_entry.group.nil?
+              next
+            else
+              reversed_group_hash[single_entry.header] = single_entry.group
+              if group_hash[single_entry.group].nil?
+                group_array = Array.new
+                group_array << single_entry.header
+                group_hash[single_entry.group] = group_array
+              else
 
-            # append_seq_to_rd_og(@sequence.seq, @sequence.definition)
-            # append_seq_to_rd_og_info(input_info)
+                group_hash[single_entry.group] << single_entry.header
 
-          else
-
-            # append_seq_to_relative_rd_og(@sequence.seq, @sequence.definition)
+              end
+            end
 
           end
 
+          # identify the group of orth
+          # If your sequence shares greater than or equal to 90% pairwise ID are the amino acid level to a current RdhA database sequence
+          # query_sequence have low e-value with 90% of amino acid sequence in database?
+          # or query_sequence has 90% similarity (identity) with all sequence in database?
+
+          identity_with_90 = Array.new # identity_with_90 contains all the sequence header with 90% identity
+          aa_report.each do |hit|
+            # sequences[hit.target_def] = hit
+            # Percent Identity = (Matches x 100)/Length of aligned region (with gaps)
+            match_identity = (hit.identity * 100) / hit.query_len > 90
+            if match_identity >= 90
+              identity_with_90 << hit.target_def
+            end
+
+          end
+
+          identity_groups = Array.new  # identity_group contains the eligiable group number
+          if identity_with_90.length == 0
+            # find which group 
+            identity_with_90.each do |identity|
+              group_number = reversed_group_hash[identity]
+              # check if this is sequence in group
+              is_belong_to_group = true
+
+              if group_hash[group_number].length == 1
+                
+                is_belong_to_group = true
+                
+              else 
+
+                group_hash[group_number].each do |s_identity|
+
+                  if identity_with_90.include? reversed_group_hashs_group[s_identity]
+                    next
+                  else
+                    is_belong_to_group = false
+                  end
+
+                end
+
+              end
+
+              if is_belong_to_group == true
+                if !identity_groups.include? group_number
+
+                  identity_groups << group_number
+
+                end
+              end
+
+            end
+          end
 
           
 
 
-        else
+          # if the sequence belong to one group, double check with DNA level
+
+          final_identity_groups = Array.new # this is final check for the similarity
+          if identity_groups.length > 0
+
+
+
+            dna_level_hit_90 = Array.new
+            nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
+            @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
+            nt_report.each do |hit|
+              match_identity = (hit.identity * 100) / hit.query_len > 90
+              if match_identity >= 90
+                dna_level_hit_90 << hit.target_def
+              end
+            end
+
+            if dna_level_hit_90.length > 0
+
+              # if has some more than 90
+              # check each group
+              identity_groups.each do |group_number|
+                final_check_pass = true
+                group_hash[group_number].each do |group_member|
+                  if dna_level_hit_90.include? group_number
+                    next
+                  else
+                    final_check_pass = false
+                  end
+                end
+
+                if final_check_pass == true
+                  final_identity_groups << group_number
+                end
+
+              end
+
+            end # end of dna_level_hit_90.length > 1
+
+            if final_identity_groups > 0
+              # add to database
+              @append_seq_to_relative_rd_og = true
+
+            else
+              # is not member of RDOG group
+              # create an entry for the new RD_OG group 
+
+              @append_seq_to_relative_rd_og_without_group = true
+
+            end
+
+          else
+
+            @append_seq_to_new_rd_og = true
+
+
+          end
+
+          @nt_similarity = "[note] discard this variable"
 
         end # end of @aa_similarity > 0.80
+        # if no aa is similar to 0.8, just show the option for the poly tree
+
+
+        break # only parse one fasta file
 
       end # end of fasta_array.each
 

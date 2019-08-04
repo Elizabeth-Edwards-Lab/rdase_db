@@ -63,17 +63,12 @@ module QueryLogic
 	end
 
 	def generate_hit_array(report,query_name,query_sequence_type)
-		# for each hit sequence, get all hit report
-		# sequences = ActiveSupport::OrderedHash.new
-		# sequence_class = query_sequence_type == 'protein' ? ProteinSequence : NucleotideSequence
+		
 		sequences = Array.new
 		report.each do |hit|
-		  # sequences[hit.target_def] = hit
 		  sequences << [hit.target_def, hit.evalue, hit.bit_score, hit.midline, hit.target_seq]
 		end
 		sequences.sort_by { |seq| seq[1] }
-		# sequences.sort_by { |query,hit| hit.evalue }
-
 
 		return sequences
 	end
@@ -114,13 +109,21 @@ module QueryLogic
 
 	end
 
-	def append_seq_to_relative_rd_og(seq, defination)
+	def append_seq_to_relative_rd_og(seq, header, group)
 		
+
+
 	end
 	
-	def append_seq_to_new_rd_og(seq,defination)
+	def append_seq_to_new_rd_og(seq,header,group)
 		
 	end
+
+	def append_seq_to_relative_rd_og_without_group(seq,header,group)
+
+
+	end
+
 
 	def append_seq_to_rd_og_info(input_info)
 
@@ -142,6 +145,13 @@ module QueryLogic
 		# return saved
 
 	end
+
+
+
+	def getLowestGroupNumber()
+
+	end
+
 
 
 
