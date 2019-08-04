@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
 
 	resources :protein, only: [:show, :index] do
-
+		
 	end
 
 	root to: 'simple#home'

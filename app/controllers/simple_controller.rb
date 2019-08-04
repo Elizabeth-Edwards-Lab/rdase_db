@@ -4,6 +4,10 @@ class SimpleController < ApplicationController
 	end
 
 	def statistics
+		@number_of_original_aa_sequence = ProteinSequence.all.length
+		@number_of_original_nt_sequence = NucleotideSequence.all.length
+		@number_of_cus_aa_sequence = CustomizedProteinSequence.all.length
+		@number_of_cus_nt_sequence = CustomizedNucleotideSequence.all.length
   	end
 
 	def downloads
@@ -36,6 +40,8 @@ class SimpleController < ApplicationController
 		aa_fasta_file.close
 
 		send_file filename, :type => "application/fasta", :filename =>  filename
+		
+		File.delete(filename) if File.exist?(filename)
 	end
 
 
@@ -56,6 +62,8 @@ class SimpleController < ApplicationController
 		aa_fasta_file.close
 
 		send_file filename, :type => "application/fasta", :filename =>  filename
+		
+		File.delete(filename) if File.exist?(filename)
 	end
 
 	def citation

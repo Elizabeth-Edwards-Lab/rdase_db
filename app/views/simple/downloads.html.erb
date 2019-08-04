@@ -1,17 +1,28 @@
+<style type="text/css">
+	#download-table {
+		border: 1px solid black;
+
+		
+	}
+	
+	th, tr, td {
+		border: 1px solid black;
+	}
+</style>
 <div class="container">
 
 	<!-- two options: download the original file (revised) or download customized one( un-revised) -->
 
-	<h3>Currently, we have two options for downloading our database: <br/>
+	<p>Currently, we have two options for downloading our database: <br/>
 			Original database: constructed at the first appearance of this website. All the sequences have been revised by experts <br/>
 			Customized database: updated daily with new user submission of new sequence. Some sequences are not revised by experts <br/>
 
 
-	</h3>
+	</p>
 
 	<!-- fasta file  -->
 
-	<table>
+	<table class="download-table">
 		<tr>
 			<th>Type</th>
 			<th>Amino Acid Sequence</th>
@@ -27,7 +38,7 @@
 		</tr>
 
 		<tr>
-			<td>Original</td>
+			<td>Customized</td>
 			<td><%= link_to "AA.fasta", :action => :download_aa_cus%></td>
 			<td><%= link_to "NT.fasta", :action => :download_nt_cus%></td>
 			<td>N/A</td>

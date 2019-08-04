@@ -81,3 +81,11 @@ if use legacy_blast.pl, should modify the legacy_blast.pl
 If the system is under ubuntu, the following file should be modified
 1. config/initializers/blast.rb => change back to original code because blastall exist in ubuntu
 2. database.yml => change the location of msyql.sock due to installation place
+
+
+#TODO List
+1. filter database result + add link to each query
+2. test the new query code
+3. tree image + discard the sequence with * 
+4. send results to email and new windows
+5. format the blast result

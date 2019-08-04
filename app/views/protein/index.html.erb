@@ -14,8 +14,19 @@
 	      <th>Update</th>
 	      
 	    </tr>
+
+	    <tr>
+	    <%= form_with url:'protein/index', remote: true, :html => {:id => "submit-seq"} do |f| %>
+	      <th><%= f.submit "Filter", disabled: false %></th>
+	      <th><%= f.text_field 	:header %></th>
+	      <th><%= f.text_field  :group %></th>
+	      <th><%= f.text_field  :Organism %></th>
+	      <th><%= f.date_field  :Update %></th>
+	    <% end %>
+	      
+	    </tr>
 	  </thead>
-	 
+	 	
 	  <tbody>
 	    <% @protein.each do |pt| %>
 	      <tr>
