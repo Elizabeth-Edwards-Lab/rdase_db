@@ -110,7 +110,7 @@ class QueryController < ApplicationController
           aa_report.each do |hit|
             # sequences[hit.target_def] = hit
             # Percent Identity = (Matches x 100)/Length of aligned region (with gaps)
-            match_identity = (hit.identity * 100) / hit.query_len > 90
+            match_identity = (hit.identity * 100) / hit.query_len
             if match_identity >= 90
               identity_with_90 << hit.target_def
             end
@@ -159,7 +159,7 @@ class QueryController < ApplicationController
 
           # if the sequence belong to one group, double check with DNA level
 
-          final_identity_groups = Array.new # this is final check for the similarity
+          @final_identity_groups = Array.new # this is final check for the similarity
           if identity_groups.length > 0
 
 
@@ -168,7 +168,7 @@ class QueryController < ApplicationController
             nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
             @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
             nt_report.each do |hit|
-              match_identity = (hit.identity * 100) / hit.query_len > 90
+              match_identity = (hit.identity * 100) / hit.query_len
               if match_identity >= 90
                 dna_level_hit_90 << hit.target_def
               end
@@ -189,7 +189,7 @@ class QueryController < ApplicationController
                 end
 
                 if final_check_pass == true
-                  final_identity_groups << group_number
+                  @final_identity_groups << group_number
                 end
 
               end

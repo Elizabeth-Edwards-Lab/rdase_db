@@ -16,7 +16,7 @@
 	    </tr>
 
 	    <tr>
-	    <%= form_with url:'protein/index', remote: true, :html => {:id => "submit-seq"} do |f| %>
+	    <%= form_with url:'protein', method: :get do |f| %>
 	      <th><%= f.submit "Filter", disabled: false %></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>

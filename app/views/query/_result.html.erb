@@ -8,8 +8,16 @@
     <td id="simtext"><%= @aa_similarity %></td>
   </tr>
   <tr id = "aasim">
-    <th id="simthtag">NT Similarity</th>
-    <td id="simtext"><%= @nt_similarity %></td>
+    <th id="simthtag">Matching Group</th>
+    <td id="simtext">
+    	<% if @final_identity_groups.length == 0 %>
+    		<%= "No Matching OD Group" %>
+    	<% else %>
+    		<% @final_identity_groups.each do |group_number| %>
+    			<%= "#{group_number}\t" %>
+    		<% end %>
+    	<% end %>
+    </td>
   </tr>
 </table>
 </div>

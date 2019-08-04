@@ -3,7 +3,6 @@ class ProteinController < ApplicationController
 
 	
   def index
-  	puts params.inspect
     @protein = CustomizedProteinSequence.limit(25).page(params[:page])
   end
 
