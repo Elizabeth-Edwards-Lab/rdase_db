@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 	get "simple/download_nt_original"
 	get "simple/download_aa_cus"
 	get "simple/download_nt_cus"
+	get "simple/download_entry_table_nt_orignal_csv"
+	get "simple/download_entry_table_nt_orignal_docx"
+	get "simple/download_entry_table_cus"
 
 	match "search" => 'query#search',
 		as: :search,

@@ -39,7 +39,9 @@ class QueryController < ApplicationController
         query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
         program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
         database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-        
+        sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+
+
         blast_options = set_blast_options(program,params)
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
         aa_report = blaster.query(@sequence.seq)
@@ -57,21 +59,75 @@ class QueryController < ApplicationController
         end
 
 
+
+        # PREPARE SEQUENCE FOR VIEWING
+        # @hits will have hit class (aka #<Bio::Blast::Report::Hit>)
+        hit_array = Hash.new
+        aa_report.each do |hit|
+          if hit.target_def =~ /(\d+)/
+            # puts $1.to_i  # => the id that only keep digits e.g. 8657036
+            # puts hit  # => #<Bio::Blast::Report::Hit:0x00007fb0f2dcb630>
+            hit_array[$1.to_i] = hit
+            @hits[[$1.to_i, query_name]] = hit
+            # puts "@hits.inspect"
+            # puts @hits.inspect
+            # {[8657036, "8657036VS"]=>#<Bio::Blast::Report::Hit:0x00007fb0f6908ec8 
+            # @hsps=[#<Bio::Blast::Report::Hsp:0x00007fb0f6112200 @hsp={}, @num=1, 
+            # @bit_score=973.77, @score=2516, @evalue=0.0, @query_from=1, @query_to=474, 
+            # @hit_from=1, @hit_to=474, @pattern_from=0, @pattern_to=0, @query_frame=0, 
+            # @hit_frame=0, @identity=474, @positive=474, @gaps=0, @align_len=474, @density=0, 
+            # @qseq="MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRF
+            # DKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIV
+            # LSKGRWEGTPEENSRMVRCVLKLXXXXXXXXXXXXEDKAEKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKC
+            # KYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECS
+            # RMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDY
+            # DFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPR
+            # YRGLYREIF", @hseq="MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREF
+            # DKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYP
+            # APRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKAEKFIYTHEHVWGDFKHYKI
+            # GDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSN
+            # AHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDP
+            # TWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFG
+            # YGKNPGMESWWDQEPRYRGLYREIF", @midline="MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEV
+            # ISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTI
+            # RDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKA
+            # EKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGR
+            # MTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCL
+            # TCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISAT
+            # AAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPRYRGLYREIF">], @query_id="Query_1", @query_def="query", 
+            # @query_len=474, @num=1, @hit_id="gnl|BL_ORD_ID|0", @len=474, @definition="8657036VS", 
+            # @accession="0">}
+            break
+          end
+        end
+
+        defination_array = Array.new
+        hit_array.each do |arr|
+          begin
+            defination_array << arr[1].definition
+            # puts arr[1].definition
+          rescue
+            next
+          end
+        end
+
+        resultlist = Array.new
+        hit_array.each do |arr|
+          resultlist << sequence_class.find_by(:header => arr[1].definition)
+        end
+        # resultlist = sequence_class.find_by(:header => defination_array)
+        puts resultlist.inspect
+        # puts resultlist.class # => ProteinSequence
+        resultlist.sort! { |a, b| hit_array[b.id].bit_score <=> hit_array[a.id].bit_score }
+
+        if params[:filters].present?
+          @resultlist = resultlist.select { |s| (!s.sequenceable.respond_to?('include_in_blast_search?') || s.sequenceable.include_in_blast_search?(params[:filters])) }
+        end
+        @sequences[query_name] = resultlist
+
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
 
 
-        # group by group id,
-        # check each group if the new sequence is 90% similar with the group
-        # report the similar group number
-
-
-        
-
-        # @aa_sequence_result = Kaminari.paginate_array(@aa_sequence_result,total_count: @aa_sequence_result.count).page(params[:page]).per(5)
-
-        ## search aa level > 90%
-        ## if >90%, do nt level
-        
 
         # for first sequence in aa_fasta
         # note: 0.9 for 11,1 is too high; 0.8 is good
@@ -415,7 +471,7 @@ class QueryController < ApplicationController
     params[:extend_cost] ||= '1'
     params[:mismatch_penalty] ||= '-3'
     params[:match_reward] ||= '2'
-    params[:evalue] ||= '0.01'
+    params[:evalue] ||= '0.000001'
     params[:gapped_alignment] = true if params[:commit].blank?
     params[:filter_query_sequence] = true if params[:commit].blank?
   end

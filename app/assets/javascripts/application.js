@@ -25,6 +25,8 @@
 //  require pagination.min
 //= require jquery.simplePagination
 //= require phylocanvas-quickstart
+//= require html2canvas.min
+//= require blaster.min
 
 // Always load turbolinks last
 // require turbolinks

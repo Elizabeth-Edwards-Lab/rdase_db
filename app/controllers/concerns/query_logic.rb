@@ -66,9 +66,10 @@ module QueryLogic
 		
 		sequences = Array.new
 		report.each do |hit|
-		  sequences << [hit.target_def, hit.evalue, hit.bit_score, hit.midline, hit.target_seq]
+		  # sequences << [hit.target_def, hit.evalue, hit.bit_score, hit.midline, hit.target_seq]
+			sequences << hit
 		end
-		sequences.sort_by { |seq| seq[1] }
+		# sequences.sort_by { |seq| seq[1] }
 
 		return sequences
 	end

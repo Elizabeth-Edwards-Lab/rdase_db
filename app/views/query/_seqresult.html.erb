@@ -1,4 +1,4 @@
-<h3 id="seqresulttag"> Sequence result for <%= @query.definition %></h3>
+	<h3 id="seqresulttag"> Sequence result for <%= @query.definition %></h3>
 	<% if @aa_sequence_result %>
 			<!-- render sequence -->
 
@@ -25,4 +25,17 @@
 		<p>No top hit available</p>
 	<% end %>
 
-</div>
+
+<!-- <script type="text/javascript">
+
+	var alignments = "...";
+	var blasterjs = require("biojs-vis-blasterjs");
+	var instance  = new blasterjs({
+		string: alignments,
+		multipleAlignments: "blast-multiple-alignments",
+		alignmentsTable: "blast-alignments-table",
+		singleAlignment: "blast-single-alignment"
+	});   
+
+
+</script> -->

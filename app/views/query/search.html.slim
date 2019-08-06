@@ -10,30 +10,6 @@
       = button_tag 'Load Example', type: 'button', class: 'btn btn-primary load-example'
 
     fieldset
-      legend Search Parameters
-      .row
-        .col-md-4.col-sm-4
-          .form-group
-            = label_tag :Database, 'Choose Database'
-            .br
-            = select_tag :Database, options_for_select(@available_database.collect{ |u| [u] })
-        .col-md-4.col-sm-4
-          .form-group
-            = label_tag :Organism, 'Choose Organism'
-            .br
-            = select_tag :Organism, options_for_select(@available_organism.collect{ |u| [u] })
-        .col-md-4.col-sm-4
-          .checkbox
-            = label_tag :result_window, class: 'checkbox' do
-              = check_box_tag :result_window, 1, params[:result_window]
-              |  Show results in a new window
-          .checkbox
-            = label_tag :result_send, class: 'checkbox' do
-              = check_box_tag :result_send, 1, params[:result_send], class: 'result-send-email'
-              |  Send results to your email
-            .form-group
-              = text_field_tag :send_email, params[:send_email], class: 'send-email-box', hidden: 'true', placeholder: "Your Email"
-
       legend BLAST Parameters
       .row
         .col-md-4.col-sm-4
@@ -73,7 +49,7 @@
         = render 'seq_search/filters'
     .form-actions
       = submit_tag 'Search', class: 'btn btn-primary'
-      = link_to 'Reset', root_path, class: 'btn'
+      = link_to 'Reset', search_path, class: 'btn'
 
 
 / = render "submit_sequence"
@@ -81,7 +57,7 @@
 - if @aa_similarity.present?
   hr
   = render partial: "result"
-  = render partial: "seqresult"
+  = render partial: "results_view"
   / if can't pass the same group, then do gene blast so nt_similarity will present; otherwise, nt_similiarity won't present, do phylogenies diagram
   - if @nt_similarity.present? and @is_match == false
     = render "submit_sequence"

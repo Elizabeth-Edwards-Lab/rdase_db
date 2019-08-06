@@ -1,0 +1,60 @@
+#seq-search-results
+  - if @sequences.present?
+    .alert.alert-success.alert-block
+      h3#seqresulttag
+        | Sequence result for #{@query.definition}
+        br
+        | Total return sequence: #{@aa_sequence_result.length}
+    - if @aa_sequence_result.length > 0
+      - @aa_sequence_result.each do |sequence|
+        .seq-search-hit
+          .seq-search-scores
+            | E value: #{sequence.evalue}
+            br
+            | Bit score: #{sequence.bit_score}
+            br
+            | Query length: #{sequence.query_seq.length}
+          .seq-search-title
+            - if lookup_context.find_all('seq_search/_hit_link').any?
+              = render '/seq_search/hit_link', sequence: sequence
+            - else
+              strong = sequence.definition
+          div
+            .seq-search-sequence-labels
+              br
+              | Query:
+              br
+              br
+              | Subject:
+              br
+            .seq-search-sequence-comparison
+              - len = sequence.query_seq.length
+              - query_seq = " " + sequence.query_seq
+              - midline = " " + sequence.midline
+              - subject = " " + sequence.target_seq
+              - count = "1 "
+              - offset = 1
+              - for i in 2..len
+                - if i % 60 == 0
+                  - count = count + " " + i.to_s
+                  - query_seq.insert(i + offset, " " * i.to_s.size)
+                  - midline.insert(i + offset, " " * i.to_s.size)
+                  - subject.insert(i + offset, " " * i.to_s.size)
+                  - offset = offset + i.to_s.size
+                - else
+                  - count = count + " "
+              - count = count + len.to_s
+              - query_seq = query_seq + (" " * len.to_s.size)
+              - midline = midline + (" "  * len.to_s.size)
+              - subject = subject + (" "  * len.to_s.size)
+              .seq-search-chain.seq-search-count= count
+              .seq-search-chain.seq-search-query= query_seq
+              .seq-search-chain.seq-search-midline= midline
+              .seq-search-chain.seq-search-target= subject
+      .data-container 
+    - else
+      p.alert.alert-danger No matches.
+
+  - else
+    p.alert.alert-danger No matches.
+

@@ -27,13 +27,15 @@
 			<th>Type</th>
 			<th>Amino Acid Sequence</th>
 			<th>Nucleotide Sequence</th>
+			<th>Gene Entry Table</th>
 			<th>Last Update Time</th>
 		</tr>
 
 		<tr>
 			<td>Original</td>
-			<td><%= link_to "AA.fasta", :action => :download_aa_original%></td>
-			<td><%= link_to "NT.fasta", :action => :download_nt_original%></td>
+			<td><%= link_to "AA.fasta", :action => :download_aa_original %></td>
+			<td><%= link_to "NT.fasta", :action => :download_nt_original %></td>
+			<td><%= link_to "csv", :action => :download_entry_table_nt_orignal_csv %>/<%= link_to "docx", :action => :download_entry_table_nt_orignal_docx %></td>
 			<td>2019-7-31</td>
 		</tr>
 
@@ -41,6 +43,7 @@
 			<td>Customized</td>
 			<td><%= link_to "AA.fasta", :action => :download_aa_cus%></td>
 			<td><%= link_to "NT.fasta", :action => :download_nt_cus%></td>
+			<td><%= link_to "csv", :action => :download_entry_table_cus%></td>
 			<td>N/A</td>
 		</tr>
 

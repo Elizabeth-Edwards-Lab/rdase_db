@@ -6,22 +6,6 @@ $(document).ready(function(){
 		$('.seq-search-sequence').val(example1);
 	})
 
-
-	// $('.option').on('click', function(){ } // this only work once
-
-	// $('.seq-result-container').pagination({
-	// 	dataSource: ConstructDataSource(),
-	// 	pageSize: 5,
-	// 	callback: function(data, pagination) {
-	// 		// template method of yourself
-	// 		// so I can access all the value from $('.well.hit-result')[0].children
-	// 		// put all value into javascript array
-	// 		// and then do the pagination
-	// 		var html = simpleTemplating(data);
-	// 		$('.data-container').html(html);
-	// 	}
-	// })
-
 	$('.result-send-email').on('click', function(){
 		// console.log("result-send-email");
 		if(this.checked){
@@ -34,14 +18,15 @@ $(document).ready(function(){
 })
 
 jQuery(function($){
-	var items = $('.each-result');
+	// var items = $('.each-result');
+	var items = $('.seq-search-hit');
 	items.promise().done(function(){
 		// console.log(items);
 		var numItems = items.length;
 		var perPage = 5;
 		items.slice(perPage).hide();
 
-		$('#data-container').pagination({
+		$('.data-container').pagination({
 			items: numItems,
 			itemsOnPage: perPage,
 			cssStyle: "light-theme",
@@ -52,35 +37,9 @@ jQuery(function($){
 			}
 		})
 	})
-	// var numItems = items.length;
-	// var perPage = 5;
-	// items.slice(perPage).hide();
-
-	// $('.data-container').pagination({
-	// 	items: numItems,
-	// 	itemsOnPage: perPage,
-	// 	cssStyle: "light-theme",
-	// 	onPageClick: function(pageNumber){
-	// 		var showFrom = perPage * (pageNumber - 1);
-	// 		var showTo = showFrom + perPage;
-	// 		items.hide().slice(showFrom,showTo).show();
-	// 	}
-	// })
-
 
 	
 })
-
-
-// $( window ).on( "load", function() { 
-
-// 	$('.load-example').on('click','.delete_it', function(){
-// 		var example1 = '>8657036VS\nMGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKAEKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPRYRGLYREIF';
-// 		$('.seq-search-sequence').text(example1);
-// 	})
-
-// })
-
 
 function ConstructDataSource(){
 	var all_result = $('.each-result');

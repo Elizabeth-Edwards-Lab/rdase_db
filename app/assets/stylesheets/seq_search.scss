@@ -1,0 +1,74 @@
+#seq-search-form {
+  fieldset {
+    margin-bottom: 2em;
+  }
+  .seq-search-sequence {
+    width: 600px;
+    height: 200px;
+    margin-top: 1em;
+    font-family: courier;
+  }
+}
+
+#seq-search-results {
+  text-align: left;
+  .query-list {
+    border: 1px dotted silver; 
+    background: #F2F5A9;
+    padding: 0em; 
+    margin: 1em 0;
+    h3 {
+      font-size: 16px;
+      margin-bottom: 0em;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0em;
+      margin-top: 0em;
+      margin-bottom: 1em;
+      li {
+        margin-left: 1em;
+        margin-top: 0em;
+        margin-bottom: 0em;
+        padding: 0em;
+      }
+    }
+  }
+  .seq-search-hit {
+    border: 1px dotted silver; 
+    background: #E0FFFF; 
+    padding: 0.8em; 
+    margin: 1em 0;
+    .seq-search-scores {
+      float: right;
+    }
+    .seq-search-sequence-comparison {
+      font-family: courier; 
+      margin-top: 2em;
+      margin-bottom: 1em; 
+      overflow: auto; 
+      white-space: nowrap;
+      .seq-search-chain {
+        margin: 0; 
+        padding: 0;
+        white-space: pre;
+      }
+      .seq-search-query, .seq-search-target {
+        color: blue;
+      }
+      .seq-search-midline {
+        color: red;
+      }
+
+      .seq-search-count {
+        color: black;
+      }
+    }
+    .seq-search-sequence-labels {
+      width: 80px;
+      float: left;
+      font-family: courier;
+      text-align: right;
+    }
+  }
+}
