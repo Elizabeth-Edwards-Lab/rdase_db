@@ -84,8 +84,8 @@ If the system is under ubuntu, the following file should be modified
 
 
 #TODO List
-1. filter database result + add link to each query
-3. tree image + discard the sequence with * 
+1. filter database result + add link to each query => done
+3. tree image + discard the sequence with *  => done
 
 2. test the new query code => done (should be ok)
 4. send results to email and new windows (don't put this into action item for now)
