@@ -51,16 +51,22 @@
       = submit_tag 'Search', class: 'btn btn-primary'
       = link_to 'Reset', search_path, class: 'btn'
 
-
-/ = render "submit_sequence"
-/ need to think more robust way for error handling
+/ = render partial: "phylogenies"
 - if @aa_similarity.present?
   hr
   = render partial: "result"
   = render partial: "results_view"
-  / if can't pass the same group, then do gene blast so nt_similarity will present; otherwise, nt_similiarity won't present, do phylogenies diagram
+
   - if @nt_similarity.present? and @is_match == false
-    = render "submit_sequence"
+    
+    - if @append_seq_to_relative_rd_og == true
+      / send what group it belongs to, either assign to a group or create new group
+      = render partial: "submit_sequence", group: @final_identity_groups
+    - elsif @append_seq_to_relative_rd_og_without_group == true
+      / send no group it belongs to
+      = render partial: "submit_sequence", group: @final_identity_groups
+    - elsif @append_seq_to_new_rd_og == true
+      = render partial: "submit_sequence" 
   - else
     = render partial: "phylogenies"
 

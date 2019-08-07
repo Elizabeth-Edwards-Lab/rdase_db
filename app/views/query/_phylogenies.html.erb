@@ -6,7 +6,7 @@
 <!-- use biojs load the graph -->
 <!-- tell user the default iteration for both program is 1, if user require more, ask user to do at their home, but provide the fasta file (unaligned) -->
 
-<div class="well">
+<div class="well-tree">
 	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>, <a href="http://www.iqtree.org/">IQ-Tree</a> and <a href="http://phylocanvas.org/">Phylocanvas</a> </p>
 
 	<%= form_with url:'/phylogenetic_tree', remote: true, :html => {:id => "do-tree"} do |f| %>
@@ -20,20 +20,14 @@
 
 </div>
 
+<!-- they also want to color the rd group -->
 <script>
 	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F 
 	var create_phylocanvas = function phylocanvas(data,highlight) {
 		var tree = Phylocanvas.createTree('phylocanvas');
 		// tree.setTreeType('rectangular');
-		tree.setTreeType('hierarchical');
+		tree.setTreeType('circular');
 		
-		// highlight the node for user
-		// for(var i = 0; i < tree.leaves.length; i++){
-		// 	if(tree.leaves[i].id == highlight || tree.leaves[i].label == highlight){
-		// 		tree.leaves[i].highlighted = true;
-		// 		break;
-		// 	}
-		// }
 		tree.load(data);
 		var re = new RegExp(highlight);
 		var leaves = tree.findLeaves(re);
@@ -70,7 +64,7 @@
 				$('#generate-phylogenetic-tree').remove();
 				create_phylocanvas(data.tree, data.highlight);
 				$('#graph-note').text("For more advanced graph viewer, plesase see");
-				$('#graph-note').append("<a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software'> Wiki </a>");
+				$('#graph-note').append("<a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>");
 
 			},
 			error: function(data){

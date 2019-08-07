@@ -9,9 +9,9 @@
 	    <tr>
 	      <th colspan="1"></th>
 	      <th>Header</th>
-	      <th>Group</th>
+	      <th>RD Group</th>
 	      <th>Organism</th>
-	      <th>Update</th>
+	      <th>Last Update</th>
 	      
 	    </tr>
 
@@ -20,8 +20,8 @@
 	      <th><%= f.submit "Filter", disabled: false %></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
-	      <th><%= f.text_field  :Organism %></th>
-	      <th><%= f.date_field  :Update %></th>
+	      <th><%= f.text_field  :organism %></th>
+	      <th>After <%= f.date_field  :update %></th>
 	    <% end %>
 	      
 	    </tr>

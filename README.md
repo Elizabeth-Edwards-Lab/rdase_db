@@ -85,8 +85,9 @@ If the system is under ubuntu, the following file should be modified
 
 #TODO List
 1. filter database result + add link to each query
-2. test the new query code
 3. tree image + discard the sequence with * 
+
+2. test the new query code => done (should be ok)
 4. send results to email and new windows (don't put this into action item for now)
 5. format the blast result () => done
-6. rebuild blast database after new sequence inserted
+6. rebuild blast database after new sequence inserted => done, just need to let user determine which group user need

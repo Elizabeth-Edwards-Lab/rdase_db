@@ -9,7 +9,18 @@ class QueryController < ApplicationController
     @available_organism = ["fake fake fake fake organism_1_","fake organism_2"]
 
     # return {... "Database"=>"eductive_dehalogenase (customized)" ...}
-  	
+    # save user query no matter what but without any user information
+    # only ask user information if the sequence is good
+    begin
+      user_input = Query.new
+      user_input.sequence = params[:sequence]
+      user_input.save!
+    rescue
+      user_input.sequence = "NULL"
+      user_input.save!
+    end
+
+    
     # params.inspect
     params[:filters] ||= {}
 
@@ -57,73 +68,6 @@ class QueryController < ApplicationController
             @is_match = true
           end
         end
-
-
-
-        # PREPARE SEQUENCE FOR VIEWING
-        # @hits will have hit class (aka #<Bio::Blast::Report::Hit>)
-        hit_array = Hash.new
-        aa_report.each do |hit|
-          if hit.target_def =~ /(\d+)/
-            # puts $1.to_i  # => the id that only keep digits e.g. 8657036
-            # puts hit  # => #<Bio::Blast::Report::Hit:0x00007fb0f2dcb630>
-            hit_array[$1.to_i] = hit
-            @hits[[$1.to_i, query_name]] = hit
-            # puts "@hits.inspect"
-            # puts @hits.inspect
-            # {[8657036, "8657036VS"]=>#<Bio::Blast::Report::Hit:0x00007fb0f6908ec8 
-            # @hsps=[#<Bio::Blast::Report::Hsp:0x00007fb0f6112200 @hsp={}, @num=1, 
-            # @bit_score=973.77, @score=2516, @evalue=0.0, @query_from=1, @query_to=474, 
-            # @hit_from=1, @hit_to=474, @pattern_from=0, @pattern_to=0, @query_frame=0, 
-            # @hit_frame=0, @identity=474, @positive=474, @gaps=0, @align_len=474, @density=0, 
-            # @qseq="MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRF
-            # DKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIV
-            # LSKGRWEGTPEENSRMVRCVLKLXXXXXXXXXXXXEDKAEKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKC
-            # KYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECS
-            # RMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDY
-            # DFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPR
-            # YRGLYREIF", @hseq="MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREF
-            # DKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYP
-            # APRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKAEKFIYTHEHVWGDFKHYKI
-            # GDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSN
-            # AHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDP
-            # TWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFG
-            # YGKNPGMESWWDQEPRYRGLYREIF", @midline="MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEV
-            # ISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTI
-            # RDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKA
-            # EKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGR
-            # MTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCL
-            # TCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISAT
-            # AAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPRYRGLYREIF">], @query_id="Query_1", @query_def="query", 
-            # @query_len=474, @num=1, @hit_id="gnl|BL_ORD_ID|0", @len=474, @definition="8657036VS", 
-            # @accession="0">}
-            break
-          end
-        end
-
-        defination_array = Array.new
-        hit_array.each do |arr|
-          begin
-            defination_array << arr[1].definition
-            # puts arr[1].definition
-          rescue
-            next
-          end
-        end
-
-        resultlist = Array.new
-        hit_array.each do |arr|
-          resultlist << sequence_class.find_by(:header => arr[1].definition)
-        end
-        # resultlist = sequence_class.find_by(:header => defination_array)
-        puts resultlist.inspect
-        # puts resultlist.class # => ProteinSequence
-        resultlist.sort! { |a, b| hit_array[b.id].bit_score <=> hit_array[a.id].bit_score }
-
-        if params[:filters].present?
-          @resultlist = resultlist.select { |s| (!s.sequenceable.respond_to?('include_in_blast_search?') || s.sequenceable.include_in_blast_search?(params[:filters])) }
-        end
-        @sequences[query_name] = resultlist
 
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
 
@@ -214,15 +158,17 @@ class QueryController < ApplicationController
 
 
           # if the sequence belong to one group, double check with DNA level
-
           @final_identity_groups = Array.new # this is final check for the similarity
+          @append_seq_to_relative_rd_og = false
+          @append_seq_to_relative_rd_og_without_group = false
+          @append_seq_to_new_rd_og = false
+
           if identity_groups.length > 0
-
-
 
             dna_level_hit_90 = Array.new
             nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
             @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
+
             nt_report.each do |hit|
               match_identity = (hit.identity * 100) / hit.query_len
               if match_identity >= 90
@@ -232,8 +178,7 @@ class QueryController < ApplicationController
 
             if dna_level_hit_90.length > 0
 
-              # if has some more than 90
-              # check each group
+              # if has some more than 90 check each group
               identity_groups.each do |group_number|
                 final_check_pass = true
                 group_hash[group_number].each do |group_member|
@@ -252,7 +197,7 @@ class QueryController < ApplicationController
 
             end # end of dna_level_hit_90.length > 1
 
-            if final_identity_groups > 0
+            if @final_identity_groups.length > 0
               # add to database
               @append_seq_to_relative_rd_og = true
 
@@ -302,12 +247,28 @@ class QueryController < ApplicationController
     raw_sequence = params[:sequence]
     fasta_array = raw_sequence.scan(/>[^>]*/)
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
+
+    
+
+
     # base fasta file
     fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
     # new fasta file 
     current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S").gsub("/","_").gsub(" ","_").gsub(":","_")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
-    fasta_new << raw_sequence + "\n"
+
+
+    # check if the sequence id have already taken place
+    # tree can't accept the duplicate name
+    seq_name_exist = CustomizedProteinSequence.find_by(:header => sequence_def.definition)
+    highlight_name = sequence_def.definition
+    if seq_name_exist.nil?
+      fasta_new << raw_sequence + "\n"
+    else
+      highlight_name = "#{sequence_def.definition}_2"
+      fasta_new << raw_sequence.gsub(sequence_def.definition, highlight_name) + "\n"
+    end
+
     fasta_base.each do |line|
       fasta_new << line
     end
@@ -334,30 +295,7 @@ class QueryController < ApplicationController
                       "-diags","-sv",
                       "-distance1","kbit20_3","-quiet")
 
-
     # puts muscle
-
-    # phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
-    phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
-    tree_data = ""
-    phy.each do |line|
-      tree_data = tree_data + line.gsub("\n","")
-    end
-    phy.close()
-
-
-    render json: { "tree": tree_data, "highlight": 'db_num' }
-    # puts sequence_def
-    # in development, highlight should be static
-    # render json: { "tree": tree_data, "highlight": sequence_def.definition }
-
-    # render #{Rails.root}/tmp/tmp_fasta/#{current_time}.phy
-
-    # puts "DONE MUSCLE"
-    # # do iqtree
-    # # since MUSCLE come with approximate tree development, don't do iqtree for now
-    # # -s path/to/this/file/rdha_aligned.afa -nt AUTO -m Dayhoff -bb 1000 -redo
-    # # render the .treefile => #{current_time}.afa.treefile
 
     # puts "START IQTREE"
     # iqtree = system( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
@@ -370,21 +308,17 @@ class QueryController < ApplicationController
     # puts iqtree
     # puts "DONE IQTREE"
 
-    # phy = File.open("tmp/tmp_fasta/#{current_time}.afa.treefile","r")
-    # tree_data = ""
-    # phy.each do |line|
-    #   tree_data = tree_data + line.gsub("\n","")
-    # end
-    # phy.close()
+    phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+    # phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
+    
 
+    tree_data = ""
+    phy.each do |line|
+      tree_data = tree_data + line.gsub("\n","")
+    end
+    phy.close()
 
-    # render json: { "tree": tree_data }
-    # puts iqtree
-    # if muscle == true
-
-
-
-
+    render json: { "tree": tree_data, "highlight": highlight_name }
 
   end
 
@@ -432,7 +366,31 @@ class QueryController < ApplicationController
         # puts "verify_recaptcha=>>>>"
         new_sequence_info.save!
         new_customized_protein_sequences.save!
-        ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver
+
+        # create the new blast database
+        # make sure that user won't do nucletide sequence search
+        sequence = CustomizedProteinSequence.all
+        now = Time.now.strftime("%Y_%m_%d_%H_%M")
+        filename = "tmp/rdhA_aa_all_customized_#{now}.fasta"
+        aa_fasta_file = File.open(filename,"w")
+
+        sequence.each{ |x|
+          aa_fasta_file.write(">")
+          aa_fasta_file.write(s.header)
+          aa_fasta_file.write("\n")
+          aa_fasta_file.write(s.chain)
+          aa_fasta_file.write("\n")
+        }
+
+        aa_fasta_file.close
+
+        blast_database = system( "makeblastdb", 
+                      "-in", filename,
+                      "-dbtype", "'prot'", 
+                      "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein_customized" )
+
+        File.delete(filename) if File.exist?(filename)
+        # ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver
       else
         # create a new form to submit sequence
         render json: {"message": "Your Sequence has been sent to 
