@@ -32,9 +32,9 @@ class SimpleController < ApplicationController
 
 		sequence.each{ |x|
 			aa_fasta_file.write(">")
-			aa_fasta_file.write(s.header)
+			aa_fasta_file.write(x.header)
 			aa_fasta_file.write("\n")
-			aa_fasta_file.write(s.chain)
+			aa_fasta_file.write(x.chain)
 			aa_fasta_file.write("\n")
 		}
 
@@ -54,9 +54,9 @@ class SimpleController < ApplicationController
 
 		sequence.each{ |x|
 			aa_fasta_file.write(">")
-			aa_fasta_file.write(s.header)
+			aa_fasta_file.write(x.header)
 			aa_fasta_file.write("\n")
-			aa_fasta_file.write(s.chain)
+			aa_fasta_file.write(x.chain)
 			aa_fasta_file.write("\n")
 		}
 
@@ -75,7 +75,7 @@ class SimpleController < ApplicationController
 
 	def download_entry_table_nt_orignal_csv
 		sequence = NucleotideSequence.all
-		# name of the tree; organism; key; what key is;
+		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		filename = "tmp/csv/Entry_Table_Gene_#{now}.csv"
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		CSV.open(filename, 'wb') do |csv|
@@ -92,6 +92,7 @@ class SimpleController < ApplicationController
 
 	def download_entry_table_cus
 		sequence = CustomizedNucleotideSequence.all
+		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		filename = "tmp/csv/Entry_Table_Gene_Customized_#{now}.csv"
 		# name of the tree; organism; key; what key is;
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
