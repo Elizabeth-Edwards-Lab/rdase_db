@@ -76,6 +76,12 @@ legacy_blast.pl use default /usr/bin for all executable blast program.
 if use legacy_blast.pl, should modify the legacy_blast.pl
 
 
+# how to deploy new changes on ubuntu
+bundle exec cap production deploy # pull changes from repo
+// change blast.rb and possible restart puma.sh
+bundle exec cap production deploy:restart # apply the changes from blast.rb
+
+
 
 
 If the system is under ubuntu, the following file should be modified

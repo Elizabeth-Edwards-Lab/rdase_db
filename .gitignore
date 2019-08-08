@@ -13,11 +13,10 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
-!/tmp/csv
-!/tmp/tmp_fasta
+/tmp/csv/*
+/tmp/tmp_fasta/*
+/tmp/cache/*
+tmp/pids/*
 
 /node_modules
 /yarn-error.log

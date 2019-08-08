@@ -77,7 +77,6 @@ class SimpleController < ApplicationController
 		sequence = NucleotideSequence.all
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		filename = "tmp/csv/Entry_Table_Gene_#{now}.csv"
-		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		CSV.open(filename, 'wb') do |csv|
 			csv << ["Table S1: Reductive dehalogenase homologous genes curated dataset information, with tree identifiers linked to NCBI, JGI, or in-house accession numbers and organism of origin."]
 			csv << ["Name On Tree", "Organism","Key","What Key Is"]
@@ -95,7 +94,6 @@ class SimpleController < ApplicationController
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		filename = "tmp/csv/Entry_Table_Gene_Customized_#{now}.csv"
 		# name of the tree; organism; key; what key is;
-		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		CSV.open(filename, 'wb') do |csv|
 			csv << ["Table S1: Reductive dehalogenase homologous genes curated dataset information, with tree identifiers linked to NCBI, JGI, or in-house accession numbers and organism of origin."]
 			csv << ["Name On Tree", "Organism","Key","What Key Is"]

@@ -7,7 +7,7 @@
 <!-- tell user the default iteration for both program is 1, if user require more, ask user to do at their home, but provide the fasta file (unaligned) -->
 
 <div class="well-tree">
-	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>, <a href="http://www.iqtree.org/">IQ-Tree</a> and <a href="http://phylocanvas.org/">Phylocanvas</a> </p>
+	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a> </p>
 
 	<%= form_with url:'/phylogenetic_tree', remote: true, :html => {:id => "do-tree"} do |f| %>
 

@@ -252,6 +252,8 @@ class QueryController < ApplicationController
 
 
     # base fasta file
+    # should be reconstruct fasta file 
+    # and remove it 
     fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
     # new fasta file 
     current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S").gsub("/","_").gsub(" ","_").gsub(":","_")
@@ -296,18 +298,9 @@ class QueryController < ApplicationController
                       "-distance1","kbit20_3","-quiet")
 
     # puts muscle
-
-    # puts "START IQTREE"
-    # iqtree = system( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
-    #                   "-s","tmp/tmp_fasta/#{current_time}.afa",
-    #                   "-nt", "AUTO",
-    #                   "-m", "Dayhoff",
-    #                   "-bb", "1000",
-    #                   "-quiet",
-    #                   "-st","AA")
-    # puts iqtree
-    # puts "DONE IQTREE"
-
+    # muscle may not finished, then render
+    # while muscle.nil?
+    #   next
     phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
     # phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
     
@@ -320,6 +313,16 @@ class QueryController < ApplicationController
 
     render json: { "tree": tree_data, "highlight": highlight_name }
 
+    # puts "START IQTREE"
+    # iqtree = system( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
+    #                   "-s","tmp/tmp_fasta/#{current_time}.afa",
+    #                   "-nt", "AUTO",
+    #                   "-m", "Dayhoff",
+    #                   "-bb", "1000",
+    #                   "-quiet",
+    #                   "-st","AA")
+    # puts iqtree
+    # puts "DONE IQTREE"
   end
 
   def submit_sequence
