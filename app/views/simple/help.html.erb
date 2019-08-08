@@ -1,4 +1,55 @@
+<style type="text/css">
+
+	#abouttext-help{
+		  min-height: 20px;
+		  padding: 19px;
+			font-size: 85%;
+			margin-left: 50px;
+		  margin-bottom: 20px;
+		  background-color: #d9edf7;
+		  color: #31708f;
+		  border: 1px solid #bce8f1;
+		  border-radius: 4px;
+		  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+		  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+		  width: 80%;
+		}
+</style>
+
+<br>
 <div class="container">
+	<h3>Help</h3>
+	<hr>
+	<p>How does RDDB assign sequences to groups?</br>
+		<br>
+
+1) We first ascertain the pairwise amino acid identity of your novel sequence(s) with the best-match protein from the reductive dehalogenase database.  This is done using BLASTp, with the reductive dehalogenase database being turned into a local BLAST database.
+</br>
+ <br>Next for each sequence:</br>
+ <br>
+
+a.	If your sequence shares less than 90% ID at the amino acid level to the current database, it is given a singleton identifier number.</br>
+b.	If your sequence shares greater than or equal to 90% pairwise ID are the amino acid level to a current database, we identify the group that your sequence belongs to. </br>
+
+<div id="abouttext-help">
+This is done in the following fashion:</br>
+1.	If the RdhA is a member of an RD_OG: Confirm using pairwise alignment or BLAST that your gene shares 90% ID with all representatives from the RD_OG of interest.
+</br>
+i.	If your sequence does share 90% ID with all representatives of a group, your sequence can be classified as belonging to that group.
+</br>
+ii.	If your sequence does not share 90% ID with all representatives, your sequence cannot be added to the group, but can be described as a close relative to that cluster.  Proceed to step 3.
+</br>
+2.	If the database RdhA is not a member of an existing RD_OG: proceed to step 2.
+</br>
+</div>
+
+<br> 2)	Next, using the protocol outlined in the seminal paper by Hug et al. (2013, doi: 10.1098/rstb.2012.0322), we used MUSCLE to do sequence
+ alignments and iq_tree to create a phylogenetic placement. This gives the user a higher resolution placement of their sequence.
+
+	</p>
+	<br>
+	<h3>Tutorials</h3>
+	<hr>
 
 
 
@@ -6,6 +57,7 @@
 		<p>How to use RDDB?</p>
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/HXEpBnUbAMo" frameborder="0" allowfullscreen></iframe>
 	</div>
+	<br>
 
 	<div>
 		<p>How to use NCBI blast?</p>

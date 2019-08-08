@@ -1,24 +1,46 @@
 <style type="text/css">
 	#download-table {
 		border: 1px solid black;
-
-		
 	}
-	
+
 	th, tr, td {
-		border: 1px solid black;
+		padding: 15px;
 	}
+
+	.download-table tr:nth-child(even) {
+		background-color: #E3EEFC;
+}
+	#abouttext-downloads{
+		  min-height: 20px;
+		  padding: 19px;
+		  margin-bottom: 20px;
+		  background-color: #d9edf7;
+		  color: #31708f;
+		  border: 1px solid #bce8f1;
+		  border-radius: 4px;
+		  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+		  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+		  width: 80%;
+		}
 </style>
-<div class="container">
 
-	<!-- two options: download the original file (revised) or download customized one( un-revised) -->
+<br>
+<div class = "container">
+<h3>Downloads</h3>
+<hr>
+</div>
+<div class = "container" id="abouttext-downloads">
+  <p id="theabouttext">
+			<!-- two options: download the original file (revised) or download customized one( un-revised) -->
+		Currently, two versions of the database are available for download: <br/>
+		<br>
+		<b>Original database:</b> Compiled at the time of publication of this website. All sequences in this version have been curated by experts. <br/>
+		<b>Updated database:</b> Updated daily with user submissions of new sequences. Some sequences have not been revised by experts. <br/>
+  </p>
+</div>
 
-	<p>Currently, we have two options for downloading our database: <br/>
-			Original database: constructed at the first appearance of this website. All the sequences have been revised by experts <br/>
-			Customized database: updated daily with new user submission of new sequence. Some sequences are not revised by experts <br/>
+<div class = "container">
 
-
-	</p>
 
 	<!-- fasta file  -->
 
@@ -28,19 +50,19 @@
 			<th>Amino Acid Sequence</th>
 			<th>Nucleotide Sequence</th>
 			<th>Gene Entry Table</th>
-			<th>Last Update Time</th>
+			<th>Last Update</th>
 		</tr>
 
 		<tr>
 			<td>Original</td>
 			<td><%= link_to "AA.fasta", :action => :download_aa_original %></td>
 			<td><%= link_to "NT.fasta", :action => :download_nt_original %></td>
-			<td><%= link_to "csv", :action => :download_entry_table_nt_orignal_csv %>/<%= link_to "docx", :action => :download_entry_table_nt_orignal_docx %></td>
+			<td><%= link_to "csv", :action => :download_entry_table_nt_orignal_csv %> / <%= link_to "docx", :action => :download_entry_table_nt_orignal_docx %></td>
 			<td>2019-7-31</td>
 		</tr>
 
 		<tr>
-			<td>Customized</td>
+			<td>Updated</td>
 			<td><%= link_to "AA.fasta", :action => :download_aa_cus%></td>
 			<td><%= link_to "NT.fasta", :action => :download_nt_cus%></td>
 			<td><%= link_to "csv", :action => :download_entry_table_cus%></td>
