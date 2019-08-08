@@ -289,19 +289,27 @@ class QueryController < ApplicationController
     # -maxiters 1 
     # -diags -sv 
     # -distance1 kbit20_3" 
-    muscle = system( "vendor/MUSCLE/muscle3.8.31_i86darwin64",
+    # default path is linux path
+    muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
+    if RUBY_PLATFORM == "x86_64-linux"
+      muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
+    else
+      muscle_path = "vendor/MUSCLE/muscle3.8.31_i86darwin64"
+    end
+
+    muscle = system( muscle_path,
                       "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
                       "-out","tmp/tmp_fasta/#{current_time}.afa",
                       "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
                       "-maxiters", "1",
                       "-diags","-sv",
                       "-distance1","kbit20_3","-quiet")
-
-    # puts muscle
+    
     # muscle may not finished, then render
     while muscle.nil?
       next
     end
+
     phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
     # phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
     

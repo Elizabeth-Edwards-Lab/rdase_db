@@ -27,7 +27,7 @@ class SimpleController < ApplicationController
 	def download_aa_cus
 		sequence = CustomizedProteinSequence.all
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
-		filename = "tmp/rdhA_aa_all_customized_#{now}.fasta"
+		filename = "tmp/tmp_fasta/rdhA_aa_all_customized_#{now}.fasta"
 		aa_fasta_file = File.open(filename,"w")
 
 		sequence.each{ |x|
@@ -37,10 +37,10 @@ class SimpleController < ApplicationController
 			aa_fasta_file.write(x.chain)
 			aa_fasta_file.write("\n")
 		}
-		
+
 		aa_fasta_file.close
-		
-		send_file filename, :type => "application/fasta", :filename =>  filename
+
+		send_file filename, :type => "application/fasta", :filename =>  "rdhA_aa_all_customized_#{now}.fasta"
 		
 		File.delete(filename) if File.exist?(filename)
 	end
@@ -49,7 +49,7 @@ class SimpleController < ApplicationController
 	def download_nt_cus
 		sequence = CustomizedNucleotideSequence.all
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
-		filename = "tmp/rdhA_nt_all_customized_#{now}.fasta"
+		filename = "tmp/tmp_fasta/rdhA_nt_all_customized_#{now}.fasta"
 		aa_fasta_file = File.open(filename,"w")
 
 		sequence.each{ |x|
@@ -62,7 +62,7 @@ class SimpleController < ApplicationController
 
 		aa_fasta_file.close
 
-		send_file filename, :type => "application/fasta", :filename =>  filename
+		send_file filename, :type => "application/fasta", :filename =>  "rdhA_nt_all_customized_#{now}.fasta"
 		
 		File.delete(filename) if File.exist?(filename)
 	end
