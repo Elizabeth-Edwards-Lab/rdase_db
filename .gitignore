@@ -16,7 +16,8 @@
 /tmp/csv/*
 /tmp/tmp_fasta/*
 /tmp/cache/*
-tmp/pids/*
+/tmp/pids/*
+/tmp/database_fasta_db/*
 
 /node_modules
 /yarn-error.log

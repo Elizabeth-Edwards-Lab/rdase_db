@@ -19,6 +19,10 @@
               = render '/seq_search/hit_link', sequence: sequence
             - else
               strong = sequence.definition
+              br
+              | group: 
+              strong = @sequence_group[sequence.definition]
+              
           div
             .seq-search-sequence-labels
               br

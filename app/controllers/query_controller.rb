@@ -38,6 +38,11 @@ class QueryController < ApplicationController
       @hits = Hash.new
       @sequences = ActiveSupport::OrderedHash.new
       @new_customized_sequence = CustomizedProteinSequence.new
+      protein_sequence = ProteinSequence.all
+      @sequence_group = Hash.new
+      protein_sequence.each do |s|
+        @sequence_group[s.header] = s.group
+      end
 
       # should do one for each request or can do multiple alignment at same time?
       # haven't check for the inapporiate sequence 
@@ -60,6 +65,10 @@ class QueryController < ApplicationController
         @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
 
 
+        # add group information
+
+
+
 
         # if there is sequence in db has evalue 0, indicates the sequence is already in database
         @is_match = false
@@ -79,11 +88,11 @@ class QueryController < ApplicationController
         if @aa_similarity > 0.80
           
           # load the group
+          # hash each header to existing group       => reversed_group_hash
+          # hash each group for all avaiable headers => group_hash
           group_hash = Hash.new
           reversed_group_hash = Hash.new
-          protein_sequence = ProteinSequence.all
           protein_sequence.each do |single_entry|
-            # puts single_entry
             if single_entry.group.nil?
               next
             else
@@ -99,135 +108,145 @@ class QueryController < ApplicationController
               end
             end
 
-          end
+          end # end protein_sequence.each do |single_entry|
 
           # identify the group of orth
           # If your sequence shares greater than or equal to 90% pairwise ID are the amino acid level to a current RdhA database sequence
           # query_sequence have low e-value with 90% of amino acid sequence in database?
           # or query_sequence has 90% similarity (identity) with all sequence in database?
 
-          identity_with_90 = Array.new # identity_with_90 contains all the sequence header with 90% identity
+          # identity_with_90 contains all the sequence header with 90% identity
+          # if the match identity is greater than 90%, add to identity_with_90 array
+          identity_with_90 = Array.new 
           aa_report.each do |hit|
-            # sequences[hit.target_def] = hit
-            # Percent Identity = (Matches x 100)/Length of aligned region (with gaps)
             match_identity = (hit.identity * 100) / hit.query_len
             if match_identity >= 90
               identity_with_90 << hit.target_def
             end
 
-          end
+          end # end of aa_report.each do |hit|
 
           identity_groups = Array.new  # identity_group contains the eligiable group number
-          if identity_with_90.length == 0
-            # find which group 
-            identity_with_90.each do |identity|
-              group_number = reversed_group_hash[identity]
-              # check if this is sequence in group
-              is_belong_to_group = true
-
-              if group_hash[group_number].length == 1
-                
-                is_belong_to_group = true
-                
-              else 
-
-                group_hash[group_number].each do |s_identity|
-
-                  if identity_with_90.include? reversed_group_hashs_group[s_identity]
-                    next
-                  else
-                    is_belong_to_group = false
-                  end
-
-                end
-
-              end
-
-              if is_belong_to_group == true
-                if !identity_groups.include? group_number
-
-                  identity_groups << group_number
-
-                end
-              end
-
-            end
-          end
-
           
+          # if there is no sequence that is identity with 90%
+          # conclude no group matched and but greater 80% similarity with entire database in AA level
+          # just run the tree feature
+          if identity_with_90.length > 0
+            # for each definition, get the its group_number
+            # if it is just one sequence group, then the query is belong to that group
+            # add to identity_groups
+            # else if the group has more than one sequence, check if each one share 90% of identity
+            identity_with_90.each do |definition|
+              group_number = reversed_group_hash[definition]
+              if !group_number.blank? && !group_number.nil?
+                is_belong_to_group = true
 
-
-          # if the sequence belong to one group, double check with DNA level
-          @final_identity_groups = Array.new # this is final check for the similarity
-          @append_seq_to_relative_rd_og = false
-          @append_seq_to_relative_rd_og_without_group = false
-          @append_seq_to_new_rd_og = false
-
-          if identity_groups.length > 0
-
-            dna_level_hit_90 = Array.new
-            nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
-            @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
-
-            nt_report.each do |hit|
-              match_identity = (hit.identity * 100) / hit.query_len
-              if match_identity >= 90
-                dna_level_hit_90 << hit.target_def
-              end
-            end
-
-            if dna_level_hit_90.length > 0
-
-              # if has some more than 90 check each group
-              identity_groups.each do |group_number|
-                final_check_pass = true
-                group_hash[group_number].each do |group_member|
-                  if dna_level_hit_90.include? group_number
-                    next
-                  else
-                    final_check_pass = false
+                if group_hash[group_number].length == 1
+                  is_belong_to_group = true
+                else 
+                  # if one of them is not included, then the query doesn't belong to the group
+                  group_hash[group_number].each do |s_identity|
+                    if identity_with_90.include? reversed_group_hashs_group[s_identity]
+                      next
+                    else
+                      is_belong_to_group = false
+                    end
                   end
-                end
+                end # end of if group_hash[group_number].length == 1
 
-                if final_check_pass == true
-                  @final_identity_groups << group_number
+                if is_belong_to_group == true
+                  if !identity_groups.include? group_number
+                    identity_groups << group_number
+                  end
+                end # end of is_belong_to_group == true
+              end # end of if !group_number.blank? && !group_number.nil?
+
+            end # end of identity_with_90.each do |identity|
+
+
+            @final_identity_groups = Array.new # this is final check for the similarity
+            @append_seq_to_relative_rd_og = false
+            @append_seq_to_relative_rd_og_without_group = false
+            @append_seq_to_new_rd_og = false
+
+            # if the sequence belong to one group, double check with DNA level
+            # to check DNA level, run tblastn (convert AA to NT and against NT database)
+            # and only check for the sequence within group
+            # (how to construct new nt blast database?) you can't simply translate AA to NT
+            if identity_groups.length > 0
+
+              dna_level_hit_90 = Array.new
+              nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
+              # @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
+
+              nt_report.each do |hit|
+                match_identity = (hit.identity * 100) / hit.query_len
+                if match_identity >= 90
+                  dna_level_hit_90 << hit.target_def  
                 end
+              end
+
+              # if the dna_level_hit_90 has more than one sequence, check what they are 
+              # dna_level_hit_90 contains matching definition
+              # if pass final_check_pass, then add to @final_identity_groups for showing to user
+              # group_hash => hash each group for all avaiable headers
+              # identity_groups contains all the matched group number at AA level
+              if dna_level_hit_90.length > 0
+                # if has some more than 90 check each group
+                # for each identity_groups
+                identity_groups.each do |group_number|
+                  final_check_pass = true
+                  nt_definition_array = group_hash[group_number]
+                  if nt_definition_array.length == 1
+                    if dna_level_hit_90.include? nt_definition_array[0]
+                      final_check_pass = true
+                    end
+                  else # nt_definition_array.length > 1
+                    nt_definition_array.each do |nt_definition|
+                      if dna_level_hit_90.include? nt_definition
+                        next
+                      else
+                        final_check_pass = false
+                      end
+                    end
+                  end
+
+                  if final_check_pass == true
+                    @final_identity_groups << group_number
+                  end
+                end # end of identity_groups.each do |group_number|
+              end # end of dna_level_hit_90.length > 1
+
+
+              if @final_identity_groups.length > 0
+                # add to database 
+                @append_seq_to_relative_rd_og = true
+              else
+                @append_seq_to_relative_rd_og_without_group = true
 
               end
 
-            end # end of dna_level_hit_90.length > 1
+            else # if identity_groups.length == 0 (share more than 80% of all aa sequence; but
+                 #                                  doesn't belong to any groups)
+              @append_seq_to_csv = true # just save to database, do nothing
 
-            if @final_identity_groups.length > 0
-              # add to database
-              @append_seq_to_relative_rd_og = true
-
-            else
-              # is not member of RDOG group
-              # create an entry for the new RD_OG group 
-
-              @append_seq_to_relative_rd_og_without_group = true
 
             end
 
-          else
-
-            @append_seq_to_new_rd_og = true
-
-
-          end
-
-          @nt_similarity = "[note] discard this variable"
+          else # identity_with_90.length == 0 # doesn't belong to any group
+               
+            # save to csv/xlsx but not database
+            @append_seq_to_csv = true
+            
+          end # end of identity_with_90.length > 0
 
         end # end of @aa_similarity > 0.80
-        # if no aa is similar to 0.8, just show the option for the poly tree
 
+        # no similarity at 80%, just show the tree feature
 
         break # only parse one fasta file
-
       end # end of fasta_array.each
-
     end   
-
   end
 
 
@@ -304,7 +323,7 @@ class QueryController < ApplicationController
                       "-maxiters", "1",
                       "-diags","-sv",
                       "-distance1","kbit20_3","-quiet")
-    
+
     # muscle may not finished, then render
     while muscle.nil?
       next
@@ -375,15 +394,13 @@ class QueryController < ApplicationController
       # if recaptcha is selected, it will encrypt all input invalues
       # verify_recaptcha() will verify the sent encrypt value to actual input value
       if verify_recaptcha(params) 
-        # puts "verify_recaptcha=>>>>"
         new_sequence_info.save!
         new_customized_protein_sequences.save!
-
         # create the new blast database
         # make sure that user won't do nucletide sequence search
         sequence = CustomizedProteinSequence.all
-        now = Time.now.strftime("%Y_%m_%d_%H_%M")
-        filename = "tmp/rdhA_aa_all_customized_#{now}.fasta"
+        now = Time.now.strftime("%Y_%m_%d_%H_%M_%S")
+        filename = "tmp/database_fasta_db/rdhA_aa_all_customized_#{now}.fasta"
         aa_fasta_file = File.open(filename,"w")
 
         sequence.each{ |x|
@@ -399,7 +416,7 @@ class QueryController < ApplicationController
         blast_database = system( "makeblastdb", 
                       "-in", filename,
                       "-dbtype", "'prot'", 
-                      "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein_customized" )
+                      "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein" )
 
         File.delete(filename) if File.exist?(filename)
         # ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver

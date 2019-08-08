@@ -476,13 +476,24 @@ module Bio
 
     # makes command line.
     def make_command_line
-      path = "//usr/local/ncbi/blast/bin"  # CHANGE ME
-      cmd = make_command_line_options
-      cmd.unshift @blastall
-      cmd.unshift "#{path}/legacy_blast.pl"    # ADDED
-      cmd.push "--path"                        # ADDED
-      cmd.push path                            # ADDED
-      cmd
+      if RUBY_PLATFORM == "x86_64-linux"         # if running under linux system (ubuntu)
+        path = "//usr/bin"                       # CHANGE ME
+        cmd = make_command_line_options
+        cmd.unshift @blastall
+        cmd.unshift "#{path}/legacy_blast"       # ADDED
+        cmd.push "--path"                        # ADDED
+        cmd.push path                            # ADDED
+        cmd
+      else # default is MacOS
+        path = "//usr/local/ncbi/blast/bin"  # CHANGE ME
+        cmd = make_command_line_options
+        cmd.unshift @blastall
+        cmd.unshift "#{path}/legacy_blast.pl"    # ADDED
+        cmd.push "--path"                        # ADDED
+        cmd.push path                            # ADDED
+        cmd
+      end
+
     end
 
     # Local execution of blastall
