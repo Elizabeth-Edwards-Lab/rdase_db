@@ -299,8 +299,9 @@ class QueryController < ApplicationController
 
     # puts muscle
     # muscle may not finished, then render
-    # while muscle.nil?
-    #   next
+    while muscle.nil?
+      next
+    end
     phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
     # phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
     

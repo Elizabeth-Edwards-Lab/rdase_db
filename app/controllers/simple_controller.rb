@@ -37,9 +37,9 @@ class SimpleController < ApplicationController
 			aa_fasta_file.write(x.chain)
 			aa_fasta_file.write("\n")
 		}
-
+		
 		aa_fasta_file.close
-
+		
 		send_file filename, :type => "application/fasta", :filename =>  filename
 		
 		File.delete(filename) if File.exist?(filename)
