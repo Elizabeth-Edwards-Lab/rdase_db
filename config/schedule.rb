@@ -22,13 +22,10 @@
 set :output, { error: '/apps/orthdb/project/shared/log/whenever-error.log',
                standard: '/apps/orthdb/project/shared/log/whenever.log' }
 
-# create new nt.fasta, aa.fasta, and .docx from database
+# remove the temporary file that generated everyday
 every :day, at: '12am' do
-  runner "Cron.create_fasta"
-end
-
-every :day, at: '12am' do
-	runner ""
+	runner "Cron.remove_tmp_fasta"
+	runner "Cron.remove_tmp_csv"
 end
 
 # put the actual blast database creation for real crontab

@@ -237,7 +237,7 @@ class QueryController < ApplicationController
                
             # save to csv/xlsx but not database
             @append_seq_to_csv = true
-            
+
           end # end of identity_with_90.length > 0
 
         end # end of @aa_similarity > 0.80
@@ -360,6 +360,19 @@ class QueryController < ApplicationController
     # puts params[:email]
     # puts params[:publications]
     # puts params[:sequence]
+
+    #  params[:group] may have the array of group to put on
+    # - if @append_seq_to_relative_rd_og == true
+    #   / send what group it belongs to, either assign to a group or create new group
+    #   = render partial: "submit_sequence", group: @final_identity_groups
+    # - elsif @append_seq_to_relative_rd_og_without_group == true
+    #   / send no group it belongs to
+    #   = render partial: "submit_sequence", group: @final_identity_groups
+    # - elsif @append_seq_to_csv == true
+    #   = render partial: "submit_sequence" 
+
+    
+
     fasta_array = params[:sequence].scan(/>[^>]*/)
 
     query_name = nil
@@ -418,7 +431,7 @@ class QueryController < ApplicationController
                       "-dbtype", "'prot'", 
                       "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein" )
 
-        File.delete(filename) if File.exist?(filename)
+        # File.delete(filename) if File.exist?(filename)
         # ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver
       else
         # create a new form to submit sequence

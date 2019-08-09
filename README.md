@@ -97,3 +97,20 @@ If the system is under ubuntu, the following file should be modified
 4. send results to email and new windows (don't put this into action item for now)
 5. format the blast result () => done
 6. rebuild blast database after new sequence inserted => done, just need to let user determine which group user need
+7. adding loading animation
+8. add statisitics for how many organism and group we have
+9. color the group at tree graph level
+
+
+
+
+
+
+
+
+
+
+
+
+
+
