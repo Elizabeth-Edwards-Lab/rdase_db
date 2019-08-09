@@ -115,7 +115,11 @@
   <table>
     <tr>
       <th>GenBank ID Protein</th>
-      <td>null</td>
+      <% if @protein_s.key_group == "NCBI Accession" %>
+        <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.tree_name %>"> <%= @protein_s.tree_name %> </td>
+      <% else %>
+        <td>NULL</td>
+      <% end %>
     </tr>
   </table>
 

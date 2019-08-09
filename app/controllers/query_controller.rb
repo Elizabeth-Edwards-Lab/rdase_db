@@ -267,20 +267,22 @@ class QueryController < ApplicationController
     fasta_array = raw_sequence.scan(/>[^>]*/)
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
 
-    
-
-
-    # base fasta file
-    # should be reconstruct fasta file 
-    # and remove it 
-    fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
-    # new fasta file 
     current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S").gsub("/","_").gsub(" ","_").gsub(":","_")
+    fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
 
     # check if the sequence id have already taken place
     # tree can't accept the duplicate name
+
+    # render group information 
+    all_sequence = CustomizedProteinSequence.all
+    number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
+    group_info = Hash.new
+    all_sequence.each do |s|
+      group_info[s.header] = s.group
+    end
+
     seq_name_exist = CustomizedProteinSequence.find_by(:header => sequence_def.definition)
     highlight_name = sequence_def.definition
     if seq_name_exist.nil?
@@ -339,7 +341,7 @@ class QueryController < ApplicationController
     end
     phy.close()
 
-    render json: { "tree": tree_data, "highlight": highlight_name }
+    render json: { "tree": tree_data, "highlight": highlight_name, "group": group_info, "group_number": number_of_group }
 
     # puts "START IQTREE"
     # iqtree = system( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 

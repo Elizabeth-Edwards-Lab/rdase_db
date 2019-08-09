@@ -7,18 +7,29 @@
 <!-- do field validation in javascript -->
 <!-- send request and get back the response -->
 <!-- do all the backend at backend -->
-<div class="well">
-	<p id="_submit_seq_p">Submit your sequence to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/">Elizabeth Edwards Lab</a></p>
+<!-- <style>
+	
+	.g-recaptcha {
+		display: -webkit-flex; /* Safari */
+		-webkit-align-items: center; /* Safari 7.0+ */
+		display: flex;
+		align-items: center;
+	}
+</style> -->
+
+
+<div class="well-submit-sequence">
+	<p id="_submit_seq_p">Submit your sequence to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a></p>
 
 	<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f| %>
-	  <%= f.text_field :name, placeholder: "Your Name (Required) " %><br/>
-	  <%= f.text_field :email, placeholder: "example@abc.com (Required) "%><br/>
-	  <%= f.text_field :dna, placeholder: "DNA Sequence in FASTA format (Optional)" %><br/>
-		<%= f.text_field :institution, placeholder: "Your Institution (Optional)"%><br/>
-		<%= f.text_field :publications, placeholder: "Citation (Optional)" %><br/>
-		<%= f.text_field :organism, placeholder: "Organism (Optional)" %><br/>
-		<%= recaptcha_tags %>
-		<%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
+	  <%= f.text_field :name, placeholder: "Your Name (Required) ", :size=>"100", :required=>true %><br/>
+	  <%= f.text_field :email, placeholder: "example@abc.com (Required) ", :size=>"100", :type=>"email",:required=>true %><br/>
+	  <%= f.text_field :dna, placeholder: "DNA Sequence in FASTA format (Optional)", :size=>"100" %><br/>
+		<%= f.text_field :institution, placeholder: "Your Institution (Optional)", :size=>"100"%><br/>
+		<%= f.text_field :publications, placeholder: "Citation (Optional)", :size=>"100" %><br/>
+		<%= f.text_field :organism, placeholder: "Organism (Optional)", :size=>"100" %><br/>
+		<%= recaptcha_tags :style => "text-align: center;"%>
+		<%= f.submit "Send", :class => "btn btn-primary", id: "submit-seq" %>
 		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
 	<% end %>
 	<h3 id="submit-message"></h3>

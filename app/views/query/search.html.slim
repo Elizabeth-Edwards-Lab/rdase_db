@@ -48,10 +48,13 @@
       fieldset
         = render 'seq_search/filters'
     .form-actions
-      = submit_tag 'Search', class: 'btn btn-primary'
+      = submit_tag 'BLAST', class: 'btn btn-primary', data: {disable_with: "BLASTING"}
+      /= button_tag 'BLAST', type: 'submit', class: 'btn btn-primary', 'data-disable-with' => "<i class='fa fa-spinner fa-spin'></i> Searching...".html_safe
+      /= button_tag t('submit'), class: "btn btn-primary", data: {disable_with: "<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order".html_safe}
       = link_to 'Reset', search_path, class: 'btn'
 
-/ = render partial: "phylogenies"
+
+/ = render partial: "submit_sequence" 
 - if @aa_similarity.present?
   hr
   = render partial: "result"

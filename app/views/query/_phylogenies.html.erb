@@ -5,11 +5,18 @@
 <!-- iqtree generate the graph -->
 <!-- use biojs load the graph -->
 <!-- tell user the default iteration for both program is 1, if user require more, ask user to do at their home, but provide the fasta file (unaligned) -->
+<style>
+	
 
+	#loading-image{
+		position: absolute;
+    	top: 0; right: 0; bottom: 0; left: 0;
+	}
+</style>
 <div class="well-tree">
 	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a> </p>
 
-	<%= form_with url:'/phylogenetic_tree', remote: true, :html => {:id => "do-tree"} do |f| %>
+	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
 
 		<%= f.submit "Generate Phylogenetic Tree", :class => "btn btn-primary", id: "generate-phylogenetic-tree" %>
 		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
@@ -23,10 +30,27 @@
 <!-- they also want to color the rd group -->
 <script>
 	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F 
-	var create_phylocanvas = function phylocanvas(data,highlight) {
+	var create_phylocanvas = function phylocanvas(data,highlight,data_group, group_number) {
 		var tree = Phylocanvas.createTree('phylocanvas');
 		// tree.setTreeType('rectangular');
 		tree.setTreeType('circular');
+
+		// auto generate #of group color
+		var group_number_int = parseInt(group_number)
+		var color_pool = [];
+		var color_hash = {};
+		for (var i = 0; i <= group_number_int; i++){
+			var random_color = getRandomColor();
+			while (color_pool.includes(random_color) == false){
+				color_hash[i] = random_color;
+			}
+		}
+		// for each element in group, assign the color
+		for (var i = 0; i < data_group.length; i++) {
+			console.log(data_group[i]);
+			// tree.setNodeColourAndShape(data_group[i], color_group[data_group[i]], "x", 5);
+		}
+
 		
 		tree.load(data);
 		var re = new RegExp(highlight);
@@ -36,6 +60,9 @@
 			leaves[0].highlighted = true;
 			tree.fitInPanel(leaves);
 		}
+
+
+		
 
 		tree.draw();
 
@@ -50,7 +77,18 @@
 		});
 		
 	}
+	// $(document).on({
+	// 	ajaxStart: function() { 
+			
+	// 		$("body").addClass("loading"); 
+	// 		$('.loading').prepend('<img id="loading-image" src="/assets/loading.gif" />')
 
+	// 	},
+	// 	ajaxStop: function() { 
+	// 		$("body").removeClass("loading"); 
+	// 		console.log("remove loading class");
+	// 	}    
+	// });
 	$('#do-tree').submit(function(e){
 		e.preventDefault();
 		var sequence = $('.seq-search-sequence').val();
@@ -61,8 +99,9 @@
 			// give the sequence back for generating new fasta file
 			data: form.serialize() + '&sequence=' + sequence,
 			success: function(data){
-				$('#generate-phylogenetic-tree').remove();
-				create_phylocanvas(data.tree, data.highlight);
+				$('#generate-phylogenetic-tree').hide();
+
+				create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
 				$('#graph-note').text("For more advanced graph viewer, plesase see");
 				$('#graph-note').append("<a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>");
 
@@ -73,6 +112,42 @@
 		})
 	})
 
+	function getRandomColor() {
+		var letters = '0123456789ABCDEF';
+		var color = '#';
+		for (var i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
 	
 
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
