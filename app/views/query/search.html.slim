@@ -3,8 +3,8 @@
     / should add javascript valiation to make sure that user has input
     fieldset
       legend
-        | Enter one amino acid sequences in 
-        | #{link_to 'FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', target: '_blank'}
+        | Enter one amino acid sequences in
+        | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'}
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
       br
       = button_tag 'Load Example', type: 'button', class: 'btn btn-primary load-example'
@@ -54,14 +54,14 @@
       = link_to 'Reset', search_path, class: 'btn'
 
 
-/ = render partial: "submit_sequence" 
+/ = render partial: "submit_sequence"
 - if @aa_similarity.present?
   hr
   = render partial: "result"
   = render partial: "results_view"
 
   - if @is_match == false
-    
+
     - if @append_seq_to_relative_rd_og == true
       / send what group it belongs to, either assign to a group or create new group
       = render partial: "submit_sequence", group: @final_identity_groups
@@ -69,40 +69,18 @@
       / send no group it belongs to
       = render partial: "submit_sequence", group: @final_identity_groups
     - elsif @append_seq_to_csv == true
-      = render partial: "submit_sequence" 
+      = render partial: "submit_sequence"
 
     = render partial: "phylogenies"
 
   - else
-    p Your sequence already in our database
-    = render partial: "phylogenies"
+
+
+  .result-div
+    #result-text
+      p#result-textt Your sequence is already in our database!
+      hr
+      = render partial: "phylogenies"
 
 - elsif params[:commit].present?
   .seq-search-no-results No Results
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

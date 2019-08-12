@@ -6,15 +6,17 @@
 <!-- use biojs load the graph -->
 <!-- tell user the default iteration for both program is 1, if user require more, ask user to do at their home, but provide the fasta file (unaligned) -->
 <style>
-	
+	#well-tree{
+		border: none !important;
+	}
 
 	#loading-image{
 		position: absolute;
     	top: 0; right: 0; bottom: 0; left: 0;
 	}
 </style>
-<div class="well-tree">
-	<p id="_generate_tree"> Generate Phylogenetic Tree by <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a> </p>
+<div id="well-tree">
+	<p id="_generate_tree">Click below to place your sequence in a Phylogenetic Tree using <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a></p>
 
 	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
 
@@ -29,7 +31,7 @@
 
 <!-- they also want to color the rd group -->
 <script>
-	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F 
+	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F
 	var create_phylocanvas = function phylocanvas(data,highlight,data_group, group_number) {
 		var tree = Phylocanvas.createTree('phylocanvas');
 		// tree.setTreeType('rectangular');
@@ -51,7 +53,7 @@
 			// tree.setNodeColourAndShape(data_group[i], color_group[data_group[i]], "x", 5);
 		}
 
-		
+
 		tree.load(data);
 		var re = new RegExp(highlight);
 		var leaves = tree.findLeaves(re);
@@ -62,7 +64,7 @@
 		}
 
 
-		
+
 
 		tree.draw();
 
@@ -75,19 +77,19 @@
 				tree.redrawOriginalTree();
 			}
 		});
-		
+
 	}
 	// $(document).on({
-	// 	ajaxStart: function() { 
-			
-	// 		$("body").addClass("loading"); 
+	// 	ajaxStart: function() {
+
+	// 		$("body").addClass("loading");
 	// 		$('.loading').prepend('<img id="loading-image" src="/assets/loading.gif" />')
 
 	// 	},
-	// 	ajaxStop: function() { 
-	// 		$("body").removeClass("loading"); 
+	// 	ajaxStop: function() {
+	// 		$("body").removeClass("loading");
 	// 		console.log("remove loading class");
-	// 	}    
+	// 	}
 	// });
 	$('#do-tree').submit(function(e){
 		e.preventDefault();
@@ -120,34 +122,6 @@
 		}
 		return color;
 	}
-	
+
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
