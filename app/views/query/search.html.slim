@@ -69,18 +69,24 @@
       / send no group it belongs to
       = render partial: "submit_sequence", group: @final_identity_groups
     - elsif @append_seq_to_csv == true
+      .result-div
+        #result-text
+          p#result-textt Your sequence is not in our database!
+          hr
+          = render partial: "phylogenies"
+      .result-div
+        #result-text    
+          p To add your sequence to RDDB please fill out the form below
       = render partial: "submit_sequence"
-
-    = render partial: "phylogenies"
 
   - else
 
 
-  .result-div
-    #result-text
-      p#result-textt Your sequence is already in our database!
-      hr
-      = render partial: "phylogenies"
+    .result-div
+      #result-text
+        p#result-textt Your sequence is already in our database!
+        hr
+        = render partial: "phylogenies"
 
 - elsif params[:commit].present?
   .seq-search-no-results No Results
