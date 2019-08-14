@@ -11,17 +11,19 @@
   text-align: center;
 }
 
+
 html #first{
   font-family: "helvetica neue";
   font-weight: 1000;
   font-style: bold;
   letter-spacing: -1px;
   font-size: 28px;
+  line-height: 10pt;
 }
 
 @media (min-width: 1000px){
   #firstli{
-  padding-top: 27px !important;
+  padding-top: 47px;
   width: 250px;
   }
 }
