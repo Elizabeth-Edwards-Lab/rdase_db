@@ -38,20 +38,35 @@
 		tree.setTreeType('circular');
 
 		// auto generate #of group color
-		var group_number_int = parseInt(group_number)
-		var color_pool = [];
-		var color_hash = {};
-		for (var i = 0; i <= group_number_int; i++){
-			var random_color = getRandomColor();
-			while (color_pool.includes(random_color) == false){
-				color_hash[i] = random_color;
-			}
-		}
-		// for each element in group, assign the color
-		for (var i = 0; i < data_group.length; i++) {
-			console.log(data_group[i]);
-			// tree.setNodeColourAndShape(data_group[i], color_group[data_group[i]], "x", 5);
-		}
+		// var group_number_int = parseInt(group_number)
+		// var color_pool = [];
+		// var color_hash = {};
+		// for (var i = 0; i <= group_number_int; i++){
+		// 	var random_color = getRandomColor();
+		// 	while (color_pool.includes(random_color) == false){
+		// 		color_hash[i] = random_color;
+		// 	}
+		// }
+		// // for each element in group, assign the color
+		// for (var i = 0; i < data_group.length; i++) {
+		// 	console.log(data_group[i]);
+		// 	// tree.setNodeColourAndShape(data_group[i], color_group[data_group[i]], "x", 5);
+		// }
+
+
+				// phylocanvas = new PhyloCanvas.Tree('phylocanvas', { historyCollapsed : true });
+		  //   phylocanvas.showLabels = true;
+		  //   phylocanvas.hoverLabel = true;
+		  //   phylocanvas.setTreeType('circular');
+		  //   // phylocanvas.nodeAlign = false;
+		  //   // phylocanvas.setTreeType('rectangular');
+		  //   phylocanvas.addListener('loaded', getData);
+		  //   phylocanvas.addListener('error', function(evt){
+		  //       alert(evt.message);
+		  //   });
+
+		 tree.showLabels = true;
+		 tree.hoverLabel = true;
 
 
 		tree.load(data);
