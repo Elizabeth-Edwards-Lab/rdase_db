@@ -1,3 +1,28 @@
+<style type="text/css">
+#tablediv {
+	max-width: 80%;
+	overflow: auto;
+}
+
+.container.protein-info table{
+  table-layout: auto;
+  width: 100%;
+}
+
+.container.protein-info table tr:nth-child(odd) {
+	background-color: #E3EEFC;
+	// background-color: white;
+	// color: black;
+}
+
+.container.protein-info table tr:nth-child(even) {
+	background-color: white;
+	// background-color: white;
+	// color: black;
+}
+
+</style>
+
 <div class="container protein-info">
 
   <h2>Showing Protein Sequence: <%= @protein_s.header %></h2>
@@ -5,6 +30,7 @@
 
   <hr>
   <h4>Identification</h4>
+  <div id = "tablediv">
   <table>
     <tr>
       <th>Protein Header</th>
@@ -19,11 +45,13 @@
       <td>Enzyme</td>
     </tr>
   </table>
+</div>
 
   <hr>
   <h4>Biological Properties</h4>
+  <div id = "tablediv">
   <table>
-   
+
     <tr>
       <th>General Function</th>
       <td><%= @protein_s.header %></td>
@@ -45,9 +73,11 @@
       </td>
     </tr>
   </table>
+</div>
 
   <hr>
   <h4>Gene Properties</h4>
+  <div id = "tablediv">
   <table>
     <tr>
       <th>Chromosome Location</th>
@@ -72,9 +102,11 @@
       </td>
     </tr>
   </table>
+</div>
 
   <hr>
   <h4>Protein Properties</h4>
+  <div id = "tablediv">
   <table>
     <tr>
       <th>Number of Residues</th>
@@ -109,9 +141,11 @@
       </th>
     </tr>
   </table>
+</div>
 
   <hr>
   <h4>External Links</h4>
+  <div id = "tablediv">
   <table>
     <tr>
       <th>GenBank ID Protein</th>
@@ -122,5 +156,6 @@
       <% end %>
     </tr>
   </table>
+</div>
 
 </div>

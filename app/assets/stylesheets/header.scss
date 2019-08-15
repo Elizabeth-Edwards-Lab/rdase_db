@@ -1,16 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Maven+Pro&display=swap');
+
 #sequence{
   width: 65%;
   margin: 0 auto;
 }
 
 #first{
-  padding-left: 25px;
-  width: 300px;
 
+  width: 300px;
+  text-align: center;
 }
-#firstli{
-  padding-top: 49px;
+
+
+html #first{
+  font-family: "helvetica neue";
+  font-weight: 1000;
+  font-style: bold;
+  letter-spacing: -1px;
+  font-size: 28px;
+  line-height: 10pt;
 }
+
+@media (min-width: 1000px){
+  #firstli{
+  padding-top: 47px;
+  width: 250px;
+  }
+}
+
+
+
 
 #titlnav{
   width: 100%;
@@ -23,7 +42,7 @@
 
 
 .nav-item{
-  padding-top: 40px;
+  padding-top: 49px;
 }
 
 .nav-link{
@@ -98,8 +117,10 @@ fieldset{
   }
   #firstli{
     text-align: center;
+    width: 100%;
   }
   #first{
     text-align: center;
+    width: 100%;
   }
 }

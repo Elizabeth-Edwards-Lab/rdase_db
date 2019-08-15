@@ -15,7 +15,6 @@ Rails.application.routes.draw do
 	get 'home' => 'simple#home', as: :home
 
 
-
 	# download route
 	get "simple/download_aa_original"
 	get "simple/download_nt_original"
@@ -38,7 +37,6 @@ Rails.application.routes.draw do
 
 
 	resources :protein, only: [:show, :index] do
-		
 	end
 
 	root to: 'simple#home'
