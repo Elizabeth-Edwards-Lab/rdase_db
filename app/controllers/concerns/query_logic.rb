@@ -186,32 +186,6 @@ module QueryLogic
 		puts "================"
 	end
 
-
-
-	
-
-
-
-	
-	def other_blast_infomation()
-		    # # *Arguments*:
-		    # # * _program_ (required): 'blastn', 'blastp', 'blastx', 'tblastn' or 'tblastx'
-		    # # * _db_ (required): name of the local database
-		    # # * _options_: blastall options \
-		    # # (see http://www.genome.jp/dbget-bin/show_man?blast2)
-		    # # * _blastall_: full path to blastall program (e.g. "/opt/bin/blastall"; DEFAULT: "blastall")
-		    # # *Returns*:: Bio::Blast factory object
-		    # def self.local(program, db, options = '', blastall = nil)
-		    #   f = self.new(program, db, options, 'local')
-		    #   if blastall then
-		    #     f.blastall = blastall
-		    #   end
-		    #   f
-		    # end
-				#blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
-
-	end
-
 	# Other unused code
 	      # puts "@hits ================"
         # @hits.each do |hit|

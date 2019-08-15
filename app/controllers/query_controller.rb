@@ -257,12 +257,7 @@ class QueryController < ApplicationController
 
 
   def phylogenies
-    # <!-- Step -->
-    # <!-- make sure the base alignment is exist (sys) -->
-    # <!-- add new sequence to fasta file -->
-    # <!-- do MUSCLE alignment -->
-    # <!-- iqtree generate the graph -->
-    # <!-- use biojs load the graph -->
+
     raw_sequence = params[:sequence]
     fasta_array = raw_sequence.scan(/>[^>]*/)
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
@@ -272,10 +267,7 @@ class QueryController < ApplicationController
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
 
-    # check if the sequence id have already taken place
-    # tree can't accept the duplicate name
-
-    # render group information 
+    # render group information; tree can't accept the duplicate name
     all_sequence = CustomizedProteinSequence.all
     number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
     group_info = Hash.new
@@ -301,16 +293,6 @@ class QueryController < ApplicationController
 
 
     # the tree is based on AA (amino acid)
-    # muscle -in seqs.fa -out seqs.afa -maxiters 1 -diags -sv -distance1 kbit20_3
-    # muscle can't do multi-core feature
-    # cmd = "vendor/MUSCLE/muscle3.8.31_i86darwin64 
-    # -in tmp/tmp_fasta/fasta_#{current_time}.fasta 
-    # -out tmp/tmp_fasta/#{current_time}.afa 
-    # -tree1 tmp/tmp_fasta/#{current_time}.phy 
-    # -maxiters 1 
-    # -diags -sv 
-    # -distance1 kbit20_3" 
-    # default path is linux path
     muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
     if RUBY_PLATFORM == "x86_64-linux"
       muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
@@ -343,16 +325,7 @@ class QueryController < ApplicationController
 
     render json: { "tree": tree_data, "highlight": highlight_name, "group": group_info, "group_number": number_of_group }
 
-    # puts "START IQTREE"
-    # iqtree = system( "vendor/iqtree-1.6.11-MacOSX/bin/iqtree", 
-    #                   "-s","tmp/tmp_fasta/#{current_time}.afa",
-    #                   "-nt", "AUTO",
-    #                   "-m", "Dayhoff",
-    #                   "-bb", "1000",
-    #                   "-quiet",
-    #                   "-st","AA")
-    # puts iqtree
-    # puts "DONE IQTREE"
+
   end
 
   def submit_sequence
@@ -433,10 +406,7 @@ class QueryController < ApplicationController
                       "-dbtype", "'prot'", 
                       "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein" )
 
-        # File.delete(filename) if File.exist?(filename)
-        # ActionMailer::Base.mail(from: params[:email], to: "danis.cao@hotmail.com", subject: query_name, body: params).deliver
       else
-        # create a new form to submit sequence
         render json: {"message": "Your Sequence has been sent to 
         Elizabeth Edwards Lab. Thank you for your contribution"}
       end

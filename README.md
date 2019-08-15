@@ -102,8 +102,9 @@ If the system is under ubuntu, the following file should be modified
 9. color the group at tree graph level
 10. some gene id for ncbi is already outdated => only add NCBI direct assession 
 11. format the submit sequence component => done
-
-
+12. add reference for each sequence 
+13. bug: the blastn won't work if the sequence is less than certain length
+14. add submit multiple sequence feature (without polytree feature)
 
 
 
