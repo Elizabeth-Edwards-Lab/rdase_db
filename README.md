@@ -105,7 +105,7 @@ If the system is under ubuntu, the following file should be modified
 
 
 12. add reference for each sequence 
-13. bug: the blastn won't work if the sequence is less than certain length
+13. bug: the blastn won't work if the sequence is less than certain length => fixed 2019-08-15
 14. add submit multiple sequence feature (without polytree feature)
 
 

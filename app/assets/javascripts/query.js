@@ -14,6 +14,12 @@ $(document).ready(function(){
 			$('.send-email-box').attr('hidden',true);
 		}
 	})
+
+
+	// $('.blast-btn').on('click',function(){
+	// 	$(this).disable()
+		
+	// })
 	
 })
 
