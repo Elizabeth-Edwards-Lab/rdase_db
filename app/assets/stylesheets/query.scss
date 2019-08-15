@@ -77,7 +77,6 @@
 	display: inline-block;
 	width: 500px;
 
-
 }
 
 #result-textt {
@@ -88,4 +87,26 @@ font-style: oblique;
 
 #hrtg{
 	max-width: 940px;
+}
+
+
+#seqresulttag{
+  text-align: center;
+  color: #002a5c;
+}
+
+#simtext{
+  text-align: left;
+}
+
+#simthtag{
+  width: 45%;
+}
+.each-result{
+    padding: 30px;
+    max-width: 1000px;
+    overflow: auto;
+    margin: auto;
+    text-align: left;
+    color: #002a5c;
 }

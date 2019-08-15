@@ -65,19 +65,35 @@
     - if @append_seq_to_relative_rd_og == true
       / send what group it belongs to, either assign to a group or create new group
       = render partial: "submit_sequence", group: @final_identity_groups
+
+      .result-div
+        #result-text
+          = render partial: "phylogenies"
+
     - elsif @append_seq_to_relative_rd_og_without_group == true
       / send no group it belongs to
       = render partial: "submit_sequence", group: @final_identity_groups
+
+      .result-div
+        #result-text
+          = render partial: "phylogenies"
+
     - elsif @append_seq_to_csv == true
+
+      p To add your sequence to RDDB please fill out the form below
+      = render partial: "submit_sequence"
+
       .result-div
         #result-text
           p#result-textt Your sequence is not in our database!
           hr
-          = render partial: "phylogenies"
+          = render partial: "phylogenies" 
+          
+      
+    - else
       .result-div
-        #result-text    
-          p To add your sequence to RDDB please fill out the form below
-      = render partial: "submit_sequence"
+        #result-text
+          = render partial: "phylogenies"
 
   - else
 

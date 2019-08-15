@@ -13,9 +13,10 @@ class QueryController < ApplicationController
     # only ask user information if the sequence is good
     begin
       user_input = Query.new
-      user_input.sequence = params[:sequence].gsub("\n","|").gsub(">","")
+      user_input.sequence = params[:sequence].gsub(/\s+/, '>')
       user_input.save!
-    rescue
+    rescue Exception => e
+      puts e
       user_input.sequence = "NULL"
       user_input.save!
     end

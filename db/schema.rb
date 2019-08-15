@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190614164046) do
+ActiveRecord::Schema.define(version: 20190815175038) do
 
   create_table "customized_nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "header"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20190614164046) do
   end
 
   create_table "queries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.string "sequence"
+    t.text "sequence", limit: 4294967295
     t.integer "query_range_up"
     t.integer "query_range_down"
     t.string "job_title"
