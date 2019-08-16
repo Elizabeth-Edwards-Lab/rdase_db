@@ -25,8 +25,8 @@
 		tree.setTreeType('circular');
 		tree.load(data);
 
-		
-		// data_group is json object 
+
+		// data_group is json object
 
 		// auto generate #of group color
 		var group_number_int = parseInt(group_number)
@@ -67,7 +67,7 @@
 		// }
 
 
-		
+
 		var re = new RegExp(highlight);
 		var leaves = tree.findLeaves(re);
 		// require check the sequence header to make sure it doesn't have duplicates
@@ -119,7 +119,7 @@
 
 				$('#waiting-gif').attr("style","visibility:hidden;");
 				create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
-				$('#graph-note').text("For more advanced graph viewer, plesase see");
+				$('#graph-note').text("For a more advanced graph viewer, please see");
 				$('#graph-note').append("<a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>");
 
 			},
