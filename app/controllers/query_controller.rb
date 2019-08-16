@@ -256,6 +256,29 @@ class QueryController < ApplicationController
 
   end
 
+  def phylogenies_disable
+    # this is for testing the tree feature
+
+
+
+
+    
+    all_sequence = CustomizedProteinSequence.all
+    number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
+    group_info = Hash.new
+    all_sequence.each do |s|
+      group_info[s.header] = s.group
+    end
+    
+    phy = File.open("tmp/tmp_fasta/2019_08_15_15_29_37.phy","r")
+    tree_data = ""
+    phy.each do |line|
+      tree_data = tree_data + line.gsub("\n","")
+    end
+    phy.close()
+
+    render json: { "tree": tree_data, "highlight": "highlight_name", "group": group_info, "group_number": 55 }
+  end
 
   def phylogenies
 
@@ -315,8 +338,6 @@ class QueryController < ApplicationController
     end
 
     phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
-    # phy = File.open("tmp/tmp_fasta/rdha_aligned-minus-first-3.afa.treefile","r")
-    
 
     tree_data = ""
     phy.each do |line|
@@ -325,9 +346,11 @@ class QueryController < ApplicationController
     phy.close()
 
     render json: { "tree": tree_data, "highlight": highlight_name, "group": group_info, "group_number": number_of_group }
-
+    
 
   end
+
+
 
   def submit_sequence
     # puts "inspectparams"

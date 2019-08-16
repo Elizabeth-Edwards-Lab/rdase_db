@@ -50,7 +50,7 @@
       = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
       = link_to 'Reset', search_path, class: 'btn'
 
-
+/ = render partial: "phylogenies" 
 / = render partial: "submit_sequence"
 - if @aa_similarity.present?
   hr

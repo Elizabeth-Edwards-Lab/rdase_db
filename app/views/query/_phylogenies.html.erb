@@ -23,40 +23,51 @@
 		var tree = Phylocanvas.createTree('phylocanvas');
 		// tree.setTreeType('rectangular');
 		tree.setTreeType('circular');
+		tree.load(data);
+
+		
+		// data_group is json object 
 
 		// auto generate #of group color
-		// var group_number_int = parseInt(group_number)
-		// var color_pool = [];
-		// var color_hash = {};
-		// for (var i = 0; i <= group_number_int; i++){
-		// 	var random_color = getRandomColor();
-		// 	while (color_pool.includes(random_color) == false){
-		// 		color_hash[i] = random_color;
-		// 	}
+		var group_number_int = parseInt(group_number)
+		var color_pool = [];
+		var color_hash = {};
+		for (var i = 0; i <= group_number_int; i++){
+			var random_color = getRandomColor();
+			while (color_pool.includes(random_color) == false){
+				color_pool.push(random_color);
+				color_hash[i] = random_color;
+			}
+		}
+		// console.log(color_hash);
+		// colour the node based on their groups
+		// data_group need test and check its data type
+
+		var all_leaves = tree.leaves;
+
+		if(all_leaves.length > 1){
+			for(var i = 0; i < all_leaves.length; i++){
+				// based on label, find the group;
+				// all_leaves[i].label => string;
+				// console.log(all_leaves[i].label);
+				var group = data_group[all_leaves[i].label];
+				// console.log(group);
+				if(group != null && group != undefined){
+					// based on group, colour the right color
+					all_leaves[i].colour = color_hash[parseInt(group)]
+				}
+			}
+		}
+
+		// var all_leaves = GetLeaves(tree,get_all_the_leaves);
+
+		// function GetLeaves(tree, callback){
+
+		// 	callback(tree);
 		// }
-		// // for each element in group, assign the color
-		// for (var i = 0; i < data_group.length; i++) {
-		// 	console.log(data_group[i]);
-		// 	// tree.setNodeColourAndShape(data_group[i], color_group[data_group[i]], "x", 5);
-		// }
 
 
-				// phylocanvas = new PhyloCanvas.Tree('phylocanvas', { historyCollapsed : true });
-		  //   phylocanvas.showLabels = true;
-		  //   phylocanvas.hoverLabel = true;
-		  //   phylocanvas.setTreeType('circular');
-		  //   // phylocanvas.nodeAlign = false;
-		  //   // phylocanvas.setTreeType('rectangular');
-		  //   phylocanvas.addListener('loaded', getData);
-		  //   phylocanvas.addListener('error', function(evt){
-		  //       alert(evt.message);
-		  //   });
-
-		 tree.showLabels = true;
-		 tree.hoverLabel = true;
-
-
-		tree.load(data);
+		
 		var re = new RegExp(highlight);
 		var leaves = tree.findLeaves(re);
 		// require check the sequence header to make sure it doesn't have duplicates
@@ -75,8 +86,6 @@
 			var node = tree.getNodeAtMousePosition(e);
 			if (node) {
 				tree.redrawFromBranch(node);
-			} else {
-				continue;
 			}
 		});
 
