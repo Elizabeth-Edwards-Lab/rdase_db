@@ -41,5 +41,7 @@ class ProteinController < ApplicationController
   def show
     # puts params.inspect
     @protein_s = CustomizedProteinSequence.find(params[:id])
+    @gene_s = CustomizedNucleotideSequence.find_by(:header => @protein_s.header)
+    
   end
 end

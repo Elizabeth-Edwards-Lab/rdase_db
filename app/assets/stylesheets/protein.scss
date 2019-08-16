@@ -26,3 +26,22 @@
 	font-family: monospace;
 	font-size: large;
 }
+
+#tablediv {
+	max-width: 80%;
+	overflow: auto;
+}
+
+.container.protein-info table{
+  table-layout: auto;
+  width: 100%;
+}
+
+.container.protein-info table tr:nth-child(odd) {
+	background-color: #E3EEFC;
+}
+
+.container.protein-info table tr:nth-child(even) {
+	background-color: white;
+}
+
