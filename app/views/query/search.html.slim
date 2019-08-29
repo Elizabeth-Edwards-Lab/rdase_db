@@ -2,7 +2,7 @@
   = form_tag search_path(anchor: :results), id: 'seq-search-form' do
     fieldset
       legend
-        | Enter one amino acid sequences in
+        | Enter an amino acid sequence in
         | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'}
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
       br
@@ -50,7 +50,7 @@
       = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
       = link_to 'Reset', search_path, class: 'btn'
 
-/ = render partial: "phylogenies" 
+/ = render partial: "phylogenies"
 / = render partial: "submit_sequence"
 - if @aa_similarity.present?
   hr
@@ -84,9 +84,9 @@
         #result-text
           p#result-textt Your sequence is not in our database!
           hr
-          = render partial: "phylogenies" 
-          
-      
+          = render partial: "phylogenies"
+
+
     - else
       .result-div
         #result-text

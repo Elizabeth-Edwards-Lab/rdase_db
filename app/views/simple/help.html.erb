@@ -14,14 +14,34 @@
 		  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 		  width: 80%;
 		}
+
+		.download-table {
+			table-layout: auto;
+
+		}
+
+		th, tr, td {
+			padding-right: 15px;
+			border: 1px solid #d5d7d8;
+		  border-radius: 4px;
+		}
+
+		.download-table tr:nth-child(even) {
+			background-color: #E3EEFC;
+	}
 </style>
 
 <br>
 <div class="container">
 	<h3>Help</h3>
 	<hr>
-	<p>How does RDDB assign sequences to groups?</br>
+	<p><em>How does RDDB assign sequences to groups?</em></br>
 		<br>
+
+		In a nutshell, a reductive dehalogenase amino acid sequence is considered to be part of an orthologous group (OG) if it shares more than 90% pairwise identity with all current members of an OG. New sequences which cannot be sorted into a group are added as singletons.
+A more detailed breakdown is described below:
+	</br>
+	<br>
 
 1) We first ascertain the pairwise amino acid identity of your novel sequence(s) with the best-match protein from the reductive dehalogenase database.  This is done using BLASTp, with the reductive dehalogenase database being turned into a local BLAST database.
 </br>
@@ -47,6 +67,63 @@ ii.	If your sequence does not share 90% ID with all representatives, your sequen
  alignments and iq_tree to create a phylogenetic placement. This gives the user a higher resolution placement of their sequence.
 
 	</p>
+
+	<br>
+	<h3>Documentation</h3>
+	<hr>
+
+	<b>Common abbreviations</b></br>
+	<br>
+	RDases – reductive dehalogenase</br>
+	RdhA – reductive dehalogenase, substrate unknown, A catalytic subunit</br>
+	rdhA – reductive dehalogenase gene, A subunit</br>
+	VcrA – vinyl chloride reductase</br>
+	PceA – perchloroethene reductase</br>
+	TceA – trichloroethene reductase</br>
+	BvcA – vinyl chloride reductase</br>
+	Dhc – Dehalococcoides</br>
+	OG – orthologous group</br>
+
+
+<br>
+
+	<div>
+
+
+		<!-- fasta file  -->
+
+		<table class="download-table">
+			<tr>
+				<th>Field</th>
+				<th>Description</th>
+			</tr>
+
+			<tr>
+				<td>Header</td>
+				<td>NCBI or IMG gene locus</td>
+			</tr>
+
+			<tr>
+				<td>RD Group</td>
+				<td>Assigned orthologous-group number</td>
+			</tr>
+
+			<tr>
+				<td>Organism</td>
+				<td>Organism sequence originated from</td>
+			</tr>
+
+			<tr>
+				<td>Last Update</td>
+				<td>Date sequence became publicly available</td>
+			</tr>
+
+		</table>
+	</div>
+</br>
+
+
+
 	<br>
 	<h3>Tutorials</h3>
 	<hr>
