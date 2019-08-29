@@ -11,57 +11,98 @@ require 'csv'
 												'Oct' => 10, 'Nov' => 11, 'Dec' => 12}
 
 		orth_naming = Hash.new
-		CSV.foreach("data/ortholog_group_naming_09052016.csv") do |row|
-			group_by_year = row[0].split("_")[0]
+		CSV.foreach("data/OGGroups_2019_08_29.csv") do |row|
+			# group_by_year = row[0].split("_")[0] 
+			# group = row[1]
+			# gene_id = row[2]
+			# new_locus_tag = row[3]
+			# pub_date = row[4].split("-")
+			# reference = row[5]
+			# earl_date = row[6].split("-")
+
+			group_by_year = row[0]
 			group = row[1]
 			gene_id = row[2]
-			pub_date = row[3].split("-")
-			reference = row[4]
-			earl_date = row[5].split("-")
-
+			new_locus_tag = row[3]
+			pub_date = row[4]
+			reference = row[5]
+			earl_date = row[6]
 
 			# parse pub_date
-			if pub_date.length == 2
-				if !date_dictionary[pub_date[0]].nil?
-					if pub_date[1] == "00"
-						publication_date = "#{group_by_year}-#{date_dictionary[pub_date[0]]}-01"
+			if !group_by_year.nil?
+				group_by_year = group_by_year.split("_")[0] 
+
+				if !pub_date.nil?
+					pub_date = pub_date.split("-")
+					if pub_date.length == 2
+						if !date_dictionary[pub_date[0]].nil?
+							if pub_date[1] == "00"
+								publication_date = "#{group_by_year}-#{date_dictionary[pub_date[0]]}-01"
+							else
+								publication_date = "#{group_by_year}-#{date_dictionary[pub_date[0]]}-#{pub_date[1]}"
+							end
+						else
+							if pub_date[0] == "00"
+								publication_date = "#{group_by_year}-#{date_dictionary[pub_date[1]]}-01"
+							else
+								publication_date = "#{group_by_year}-#{date_dictionary[pub_date[1]]}-#{pub_date[0]}"
+							end
+						end
 					else
-						publication_date = "#{group_by_year}-#{date_dictionary[pub_date[0]]}-#{pub_date[1]}"
+						# only contain year
+						publication_date = "#{group_by_year}-00-00"
 					end
+
 				else
-					if pub_date[0] == "00"
-						publication_date = "#{group_by_year}-#{date_dictionary[pub_date[1]]}-01"
-					else
-						publication_date = "#{group_by_year}-#{date_dictionary[pub_date[1]]}-#{pub_date[0]}"
-					end
+					# contain year but no publish date
+					publication_date = "#{group_by_year}-00-00"
+
 				end
+
 			else
-				# only contain year
-				publication_date = "#{group_by_year}-00-00"
+
+				publication_date = nil
+
 			end
 
 			# parse earl_date
-			if earl_date.length == 2
-				if !date_dictionary[earl_date[0]].nil?
-					if earl_date[1] == "00"
-						earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[0]]}-01"
+			if !earl_date.nil?
+				if earl_date.length == 2
+					if !date_dictionary[earl_date[0]].nil?
+						if earl_date[1] == "00"
+							earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[0]]}-01"
+						else
+							earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[0]]}-#{earl_date[1]}"
+						end
 					else
-						earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[0]]}-#{earl_date[1]}"
+						if earl_date[0] == "00"
+							earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[1]]}-01"
+						else
+							earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[1]]}-#{earl_date[0]}"
+						end
 					end
 				else
-					if earl_date[0] == "00"
-						earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[1]]}-01"
+					# only contain year
+					if !group_by_year.nil?
+						earliest_date = "#{group_by_year}-00-00"
 					else
-						earliest_date = "#{group_by_year}-#{date_dictionary[earl_date[1]]}-#{earl_date[0]}"
+						earliest_date = nil
 					end
+
 				end
+
 			else
 				# only contain year
-				earliest_date = "#{group_by_year}-00-00"
+				if !group_by_year.nil?
+					earliest_date = "#{group_by_year}-00-00"
+				else
+					earliest_date = nil
+				end
+
 			end
 
 			orth_naming[gene_id.gsub(" ","")] = [group_by_year,group,publication_date,reference,earliest_date]
-	
+		
 		end
 
 		rdh_information = Hash.new
@@ -84,7 +125,7 @@ require 'csv'
 
 		separation = Array.new
 		file_line = Array.new
-		File.open("data/rdhA_all_nt_17-June-2019.fasta", "r") do |f|
+		File.open("data/rdhA_all_nt_29-August-2019.fasta", "r") do |f|
 			
 			ind = 0
 		  f.each_line do |line|
@@ -178,7 +219,7 @@ require 'csv'
 		}
 
 
-		File.open("data/rdhA_all_nt_17-June-2019_exception.fasta", 'w') { |file| 
+		File.open("data/rdhA_all_nt_29-August-2019_exception.fasta", 'w') { |file| 
 
 
 			exception.each do |key, array|

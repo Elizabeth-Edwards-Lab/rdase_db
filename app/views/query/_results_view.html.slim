@@ -19,9 +19,12 @@
               = render '/seq_search/hit_link', sequence: sequence
             - else
               strong = sequence.definition
+              / = link_to sequence.definition, protein_path(:header => sequence.definition) , target: "_blank"
               br
               | Group: 
               strong = @sequence_group[sequence.definition]
+            / = link_to protein_show_path, :header => sequence.definition
+            / = render "/protein", :header => sequence.definition
               
           div
             .seq-search-sequence-labels

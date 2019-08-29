@@ -258,10 +258,6 @@ class QueryController < ApplicationController
 
   def phylogenies_disable
     # this is for testing the tree feature
-
-
-
-
     
     all_sequence = CustomizedProteinSequence.all
     number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
@@ -344,6 +340,9 @@ class QueryController < ApplicationController
       tree_data = tree_data + line.gsub("\n","")
     end
     phy.close()
+
+    @new_phy_file = "#{Rails.root}/tmp/tmp_fasta/#{current_time}.phy"
+    @new_fasta_file_location = "#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta"
 
     render json: { "tree": tree_data, "highlight": highlight_name, "group": group_info, "group_number": number_of_group }
     
@@ -445,6 +444,15 @@ class QueryController < ApplicationController
     
   end
 
+
+
+  def download_new_fasta 
+
+
+    puts "params.inspect => #{params.inspect}"
+    filename = params[:file_name]
+    send_file filename, :type => "application/fasta", :filename =>  "rdhA_nt_all_customized.fasta"
+  end
 
   private
 
