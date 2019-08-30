@@ -93,3 +93,16 @@
   margin-right: auto;
 }
 
+
+#statistics-table {
+  border: 1px solid black;
+}
+
+th, tr, td {
+  padding: 15px;
+}
+
+.statistics-table tr:nth-child(even) {
+  background-color: #E3EEFC;
+}
+

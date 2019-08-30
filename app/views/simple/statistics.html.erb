@@ -1,17 +1,3 @@
-<style type="text/css">
-	#statistics-table {
-		border: 1px solid black;
-	}
-
-	th, tr, td {
-		padding: 15px;
-	}
-
-	.statistics-table tr:nth-child(even) {
-		background-color: #E3EEFC;
-	}
-</style>
-
 <br>
 <div class="container">
 <h3>Statistics</h3>
@@ -52,6 +38,11 @@
 		<tr>
 			<td>Total Number Of RD Organism</td>
 			<td><%= @number_of_organism %></td>
+		</tr>
+
+		<tr>
+			<td> Total Number of Compounds</td>
+			<td> <%= @number_of_compound %> </td>
 		</tr>
 
 	</table>

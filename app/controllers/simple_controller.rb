@@ -12,6 +12,7 @@ class SimpleController < ApplicationController
 		@number_of_cus_nt_sequence = customized_nucleotide_sequence.length
 		@number_of_group = customized_nucleotide_sequence.distinct.pluck(:group).length - 1 # remove null
 		@number_of_organism = customized_nucleotide_sequence.distinct.pluck(:organism).length - 1 # remove null
+  		@number_of_compound = Compound.all.length
   	end
 
 	def downloads

@@ -3,7 +3,7 @@ class ProteinController < ApplicationController
 
 	
   def index
-  	puts params.inspect
+  	# puts params.inspect
   	# Parameters {"utf8"=>"✓", "commit"=>"Filter", "header"=>"", "group"=>"sdf", "organism"=>"", "update"=>"", "controller"=>"protein", "action"=>"index"}
   	if params[:commit].present?
   		if params[:update].present? && !params[:header].present? && !params[:group].present? && !params[:organism].present?

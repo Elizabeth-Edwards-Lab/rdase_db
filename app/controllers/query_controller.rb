@@ -73,15 +73,19 @@ class QueryController < ApplicationController
 
         # if there is sequence in db has evalue 0, indicates the sequence is already in database
         @is_match = false
+        @existing_matched_group = nil
         aa_report.each do |hit|
           if hit.evalue == 0
             @is_match = true
+            @existing_matched_group = CustomizedProteinSequence.find_by(:chain => @sequence.seq).group
+
           end
         end
 
+        # puts "@existing_matched_group => #{@existing_matched_group}"
+
+
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
-
-
 
         # for first sequence in aa_fasta
         # note: 0.9 for 11,1 is too high; 0.8 is good
@@ -118,6 +122,7 @@ class QueryController < ApplicationController
 
           # identity_with_90 contains all the sequence header with 90% identity
           # if the match identity is greater than 90%, add to identity_with_90 array
+          # in order to find the RD_OG group, find all match_identity first
           identity_with_90 = Array.new 
           aa_report.each do |hit|
             match_identity = (hit.identity * 100) / hit.query_len
@@ -126,6 +131,8 @@ class QueryController < ApplicationController
             end
 
           end # end of aa_report.each do |hit|
+          puts "identity_with_90 definition => #{identity_with_90.inspect}"
+
 
           identity_groups = Array.new  # identity_group contains the eligiable group number
           

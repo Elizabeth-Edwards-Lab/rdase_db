@@ -1,0 +1,43 @@
+<div class="container sequence-index">
+	<h1>Listing Sequence</h1>
+	<hr>
+	<table>
+	  <thead>
+	    <tr>
+	      <th>RDDB ID</th>
+	      <th>Name</th>
+	      <th>Structure</th>
+	      <th>Formula</th>
+	      
+	    </tr>
+
+	    <tr>
+	    <%= form_with url:'compound', method: :get do |f| %>
+	      <th><%= f.submit "Filter", disabled: false %></th>
+	      <th><%= f.text_field 	:name %></th>
+	      <th></th>
+	      <th></th>
+	    <% end %>
+	      
+	    </tr>
+	  </thead>
+	 	
+	  <tbody>
+	    <% @compound.each do |cp| %>
+	      <tr>
+	      	<!-- <%= cp.public_id %> -->
+	        <td><%= link_to "#{cp.public_id}", compound_path(cp.id), :id => 'button-ish' %></td>
+	        <td><%= cp.name %></td>
+	        <td><%= cp.smiles %></td>
+	        <td><%= nil %></td>
+	        
+	        
+	      </tr>
+	    <% end %>
+	    
+	  </tbody>
+	</table>
+	<hr>
+	<%= paginate @compound %>
+	<br>
+</div>

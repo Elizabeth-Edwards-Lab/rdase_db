@@ -30,7 +30,7 @@
 	  <tbody>
 	    <% @protein.each do |pt| %>
 	      <tr>
-	      	<td><%= link_to "show", protein_path(pt.id) %></td>
+	      	<td><%= link_to "show", protein_path(pt.id), :id => 'show-button' %></td>
 	        <td><%= pt.header %></td>
 	        <td><%= pt.group %></td>
 	        <td><%= pt.organism %></td>

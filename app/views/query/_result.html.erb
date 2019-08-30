@@ -12,7 +12,11 @@
     		<%= "No Matching OD Group" %>
     	<% else %>
         <% if @final_identity_groups.length == 0 %>
-          <%= "No Matching OD Group" %>
+          <% if !@existing_matched_group.nil? %>
+            <%= @existing_matched_group %>
+          <% else %>
+            <%= "No Matching OD Group" %>
+          <% end %>
         <% else %>
 
     		  <% @final_identity_groups.each do |group_number| %>

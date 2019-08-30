@@ -1,0 +1,2 @@
+class CompoundSynonym < ApplicationRecord
+end
