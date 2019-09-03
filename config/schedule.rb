@@ -28,5 +28,10 @@ every :day, at: '12am' do
 	runner "Cron.remove_tmp_csv"
 end
 
+# remove the export csv file
+every :day, at: '12am' do
+	runner "Cron.remove_filtered_csv"
+end
+
 # put the actual blast database creation for real crontab
 # let user choose customized database or original database that depends on that three papers

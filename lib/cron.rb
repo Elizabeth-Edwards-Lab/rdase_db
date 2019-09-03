@@ -19,6 +19,10 @@ module Cron
 
 	end
 
+	def self.remove_filtered_csv
+		FileUtils.rm_rf(Dir.glob("#{Rails.root}/tmp/filtered_result/*}"))
+	end
+
 
 
 end
