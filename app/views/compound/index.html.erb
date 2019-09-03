@@ -13,7 +13,7 @@
 
 	    <tr>
 	    <%= form_with url:'compound', method: :get do |f| %>
-	      <th><%= f.submit "Filter", disabled: false %></th>
+	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
 	      <th><%= f.text_field 	:name %></th>
 	      <th></th>
 	      <th></th>

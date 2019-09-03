@@ -8,7 +8,7 @@
 	  <thead>
 	    <tr>
 	      <th colspan="1"></th>
-	      <th>Header</th>
+	      <th>Locus Tag</th>
 	      <th>RD Group</th>
 	      <th>Organism</th>
 	      <th>Last Update</th>
@@ -17,7 +17,7 @@
 
 	    <tr>
 	    <%= form_with url:'protein', method: :get do |f| %>
-	      <th><%= f.submit "Filter", disabled: false %></th>
+	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
@@ -42,6 +42,7 @@
 	    
 	  </tbody>
 	</table>
+	<%= link_to "Export As CSV", protein_download_filtered_result_path(:header => params[:header], :group => params[:group], :organism => params[:organism], :date => params[:update]), :id => "export-button" %>
 	<hr>
 	<%= paginate @protein %>
 	<br>
