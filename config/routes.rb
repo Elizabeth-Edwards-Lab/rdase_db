@@ -31,9 +31,15 @@ Rails.application.routes.draw do
 	match "search" => 'query#search',
 		as: :search,
 		via: [:get, :post]
+
 	match "submit_sequence" => 'query#submit_sequence',
 		as: :submit_sequence,
 		via: [:post]
+
+	# match "submit_sequence_standalone" => 'query#submit_sequence_standalone'
+	# 	as: :submit_sequence_standalone,
+	# 	via: [:post]
+
 	match "phylogenetic_tree" => 'query#phylogenies',
 		as: :phylogenetic_tree,
 		via: [:post]

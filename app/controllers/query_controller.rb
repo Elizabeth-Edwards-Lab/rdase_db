@@ -356,16 +356,10 @@ class QueryController < ApplicationController
 
   end
 
-
+  # def submit_sequence_standalone
+  # end
 
   def submit_sequence
-    # puts "inspectparams"
-    # puts params[:name]
-    # puts params[:institution]
-    # puts params[:email]
-    # puts params[:publications]
-    # puts params[:sequence]
-
     #  params[:group] may have the array of group to put on
     # - if @append_seq_to_relative_rd_og == true
     #   / send what group it belongs to, either assign to a group or create new group
