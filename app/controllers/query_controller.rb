@@ -154,7 +154,7 @@ class QueryController < ApplicationController
                 else 
                   # if one of them is not included, then the query doesn't belong to the group
                   group_hash[group_number].each do |s_identity|
-                    if identity_with_90.include? reversed_group_hashs_group[s_identity]
+                    if identity_with_90.include? reversed_group_hash[s_identity]
                       next
                     else
                       is_belong_to_group = false
