@@ -83,9 +83,9 @@ class SimpleController < ApplicationController
 		filename = "tmp/csv/Entry_Table_Gene_#{now}.csv"
 		CSV.open(filename, 'wb') do |csv|
 			csv << ["Table S1: Reductive dehalogenase homologous genes curated dataset information, with tree identifiers linked to NCBI, JGI, or in-house accession numbers and organism of origin."]
-			csv << ["Name On Tree", "Organism","Key","What Key Is"]
+			csv << ["Name On Tree", "AA sequence","Organism","Key","What Key Is"]
 			sequence.each  do |s|
-				csv << [s.header, s.organism, s.key, s.key_group]
+				csv << [s.header, s.chain, s.organism, s.key, s.key_group]
 			end
 		end
 
@@ -100,9 +100,9 @@ class SimpleController < ApplicationController
 		# name of the tree; organism; key; what key is;
 		CSV.open(filename, 'wb') do |csv|
 			csv << ["Table S1: Reductive dehalogenase homologous genes curated dataset information, with tree identifiers linked to NCBI, JGI, or in-house accession numbers and organism of origin."]
-			csv << ["Name On Tree", "Organism","Key","What Key Is"]
+			csv << ["Name On Tree", "AA sequence", "Organism","Key","What Key Is"]
 			sequence.each  do |s|
-				csv << [s.header, s.organism, s.key, s.key_group]
+				csv << [s.header, s.chain, s.organism, s.key, s.key_group]
 			end
 		end
 
