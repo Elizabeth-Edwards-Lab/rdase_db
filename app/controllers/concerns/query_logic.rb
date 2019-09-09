@@ -75,6 +75,20 @@ module QueryLogic
 	end
 
 
+
+
+	def validate_ncbi_accession_number(accession_number)
+		url = "https://www.ncbi.nlm.nih.gov/protein/#{accession_number}"
+		request = URI.parse(url)
+		
+
+
+
+	end
+
+
+
+
 	def append_seq_to_rd_og(seq,defination)
 		# given aa seq and save it to database
 		# have to be customized database; the original database 

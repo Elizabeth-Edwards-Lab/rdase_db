@@ -72,13 +72,15 @@ class QueryController < ApplicationController
 
 
         # if there is sequence in db has evalue 0, indicates the sequence is already in database
-        @is_match = false
+        @is_exist_chain = false
         @existing_matched_group = nil
         aa_report.each do |hit|
           if hit.evalue == 0
-            @is_match = true
-            @existing_matched_group = CustomizedProteinSequence.find_by(:chain => @sequence.seq).group
-
+            existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => @sequence.seq)
+            if !existing_matched_group_exist.nil?
+              @is_exist_chain = true
+              @existing_matched_group = @existing_matched_group.group
+            end
           end
         end
 
@@ -146,15 +148,25 @@ class QueryController < ApplicationController
             # else if the group has more than one sequence, check if each one share 90% of identity
             identity_with_90.each do |definition|
               group_number = reversed_group_hash[definition]
+              # puts group_number
               if !group_number.blank? && !group_number.nil?
                 is_belong_to_group = true
-
+                # puts "group_hash[group_number] => #{group_hash[group_number]}"
+                # puts "group_hash[group_number].length => #{group_hash[group_number].length}"
                 if group_hash[group_number].length == 1
+                  # if the group just have one member, then if the query is 90% identical to this member
+                  # then the query belong to the group
                   is_belong_to_group = true
+
                 else 
                   # if one of them is not included, then the query doesn't belong to the group
+                  # retrieve all the member in this group
+                  # check if all the member is in identity_with_90
+                  # puts "group_hash[group_number] => #{group_number[group_number]}"
                   group_hash[group_number].each do |s_identity|
-                    if identity_with_90.include? reversed_group_hash[s_identity]
+                    
+                    # puts "reversed_group_hash[s_identity] => #{reversed_group_hash[s_identity]}"
+                    if identity_with_90.include? s_identity
                       next
                     else
                       is_belong_to_group = false
@@ -168,9 +180,11 @@ class QueryController < ApplicationController
                   end
                 end # end of is_belong_to_group == true
               end # end of if !group_number.blank? && !group_number.nil?
-
+              # should create a new group based on average aa sequence similiarity larger than 90%
+              # yes, this logic is at later processing
             end # end of identity_with_90.each do |identity|
 
+            # puts "identity_groups => #{identity_groups}"
 
             @final_identity_groups = Array.new # this is final check for the similarity
             @append_seq_to_relative_rd_og = false
@@ -372,6 +386,10 @@ class QueryController < ApplicationController
 
     
 
+    
+    puts "params.inspect => #{params.inspect}"
+    render json: {"message": "test break."}
+
     fasta_array = params[:sequence].scan(/>[^>]*/)
 
     query_name = nil
@@ -382,6 +400,16 @@ class QueryController < ApplicationController
       sequence = @query.to_seq
     end
     # puts params.inspect
+
+    # check if the ncbi accession number is valid
+    # if the accession number is valid, add to our database directly
+    # else send to lab and render say your ncbi accession number is not valid
+    # your sequence has been send to lab member
+    # and send the sequence to lab member
+
+
+
+
 
     begin
       # organism should be similar, otherwise it won't get to this step
@@ -395,6 +423,8 @@ class QueryController < ApplicationController
       new_customized_protein_sequences.header = query_name
       new_customized_protein_sequences.chain  = sequence
       # new_customized_protein_sequences.group  = "novel" or "some group"
+      new_customized_protein_sequences.key_group = "NCBI Accession"
+      new_customized_protein_sequences.key = params[:ncbi_accession_number]
       new_customized_protein_sequences.reference = params[:publications] || nil
       new_customized_protein_sequences.organism  = params[:organism] || nil
       
@@ -405,38 +435,40 @@ class QueryController < ApplicationController
       # new_customized_protein_sequences.save!
       # if recaptcha is selected, it will encrypt all input invalues
       # verify_recaptcha() will verify the sent encrypt value to actual input value
-      if verify_recaptcha(params) 
-        new_sequence_info.save!
-        new_customized_protein_sequences.save!
-        # create the new blast database
-        # make sure that user won't do nucletide sequence search
-        sequence = CustomizedProteinSequence.all
-        now = Time.now.strftime("%Y_%m_%d_%H_%M_%S")
-        filename = "tmp/database_fasta_db/rdhA_aa_all_customized_#{now}.fasta"
-        aa_fasta_file = File.open(filename,"w")
+      
+      # if verify_recaptcha(params) 
+      #   new_sequence_info.save!
+      #   new_customized_protein_sequences.save!
+      #   # create the new blast database
+      #   # make sure that user won't do nucletide sequence search
+      #   sequence = CustomizedProteinSequence.all
+      #   now = Time.now.strftime("%Y_%m_%d_%H_%M_%S")
+      #   filename = "tmp/database_fasta_db/rdhA_aa_all_customized_#{now}.fasta"
+      #   aa_fasta_file = File.open(filename,"w")
 
-        sequence.each{ |x|
-          aa_fasta_file.write(">")
-          aa_fasta_file.write(s.header)
-          aa_fasta_file.write("\n")
-          aa_fasta_file.write(s.chain)
-          aa_fasta_file.write("\n")
-        }
+      #   sequence.each{ |x|
+      #     aa_fasta_file.write(">")
+      #     aa_fasta_file.write(s.header)
+      #     aa_fasta_file.write("\n")
+      #     aa_fasta_file.write(s.chain)
+      #     aa_fasta_file.write("\n")
+      #   }
 
-        aa_fasta_file.close
+      #   aa_fasta_file.close
 
-        blast_database = system( "makeblastdb", 
-                      "-in", filename,
-                      "-dbtype", "'prot'", 
-                      "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein" )
+      #   blast_database = system( "makeblastdb", 
+      #                 "-in", filename,
+      #                 "-dbtype", "'prot'", 
+      #                 "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein" )
 
-      else
-        render json: {"message": "Your Sequence has been sent to 
-        Elizabeth Edwards Lab. Thank you for your contribution"}
-      end
+      #   render json: {"message": "Your sequence has been added to our database. Thank you for your contribution."}
+      # else
+      #   render json: {"message": "Your sequence has been sent to 
+      #   Elizabeth Edwards Lab. Thank you for your contribution."}
+      # end
 
-      render json: {"message": "Your Sequence has been sent to 
-        Elizabeth Edwards Lab. Thank you for your contribution"} 
+      # render json: {"message": "Your sequence has been sent to 
+      #   Elizabeth Edwards Lab. Thank you for your contribution."} 
     rescue Exception => e 
       render json: {"message_err": e.message }
 

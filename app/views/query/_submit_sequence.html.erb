@@ -10,18 +10,24 @@
 
 
 <div class="well-submit-sequence">
-	<p id="_submit_seq_p">Submit your sequence to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a></p>
+	<p id="_submit_seq_p">
+		Your sequence match one of the RD_OD group in our database.
+		In order to submit your sequence to our database automatically,
+		we need the NCBI accession number. If you don't have the accession
+		number, you can send the sequence directly to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a>. We will evaluate your sequence and add to our database manually.
+		Contribute the Reductive Dehalogenase Database for large community!
+	</p>
 
 	<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f| %>
 	  <%= f.text_field :name, placeholder: "Your Name (Required) ", :size=>"100", :required=>true %><br/>
 	  <%= f.text_field :email, placeholder: "example@abc.com (Required) ", :size=>"100", :type=>"email",:required=>true %><br/>
+	  <%= f.text_field :ncbi_accession_number, placeholder: "NCBI Accession Number (Required) ", :size=>"100", :type=>"text",:required=>true %><br/>
 	  <%= f.text_field :dna, placeholder: "DNA Sequence in FASTA format (Optional)", :size=>"100" %><br/>
 		<%= f.text_field :institution, placeholder: "Your Institution (Optional)", :size=>"100"%><br/>
 		<%= f.text_field :publications, placeholder: "Citation (Optional)", :size=>"100" %><br/>
 		<%= f.text_field :organism, placeholder: "Organism (Optional)", :size=>"100" %><br/>
-		<%= recaptcha_tags :align => "center" %>
+		<%# recaptcha_tags :align => "center" %>
 		<%= f.submit "Send", :class => "btn btn-primary", id: "submit-seq" %>
-		<%# <%= f.submit "Submit", :class => "btn btn-primary", id: "submit-seq" %>
 	<% end %>
 	<h3 id="submit-message"></h3>
 
@@ -33,6 +39,7 @@
 	$('#submit-seq').submit(function(e){
 		e.preventDefault();
 		var sequence = $('.seq-search-sequence').val();
+		var group = $('#simtext-group').text().replace(/^\s+|\s+$/g, '');
 		var form = $(this);
 		form.attr('sequence',sequence);
 		
@@ -41,7 +48,7 @@
 			type:"POST",
 			url: "/submit_sequence",
 			// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
-			data: form.serialize()+ '&sequence=' + sequence,
+			data: form.serialize()+ '&sequence=' + sequence + '&group=' + group,
 			success: function(data){
 				console.log("success");
 				console.log(data);

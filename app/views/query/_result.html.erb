@@ -2,12 +2,12 @@
 <h3 id="seqresulttag"> Similiarity to Reductive Dehalogenases Blast Database </h3>
 <table class="each-result">
   <tr id="aasim">
-    <th id="simthtag">AA Similarity</th>
+    <th id="simthtag">Average AA Similarity</th>
     <td id="simtext"><%= @aa_similarity %></td>
   </tr>
   <tr id = "aasim">
     <th id="simthtag">Matching Group</th>
-    <td id="simtext">
+    <td id="simtext-group">
     	<% if @final_identity_groups.nil?  %>
     		<%= "No Matching OD Group" %>
     	<% else %>

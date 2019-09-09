@@ -57,7 +57,7 @@
   = render partial: "result"
   = render partial: "results_view"
 
-  - if @is_match == false
+  - if @is_exist_chain == false
 
     - if @append_seq_to_relative_rd_og == true
       / send what group it belongs to, either assign to a group or create new group
@@ -76,8 +76,7 @@
           = render partial: "phylogenies"
 
     - elsif @append_seq_to_csv == true
-
-      p To add your sequence to RDDB please fill out the form below
+      
       = render partial: "submit_sequence"
 
       .result-div
