@@ -18,8 +18,7 @@
             - if lookup_context.find_all('seq_search/_hit_link').any?
               = render '/seq_search/hit_link', sequence: sequence
             - else
-              strong = sequence.definition
-              / = link_to sequence.definition, protein_path(:header => sequence.definition) , target: "_blank"
+              strong = link_to sequence.definition, protein_path(:id => find_id_by_header(sequence.definition)) , target: "_blank"
               br
               | Group: 
               strong = @sequence_group[sequence.definition]

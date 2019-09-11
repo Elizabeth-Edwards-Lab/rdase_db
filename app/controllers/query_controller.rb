@@ -1,6 +1,7 @@
 class QueryController < ApplicationController
   # include concerns
   include QueryLogic
+  helper QueryHelper
 
 	before_action :set_blast_defaults_for_aa
 
@@ -79,7 +80,7 @@ class QueryController < ApplicationController
             existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => @sequence.seq)
             if !existing_matched_group_exist.nil?
               @is_exist_chain = true
-              @existing_matched_group = @existing_matched_group.group
+              @existing_matched_group = existing_matched_group_exist.group
             end
           end
         end

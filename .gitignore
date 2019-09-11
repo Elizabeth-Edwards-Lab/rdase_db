@@ -18,6 +18,7 @@
 /tmp/cache/*
 /tmp/pids/*
 /tmp/database_fasta_db/*
+/tmp/filtered_result/*
 
 /node_modules
 /yarn-error.log

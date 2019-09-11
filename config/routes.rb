@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 	get "simple/download_entry_table_cus"
 	get "query/download_new_fasta"
 	get "protein/download_filtered_result"
+	get "protein/download_filtered_result_fasta"
 
 
 

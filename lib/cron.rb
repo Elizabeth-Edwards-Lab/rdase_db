@@ -20,7 +20,15 @@ module Cron
 	end
 
 	def self.remove_filtered_csv
-		FileUtils.rm_rf(Dir.glob("#{Rails.root}/tmp/filtered_result/*}"))
+		FileUtils.rm_rf(Dir.glob("#{Rails.root}/tmp/filtered_result/*.csv}"))
+	end
+
+	def self.remove_filtered_fasta
+		FileUtils.rm_rf(Dir.glob("#{Rails.root}/tmp/filtered_result/*.fasta}")
+	end
+
+	def self.remove_filtered_zip
+		FileUtils.rm_rf(Dir.glob("#{Rails.root}/tmp/filtered_result/*.zip}")
 	end
 
 

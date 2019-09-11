@@ -28,9 +28,11 @@ every :day, at: '12am' do
 	runner "Cron.remove_tmp_csv"
 end
 
-# remove the export csv file
+# remove the export csv file and fasta file
 every :day, at: '12am' do
 	runner "Cron.remove_filtered_csv"
+	runner "Cron.remove_filtered_fasta"
+	runner "Cron.remove_filtered_zip"
 end
 
 # put the actual blast database creation for real crontab

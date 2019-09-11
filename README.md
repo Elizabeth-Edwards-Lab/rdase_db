@@ -110,6 +110,12 @@ If the system is under ubuntu, the following file should be modified
 
 
 
+2019-09-08
+download filtered fasta (done)
+clickable blast result (done)
+add oliva tree to front page
+add group number legend for color
+use p-placer (no need to use MUSCLE)
 
 
 

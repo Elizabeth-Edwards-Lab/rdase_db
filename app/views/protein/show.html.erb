@@ -3,9 +3,9 @@
   <h2>Showing Protein Sequence: <%= @protein_s.header %></h2>
 
 
-  <hr>
-  <h4>Identification</h4>
-  <div id = "tablediv">
+<hr>
+<h4>Identification</h4>
+<div id = "tablediv">
   <table>
     <tr>
       <th>Protein Header</th>
@@ -15,72 +15,25 @@
       <th>Protein Type</th>
       <td>Enzyme</td>
     </tr>
-  </table>
-</div>
-
-  <hr>
-  <h4>Biological Properties</h4>
-  <div id = "tablediv">
-  <table>
-
     <tr>
-      <th>General Function</th>
-      <td><%= @protein_s.header %></td>
+      <th>Orthologous Groups</th>
+      <td><%= @protein_s.group || nil %></td>
     </tr>
     <tr>
-      <th>Specific Function</th>
-      <td>null</td>
+      <th>Last Updated </th>
+      <td><%= @protein_s.updated_at || nil %></td>
     </tr>
     <tr>
-      <th>GO Classification</th>
-      <td>
-        null
-      </td>
-    </tr>
-    <tr>
-      <th>Cellular Location</th>
-      <td>
-        null
-      </td>
+      <th>Reference </th>
+      <td><%= @protein_s.reference || nil %></td>
     </tr>
   </table>
 </div>
-  <hr>
-  <h4>Protein Properties</h4>
-  <div id = "tablediv">
+
+<hr>
+<h4>Protein Properties</h4>
+<div id = "tablediv">
   <table>
-    <tr>
-      <th>Number of Residues</th>
-      <td>null</td>
-    </tr>
-    <tr>
-      <th>Molecular Weight</th>
-      <td>null</td>
-    </tr>
-    <tr>
-      <th>Theoretical pI</th>
-      <td>null</td>
-    </tr>
-    <tr>
-      <th>Pfam Domain Function</th>
-      <td>
-        null
-      </td>
-    </tr>
-    <tr>
-      <th>Signals</th>
-      <td>
-        null
-      </td>
-    </tr>
-    <tr>
-      <th>
-         Transmembrane Regions
-      </td>
-      <td>
-        null
-      </th>
-    </tr>
     <tr>
       <th>Amino Acid Sequence</th>
       <td>
@@ -90,22 +43,15 @@
           <%= nah %>
         <% end %>
       </td>
-    </tr>
+    </tr> 
   </table>
 </div>
 
-  <hr>
-  <h4>Gene Properties</h4>
-  <div id = "tablediv">
+<hr>
+<h4>Gene Properties</h4>
+<div id = "tablediv">
   <table>
-    <tr>
-      <th>Chromosome Location</th>
-      <td>null</td>
-    </tr>
-    <tr>
-      <th>Locus</th>
-      <td>null</td>
-    </tr>
+    
     <tr>
       <th>Nucleotide Sequence</th>
       <td>
@@ -119,9 +65,33 @@
   </table>
 </div>
 
-  <hr>
-  <h4>External Links</h4>
-  <div id = "tablediv">
+<hr>
+<h4>Other Group Members</h4>
+<div id = "tablediv">
+  <table>
+    <tr>
+      <th></th>
+      <td>
+        <% @member.each do |m| %>
+          <%= link_to "#{m.header}", protein_path(:id => m.id) %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<hr>
+<h4>Interactive Compounds</h4>
+<div id = "tablediv">
+  <table>
+    <tr>
+    </tr>
+  </table>
+</div>
+
+<hr>
+<h4>External Links</h4>
+<div id = "tablediv">
   <table>
     <tr>
       <th>GenBank ID Protein</th>

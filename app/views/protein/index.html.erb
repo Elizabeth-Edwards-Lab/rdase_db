@@ -43,6 +43,7 @@
 	  </tbody>
 	</table>
 	<%= link_to "Export As CSV", protein_download_filtered_result_path(:header => params[:header], :group => params[:group], :organism => params[:organism], :date => params[:update]), :id => "export-button" %>
+	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:header => params[:header], :group => params[:group], :organism => params[:organism], :date => params[:update]), :id => "export-button" %>
 	<hr>
 	<%= paginate @protein %>
 	<br>
