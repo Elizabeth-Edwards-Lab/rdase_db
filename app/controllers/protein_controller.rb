@@ -1,6 +1,5 @@
 require 'csv'
 require 'zip'
-require 'tempfile'
 class ProteinController < ApplicationController
 
 

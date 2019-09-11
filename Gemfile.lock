@@ -319,6 +319,7 @@ DEPENDENCIES
   puma_worker_killer
   rails (~> 5.1.7)
   recaptcha
+  rubyzip
   sass-rails (~> 5.0)
   selenium-webdriver
   slim-rails
