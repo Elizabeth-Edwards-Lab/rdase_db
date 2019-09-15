@@ -15,13 +15,6 @@
 	<div id="phylocanvas"></div>
 	<p id="graph-note" style="visibility: hidden;">
 		For more advanced graph viewer, plesase see <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>
-
-		<!-- <br> -->
-		<!-- Download the <%= @new_fasta_file_location %> -->
-		<%# link_to "Fasta File", {:action => "download_new_fasta", :filename => @new_fasta_file_location} %>
-
-		<%# link_to "Fasta File", query_download_new_fasta_path(:filename => @new_fasta_file_location) %>
-		<!-- and tree file to try on you own with better performance. -->
 	</p>
 
 </div>
@@ -33,6 +26,8 @@
 		var tree = Phylocanvas.createTree('phylocanvas');
 		// tree.setTreeType('rectangular');
 		tree.setTreeType('circular');
+		// need to add group number after each node
+		// retrieve the node value and add group number 
 		tree.load(data);
 
 

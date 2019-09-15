@@ -8,6 +8,9 @@
 	  <thead>
 	    <tr>
 	      <th colspan="1"></th>
+	      <!-- this is how btdb sort protein by BTDBP ID -->
+	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
+	      <%# table_sort_link 'Locus Tag', :header %>
 	      <th>Locus Tag</th>
 	      <th>RD Group</th>
 	      <th>Organism</th>
@@ -32,7 +35,11 @@
 	      <tr>
 	      	<td><%= link_to "show", protein_path(pt.id), :id => 'show-button' %></td>
 	        <td><%= pt.header %></td>
-	        <td><%= pt.group %></td>
+	        <%= form_with url:'protein', method: :get do |f| %>
+	        	<!-- <td><%# link_to "#{pt.group}", protein_group_path(pt.group) %></td> -->
+	        	<%= hidden_field_tag(:group, pt.group) %>
+	        	<td><%= f.submit "#{pt.group}", disabled: false, :id => 'group-click-button' %></td>
+	        <% end %>
 	        <td><%= pt.organism %></td>
 	        <td><%= pt.update_date %></td>
 	        

@@ -49,6 +49,7 @@ Rails.application.routes.draw do
 
 	resources :protein, only: [:show, :index] do
 	end
+	# get 'protein/group', to: 'protein#group'
 
 	resources :compound, only: [:show, :index] do 
 	end
