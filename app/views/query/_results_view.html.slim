@@ -20,10 +20,10 @@
             - else
               strong = link_to sequence.definition, protein_path(:id => find_id_by_header(sequence.definition)) , target: "_blank"
               br
-              | Group: 
-              strong = @sequence_group[sequence.definition]
-            / = link_to protein_show_path, :header => sequence.definition
-            / = render "/protein", :header => sequence.definition
+              = form_with url:'protein', method: :get do |f|
+                = hidden_field_tag(:group, @sequence_group[sequence.definition])
+                | Group: 
+                td= f.submit "#{@sequence_group[sequence.definition]}", disabled: false, formtarget: "_blank", :id => 'group-click-button'
               
           div
             .seq-search-sequence-labels

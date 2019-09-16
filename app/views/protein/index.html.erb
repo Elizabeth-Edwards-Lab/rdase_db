@@ -2,7 +2,7 @@
 
 
 <div class="container sequence-index">
-	<h1>Listing Sequence</h1>
+	<h1>Sequence Listing</h1>
 	<hr>
 	<table>
 	  <thead>
@@ -11,10 +11,10 @@
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
 	      <%# table_sort_link 'Locus Tag', :header %>
-	      <th>Locus Tag</th>
+	      <th>Accession No.</th>
+	      <th>Common Name</th>
 	      <th>RD Group</th>
 	      <th>Organism</th>
-	      <th>Last Update</th>
 	      
 	    </tr>
 
@@ -22,9 +22,9 @@
 	    <%= form_with url:'protein', method: :get do |f| %>
 	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
 	      <th><%= f.text_field 	:header %></th>
+	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
-	      <th>After <%= f.date_field  :update %></th>
 	    <% end %>
 	      
 	    </tr>
@@ -35,13 +35,12 @@
 	      <tr>
 	      	<td><%= link_to "show", protein_path(pt.id), :id => 'show-button' %></td>
 	        <td><%= pt.header %></td>
+	        <td><%= pt.header %></td>
 	        <%= form_with url:'protein', method: :get do |f| %>
-	        	<!-- <td><%# link_to "#{pt.group}", protein_group_path(pt.group) %></td> -->
 	        	<%= hidden_field_tag(:group, pt.group) %>
 	        	<td><%= f.submit "#{pt.group}", disabled: false, :id => 'group-click-button' %></td>
 	        <% end %>
 	        <td><%= pt.organism %></td>
-	        <td><%= pt.update_date %></td>
 	        
 	        
 	      </tr>

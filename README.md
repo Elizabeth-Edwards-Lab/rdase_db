@@ -118,7 +118,7 @@ use p-placer (no need to use MUSCLE)
 
 2019-09-14
 1. sort the list in database page
-   if click the group, show the page with only these groups 
+   if click the group, show the page with only these groups (Done)
 2. add group in the tree
 3. remove the selection certiera of average aa group 
 4. find all these NCBI accession number and link them at listing sequence page (=> public number (accession number) + common name)
