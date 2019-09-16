@@ -50,6 +50,8 @@
 
 		var all_leaves = tree.leaves;
 
+
+		// assign color and group info based on group
 		if(all_leaves.length > 1){
 			for(var i = 0; i < all_leaves.length; i++){
 				// based on label, find the group;
@@ -60,16 +62,13 @@
 				if(group != null && group != undefined){
 					// based on group, colour the right color
 					all_leaves[i].colour = color_hash[parseInt(group)]
+					all_leaves[i].label  = all_leaves[i].label + "(" + group + ")"
+				}
+				else{
+					all_leaves[i].label  = all_leaves[i].label + "( No Group )"
 				}
 			}
 		}
-
-		// var all_leaves = GetLeaves(tree,get_all_the_leaves);
-
-		// function GetLeaves(tree, callback){
-
-		// 	callback(tree);
-		// }
 
 
 
@@ -95,18 +94,7 @@
 		});
 
 	}
-	// $(document).on({
-	// 	ajaxStart: function() {
 
-	// 		$("body").addClass("loading");
-	// 		$('.loading').prepend('<img id="loading-image" src="/assets/loading.gif" />')
-
-	// 	},
-	// 	ajaxStop: function() {
-	// 		$("body").removeClass("loading");
-	// 		console.log("remove loading class");
-	// 	}
-	// });
 	$('#do-tree').submit(function(e){
 		e.preventDefault();
 		var sequence = $('.seq-search-sequence').val();
@@ -124,8 +112,6 @@
 
 				$('#waiting-gif').attr("style","visibility:hidden;");
 				create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
-				// $('#graph-note').text("For more advanced graph viewer, plesase see");
-				// $('#graph-note').append("<a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>");
 				$('#graph-note').removeAttr("style","visibility:hidden;");
 			},
 			error: function(data){

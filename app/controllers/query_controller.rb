@@ -93,7 +93,7 @@ class QueryController < ApplicationController
         # for first sequence in aa_fasta
         # note: 0.9 for 11,1 is too high; 0.8 is good
         # same for tblastn, 0.8 is good
-        if @aa_similarity > 0.80
+        if @aa_similarity > 0.0
           
           # load the group
           # hash each header to existing group       => reversed_group_hash
