@@ -4,15 +4,19 @@
 
 	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
 
-		<%#<%= f.submit "Generate Phylogenetic Tree", :class => "btn btn-primary", id: "generate-phylogenetic-tree" %>
+		<%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All ORase Group', :class => "option-button" %>
+		<br>
+		<%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All Organism', :class => "option-button" %>
+		<br>
 		<%= f.button 'Generate Phylogenetic Tree'.html_safe, :type => :submit, id: "generate-phylogenetic-tree", :class => "btn btn-primary" %>
-		<!-- <div id="waiting-gif"></div> -->
 	<% end %>
-
-
-	<!-- <img id="waiting-gif" src="/assets/loading.gif" style="visibility:hidden;"> -->
+	
 	<%= image_tag 'loading.gif', :id=> "waiting-gif", :style => "visibility:hidden;" %>
+	
+	<p id="phylocanvas-page-warning"></p>
 	<div id="phylocanvas"></div>
+	
+
 	<p id="graph-note" style="visibility: hidden;">
 		For more advanced graph viewer, plesase see <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>
 	</p>
@@ -71,7 +75,7 @@
 		}
 
 
-
+		console.log(highlight);
 		var re = new RegExp(highlight);
 		var leaves = tree.findLeaves(re);
 		// require check the sequence header to make sure it doesn't have duplicates
@@ -79,12 +83,8 @@
 			leaves[0].highlighted = true;
 			tree.fitInPanel(leaves);
 		}
-
-
-
-
+		
 		tree.draw();
-
 
 		tree.on('click', function (e) {
 			var node = tree.getNodeAtMousePosition(e);
@@ -105,18 +105,33 @@
 			// give the sequence back for generating new fasta file
 			data: form.serialize() + '&sequence=' + sequence,
 			beforeSend: function(){
-				$('#generate-phylogenetic-tree').hide();
+				// $('#generate-phylogenetic-tree').hide();
 				$('#waiting-gif').removeAttr("style");
 			},
 			success: function(data){
-
-				$('#waiting-gif').attr("style","visibility:hidden;");
-				create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
+				$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
+				
+				var number_sequence = Number(data.num_sequence)
+				// console.log(data.num_sequence)
+				if (number_sequence == 0){
+					$('#waiting-gif').attr("style","visibility:hidden;");
+					$('#phylocanvas-page-warning').removeAttr("style","visibility:hidden;");
+					$('#phylocanvas-page-warning').text("Your selection return 0 sequence. Please choose different selection. More detail can be found in our sequence database.")
+				}
+				else{
+					$('#waiting-gif').attr("style","visibility:hidden;");
+					$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
+					create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
+				}
 				$('#graph-note').removeAttr("style","visibility:hidden;");
+				
 			},
 			error: function(data){
 				$("#submit-message").text(data.message_err);
-			}
+			},
+			timeout: 1000 * 60
+
+
 		})
 	})
 

@@ -126,6 +126,18 @@ use p-placer (no need to use MUSCLE)
 
 
 
+create local ncbi protein database for the purpose of getting all accession number
+
+download all the protein db file from ftp://ftp.ncbi.nlm.nih.gov/blast/db/
+aggregate them into one big database https://www.ncbi.nlm.nih.gov/books/NBK279693/
+then run the blast
+`blastn –db nt –query nt.fsa –out results.out `
+parse the results.out
+
+
+Assign all entry with group number. If there is no group, then assign value as 0, 
+and indicate that group 0 is the non-assigned group
+
 
 
 

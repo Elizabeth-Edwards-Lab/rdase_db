@@ -1,7 +1,8 @@
 require 'csv'
 require 'zip'
 class ProteinController < ApplicationController
-
+  # SortParamsParser is for sort_table_link
+  include SortParamsParser
 
   def download_filtered_result_fasta
 
@@ -115,8 +116,12 @@ class ProteinController < ApplicationController
   end
 	
   def index
-  	# puts params.inspect
-  	# Parameters {"utf8"=>"✓", "commit"=>"Filter", "header"=>"", "group"=>"sdf", "organism"=>"", "update"=>"", "controller"=>"protein", "action"=>"index"}
+  	# puts "params.inspect => #{params.inspect}"
+    # after add search feature
+    # Parameters {"utf8"=>"✓", "commit"=>"Filter", "header"=>"", "group"=>"sdf", "organism"=>"", "update"=>"", "controller"=>"protein", "action"=>"index"}
+    # after add sorting feature 
+    # params.inspect => <ActionController::Parameters {"c"=>"group", "commit"=>"Filter", "d"=>"up", "group"=>"", "header"=>"", "organism"=>"", "utf8"=>"✓", "controller"=>"protein", "action"=>"index"} permitted: false>
+    
   	if params[:commit].present?
   		if params[:update].present? && !params[:header].present? && !params[:group].present? && !params[:organism].present?
   			# if update date present, there is no something like "like"

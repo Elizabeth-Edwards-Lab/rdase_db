@@ -40,11 +40,23 @@ class QueryController < ApplicationController
       @hits = Hash.new
       @sequences = ActiveSupport::OrderedHash.new
       @new_customized_sequence = CustomizedProteinSequence.new
-      protein_sequence = ProteinSequence.all
+      protein_sequence = CustomizedProteinSequence.all
       @sequence_group = Hash.new
       protein_sequence.each do |s|
         @sequence_group[s.header] = s.group
       end
+
+      # get list of group and list of organism form protein_sequence
+      @group_number_list = Array.new
+      @organism_list = Array.new
+      # protein_sequence.each do |pr|
+      #   if !@group_number_list.include? pr.group
+      #     @group_number_list << pr.group
+      #   end
+      #   if !@organism_list.include? pr.organism
+      #     @organism_list << pr.organism
+      #   end
+      # end
 
       # should do one for each request or can do multiple alignment at same time?
       # haven't check for the inapporiate sequence 
@@ -101,6 +113,15 @@ class QueryController < ApplicationController
           group_hash = Hash.new
           reversed_group_hash = Hash.new
           protein_sequence.each do |single_entry|
+
+            if !@group_number_list.include? single_entry.group
+              @group_number_list << single_entry.group
+            end
+            if !@organism_list.include? single_entry.organism
+              @organism_list << single_entry.organism
+            end
+
+
             if single_entry.group.nil?
               next
             else
@@ -269,7 +290,8 @@ class QueryController < ApplicationController
 
         break # only parse one fasta file
       end # end of fasta_array.each
-    end   
+    end
+
   end
 
 
@@ -278,62 +300,79 @@ class QueryController < ApplicationController
 
   end
 
-  def phylogenies_disable
-    # this is for testing the tree feature
-    
-    all_sequence = CustomizedProteinSequence.all
-    number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
-    group_info = Hash.new
-    all_sequence.each do |s|
-      group_info[s.header] = s.group
-    end
-    
-    phy = File.open("tmp/tmp_fasta/2019_08_15_15_29_37.phy","r")
-    tree_data = ""
-    phy.each do |line|
-      tree_data = tree_data + line.gsub("\n","")
-    end
-    phy.close()
-
-    render json: { "tree": tree_data, "highlight": "highlight_name", "group": group_info, "group_number": 55 }
-  end
-
+  # Create the phylogenies tree
   def phylogenies
-
+    puts "params => #{params.inspect}"
     raw_sequence = params[:sequence]
     fasta_array = raw_sequence.scan(/>[^>]*/)
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
-
-    current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S").gsub("/","_").gsub(" ","_").gsub(":","_")
-    fasta_base = File.open("#{Rails.root}/data/rdhA_all_aa_17-June-2019.fasta","r")
+    aa_sequence = sequence_def.to_seq.seq
+    
+    current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S.%L").gsub("/","_").gsub(" ","_").gsub(":","_")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
+    all_sequence = nil
+    # all_sequence = CustomizedProteinSequence.all
+    # number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
+    
+    if params[:group] != "" and params[:organism] == ""
+      all_sequence = CustomizedProteinSequence.where(:group => params[:group])
+    elsif params[:group] == "" and params[:organism] != ""
+      all_sequence = CustomizedProteinSequence.where(:organism => params[:organism])
+    elsif params[:group] != "" and params[:organism] != ""
+      all_sequence = CustomizedProteinSequence.where(:group => params[:group], :organism => params[:organism])
+    else
+      all_sequence = CustomizedProteinSequence.all
+    end
 
-    # render group information; tree can't accept the duplicate name
-    all_sequence = CustomizedProteinSequence.all
-    number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
+    # if params[:group] == "ALL" and params[:organism] == "ALL"
+    #   # render group information; tree can't accept the duplicate name
+    #   all_sequence = CustomizedProteinSequence.all
+    # elsif params[:group] != "" and 
+    #   all_sequence = CustomizedProteinSequence.where(:group => group)
+    # elsif !organism.nil?
+    #   all_sequence = CustomizedProteinSequence.where(:organism => organism)
+    # end
+    number_of_group = all_sequence.distinct.pluck(:group).length
+
+    # obtain group information for colouring and marking the node
+    # and add the selected sequence into temporary fasta file
     group_info = Hash.new
+    header_pool = Array.new
     all_sequence.each do |s|
       group_info[s.header] = s.group
+      if header_pool.include? s.header
+        next
+      else
+        fasta_new << ">#{s.header}\n"
+        fasta_new << "#{s.chain}\n"
+        header_pool << s.header
+      end
     end
+    
 
+    # create random name for the sequence if the header field is empty
+    # ask user to provide the sequence common name as well as accession number when submiting the sequence
     seq_name_exist = CustomizedProteinSequence.find_by(:header => sequence_def.definition)
-    highlight_name = sequence_def.definition
+      
+    highlight_name = nil
     if seq_name_exist.nil?
-      fasta_new << raw_sequence + "\n"
+      # check if the sequence_def.definition is blank
+      if !sequence_def.definition.empty?
+        highlight_name = sequence_def.definition
+      else
+        highlight_name = "Submitted_Suquence_1"
+      end
+
+      fasta_new << ">#{highlight_name}_Your_Sequence\n"
+      fasta_new << "#{aa_sequence}\n"
     else
-      highlight_name = "#{sequence_def.definition}_2"
+      highlight_name = "#{sequence_def.definition}_Your_Sequence"
       fasta_new << raw_sequence.gsub(sequence_def.definition, highlight_name) + "\n"
     end
-
-    fasta_base.each do |line|
-      fasta_new << line
-    end
-
-    fasta_base.close()
     fasta_new.close()
-
-
+    puts "highlight_name => #{highlight_name}"
+    puts "num of selected sequence => #{all_sequence.length}"
     # the tree is based on AA (amino acid)
     muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
     if RUBY_PLATFORM == "x86_64-linux"
@@ -342,31 +381,41 @@ class QueryController < ApplicationController
       muscle_path = "vendor/MUSCLE/muscle3.8.31_i86darwin64"
     end
 
-    muscle = system( muscle_path,
-                      "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
-                      "-out","tmp/tmp_fasta/#{current_time}.afa",
-                      "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
-                      "-maxiters", "1",
-                      "-diags","-sv",
-                      "-distance1","kbit20_3","-quiet")
+    if all_sequence.length != 0
+      muscle = system( muscle_path,
+                        "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
+                        "-out","tmp/tmp_fasta/#{current_time}.afa",
+                        "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
+                        "-maxiters", "1",
+                        "-diags","-sv",
+                        "-distance1","kbit20_3","-quiet")
 
-    # muscle may not finished, then render
-    while muscle.nil?
-      next
+      # muscle may not finished, then render
+      while muscle.nil?
+        next
+      end
+
+
+      phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+
+      tree_data = ""
+      phy.each do |line|
+        tree_data = tree_data + line.gsub("\n","")
+      end
+      phy.close()
+
+      render json: { "tree": tree_data, "highlight": highlight_name, 
+        "group": group_info, "group_number": number_of_group,
+        "num_sequence": all_sequence.length }
+    else
+
+      render json: { "num_sequence": all_sequence.length }
     end
 
-    phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+    # @new_phy_file = "#{Rails.root}/tmp/tmp_fasta/#{current_time}.phy"
+    # @new_fasta_file_location = "#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta"
 
-    tree_data = ""
-    phy.each do |line|
-      tree_data = tree_data + line.gsub("\n","")
-    end
-    phy.close()
-
-    @new_phy_file = "#{Rails.root}/tmp/tmp_fasta/#{current_time}.phy"
-    @new_fasta_file_location = "#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta"
-
-    render json: { "tree": tree_data, "highlight": highlight_name, "group": group_info, "group_number": number_of_group }
+    
     
 
   end

@@ -62,112 +62,21 @@ module QueryLogic
 		return report
 	end
 
+
 	def generate_hit_array(report,query_name,query_sequence_type)
 		
 		sequences = Array.new
 		report.each do |hit|
-		  # sequences << [hit.target_def, hit.evalue, hit.bit_score, hit.midline, hit.target_seq]
 			sequences << hit
 		end
-		# sequences.sort_by { |seq| seq[1] }
 
 		return sequences
 	end
 
-
-
-
 	def validate_ncbi_accession_number(accession_number)
 		url = "https://www.ncbi.nlm.nih.gov/protein/#{accession_number}"
 		request = URI.parse(url)
-		
-
-
-
 	end
-
-
-
-
-	def append_seq_to_rd_og(seq,defination)
-		# given aa seq and save it to database
-		# have to be customized database; the original database 
-		# should not be changed at any circumstances (after publication)
-		# Params: Bio:Blast:Report
-		# Return: float
-		# +command+:: 
-		# +outhandler+:: +Proc+ 
-		# +errhandler+:: +Proc+
-		status = nil
-		# begin
-		# 	new_aa_seq = CustomizedProteinSequence.new 
-		# 	new_aa_seq.chain = seq
-		# 	new_aa_seq.header = defination
-		# 	# add submiter information
-
-		# 	new_aa_seq.save!
-		# 	# convert rna to dna
-		# 	# should ask user if the converted seq is correct or not
-		# 	# it should be correct otherwise how did they get the aa seq
-		# 	new_nt_seq = CustomizedNucleotideSequence.new
-		# 	aa = Bio::Sequence::NA.new(seq)
-		# 	new_nt_seq.header = defination
-		# 	new_nt_seq.chain = aa.dna
-		# 	new_nt_seq.save!
-
-		# 	status = "success"
-		# rescue 
-		# 	status = "fail"
-		# end
-
-		return status
-
-	end
-
-	def append_seq_to_relative_rd_og(seq, header, group)
-		
-
-
-	end
-	
-	def append_seq_to_new_rd_og(seq,header,group)
-		
-	end
-
-	def append_seq_to_relative_rd_og_without_group(seq,header,group)
-
-
-	end
-
-
-	def append_seq_to_rd_og_info(input_info)
-
-		# saved = false
-		# begin
-		# 	seq_info = SequenceInfo.new
-		# 	seq_info.generic_id = input_info[:generic_id] || nil
-		# 	seq_info.organism   = input_info[:organism] || nil
-		# 	seq_info.key        = input_info[:key] || nil
-		# 	seq_info.key_origin = input_info[:key_origin] || nil
-		# 	seq_info.reference  = input_info[:reference]
-		# 	seq_info.publish_date = input_info[:publish_date] || nil
-		# 	seq_info.save! 
-		# 	saved = true
-		# rescue
-		# 	return saved
-		# end
-
-		# return saved
-
-	end
-
-
-
-	def getLowestGroupNumber()
-
-	end
-
-
 
 
 	def describt_hit(hit)
@@ -199,25 +108,6 @@ module QueryLogic
 		puts hit.lap_at           # array of above four numbers
 		puts "================"
 	end
-
-	# Other unused code
-	      # puts "@hits ================"
-        # @hits.each do |hit|
-        #   puts hit
-        #   puts "---"
-        # end
-
-
-        # resultlist = sequence_class.find(hit_array.keys)
-        # resultlist.sort! { |a, b| hit_array[b.id].bit_score <=> hit_array[a.id].bit_score }
-
-        # if params[:filters].present?
-        #   resultlist = 
-        #     resultlist.select { |s| (!s.sequenceable.respond_to?('include_in_blast_search?') || 
-        #                             s.sequenceable.include_in_blast_search?(params[:filters])) }
-        # end
-        # @sequences[query_name] = resultlist
-
 
   # blast+ ncbi program
   # blastdb_aliastool

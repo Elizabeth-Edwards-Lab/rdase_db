@@ -11,10 +11,10 @@
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
 	      <%# table_sort_link 'Locus Tag', :header %>
-	      <th>Accession No.</th>
-	      <th>Common Name</th>
-	      <th>RD Group</th>
-	      <th>Organism</th>
+	      <th><%= table_sort_link "Accession No.", :header %></th>
+	      <th><%= table_sort_link "Common Name", :header %></th>
+	      <th><%= table_sort_link "Group", :group %></th>
+	      <th><%= table_sort_link "Organism", :organism %></th>
 	      
 	    </tr>
 
