@@ -117,10 +117,10 @@ use p-placer (no need to use MUSCLE)
 
 
 2019-09-14
-1. sort the list in database page
+1. sort the list in database page (ongoing)
    if click the group, show the page with only these groups (Done)
 2. add group in the tree [Done]
-2.1 create the tree based on organism or group
+2.1 create the tree based on organism or group (Done)
 3. remove the selection certiera of average aa group (Done => set aa similarity threshold to 0.0)
 4. find all these NCBI accession number and link them at listing sequence page (=> public number (accession number) + common name)
 
@@ -131,6 +131,7 @@ create local ncbi protein database for the purpose of getting all accession numb
 download all the protein db file from ftp://ftp.ncbi.nlm.nih.gov/blast/db/
 aggregate them into one big database https://www.ncbi.nlm.nih.gov/books/NBK279693/
 then run the blast
+<!-- run ./ncbi-blast-2.9.0+/bin/blastn at compute canada -->
 `blastn –db nt –query nt.fsa –out results.out `
 parse the results.out
 

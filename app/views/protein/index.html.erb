@@ -11,7 +11,7 @@
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
 	      <%# table_sort_link 'Locus Tag', :header %>
-	      <th><%= table_sort_link "Accession No.", :header %></th>
+	      <th><%= table_sort_link "Accession No.", :accession %></th>
 	      <th><%= table_sort_link "Common Name", :header %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
@@ -21,7 +21,7 @@
 	    <tr>
 	    <%= form_with url:'protein', method: :get do |f| %>
 	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
-	      <th><%= f.text_field 	:header %></th>
+	      <th><%= f.text_field 	:accession %></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
@@ -48,8 +48,8 @@
 	    
 	  </tbody>
 	</table>
-	<%= link_to "Export As CSV", protein_download_filtered_result_path(:header => params[:header], :group => params[:group], :organism => params[:organism], :date => params[:update]), :id => "export-button" %>
-	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:header => params[:header], :group => params[:group], :organism => params[:organism], :date => params[:update]), :id => "export-button" %>
+	<%= link_to "Export As CSV", protein_download_filtered_result_path(:accession => params[:accession],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
+	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:accession => params[:accession],:header => params[:header], :group => params[:group], :organism => params[:organism], :accession => params[:accession]), :id => "export-button" %>
 	<hr>
 	<%= paginate @protein %>
 	<br>

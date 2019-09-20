@@ -308,7 +308,7 @@ class QueryController < ApplicationController
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
     aa_sequence = sequence_def.to_seq.seq
     
-    current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S.%L").gsub("/","_").gsub(" ","_").gsub(":","_")
+    current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S_%L").gsub("/","_").gsub(" ","_").gsub(":","_")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
     all_sequence = nil

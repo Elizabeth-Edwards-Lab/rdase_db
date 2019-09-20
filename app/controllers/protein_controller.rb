@@ -3,115 +3,47 @@ require 'zip'
 class ProteinController < ApplicationController
   # SortParamsParser is for sort_table_link
   include SortParamsParser
+  include QueryLogic
 
   def download_filtered_result_fasta
-
-    now = Time.now.strftime("%Y_%m_%d_%H_%M_%S.%L")
-    filename_protein = "tmp/filtered_result/filtered_#{now}_protein.fasta"
-    filename_gene = "tmp/filtered_result/filtered_#{now}_gene.fasta"
-    export_file_name = "tmp/filtered_result/filtered_#{now}.fasta" # user will see the name
-    puts "params.inspect => #{params.inspect}"
-    if params[:update].present? && !params[:header].present? && !params[:group].present? && !params[:organism].present?
-      # if update date present, there is no something like "like"
-      @protein = CustomizedProteinSequence.where("update_date >= ?", params[:update])
-      export_file_name = "tmp/filtered_result/filtered_#{params[:update]}.fasta"
-    elsif !params[:update].present? && params[:header].present? && !params[:group].present? && !params[:organism].present?
-      @protein = CustomizedProteinSequence.where("header like ?", "%#{params[:header]}%")
-      export_file_name = "tmp/filtered_result/filtered_#{params[:header]}.fasta"
-    elsif !params[:update].present? && !params[:header].present? && params[:group].present? && !params[:organism].present?
-      @protein = CustomizedProteinSequence.where(:group => params[:group])
-      export_file_name = "tmp/filtered_result/filtered_#{params[:group]}.fasta"
-    elsif !params[:update].present? && !params[:header].present? && !params[:group].present? && params[:organism].present?
-      @protein = CustomizedProteinSequence.where("organism like ? ", "%#{params[:organism]}%")
-      export_file_name = "tmp/filtered_result/filtered_#{params[:organism]}.fasta"
-    elsif params[:update].present? || params[:header].present? || params[:group].present? || params[:organism].present?
-      if !params[:update].present?
-        @protein = CustomizedProteinSequence.where("header like ? AND organism like ? AND customized_protein_sequences.group = ? AND update_date >= ?", 
-          "%#{params[:header]}%", "%#{params[:organism]}%", params[:group], "1000-01-01")
-        export_file_name = "tmp/filtered_result/filtered_#{params[:header]}_#{params[:organism]}_#{params[:group]}}.fasta"
-      else
-        @protein = CustomizedProteinSequence.where("header like ? AND organism like ? AND customized_protein_sequences.group = ? AND update_date >= ?", 
-          "%#{params[:header]}%", "%#{params[:organism]}%", params[:group], params[:update])
-        export_file_name = "tmp/filtered_result/filtered_#{params[:header]}_#{params[:organism]}_#{params[:group]}_#{params[:update]}}.fasta"
-      end
-    else
+    accession = params[:accession]
+    header    = params[:header]
+    group     = params[:group]
+    organism  = params[:organism]
+    # params.inspect => <ActionController::Parameters {"accession"=>"", "group"=>"", "header"=>"RS01800", "organism"=>"", "controller"=>"protein", "action"=>"download_filtered_result"} permitted: false>
+    if !accession.present? and !header.present? and !group.present? and !organism.present?
+      # no filter certiera given, sort by default (which is sort by group)
       @protein = CustomizedProteinSequence.all
-    end
-    # export the filtered result into csv
-    File.open(filename_protein, "w") do |f|
-      @protein.each do |pt|
-        f << ">" + pt.header + "\n"
-        f << pt.chain + "\n"
-      end
+      
+    elsif accession.present? or header.present? or group.present? or organism.present?
+      # filter certiera is given
+      @protein = protein_index_just_filter(params,nil,true)
+
     end
 
-    File.open(filename_gene, "w") do |f|
-      @protein.each do |pt|
-        gene = CustomizedNucleotideSequence.find_by(:header => pt.header)
-        if !gene.nil?
-          f << ">" + gene.header + "\n"
-          f << gene.chain + "\n"
-        end
-      end
-    end
-
-
-    # zip_file = File.new("tmp/filtered_result/filtered_#{now}.zip", 'w')
-    zip_file = "tmp/filtered_result/filtered_#{now}.zip"
-    Zip::File.open(zip_file, Zip::File::CREATE) { |zipfile|
-      zipfile.add("filtered_#{now}_protein.fasta","#{Rails.root}/#{filename_protein}")
-      zipfile.add("filtered_#{now}_gene.fasta","#{Rails.root}/#{filename_gene}")
-      # zipfile.get_output_stream("filtered")
-    }
-
+    zip_file = package_fasta_for_filtered_result(@protein)
     send_file zip_file, :type => "application/zip", :filename =>  zip_file
   end
 
 
   def download_filtered_result
-
-    now = Time.now.strftime("%Y_%m_%d_%H_%M")
-    filename = "tmp/filtered_result/filtered_#{now}.csv"
-    export_file_name = "tmp/filtered_result/filtered_#{now}.csv" # user will see the name
-    puts "params.inspect => #{params.inspect}"
-    if params[:update].present? && !params[:header].present? && !params[:group].present? && !params[:organism].present?
-      # if update date present, there is no something like "like"
-      @protein = CustomizedProteinSequence.where("update_date >= ?", params[:update])
-      export_file_name = "tmp/filtered_result/filtered_#{params[:update]}.csv"
-    elsif !params[:update].present? && params[:header].present? && !params[:group].present? && !params[:organism].present?
-      @protein = CustomizedProteinSequence.where("header like ?", "%#{params[:header]}%")
-      export_file_name = "tmp/filtered_result/filtered_#{params[:header]}.csv"
-    elsif !params[:update].present? && !params[:header].present? && params[:group].present? && !params[:organism].present?
-      @protein = CustomizedProteinSequence.where(:group => params[:group])
-      export_file_name = "tmp/filtered_result/filtered_#{params[:group]}.csv"
-    elsif !params[:update].present? && !params[:header].present? && !params[:group].present? && params[:organism].present?
-      @protein = CustomizedProteinSequence.where("organism like ? ", "%#{params[:organism]}%")
-      export_file_name = "tmp/filtered_result/filtered_#{params[:organism]}.csv"
-    elsif params[:update].present? || params[:header].present? || params[:group].present? || params[:organism].present?
-      if !params[:update].present?
-        @protein = CustomizedProteinSequence.where("header like ? AND organism like ? AND customized_protein_sequences.group = ? AND update_date >= ?", 
-          "%#{params[:header]}%", "%#{params[:organism]}%", params[:group], "1000-01-01")
-        export_file_name = "tmp/filtered_result/filtered_#{params[:header]}_#{params[:organism]}_#{params[:group]}}.csv"
-      else
-        @protein = CustomizedProteinSequence.where("header like ? AND organism like ? AND customized_protein_sequences.group = ? AND update_date >= ?", 
-          "%#{params[:header]}%", "%#{params[:organism]}%", params[:group], params[:update])
-        export_file_name = "tmp/filtered_result/filtered_#{params[:header]}_#{params[:organism]}_#{params[:group]}_#{params[:update]}}.csv"
-      end
-    else
+    accession = params[:accession]
+    header    = params[:header]
+    group     = params[:group]
+    organism  = params[:organism]
+    export_file_name = "tmp/filtered_result/filtered_result.csv" # user will see the name
+    # params.inspect => <ActionController::Parameters {"accession"=>"", "group"=>"", "header"=>"RS01800", "organism"=>"", "controller"=>"protein", "action"=>"download_filtered_result"} permitted: false>
+    if !accession.present? and !header.present? and !group.present? and !organism.present?
+      # no filter certiera given, sort by default (which is sort by group)
       @protein = CustomizedProteinSequence.all
+      
+    elsif accession.present? or header.present? or group.present? or organism.present?
+      # filter certiera is given
+      @protein = protein_index_just_filter(params,nil,true)
+
     end
-    # export the filtered result into csv
-    CSV.open(filename, "w") do |csv|
-      csv << ["header","amino acid sequence","nucleotide sequence","group","organism","publish_date"]
-      @protein.each do |p|
-        nt_object = CustomizedNucleotideSequence.find_by(:header => p.header)
-        nt_sequence = ""
-        if !nt_object.nil?
-          nt_sequence = nt_object.chain
-        end
-        csv << [p.header,p.chain,nt_sequence,p.group,p.organism,p.update_date]
-      end
-    end
+
+    filename = package_csv_for_filtered_result(@protein)
     send_file filename, :type => "application/csv", :filename =>  export_file_name
   end
 	
@@ -122,36 +54,95 @@ class ProteinController < ApplicationController
     # after add sorting feature 
     # params.inspect => <ActionController::Parameters {"c"=>"group", "commit"=>"Filter", "d"=>"up", "group"=>"", "header"=>"", "organism"=>"", "utf8"=>"✓", "controller"=>"protein", "action"=>"index"} permitted: false>
     
-  	if params[:commit].present?
-  		if params[:update].present? && !params[:header].present? && !params[:group].present? && !params[:organism].present?
-  			# if update date present, there is no something like "like"
-  			@protein = CustomizedProteinSequence.where("update_date >= ?", params[:update]).limit(25).page(params[:page])
-  		elsif !params[:update].present? && params[:header].present? && !params[:group].present? && !params[:organism].present?
-				@protein = CustomizedProteinSequence.where("header like ?", "%#{params[:header]}%").limit(25).page(params[:page])
-  		elsif !params[:update].present? && !params[:header].present? && params[:group].present? && !params[:organism].present?
-				@protein = CustomizedProteinSequence.where(:group => params[:group]).limit(25).page(params[:page])
-  		elsif !params[:update].present? && !params[:header].present? && !params[:group].present? && params[:organism].present?
-  			@protein = CustomizedProteinSequence.where("organism like ? ", "%#{params[:organism]}%").limit(25).page(params[:page])
-  		elsif params[:update].present? || params[:header].present? || params[:group].present? || params[:organism].present?
-  			if !params[:update].present?
-  				@protein = CustomizedProteinSequence.where("header like ? AND organism like ? AND customized_protein_sequences.group = ? AND update_date >= ?", 
-  					"%#{params[:header]}%", "%#{params[:organism]}%", params[:group], "1000-01-01").limit(25).page(params[:page])
-  			else
-  				@protein = CustomizedProteinSequence.where("header like ? AND organism like ? AND customized_protein_sequences.group = ? AND update_date >= ?", 
-  					"%#{params[:header]}%", "%#{params[:organism]}%", params[:group], params[:update]).limit(25).page(params[:page])
-  			end
-  		else
-  			@protein = CustomizedProteinSequence.limit(25).page(params[:page])
-  		end
+    # group => filter
+    # no group info anymore, but I think that's fine, user want to see that particular name anyway
+    # Parameters: {"utf8"=>"✓", "commit"=>"Filter", "accession"=>"", "header"=>"1395", "group"=>"", "organism"=>""}
+    # if just click filter, no sorting params
+    # if just click sort first time, not filter params
+    # if just click sort after first time, both filter and sorting params
+ 
 
-  	else
-  		@protein = CustomizedProteinSequence.limit(25).page(params[:page])
-  	end
-  	# protein = CustomizedProteinSequence.where(:header => "8657036VS")
-  	# puts "protein.class => #{protein.class}"
-    
-    # puts "protein.class => #{@protein.class}"
+  	if params[:commit] == "Filter"
+      accession = params[:accession]
+      header    = params[:header]
+      group     = params[:group]
+      organism  = params[:organism]
+      if params[:c].nil? and params[:d].nil?
+        puts "just filtering"
+        # user didn't click the sort link, just simple filter
+        # first header will be accession
+        # protein = CustomizedProteinSequence.where("header like ? AND header like ? AND customized_protein_sequences.group like ? AND organism like ?", 
+        #   accession,header,group,organism).order(group: :DESC).limit(25).page(params[:page])
+        if !accession.present? and !header.present? and !group.present? and !organism.present?
+          # no filter certiera given, sort by default (which is sort by group)
+          @protein = CustomizedProteinSequence.order(group: :DESC).limit(25).page(params[:page])
+          
+        elsif accession.present? or header.present? or group.present? or organism.present?
+          # filter certiera is given
+          @protein = protein_index_just_filter(params)
+
+        end
+
+      else # if there is params[:c] and params[:d]
+        # do filter and then sorting
+        # if just sorting without filter at first, there is no params[:commit] 
+        puts "filtering => sorting"
+        sort_order = nil
+        if params[:d] == "up"
+          sort_order = "asc"
+        else
+          sort_order = "desc"
+        end
+
+        if !accession.present? and !header.present? and !group.present? and !organism.present?
+          # no filter certiera given, sort by default (which is sort by group)
+          @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
+          # @protein = CustomizedProteinSequence.order(group: :DESC).limit(25).page(params[:page])
+          
+        elsif accession.present? or header.present? or group.present? or organism.present?
+
+          @protein = protein_index_just_filter(params, true)
+
+        end
+
+      end
+
+    elsif !params[:commit].nil? and params[:commit] != "Filter"
+      # commit appears but it is for grouping
+      puts "just grouping"
+      @protein = CustomizedProteinSequence.where(:group => params[:group]).limit(25).page(params[:page])
+    else #if params[:commit].nil
+      # first page when enter sequence page
+      # afte set non-group to 0, set :DESC to :ASC
+      puts "just sorting"
+
+      if params[:c].nil? and params[:d].nil?
+        @protein = CustomizedProteinSequence.order(group: :DESC).limit(25).page(params[:page])
+      else
+        # user did sorting without filter at first
+        sort_order = nil
+        if params[:d] == "up"
+          sort_order = "asc"
+        else
+          sort_order = "desc"
+        end
+
+        if params[:commit].nil?
+
+          @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
+
+        # elsif params[:commit] == "Filter"
+        #   # can't get into this step because params[:commit] is nil; hence user didn't do filter
+        #   # if user did filter, then the params[:commit] won't be nil, and it will go to if params[:commit] == "Filter"
+        #   @protein = CustomizedProteinSequence.order("#{params[:c]} #{sort_order}").where("header like ? AND header like ? AND group like ? AND organism like ?", 
+        #     accession,header,group,organism).order(group: :DESC).limit(25).page(params[:page])
+        end
+      end
+    end
   end
+
+
+
 
   def show
     puts "params.inspect => #{params.inspect}"
