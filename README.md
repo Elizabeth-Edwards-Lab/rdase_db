@@ -117,7 +117,7 @@ use p-placer (no need to use MUSCLE)
 
 
 2019-09-14
-1. sort the list in database page (ongoing)
+1. sort the list in database page (done)
    if click the group, show the page with only these groups (Done)
 2. add group in the tree [Done]
 2.1 create the tree based on organism or group (Done)

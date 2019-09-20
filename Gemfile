@@ -16,7 +16,7 @@ gem 'slim-rails'
 gem 'jquery-rails'
 gem 'sass-rails', '~> 5.0'
 gem 'bootstrap-kaminari-views'
-gem 'bootstrap', '~> 4.0.0'
+gem 'bootstrap', '~> 4.3.1'
 gem 'popper_js', '~> 1.14.5'
 gem 'bio'
 gem 'whenever', require: false
