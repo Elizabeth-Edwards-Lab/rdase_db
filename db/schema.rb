@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190830170116) do
+ActiveRecord::Schema.define(version: 20190923164616) do
 
   create_table "compound_synonyms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20190830170116) do
     t.string "key_group"
     t.string "organism"
     t.string "key"
+    t.string "uploader"
   end
 
   create_table "customized_protein_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 20190830170116) do
     t.string "key_group"
     t.string "organism"
     t.string "key"
+    t.string "uploader"
   end
 
   create_table "nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

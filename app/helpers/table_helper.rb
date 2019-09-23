@@ -61,6 +61,10 @@ module TableHelper
       *(args << html_options)
   end
 
+  def fontawesome(kind)
+    content_tag(:span, ' ', class: "#{kind.to_s.dasherize}")
+  end
+
   def glyphicon(kind)
     content_tag(:span, ' ', class: "glyphicon glyphicon-#{kind.to_s.dasherize}")
   end
@@ -71,9 +75,12 @@ module TableHelper
 
     icon = ''
     if column.to_s == params[:c]
-      icon = params[:d] == 'up' ? glyphicon('circle-arrow-up') : glyphicon('circle-arrow-down')
+      # icon = params[:d] == 'up' ? glyphicon('circle-arrow-up') : glyphicon('circle-arrow-down')
+      # <i class="fas fa-sort-up"></i>
+      icon = params[:d] == 'up' ? fontawesome('fas fa-sort-up') : fontawesome('fas fa-sort-down')
     else
-      icon = glyphicon('sort')
+      # icon = glyphicon('sort')
+      icon = fontawesome('fas')
     end
     
     link_to_unless(condition, title.html_safe, 
@@ -82,3 +89,6 @@ module TableHelper
                    class: 'sort-link') << " #{icon}".html_safe
   end  
 end
+
+
+
