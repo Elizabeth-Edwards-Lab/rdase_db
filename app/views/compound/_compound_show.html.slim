@@ -1,0 +1,227 @@
+table.compound-table.content-table.table-condensed
+  tbody
+    = show_header "Record Information", compound
+    tr
+      th Version
+      td = 1.0
+    tr
+      th Creation date
+      td = compound.created_at
+    tr
+      th Update date
+      td = compound.updated_at
+    tr
+      th Primary ID
+      td: strong = compound.public_id
+
+    = show_header 'Chemical Information', compound
+
+    tr
+      th Compound Name
+      td: strong = compound.name
+    tr
+      / create description
+      th Description
+      td = nah compound.description
+    tr
+      / create cas number
+      th CAS Number
+      td = nah compound.cas_number
+
+    
+    tr
+      th Structure
+      td Show image. . .
+
+    tr
+      th Synonyms
+      td
+        table.display.simple-datatable
+          thead
+            tr
+              th Synonym
+              th Source
+          tbody
+            / @synonyms is given by controller
+            / - @synonyms.each do |k, v| 
+            /   tr
+            /     td = nah k
+            /     td = nah v
+
+    tr
+      th Predicted Properties
+      td.data-table-container 
+        = render partial: 'properties_table', locals: { record: compound }
+        / = moldb_properties_table(compound)
+    tr
+      th Chemical Formula
+      td = compound.formula
+    tr
+      th IUPAC name
+      td = compound.iupac
+    tr
+      th InChI Identifier
+      td = compound.inchi
+    tr
+      th InChI Key
+      td = compound.inchikey
+    tr
+      th SMILES
+      td = compound.smiles
+    tr
+      th Average Molecular Weight
+      td = compound.average_mass
+    tr
+      th Monoisotopic Molecular Weight
+      td = compound.mono_mass
+
+
+    / = show_header 'Ontology', compound
+    / - if !compound.nil?
+    /   tr
+    /     th Ontology
+    /     td = "Should have ontology for this compound"
+    / - else
+    /   tr
+    /     th Ontology
+    /     td = nah nil, 'No ontology term'
+
+    = show_header 'Physico-Chemical Properties - Experimental', compound
+    tr
+      th Physico-Chemical Properties - Experimental
+      td
+        table.display.simple-datatable
+          thead
+            tr
+              th Property
+              th Value
+              th Reference
+          tbody
+            tr
+              th Physical state
+              td = nah compound.state
+              td =
+            tr
+              th Physical Description
+              td = nah compound.physical_description
+              td = compound.physical_description_reference
+            tr
+              th Mass Composition
+              td = nah compound.percent_composition
+              td = compound.percent_composition_reference
+            tr
+              th Melting Point
+              td = nah compound.melting_point
+              td = compound.melting_point_reference
+            tr
+              th Boiling Point
+              td = nah compound.boiling_point
+              td = compound.boiling_point_reference
+            tr
+              th Experimental Water Solubility
+              td = nah compound.experimental_solubility
+              td = compound.experimental_solubility_reference
+            tr
+              th Experimental logP
+              td = nah compound.experimental_logp
+              td = compound.experimental_logp_reference
+            tr
+              th Experimental pKa
+              td = nah compound.experimental_pka
+              td = compound.experimental_pka_reference
+            tr
+              th Charge
+              td = nah compound.charge
+              td = compound.charge_reference
+            tr
+              th Optical Rotation
+              td = nah compound.optical_rotation
+              td = compound.optical_rotation_reference
+            tr
+              th Spectroscopic UV Data
+              td = nah compound.uv_index
+              td = compound.uv_index_reference
+            tr
+              th Density
+              td = nah compound.density
+              td = compound.density_reference
+            tr
+              th Refractive Index
+              td = nah compound.refractive_index
+              td = compound.refractive_index_reference
+    / = table_header_divider 'Spectra'
+    / tr
+    /   th Spectra
+    /   - if @compound.moldb_inchikey
+    /     td = specdb_spectra_list(@compound)
+    /   - else
+    /     td = nah
+    
+    / add the bio_link_out helper function
+    = show_header 'External Links', compound
+    tr
+      th ChemSpider ID
+      td = nah bio_link_out :chemspider, compound.chemspider_id
+    tr
+      th ChEMBL ID
+      td = nah bio_link_out :chembl, compound.chembl_id
+    tr
+      th KEGG Compound ID
+      td = nah bio_link_out :kegg_compound, compound.kegg_compound_id
+    tr
+      th Pubchem Compound ID
+      td = nah bio_link_out :pubchem_compound, compound.pubchem_compound_id
+    tr
+      th Pubchem Substance ID
+      td = nah bio_link_out :pubchem_substance, compound.pubchem_substance_id
+    tr
+      th ChEBI ID
+      td = nah bio_link_out :chebi, compound.chebi_id
+    tr
+      th Phenol-Explorer ID
+      td = nah bio_link_out :phenol_compound, compound.phenolexplorer_id
+    tr
+      th DrugBank ID
+      td = nah bio_link_out :drugbank, compound.drugbank_id
+    tr
+      th HMDB ID
+      td = nah bio_link_out :hmdb, compound.hmdb_id
+    tr
+      th CRC / DFC (Dictionary of Food Compounds) ID
+      td = nah bio_link_out :dfc, compound.dfc_id
+    tr
+      th EAFUS ID
+      td = nah bio_link_out :eafus, compound.eafus_id
+    tr
+      th BIGG ID
+      td = nah bio_link_out :bigg, compound.bigg_id
+    tr
+      th KNApSAcK ID
+      td = nah bio_link_out :knapsack, compound.knapsack_id
+    tr
+      th HET ID
+      td = nah bio_link_out :het, compound.het_id
+    tr
+      th Wikipedia ID
+      td = nah bio_link_out :wikipedia, compound.wikipedia_id
+
+    = show_header 'Associated Strains', compound
+    tr
+
+
+    = show_header 'References', id: 'references'
+    tr
+      th Synthesis Reference
+      td citations
+    tr
+      th General Reference
+      td citations
+    tr
+      th Content Reference
+      td ContentReference
+
+
+
+
+
+

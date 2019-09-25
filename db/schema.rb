@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190923164616) do
+ActiveRecord::Schema.define(version: 20190925164909) do
 
   create_table "compound_synonyms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.datetime "created_at", null: false
@@ -26,6 +26,51 @@ ActiveRecord::Schema.define(version: 20190923164616) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.string "cas_number"
+    t.string "formula"
+    t.string "iupac"
+    t.string "average_mass"
+    t.string "mono_mass"
+    t.string "state"
+    t.string "physical_description"
+    t.string "physical_description_reference"
+    t.string "percent_composition"
+    t.string "percent_composition_reference"
+    t.string "melting_point"
+    t.string "melting_point_reference"
+    t.string "boiling_point"
+    t.string "boiling_point_reference"
+    t.string "experimental_solubility"
+    t.string "experimental_solubility_reference"
+    t.string "experimental_logp"
+    t.string "experimental_logp_reference"
+    t.string "experimental_pka"
+    t.string "experimental_pka_reference"
+    t.string "charge"
+    t.string "charge_reference"
+    t.string "optical_rotation"
+    t.string "optical_rotation_reference"
+    t.string "uv_index"
+    t.string "uv_index_reference"
+    t.string "density"
+    t.string "density_reference"
+    t.string "refractive_index"
+    t.string "refractive_index_reference"
+    t.string "chemspider_id"
+    t.string "chembl_id"
+    t.string "kegg_compound_id"
+    t.string "pubchem_compound_id"
+    t.string "pubchem_substance_id"
+    t.string "chebi_id"
+    t.string "phenolexplorer_id"
+    t.string "drugbank_id"
+    t.string "hmdb_id"
+    t.string "dfc_id"
+    t.string "eafus_id"
+    t.string "bigg_id"
+    t.string "knapsack_id"
+    t.string "het_id"
+    t.string "wikipedia_id"
   end
 
   create_table "customized_nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

@@ -4,9 +4,7 @@ class Compound < ApplicationRecord
 
 
 	before_validation :increment_public_id, on: :create
-
-
-	
+  
 
 	private
 

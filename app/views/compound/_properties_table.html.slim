@@ -1,0 +1,105 @@
+table class="table table-bordered"
+  col width = "250"
+  col width = "250"
+  col width = "500"
+  thead
+    tr
+      th Property
+      th Value
+      th Source
+  tbody
+    - if record.respond_to?(:alogps_solubility) && !record.alogps_solubility.nil?
+      tr
+        td Water Solubility
+        td= record.alogps_solubility.to_f.smart_round_to_s + " g/L"
+        td= bio_link_to_source :alogps
+    - if record.respond_to?(:alogps_logp) && !record.alogps_logp.nil?
+      tr
+        td logP
+        td= record.alogps_logp.to_f.smart_round_to_s
+        td= bio_link_to_source :alogps
+    - if record.respond_to?(:logp) && !record.logp.nil?
+      tr
+        td logP
+        td= record.logp.to_f.smart_round_to_s
+        td= bio_link_to_chemaxon :logp
+    - if record.respond_to?(:alogps_logs) && !record.alogps_logs.nil?
+      tr
+        td logS
+        td= record.alogps_logs.to_f.smart_round_to_s
+        td= bio_link_to_source :alogps
+    - if record.respond_to?(:pka_strongest_acidic) && !record.pka_strongest_acidic.nil?
+      tr
+        td pKa (Strongest Acidic)
+        td= record.pka_strongest_acidic.to_f.smart_round_to_s
+        td= bio_link_to_chemaxon :pka
+    - if record.respond_to?(:pka_strongest_basic) && !record.pka_strongest_basic.nil?
+      tr
+        td pKa (Strongest Basic)
+        td= record.pka_strongest_basic.to_f.smart_round_to_s
+        td= bio_link_to_chemaxon :pka
+    - if record.respond_to?(:physiological_charge) && !record.physiological_charge.nil?
+      tr
+        td Physiological Charge
+        td= record.physiological_charge.to_f.smart_round_to_s
+        td= bio_link_to_chemaxon :pka
+    - if record.respond_to?(:acceptor_count) && !record.acceptor_count.nil?
+      tr
+        td Hydrogen Acceptor Count
+        td= record.acceptor_count
+        td= bio_link_to_chemaxon :ha_count
+    - if record.respond_to?(:donor_count) && !record.donor_count.nil?
+      tr
+        td Hydrogen Donor Count
+        td= record.donor_count
+        td= bio_link_to_chemaxon :hd_count
+    - if record.respond_to?(:polar_surface_area) && !record.polar_surface_area.nil?
+      tr
+        td Polar Surface Area
+        td= record.polar_surface_area.to_f.smart_round_to_s + " Å²"
+        td= bio_link_to_chemaxon :psa
+    - if record.respond_to?(:rotatable_bond_count) && !record.rotatable_bond_count.nil?
+      tr
+        td Rotatable Bond Count
+        td= record.rotatable_bond_count
+        td= bio_link_to_chemaxon :rb_count
+    - if record.respond_to?(:refractivity) && !record.refractivity.nil?
+      tr
+        td Refractivity
+        td= record.refractivity.to_f.smart_round_to_s + " m³·mol⁻¹"
+        td= bio_link_to_chemaxon :refractivity
+    - if record.respond_to?(:polarizability) && !record.polarizability.nil?
+      tr
+        td Polarizability
+        td= record.polarizability.to_f.smart_round_to_s + " Å³"
+        td= bio_link_to_chemaxon :polarizability
+    - if record.respond_to?(:number_of_rings) && !record.number_of_rings.nil?
+      tr
+        td Number of Rings
+        td= record.number_of_rings
+        td= bio_link_to_chemaxon :rb_count
+    - if record.respond_to?(:bioavailability) && !record.bioavailability.nil?
+      tr
+        td Bioavailability
+        td= record.bioavailability.to_f.smart_round_to_s
+        td= bio_link_to_chemaxon :polarizability
+    - if record.respond_to?(:rule_of_five) && !record.rule_of_five.nil?
+      tr
+        td Rule of Five
+        td= human_boolean(record.rule_of_five)
+        td= bio_link_to_chemaxon :polarizability
+    - if record.respond_to?(:ghose_filter) && !record.ghose_filter.nil?
+      tr
+        td Ghose Filter
+        td= human_boolean(record.ghose_filter)
+        td= bio_link_to_chemaxon :polarizability
+    - if record.respond_to?(:veber_rule) && !record.veber_rule.nil?
+      tr
+        td Veber's Rule
+        td= human_boolean(record.veber_rule)
+        td= bio_link_to_chemaxon :polarizability
+    - if record.respond_to?(:mddr_like_rule) && !record.mddr_like_rule.nil?
+      tr
+        td MDDR-like Rule
+        td= human_boolean(record.mddr_like_rule)
+        td= bio_link_to_chemaxon :polarizability

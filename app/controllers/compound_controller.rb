@@ -1,6 +1,6 @@
 class CompoundController < ApplicationController
 
-
+  helper CompoundHelper
 	def index
 		if params[:commit].present?
   		if params[:name].present? && !params[:header].present? && !params[:group].present? && !params[:organism].present?
@@ -17,5 +17,6 @@ class CompoundController < ApplicationController
 
 	def show
 		@compound = Compound.find(params[:id])
+    # @synonyms = CompoundSynonym.find(params[:id])
 	end
 end

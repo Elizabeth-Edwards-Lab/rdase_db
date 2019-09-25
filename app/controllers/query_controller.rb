@@ -97,8 +97,9 @@ class QueryController < ApplicationController
           end
         end
 
-        # puts "@existing_matched_group => #{@existing_matched_group}"
 
+        # puts "@existing_matched_group => #{@existing_matched_group}"
+        # puts "@is_exist_chain => #{@is_exist_chain}"
 
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
 
@@ -150,12 +151,13 @@ class QueryController < ApplicationController
           identity_with_90 = Array.new 
           aa_report.each do |hit|
             match_identity = (hit.identity * 100) / hit.query_len
+            # puts "#{hit.target_def} => #{match_identity}"
             if match_identity >= 90
               identity_with_90 << hit.target_def
             end
 
           end # end of aa_report.each do |hit|
-          puts "identity_with_90 definition => #{identity_with_90.inspect}"
+          # puts "identity_with_90 definition => #{identity_with_90.inspect}"
 
 
           identity_groups = Array.new  # identity_group contains the eligiable group number
@@ -204,7 +206,12 @@ class QueryController < ApplicationController
               end # end of if !group_number.blank? && !group_number.nil?
               # should create a new group based on average aa sequence similiarity larger than 90%
               # yes, this logic is at later processing
+
+              # if remove the step check if all other sequences (at same group) also share match_identity with greater than 90.
+              # identity_groups << reversed_group_hash[definition]
             end # end of identity_with_90.each do |identity|
+
+              
 
             # puts "identity_groups => #{identity_groups}"
 
@@ -225,6 +232,7 @@ class QueryController < ApplicationController
 
               nt_report.each do |hit|
                 match_identity = (hit.identity * 100) / hit.query_len
+                # puts "#{hit.target_def} => #{match_identity}"
                 if match_identity >= 90
                   dna_level_hit_90 << hit.target_def  
                 end
