@@ -1,0 +1,2 @@
+class CompoundStrainRel < ApplicationRecord
+end
