@@ -6,27 +6,38 @@ class QueryController < ApplicationController
 	before_action :set_blast_defaults_for_aa
 
   def search
-    @available_database = ["eductive_dehalogenase (revised)","eductive_dehalogenase (non-revised)"]
-    @available_organism = ["fake fake fake fake organism_1_","fake organism_2"]
 
-    # return {... "Database"=>"eductive_dehalogenase (customized)" ...}
-    # save user query no matter what but without any user information
-    # only ask user information if the sequence is good
-    begin
-      user_input = Query.new
-      user_input.sequence = params[:sequence].gsub(/\s+/, '>')
-      user_input.save!
-    rescue Exception => e
-      puts e
-      user_input.sequence = "NULL"
-      user_input.save!
-    end
-
-    
     # params.inspect
     params[:filters] ||= {}
 
     if params[:commit].present?
+      # do parameter validation
+      # sequence can't be too long
+      # etc.
+      begin
+        user_input = Query.new
+        user_input.sequence = params[:sequence].gsub(/\s+/, '>')
+        user_input.save!
+      rescue Exception => e
+        puts e
+        user_input.sequence = "NULL"
+        user_input.save!
+      end
+
+      if params[:new_result_tab] == "1"
+        # puts params.inspect
+        # <ActionController::Parameters {"utf8"=>"✓", "authenticity_token"=>"UF0Fc5iVJJ7TuJCXGlUNAqukXoc/T0EoZLAdXQAe35Zd9Eh7dpfDjgHhDWOgaSp/HDAN7a5jqLHYGs8WyW07Hg==", 
+        # "sequence"=>">8657036VS\r\nMGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKAEKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPRYRGLYREIF", 
+        # "gap_cost"=>"11", "extend_cost"=>"1", "mismatch_penalty"=>"-3", "match_reward"=>"2", "evalue"=>"0.000001", 
+        # "new_result_tab"=>"1", "gapped_alignment"=>"1", "filter_query_sequence"=>"1", "commit"=>"BLAST", "controller"=>"query", 
+        # "action"=>"search", "filters"=>{}} permitted: false>
+        redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => params[:sequence],
+          :gap_cost => params[:gap_cost], :extend_cost => params[:extend_cost],:mismatch_penalty => params[:mismatch_penalty],
+          :match_reward => params[:match_reward], :evalue => params[:evalue], :gapped_alignment => params[:gapped_alignment],
+          :filter_query_sequence => params[:filter_query_sequence],:commit => params[:commit]).permit(:sequence, :gap_cost, :extend_cost, 
+          :mismatch_penalty, :match_reward, :evalue, :gapped_alignment, :gapped_alignment, :filter_query_sequence, :commit)
+      end 
+
       if params[:sequence].blank?
         redirect_to(search_path, notice: "Must provide valid sequence") and return
       end
@@ -296,15 +307,193 @@ class QueryController < ApplicationController
 
         # no similarity at 80%, just show the tree feature
 
+        # hash doesn't work; url still too long
+        # query_result = Hash.new
+        # query_result["is_exist_chain"] = @is_exist_chain
+        # query_result["append_seq_to_relative_rd_og"] = @append_seq_to_relative_rd_og
+        # query_result["group"] = @final_identity_groups
+        # query_result["append_seq_to_csv"] = @append_seq_to_csv
+        # query_result["group_number_list"] = @group_number_list
+        # query_result["organism_list"] = @organism_list
+        # query_result["aa_sequence_result"] = @aa_sequence_result
+        # query_result["sequence_group"] = @sequence_group
+        # query_result["aa_similarity"] = @aa_similarity
+        # query_result["final_identity_groups"] = @final_identity_groups
+        # query_result["existing_matched_group"] = @existing_matched_group
+
+        # redirect_to :controller => 'query', :action => 'result', query_result: query_result
+          # is_exist_chain: @is_exist_chain, append_seq_to_relative_rd_og: @append_seq_to_relative_rd_og, 
+          # group: @final_identity_groups, append_seq_to_csv: @append_seq_to_csv, 
+          # group_number_list: @group_number_list, organism_list: @organism_list,
+          # aa_sequence_result: @aa_sequence_result, sequence_group: @sequence_group,
+          # aa_similarity: @aa_similarity, final_identity_groups: @final_identity_groups,
+          # existing_matched_group: @existing_matched_group
+
         break # only parse one fasta file
       end # end of fasta_array.each
     end
+
+    
 
   end
 
 
   def result
+    # puts "result params => #{params.inspect}"
+    if params[:commit].present?
+      if params[:sequence].blank?
+        redirect_to(search_path, notice: "Must provide valid sequence") and return
+      end
 
+      if params[:sequence].strip !~ /^>/
+        params[:sequence] = ">Submitted Sequence 1\n#{params[:sequence]}"
+      end
+
+      fasta_array = params[:sequence].scan(/>[^>]*/)
+      @hits = Hash.new
+      @sequences = ActiveSupport::OrderedHash.new
+      @new_customized_sequence = CustomizedProteinSequence.new
+      protein_sequence = CustomizedProteinSequence.all
+      @sequence_group = Hash.new
+      protein_sequence.each do |s|
+        @sequence_group[s.header] = s.group
+      end
+      @group_number_list = Array.new
+      @organism_list = Array.new
+      fasta_array.each do |fasta_seq|
+        @query = Bio::FastaFormat.new( fasta_seq )
+        query_name = @query.definition
+        @sequence = @query.to_seq
+        @sequence.auto # Guess the type of sequence. Changes the class of @sequence.
+        query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
+        program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
+        database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
+        sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+        blast_options = set_blast_options(program,params)
+        blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
+        aa_report = blaster.query(@sequence.seq)
+        @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+        @is_exist_chain = false
+        @existing_matched_group = nil
+        aa_report.each do |hit|
+          if hit.evalue == 0
+            existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => @sequence.seq)
+            if !existing_matched_group_exist.nil?
+              @is_exist_chain = true
+              @existing_matched_group = existing_matched_group_exist.group
+            end
+          end
+        end
+        @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
+        if @aa_similarity > 0.0
+          group_hash = Hash.new
+          reversed_group_hash = Hash.new
+          protein_sequence.each do |single_entry|
+            if !@group_number_list.include? single_entry.group
+              @group_number_list << single_entry.group
+            end
+            if !@organism_list.include? single_entry.organism
+              @organism_list << single_entry.organism
+            end
+            if single_entry.group.nil?
+              next
+            else
+              reversed_group_hash[single_entry.header] = single_entry.group
+              if group_hash[single_entry.group].nil?
+                group_array = Array.new
+                group_array << single_entry.header
+                group_hash[single_entry.group] = group_array
+              else
+                group_hash[single_entry.group] << single_entry.header
+              end
+            end
+          end # end protein_sequence.each do |single_entry|
+          identity_with_90 = Array.new 
+          aa_report.each do |hit|
+            match_identity = (hit.identity * 100) / hit.query_len
+            if match_identity >= 90
+              identity_with_90 << hit.target_def
+            end
+          end # end of aa_report.each do |hit|
+          identity_groups = Array.new  # identity_group contains the eligiable group number
+          if identity_with_90.length > 0
+            identity_with_90.each do |definition|
+              group_number = reversed_group_hash[definition]
+              if !group_number.blank? && !group_number.nil?
+                is_belong_to_group = true
+                if group_hash[group_number].length == 1
+                  is_belong_to_group = true
+                else 
+                  group_hash[group_number].each do |s_identity|
+                    if identity_with_90.include? s_identity
+                      next
+                    else
+                      is_belong_to_group = false
+                    end
+                  end
+                end # end of if group_hash[group_number].length == 1
+                if is_belong_to_group == true
+                  if !identity_groups.include? group_number
+                    identity_groups << group_number
+                  end
+                end # end of is_belong_to_group == true
+              end # end of if !group_number.blank? && !group_number.nil?
+            end # end of identity_with_90.each do |identity|
+            @final_identity_groups = Array.new # this is final check for the similarity
+            @append_seq_to_relative_rd_og = false
+            @append_seq_to_relative_rd_og_without_group = false
+            @append_seq_to_new_rd_og = false
+            if identity_groups.length > 0
+              dna_level_hit_90 = Array.new
+              nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
+              nt_report.each do |hit|
+                match_identity = (hit.identity * 100) / hit.query_len
+                if match_identity >= 90
+                  dna_level_hit_90 << hit.target_def  
+                end
+              end
+              if dna_level_hit_90.length > 0
+                identity_groups.each do |group_number|
+                  final_check_pass = true
+                  nt_definition_array = group_hash[group_number]
+                  if nt_definition_array.length == 1
+                    if dna_level_hit_90.include? nt_definition_array[0]
+                      final_check_pass = true
+                    end
+                  else # nt_definition_array.length > 1
+                    nt_definition_array.each do |nt_definition|
+                      if dna_level_hit_90.include? nt_definition
+                        next
+                      else
+                        final_check_pass = false
+                      end
+                    end
+                  end
+                  if final_check_pass == true
+                    @final_identity_groups << group_number
+                  end
+                end # end of identity_groups.each do |group_number|
+              end # end of dna_level_hit_90.length > 1
+              if @final_identity_groups.length > 0
+                @append_seq_to_relative_rd_og = true
+              else
+                @append_seq_to_relative_rd_og_without_group = true
+              end
+            else # if identity_groups.length == 0 (share more than 80% of all aa sequence; but
+              @append_seq_to_csv = true # just save to database, do nothing
+            end
+          else # identity_with_90.length == 0 # doesn't belong to any group
+            @append_seq_to_csv = true
+          end # end of identity_with_90.length > 0
+
+        end # end of @aa_similarity > 0.80
+
+        break # only parse one fasta file
+      end # end of fasta_array.each
+      
+    else
+      redirect_to :controller => 'query', :action => 'search'
+    end
 
   end
 
@@ -559,6 +748,7 @@ class QueryController < ApplicationController
     params[:evalue] ||= '0.000001'
     params[:gapped_alignment] = true if params[:commit].blank?
     params[:filter_query_sequence] = true if params[:commit].blank?
+    params[:new_result_tab] = true if params[:commit].blank?
   end
 
   def set_blast_defaults_for_aa
@@ -569,6 +759,7 @@ class QueryController < ApplicationController
     params[:evalue] ||= '0.000001'
     params[:gapped_alignment] = true if params[:commit].blank?
     params[:filter_query_sequence] = true if params[:commit].blank?
+    params[:new_result_tab] = true if params[:commit].blank?
   end
 
 end

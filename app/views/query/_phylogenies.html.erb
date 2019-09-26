@@ -97,7 +97,7 @@
 
 	$('#do-tree').submit(function(e){
 		e.preventDefault();
-		var sequence = $('.seq-search-sequence').val();
+		var sequence = $('.seq-search-sequence').val(); // if render new page, then it will be undefined ... 
 		var form = $(this);
 		$.ajax({
 			type:"POST",

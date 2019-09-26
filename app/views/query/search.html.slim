@@ -1,5 +1,5 @@
 .well
-  = form_tag search_path(anchor: :results), id: 'seq-search-form' do
+  = form_tag search_path(anchor: :results), :target => "_blank", id: 'seq-search-form' do
     fieldset
       legend
         | Enter an amino acid sequence in
@@ -30,6 +30,10 @@
             = label_tag :evalue, 'Expectation value'
             = text_field_tag :evalue, (params[:evalue]), class: 'form-control'
           .checkbox
+            = label_tag :new_result_tab, class: 'checkbox' do
+              = check_box_tag :new_result_tab, 1, params[:new_result_tab]
+              | Show result in new windows
+          .checkbox
             = label_tag :gapped_alignment, class: 'checkbox' do
               = check_box_tag :gapped_alignment, 1, params[:gapped_alignment]
               | Perform gapped alignment
@@ -41,6 +45,8 @@
             = label_tag :filter_query_sequence, class: 'checkbox' do
               = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
               | Filter query sequence (DUST &amp; SEG)
+          
+
 
 
     - if lookup_context.find_all('seq_search/_filters').any?
@@ -53,6 +59,7 @@
 / = render partial: "phylogenies"
 / = render partial: "submit_sequence"
 - if @aa_similarity.present?
+
   hr
   = render partial: "result"
   = render partial: "results_view"

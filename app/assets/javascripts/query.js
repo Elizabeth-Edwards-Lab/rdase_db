@@ -15,12 +15,27 @@ $(document).ready(function(){
 		}
 	})
 
+	// https://stackoverflow.com/questions/8423217/jquery-checkbox-checked-state-changed-event
+	// detect if the checkbox is changed
+	var seq_search_form = $('#seq-search-form');
+	$("#new_result_tab").change(function() {
+	    if(this.checked) {
 
-	// $('.blast-btn').on('click',function(){
-	// 	$(this).disable()
-		
-	// })
-	
+	    	if(seq_search_form.attr("target") === undefined){
+				// not checked attribute yet; add one
+				seq_search_form.attr('target','_blank');
+
+				console.log(seq_search_form.attr("target"));
+			}
+		}else if(!this.checked){
+			seq_search_form.removeAttr("target");
+			console.log(seq_search_form.attr("target"));
+		}
+	});
+
+
+
+
 })
 
 jQuery(function($){
@@ -43,7 +58,6 @@ jQuery(function($){
 			}
 		})
 	})
-
 	
 })
 
