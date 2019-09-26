@@ -15,6 +15,7 @@
 	      <th><%= table_sort_link "Common Name", :header %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
+	      <th>Characteristics</th>
 	      
 	    </tr>
 
@@ -25,6 +26,7 @@
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
+	      <th></th>
 	    <% end %>
 	      
 	    </tr>
@@ -36,11 +38,23 @@
 	      	<td><%= link_to "show", protein_path(pt.id), :id => 'show-button' %></td>
 	        <td><%= pt.header %></td>
 	        <td><%= pt.header %></td>
-	        <%= form_with url:'protein', method: :get do |f| %>
-	        	<%= hidden_field_tag(:group, pt.group) %>
-	        	<td><%= f.submit "#{pt.group}", disabled: false, :id => 'group-click-button' %></td>
+
+	        <% if pt.group.nil? %>
+	        	<td>No Group</td>
+	        <% else %>
+	        	<%= form_with url:'protein', method: :get do |f| %>
+	        		<%= hidden_field_tag(:group, pt.group) %>
+	        		<td><%= f.submit "#{pt.group}", disabled: false, :id => 'group-click-button' %></td>
+	        	<% end %>
 	        <% end %>
-	        <td style="font-style: italic"><%= pt.organism %></td>
+
+	        <% if pt.organism.nil? %>
+	        	<td>No Organism</td>
+	        <% else %>
+	        	<td style="font-style: italic"><%= pt.organism %></td>
+	        <% end %>
+	        
+	        <td></td>
 	        
 	        
 	      </tr>

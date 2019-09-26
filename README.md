@@ -140,6 +140,46 @@ Assign all entry with group number. If there is no group, then assign value as 0
 and indicate that group 0 is the non-assigned group
 
 
+2019-9-26
+1) please move the blast alignment so it is the last thing on the result page after you blast a sequence
+Status: Done 
+Comment: I give user choice that they can either render everything at same page, or they can render the 
+result at new page. I will add loading amination later on (note: NCBI using automatical refreshing technqiues)
+
+2) change the statement for asking user to submit sequence
+Status: Done
+
+3) When I try sorting the RDases by group, could you please write something into the column for RDases which do not have a group so they appear last rather than first? For example "no group"
+Status: ongoing
+Comment: I set the strain without group as group 0; and I display the strain with group 0 as "No Group",
+Hope that we won't have to use group 0 as OGs group;
+
+4) The strain name should not be italicized under organism. only genus & species names.
+Status: ongoing
+Comment: I will do this after the characteristics is separated from organism name (e.g. Dehalogenimonas lykanthroporepellens BL-DC-9; Dehalococcoides mccartyi DCMB5)
+
+5) We are still missing a column which indicates which sequences have been characterized ie VcrA, TceA, PceA ect.
+Status: ongoing 
+Comment: overlapping task 4. I will need the spreadsheet to be filled completely; then I can determine the VcrA, etc.
+For example, Dehalogenimonas lykanthroporepellens BL-DC-9, I am not really sure is BL-DC-9 the characteristics or just a common name; same as Dehalococcoides mccartyi DCMB5 (DCMB5?)
+Do you also want to sort the characteristics?
+
+6) There is no link to OG group information right now....when we click on the OG# I thought we were going to have it take us to a page which describes whether the group has any characterized representatives and the references for those.
+Status: ongoing
+Comment: I didn't recall this requirement. Currently, if user click group number at any page, it will redirect user to
+the protein database page but only displaying the group members
+
+7) I'm not sure that "average AA similarity" is working like it is supposed to. I also tried blasting a sequence which I know is already in an OG and in the database and I got like 81% which makes no sense since it should be >90%.....
+Status: ongoing
+Comment: average AA similarity =  number of strain with blast hit (based on evalue) / total number of strain in database;
+average AA similarity is not selectin criteria anymore, I should remove it...  
+
+8) At the bottom of the page when we have the option to create a tree.....please change "All ORase group" to "All OGs". Could we also make an option to select more than one organism at one? Or maybe a separate option like "All Dehalococcoides" "All Dehalogenimonas" and "All Dehalobacter"
+Status: ongoing
+Comment: "All ORase group" to "All OGs" will do. 
+          I will try to figure out how to let user select multiple groups and organisms (not easy task at client-side)
+
+
 
 
 

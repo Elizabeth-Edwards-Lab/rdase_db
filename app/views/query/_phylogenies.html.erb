@@ -4,7 +4,7 @@
 
 	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
 
-		<%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All ORase Group', :class => "option-button" %>
+		<%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All OGs', :class => "option-button" %>
 		<br>
 		<%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All Organism', :class => "option-button" %>
 		<br>

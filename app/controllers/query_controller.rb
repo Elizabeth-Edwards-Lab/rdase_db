@@ -25,12 +25,7 @@ class QueryController < ApplicationController
       end
 
       if params[:new_result_tab] == "1"
-        # puts params.inspect
-        # <ActionController::Parameters {"utf8"=>"✓", "authenticity_token"=>"UF0Fc5iVJJ7TuJCXGlUNAqukXoc/T0EoZLAdXQAe35Zd9Eh7dpfDjgHhDWOgaSp/HDAN7a5jqLHYGs8WyW07Hg==", 
-        # "sequence"=>">8657036VS\r\nMGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKAEKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPRYRGLYREIF", 
-        # "gap_cost"=>"11", "extend_cost"=>"1", "mismatch_penalty"=>"-3", "match_reward"=>"2", "evalue"=>"0.000001", 
-        # "new_result_tab"=>"1", "gapped_alignment"=>"1", "filter_query_sequence"=>"1", "commit"=>"BLAST", "controller"=>"query", 
-        # "action"=>"search", "filters"=>{}} permitted: false>
+        
         redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => params[:sequence],
           :gap_cost => params[:gap_cost], :extend_cost => params[:extend_cost],:mismatch_penalty => params[:mismatch_penalty],
           :match_reward => params[:match_reward], :evalue => params[:evalue], :gapped_alignment => params[:gapped_alignment],

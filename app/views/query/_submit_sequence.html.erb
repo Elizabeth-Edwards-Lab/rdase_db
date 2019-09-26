@@ -11,11 +11,8 @@
 
 <div class="well-submit-sequence">
 	<p id="_submit_seq_p">
+		Your RDase sequence does not belong to any of the ortholog groups currently in the database. In order to submit your sequence to our database automatically your sequence must be annotated as a reductive dehalogenase and made publicly available with an NCBI or IMG accession number. If you do not have an accession number, you can send the sequence directly to the <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a>. We will evaluate your sequence and add it to the database manually. Thank you for supporting the RDase Database!
 		Your sequence match one of the RD_OD group in our database.
-		In order to submit your sequence to our database automatically,
-		we need the NCBI accession number. If you don't have the accession
-		number, you can send the sequence directly to <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a>. We will evaluate your sequence and add to our database manually.
-		Contribute the Reductive Dehalogenase Database for large community!
 	</p>
 
 	<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f| %>

@@ -72,10 +72,9 @@ class ProteinController < ApplicationController
         # user didn't click the sort link, just simple filter
         # first header will be accession
         # protein = CustomizedProteinSequence.where("header like ? AND header like ? AND customized_protein_sequences.group like ? AND organism like ?", 
-        #   accession,header,group,organism).order(group: :DESC).limit(25).page(params[:page])
         if !accession.present? and !header.present? and !group.present? and !organism.present?
           # no filter certiera given, sort by default (which is sort by group)
-          @protein = CustomizedProteinSequence.order(group: :DESC).limit(25).page(params[:page])
+          @protein = CustomizedProteinSequence.order(group: :ASC).limit(25).page(params[:page])
           
         elsif accession.present? or header.present? or group.present? or organism.present?
           # filter certiera is given
@@ -96,8 +95,7 @@ class ProteinController < ApplicationController
 
         if !accession.present? and !header.present? and !group.present? and !organism.present?
           # no filter certiera given, sort by default (which is sort by group)
-          @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
-          # @protein = CustomizedProteinSequence.order(group: :DESC).limit(25).page(params[:page])
+          @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
           
         elsif accession.present? or header.present? or group.present? or organism.present?
 
@@ -117,7 +115,10 @@ class ProteinController < ApplicationController
       puts "just sorting"
 
       if params[:c].nil? and params[:d].nil?
-        @protein = CustomizedProteinSequence.order(group: :DESC).limit(25).page(params[:page])
+        # first enter the sequence page => default sort by group
+        # @protein = CustomizedProteinSequence.order(group: not :nil ,group: :ASC).limit(25).page(params[:page])
+        # https://stackoverflow.com/questions/5826210/rails-order-with-nulls-last
+        @protein = CustomizedProteinSequence.order("customized_protein_sequences.group is NULL, customized_protein_sequences.group ASC").limit(25).page(params[:page])
       else
         # user did sorting without filter at first
         sort_order = nil
@@ -129,13 +130,8 @@ class ProteinController < ApplicationController
 
         if params[:commit].nil?
 
-          @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
+          @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
 
-        # elsif params[:commit] == "Filter"
-        #   # can't get into this step because params[:commit] is nil; hence user didn't do filter
-        #   # if user did filter, then the params[:commit] won't be nil, and it will go to if params[:commit] == "Filter"
-        #   @protein = CustomizedProteinSequence.order("#{params[:c]} #{sort_order}").where("header like ? AND header like ? AND group like ? AND organism like ?", 
-        #     accession,header,group,organism).order(group: :DESC).limit(25).page(params[:page])
         end
       end
     end

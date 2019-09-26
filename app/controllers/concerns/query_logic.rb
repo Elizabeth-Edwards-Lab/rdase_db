@@ -202,7 +202,7 @@ module QueryLogic
 			  sort_order = "desc"
 			end
 
-			return protein.order("customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
+			return protein.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
 		end
 	end
 
