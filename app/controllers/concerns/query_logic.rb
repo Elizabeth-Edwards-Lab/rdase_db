@@ -36,12 +36,6 @@ module QueryLogic
 	end
 
 	def run_tblastn(seq,database,blast_options=nil)
-		# run tblastn program
-		# Params: Bio:Blast:Report
-		# Return: float
-		# +command+:: 
-		# +outhandler+:: +Proc+ 
-		# +errhandler+:: +Proc+
 
 		report = nil
 		if blast_options.nil?
@@ -73,18 +67,13 @@ module QueryLogic
 		return sequences
 	end
 
+
 	def validate_ncbi_accession_number(accession_number)
 		url = "https://www.ncbi.nlm.nih.gov/protein/#{accession_number}"
 		request = URI.parse(url)
 	end
 
 
-	# package the filtered result into csv file
-	# Params: CustomizedProteinSequence activerecord
-	# For ProteinController#download_filtered_result
-	# +command+:: 
-	# +outhandler+:: +Proc+ 
-	# +errhandler+:: +Proc+
 	def package_csv_for_filtered_result(protein)
 		
 		now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
@@ -109,11 +98,6 @@ module QueryLogic
 
 
 	# package the filtered result into fasta file, and zip it 
-	# Params: CustomizedProteinSequence activerecord
-	# For ProteinController#download_filtered_result_fasta
-	# +command+:: 
-	# +outhandler+:: +Proc+ 
-	# +errhandler+:: +Proc+
 	def package_fasta_for_filtered_result(protein)
 		now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
     filename_protein = "tmp/filtered_result/filtered_#{now}_protein.fasta"
@@ -140,7 +124,6 @@ module QueryLogic
 		Zip::File.open(zip_file, Zip::File::CREATE) { |zipfile|
 		  zipfile.add("filtered_#{now}_protein.fasta","#{Rails.root}/#{filename_protein}")
 		  zipfile.add("filtered_#{now}_gene.fasta","#{Rails.root}/#{filename_gene}")
-		  # zipfile.get_output_stream("filtered")
 		}
 
 		return zip_file
@@ -207,13 +190,8 @@ module QueryLogic
 	end
 
 	def describt_hit(hit)
-		# print all hit information
-		# Params: Bio:Blast:Report:hit
-		# +command+:: 
-		# +outhandler+:: +Proc+ 
-		# +errhandler+:: +Proc+
 		puts hit.evalue           # E-value
-		# puts hit.sw               # Smith-Waterman score (*)
+		puts hit.sw               # Smith-Waterman score (*)
 		puts hit.identity         # % identity use this to compare the sequence 
 		puts hit.overlap          # length of overlapping region
 		puts hit.query_id         # identifier of query sequence
@@ -233,30 +211,7 @@ module QueryLogic
 		puts hit.target_end       # end position of homologous region
 		                          # in hit(target) sequence
 		puts hit.lap_at           # array of above four numbers
-		puts "================"
+		puts "============================================================="
 	end
 
-  # blast+ ncbi program
-  # blastdb_aliastool
-  # blastdbcheck
-  # blastdbcmd
-  # blast_formatter
-  # blastn
-  # blastp
-  # blastx
-  # convert2blastmask
-  # deltablast
-  # dustmasker
-  # legacy_blast.pl
-  # makeblastdb
-  # makembindex
-  # makeprofiledb
-  # psiblast
-  # rpsblast
-  # rpstblastn
-  # segmasker
-  # tblastn
-  # tblastx
-  # update_blastdb.pl
-  # windowmasker
 end

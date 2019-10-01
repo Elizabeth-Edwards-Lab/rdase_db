@@ -1,11 +1,18 @@
 class QueryController < ApplicationController
   # include concerns
   include QueryLogic
-  helper QueryHelper
+  include QueryValidator # concerns is for reducing logic in controller
+  helper QueryHelper # helper is for reducing logic in view
+  # for reducing logic in ActiveRecord, do it in model file
 
 	before_action :set_blast_defaults_for_aa
 
   def search
+
+    puts "params.inspect => #{params.inspect}"
+    if params[:notice].present?
+      @error = params[:notice]
+    end
 
     # params.inspect
     params[:filters] ||= {}
@@ -14,35 +21,52 @@ class QueryController < ApplicationController
       # do parameter validation
       # sequence can't be too long
       # etc.
-      begin
-        user_input = Query.new
-        user_input.sequence = params[:sequence].gsub(/\s+/, '>')
-        user_input.save!
-      rescue Exception => e
-        puts e
-        user_input.sequence = "NULL"
-        user_input.save!
+      if params[:sequence].present?
+
+        # do validation first to make sure the the sequence is ok for blasting
+        # then save to query, and send the query id to other actions
+        # for the query, make sure the sequenece is delievered properly
+        
+        # if the sequence is not match /^>/; return true and do making-up
+        params_sequence = params[:sequence].clone
+        after_validation = validate_amino_acid_sequnence(params_sequence)
+        if after_validation.class == String
+          params[:sequence] = after_validation
+        elsif after_validation.class == Hash
+          error_msg = ""
+          after_validation.each do |key, error|
+            error_msg += "#{error}\n"
+          end
+          redirect_to :controller => 'query', :action => 'search', params: params.merge(:notice => error_msg ).permit(:notice) and return
+        end
+
+      else
+        redirect_to :controller => 'query', :action => 'search', params: params.merge(:notice => "Must provide an amino acid sequence in Fasta format").permit(:notice) and return
       end
+
+      fasta_array = params[:sequence].scan(/>[^>]*/)
+      # only allow one sequence at time on server
+      if fasta_array.length > 1
+        redirect_to :controller => 'query', :action => 'search', params: params.merge(:notice => "Please provide only one sequence.").permit(:notice) and return
+      end
+
+      # Save the query first
+      user_input = Query.new
+      user_input.sequence = params[:sequence].gsub(/\s+/, "|")
+      user_input.save!
 
       if params[:new_result_tab] == "1"
         
         redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => params[:sequence],
           :gap_cost => params[:gap_cost], :extend_cost => params[:extend_cost],:mismatch_penalty => params[:mismatch_penalty],
           :match_reward => params[:match_reward], :evalue => params[:evalue], :gapped_alignment => params[:gapped_alignment],
-          :filter_query_sequence => params[:filter_query_sequence],:commit => params[:commit]).permit(:sequence, :gap_cost, :extend_cost, 
-          :mismatch_penalty, :match_reward, :evalue, :gapped_alignment, :gapped_alignment, :filter_query_sequence, :commit)
+          :filter_query_sequence => params[:filter_query_sequence],:commit => params[:commit], :query_id => user_input.id).permit(:sequence, :gap_cost, :extend_cost, 
+          :mismatch_penalty, :match_reward, :evalue, :gapped_alignment, :gapped_alignment, :filter_query_sequence, :commit, :query_id)
       end 
 
-      if params[:sequence].blank?
-        redirect_to(search_path, notice: "Must provide valid sequence") and return
-      end
 
-      if params[:sequence].strip !~ /^>/
-        params[:sequence] = ">Submitted Sequence 1\n#{params[:sequence]}"
-      end
-
-      fasta_array = params[:sequence].scan(/>[^>]*/)
       
+
       @hits = Hash.new
       @sequences = ActiveSupport::OrderedHash.new
       @new_customized_sequence = CustomizedProteinSequence.new
@@ -55,19 +79,11 @@ class QueryController < ApplicationController
       # get list of group and list of organism form protein_sequence
       @group_number_list = Array.new
       @organism_list = Array.new
-      # protein_sequence.each do |pr|
-      #   if !@group_number_list.include? pr.group
-      #     @group_number_list << pr.group
-      #   end
-      #   if !@organism_list.include? pr.organism
-      #     @organism_list << pr.organism
-      #   end
-      # end
 
       # should do one for each request or can do multiple alignment at same time?
       # haven't check for the inapporiate sequence 
       fasta_array.each do |fasta_seq|
-
+        @fasta_seq = fasta_seq
         @query = Bio::FastaFormat.new( fasta_seq )
         query_name = @query.definition
         @sequence = @query.to_seq
@@ -80,15 +96,9 @@ class QueryController < ApplicationController
 
         blast_options = set_blast_options(program,params)
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
-        aa_report = blaster.query(@sequence.seq)
+        aa_report = blaster.query(@sequence.seq) # @sequence.seq automatically remove the \n; possibly other wildcard
 
         @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
-
-
-        # add group information
-
-
-
 
         # if there is sequence in db has evalue 0, indicates the sequence is already in database
         @is_exist_chain = false
@@ -300,30 +310,6 @@ class QueryController < ApplicationController
 
         end # end of @aa_similarity > 0.80
 
-        # no similarity at 80%, just show the tree feature
-
-        # hash doesn't work; url still too long
-        # query_result = Hash.new
-        # query_result["is_exist_chain"] = @is_exist_chain
-        # query_result["append_seq_to_relative_rd_og"] = @append_seq_to_relative_rd_og
-        # query_result["group"] = @final_identity_groups
-        # query_result["append_seq_to_csv"] = @append_seq_to_csv
-        # query_result["group_number_list"] = @group_number_list
-        # query_result["organism_list"] = @organism_list
-        # query_result["aa_sequence_result"] = @aa_sequence_result
-        # query_result["sequence_group"] = @sequence_group
-        # query_result["aa_similarity"] = @aa_similarity
-        # query_result["final_identity_groups"] = @final_identity_groups
-        # query_result["existing_matched_group"] = @existing_matched_group
-
-        # redirect_to :controller => 'query', :action => 'result', query_result: query_result
-          # is_exist_chain: @is_exist_chain, append_seq_to_relative_rd_og: @append_seq_to_relative_rd_og, 
-          # group: @final_identity_groups, append_seq_to_csv: @append_seq_to_csv, 
-          # group_number_list: @group_number_list, organism_list: @organism_list,
-          # aa_sequence_result: @aa_sequence_result, sequence_group: @sequence_group,
-          # aa_similarity: @aa_similarity, final_identity_groups: @final_identity_groups,
-          # existing_matched_group: @existing_matched_group
-
         break # only parse one fasta file
       end # end of fasta_array.each
     end
@@ -332,19 +318,41 @@ class QueryController < ApplicationController
 
   end
 
-
+  # This is for rendering the result at new page
   def result
-    # puts "result params => #{params.inspect}"
-    if params[:commit].present?
-      if params[:sequence].blank?
-        redirect_to(search_path, notice: "Must provide valid sequence") and return
-      end
 
-      if params[:sequence].strip !~ /^>/
-        params[:sequence] = ">Submitted Sequence 1\n#{params[:sequence]}"
+    if params[:notice].present?
+      @error = params[:notice]
+    end
+
+    if params[:commit].present?
+      
+      if params[:sequence].present?
+        params_sequence = params[:sequence].clone
+        after_validation = validate_amino_acid_sequnence(params_sequence)
+        if after_validation.class == String
+          params[:sequence] = after_validation
+        elsif after_validation.class == Hash
+          error_msg = ""
+          after_validation.each do |key, error|
+            error_msg += "#{error}\n"
+          end
+          redirect_to :controller => 'query', :action => 'result', params: params.merge(:notice => error_msg ).permit(:notice) and return
+        end
+
+      else
+        redirect_to :controller => 'query', :action => 'result', params: params.merge(:notice => "Must provide an amino acid sequence in Fasta format").permit(:notice) and return
       end
 
       fasta_array = params[:sequence].scan(/>[^>]*/)
+      # only allow one sequence at time on server
+      if fasta_array.length > 1
+        redirect_to :controller => 'query', :action => 'result', params: params.merge(:notice => "Please provide only one sequence.").permit(:notice) and return
+      end
+
+      # at this point, the params[:sequence] should be correct fasta format
+      fasta_array = params[:sequence].scan(/>[^>]*/) 
+
       @hits = Hash.new
       @sequences = ActiveSupport::OrderedHash.new
       @new_customized_sequence = CustomizedProteinSequence.new
@@ -356,6 +364,7 @@ class QueryController < ApplicationController
       @group_number_list = Array.new
       @organism_list = Array.new
       fasta_array.each do |fasta_seq|
+        @fasta_seq = fasta_seq
         @query = Bio::FastaFormat.new( fasta_seq )
         query_name = @query.definition
         @sequence = @query.to_seq
@@ -486,7 +495,7 @@ class QueryController < ApplicationController
         break # only parse one fasta file
       end # end of fasta_array.each
       
-    else
+    else # if params[:commit].present? is false
       redirect_to :controller => 'query', :action => 'search'
     end
 
@@ -495,7 +504,12 @@ class QueryController < ApplicationController
   # Create the phylogenies tree
   def phylogenies
     puts "params => #{params.inspect}"
+    # try to get params[:sequence] first. If nil, means new page is rendered
     raw_sequence = params[:sequence]
+    if raw_sequence == "undefined"
+      raw_sequence = params[:form_sequence]
+    end
+
     fasta_array = raw_sequence.scan(/>[^>]*/)
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
     aa_sequence = sequence_def.to_seq.seq
@@ -517,14 +531,6 @@ class QueryController < ApplicationController
       all_sequence = CustomizedProteinSequence.all
     end
 
-    # if params[:group] == "ALL" and params[:organism] == "ALL"
-    #   # render group information; tree can't accept the duplicate name
-    #   all_sequence = CustomizedProteinSequence.all
-    # elsif params[:group] != "" and 
-    #   all_sequence = CustomizedProteinSequence.where(:group => group)
-    # elsif !organism.nil?
-    #   all_sequence = CustomizedProteinSequence.where(:organism => organism)
-    # end
     number_of_group = all_sequence.distinct.pluck(:group).length
 
     # obtain group information for colouring and marking the node
@@ -604,31 +610,11 @@ class QueryController < ApplicationController
       render json: { "num_sequence": all_sequence.length }
     end
 
-    # @new_phy_file = "#{Rails.root}/tmp/tmp_fasta/#{current_time}.phy"
-    # @new_fasta_file_location = "#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta"
-
-    
-    
-
   end
 
-  # def submit_sequence_standalone
-  # end
 
+  # implement the decision tree
   def submit_sequence
-    #  params[:group] may have the array of group to put on
-    # - if @append_seq_to_relative_rd_og == true
-    #   / send what group it belongs to, either assign to a group or create new group
-    #   = render partial: "submit_sequence", group: @final_identity_groups
-    # - elsif @append_seq_to_relative_rd_og_without_group == true
-    #   / send no group it belongs to
-    #   = render partial: "submit_sequence", group: @final_identity_groups
-    # - elsif @append_seq_to_csv == true
-    #   = render partial: "submit_sequence" 
-
-    
-
-    
     puts "params.inspect => #{params.inspect}"
     render json: {"message": "test break."}
 
@@ -641,17 +627,6 @@ class QueryController < ApplicationController
       query_name = @query.definition
       sequence = @query.to_seq
     end
-    # puts params.inspect
-
-    # check if the ncbi accession number is valid
-    # if the accession number is valid, add to our database directly
-    # else send to lab and render say your ncbi accession number is not valid
-    # your sequence has been send to lab member
-    # and send the sequence to lab member
-
-
-
-
 
     begin
       # organism should be similar, otherwise it won't get to this step
@@ -659,58 +634,14 @@ class QueryController < ApplicationController
       new_sequence_info.organism = params[:organism] || nil
       new_sequence_info.reference = params[:publications] || nil
       new_sequence_info.type = "Enzyme"
-
-
       new_customized_protein_sequences = CustomizedProteinSequence.new
       new_customized_protein_sequences.header = query_name
       new_customized_protein_sequences.chain  = sequence
-      # new_customized_protein_sequences.group  = "novel" or "some group"
       new_customized_protein_sequences.key_group = "NCBI Accession"
       new_customized_protein_sequences.key = params[:ncbi_accession_number]
       new_customized_protein_sequences.reference = params[:publications] || nil
       new_customized_protein_sequences.organism  = params[:organism] || nil
-      
-
-      # also send a email to our lab to indicate the new sequence has been inserted
-      # make sure no malicious traffic and garbage input
-      # new_sequence_info.save!
-      # new_customized_protein_sequences.save!
-      # if recaptcha is selected, it will encrypt all input invalues
-      # verify_recaptcha() will verify the sent encrypt value to actual input value
-      
-      # if verify_recaptcha(params) 
-      #   new_sequence_info.save!
-      #   new_customized_protein_sequences.save!
-      #   # create the new blast database
-      #   # make sure that user won't do nucletide sequence search
-      #   sequence = CustomizedProteinSequence.all
-      #   now = Time.now.strftime("%Y_%m_%d_%H_%M_%S")
-      #   filename = "tmp/database_fasta_db/rdhA_aa_all_customized_#{now}.fasta"
-      #   aa_fasta_file = File.open(filename,"w")
-
-      #   sequence.each{ |x|
-      #     aa_fasta_file.write(">")
-      #     aa_fasta_file.write(s.header)
-      #     aa_fasta_file.write("\n")
-      #     aa_fasta_file.write(s.chain)
-      #     aa_fasta_file.write("\n")
-      #   }
-
-      #   aa_fasta_file.close
-
-      #   blast_database = system( "makeblastdb", 
-      #                 "-in", filename,
-      #                 "-dbtype", "'prot'", 
-      #                 "-out", "#{Rails.root}/index/blast/reductive_dehalogenase_protein" )
-
-      #   render json: {"message": "Your sequence has been added to our database. Thank you for your contribution."}
-      # else
-      #   render json: {"message": "Your sequence has been sent to 
-      #   Elizabeth Edwards Lab. Thank you for your contribution."}
-      # end
-
-      # render json: {"message": "Your sequence has been sent to 
-      #   Elizabeth Edwards Lab. Thank you for your contribution."} 
+    
     rescue Exception => e 
       render json: {"message_err": e.message }
 
@@ -722,19 +653,15 @@ class QueryController < ApplicationController
 
 
   def download_new_fasta 
-
-
     puts "params.inspect => #{params.inspect}"
     filename = params[:file_name]
     send_file filename, :type => "application/fasta", :filename =>  "rdhA_nt_all_customized.fasta"
   end
 
+
+
+
   private
-
-
-  # the defaults of match/mismatch gap costs are based on ncbi blast web
-  # https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome
-  # NCBI use default linear for gap cost; ask them what linear means
   def set_search_defaults_for_nt
     params[:gap_cost] ||= '1'
     params[:extend_cost] ||= '1'

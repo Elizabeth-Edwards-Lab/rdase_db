@@ -1,4 +1,15 @@
-hr
+
+- if @error.present?
+  - if @error.class == String
+    p.alert.alert-danger
+      = @error
+  - elsif @error.class == Hash
+    p.alert.alert-danger
+      - @error.each do |key, array|
+        = array
+        
+- elsif @aa_similarity.present?
+  hr
   = render partial: "result"
   = render partial: "results_view"
 

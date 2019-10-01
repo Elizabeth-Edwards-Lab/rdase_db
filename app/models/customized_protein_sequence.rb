@@ -1,12 +1,13 @@
 class CustomizedProteinSequence < ApplicationRecord
-	validates :chain, format: { with: /\A[GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ }
+
+	validates :chain, format: { with: /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ } # accept wild * in sequence 
 	UPLOADER_TYPES = ['RDDB','USER'] 
 	before_validation :convert_to_short_form
 
 	validates_inclusion_of :uploader, 
-    in: UPLOADER_TYPES, 
-    message: 'can only be RDDB, USER', 
-    allow_blank: false
+    	in: UPLOADER_TYPES, 
+    	message: 'can only be RDDB, USER', 
+    	allow_blank: false
 
 	protected
 

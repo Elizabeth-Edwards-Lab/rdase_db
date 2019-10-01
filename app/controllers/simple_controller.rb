@@ -43,10 +43,7 @@ class SimpleController < ApplicationController
 		}
 
 		aa_fasta_file.close
-
 		send_file filename, :type => "application/fasta", :filename =>  "rdhA_aa_all_customized_#{now}.fasta"
-		
-		# File.delete(filename) if File.exist?(filename)
 	end
 
 
@@ -65,10 +62,7 @@ class SimpleController < ApplicationController
 		}
 
 		aa_fasta_file.close
-
 		send_file filename, :type => "application/fasta", :filename =>  "rdhA_nt_all_customized_#{now}.fasta"
-		
-		# File.delete(filename) if File.exist?(filename)
 	end
 
 

@@ -45,9 +45,6 @@
             = label_tag :filter_query_sequence, class: 'checkbox' do
               = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
               | Filter query sequence (DUST &amp; SEG)
-          
-
-
 
     - if lookup_context.find_all('seq_search/_filters').any?
       fieldset
@@ -56,10 +53,19 @@
       = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
       = link_to 'Reset', search_path, class: 'btn'
 
+
+- if @error.present?
+  - if @error.class == String
+    p.alert.alert-danger
+      = @error
+  - elsif @error.class == Hash
+    p.alert.alert-danger
+      - @error.each do |key, array|
+        = array
+      
 / = render partial: "phylogenies"
 / = render partial: "submit_sequence"
-- if @aa_similarity.present?
-
+- elsif @aa_similarity.present?
   hr
   = render partial: "result"
   = render partial: "results_view"
@@ -108,4 +114,4 @@
         = render partial: "phylogenies"
 
 - elsif params[:commit].present?
-  .seq-search-no-results No Results
+  p.alert.alert-danger No Results

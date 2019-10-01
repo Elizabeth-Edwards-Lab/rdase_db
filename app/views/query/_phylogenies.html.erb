@@ -8,9 +8,10 @@
 		<br>
 		<%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All Organism', :class => "option-button" %>
 		<br>
+		<%= f.text_area :form_sequence, :value => "#{@fasta_seq}", :style => "display:none;" %>
 		<%= f.button 'Generate Phylogenetic Tree'.html_safe, :type => :submit, id: "generate-phylogenetic-tree", :class => "btn btn-primary" %>
 	<% end %>
-	
+	<!-- <textarea style="display:none;">Hello</textarea> vs <textarea style="visibility:hidden;">Hello</textarea> => will take place in html -->
 	<%= image_tag 'loading.gif', :id=> "waiting-gif", :style => "visibility:hidden;" %>
 	
 	<p id="phylocanvas-page-warning"></p>
@@ -22,127 +23,3 @@
 	</p>
 
 </div>
-
-<!-- they also want to color the rd group -->
-<script>
-	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F
-	var create_phylocanvas = function phylocanvas(data,highlight,data_group, group_number) {
-		var tree = Phylocanvas.createTree('phylocanvas');
-		// tree.setTreeType('rectangular');
-		tree.setTreeType('circular');
-		// need to add group number after each node
-		// retrieve the node value and add group number 
-		tree.load(data);
-
-
-		// data_group is json object
-
-		// auto generate #of group color
-		var group_number_int = parseInt(group_number)
-		var color_pool = [];
-		var color_hash = {};
-		for (var i = 0; i <= group_number_int; i++){
-			var random_color = getRandomColor();
-			while (color_pool.includes(random_color) == false){
-				color_pool.push(random_color);
-				color_hash[i] = random_color;
-			}
-		}
-		// console.log(color_hash);
-		// colour the node based on their groups
-		// data_group need test and check its data type
-
-		var all_leaves = tree.leaves;
-
-
-		// assign color and group info based on group
-		if(all_leaves.length > 1){
-			for(var i = 0; i < all_leaves.length; i++){
-				// based on label, find the group;
-				// all_leaves[i].label => string;
-				// console.log(all_leaves[i].label);
-				var group = data_group[all_leaves[i].label];
-				// console.log(group);
-				if(group != null && group != undefined){
-					// based on group, colour the right color
-					all_leaves[i].colour = color_hash[parseInt(group)]
-					all_leaves[i].label  = all_leaves[i].label + "(" + group + ")"
-				}
-				else{
-					all_leaves[i].label  = all_leaves[i].label + "( No Group )"
-				}
-			}
-		}
-
-
-		console.log(highlight);
-		var re = new RegExp(highlight);
-		var leaves = tree.findLeaves(re);
-		// require check the sequence header to make sure it doesn't have duplicates
-		if (leaves[0] !== undefined ){
-			leaves[0].highlighted = true;
-			tree.fitInPanel(leaves);
-		}
-		
-		tree.draw();
-
-		tree.on('click', function (e) {
-			var node = tree.getNodeAtMousePosition(e);
-			if (node) {
-				tree.redrawFromBranch(node);
-			}
-		});
-
-	}
-
-	$('#do-tree').submit(function(e){
-		e.preventDefault();
-		var sequence = $('.seq-search-sequence').val(); // if render new page, then it will be undefined ... 
-		var form = $(this);
-		$.ajax({
-			type:"POST",
-			url: "/phylogenetic_tree",
-			// give the sequence back for generating new fasta file
-			data: form.serialize() + '&sequence=' + sequence,
-			beforeSend: function(){
-				// $('#generate-phylogenetic-tree').hide();
-				$('#waiting-gif').removeAttr("style");
-			},
-			success: function(data){
-				$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
-				
-				var number_sequence = Number(data.num_sequence)
-				// console.log(data.num_sequence)
-				if (number_sequence == 0){
-					$('#waiting-gif').attr("style","visibility:hidden;");
-					$('#phylocanvas-page-warning').removeAttr("style","visibility:hidden;");
-					$('#phylocanvas-page-warning').text("Your selection return 0 sequence. Please choose different selection. More detail can be found in our sequence database.")
-				}
-				else{
-					$('#waiting-gif').attr("style","visibility:hidden;");
-					$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
-					create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
-				}
-				$('#graph-note').removeAttr("style","visibility:hidden;");
-				
-			},
-			error: function(data){
-				$("#submit-message").text(data.message_err);
-			},
-			timeout: 1000 * 60
-
-
-		})
-	})
-
-	function getRandomColor() {
-		var letters = '0123456789ABCDEF';
-		var color = '#';
-		for (var i = 0; i < 6; i++) {
-			color += letters[Math.floor(Math.random() * 16)];
-		}
-		return color;
-	}
-
-
-</script>

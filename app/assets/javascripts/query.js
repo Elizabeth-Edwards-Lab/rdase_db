@@ -1,3 +1,4 @@
+// jQuery(function($){}) and $(document).ready(function(){} are equivalent.
 $(document).ready(function(){
 	$('.load-example').on('click', function(){
 		console.log("load-example clicked");
@@ -24,21 +25,16 @@ $(document).ready(function(){
 	    	if(seq_search_form.attr("target") === undefined){
 				// not checked attribute yet; add one
 				seq_search_form.attr('target','_blank');
-
-				console.log(seq_search_form.attr("target"));
+				seq_search_form.attr('value','1'); // will render new pages
 			}
 		}else if(!this.checked){
 			seq_search_form.removeAttr("target");
-			console.log(seq_search_form.attr("target"));
+			seq_search_form.attr('value','0');
+			// console.log(seq_search_form.attr("target"));
 		}
 	});
 
 
-
-
-})
-
-jQuery(function($){
 	// var items = $('.each-result');
 	var items = $('.seq-search-hit');
 	items.promise().done(function(){
@@ -58,30 +54,119 @@ jQuery(function($){
 			}
 		})
 	})
-	
-})
 
-function ConstructDataSource(){
-	var all_result = $('.each-result');
-	var global_seq_array = [];
-	for(var i = 0; i < all_result.length; i++){
-		let children = all_result[i].children;
-		let local_seq_array = [];
-		for (var j = 0; j < children.length; j++){
-			local_seq_array.push(children[j].textContent);
+
+	// phylogenies tree module
+	$('#do-tree').submit(function(e){
+		e.preventDefault();
+		// var sequence = $('.seq-search-sequence').val(); // if render new page, then it will be undefined ...
+		var sequence; 
+		if ($('.seq-search-sequence').val() === undefined){
+			sequence = $('.new-table-seq-search-sequence').val();
+		}else {
+			sequence = $('.seq-search-sequence').val();
 		}
-		global_seq_array.push(local_seq_array);
+		var form = $(this);
+		$.ajax({
+			type:"POST",
+			url: "/phylogenetic_tree",
+			// give the sequence back for generating new fasta file
+			data: form.serialize() + '&sequence=' + sequence,
+			beforeSend: function(){
+				// $('#generate-phylogenetic-tree').hide();
+				$('#waiting-gif').removeAttr("style");
+			},
+			success: function(data){
+				$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
+				
+				var number_sequence = Number(data.num_sequence)
+				// console.log(data.num_sequence)
+				if (number_sequence == 0){
+					$('#waiting-gif').attr("style","visibility:hidden;");
+					$('#phylocanvas-page-warning').removeAttr("style","visibility:hidden;");
+					$('#phylocanvas-page-warning').text("Your selection return 0 sequence. Please choose different selection. More detail can be found in our sequence database.")
+				}
+				else{
+					$('#waiting-gif').attr("style","visibility:hidden;");
+					$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
+					create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
+				}
+				$('#graph-note').removeAttr("style","visibility:hidden;");
+				
+			},
+			error: function(data){
+				$("#submit-message").text(data.message_err);
+			},
+			timeout: 1000 * 60
+
+
+		})
+	})
+
+	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F
+	// data_group is json object
+	var create_phylocanvas = function phylocanvas(data,highlight,data_group, group_number) {
+		var tree = Phylocanvas.createTree('phylocanvas');
+		tree.setTreeType('circular');
+		tree.load(data);
+
+		// auto generate #of group color
+		var group_number_int = parseInt(group_number)
+		var color_pool = [];
+		var color_hash = {};
+		for (var i = 0; i <= group_number_int; i++){
+			var random_color = getRandomColor();
+			while (color_pool.includes(random_color) == false){
+				color_pool.push(random_color);
+				color_hash[i] = random_color;
+			}
+		}
+		
+
+		// colour the node based on their groups
+		// data_group need test and check its data type
+		// assign color and group info based on group
+		var all_leaves = tree.leaves;
+		if(all_leaves.length > 1){
+			for(var i = 0; i < all_leaves.length; i++){
+				var group = data_group[all_leaves[i].label];
+				if(group != null && group != undefined){
+					// based on group, colour the right color
+					all_leaves[i].colour = color_hash[parseInt(group)]
+					all_leaves[i].label  = all_leaves[i].label + "(" + group + ")"
+				}
+				else{
+					all_leaves[i].label  = all_leaves[i].label + "( No Group )"
+				}
+			}
+		}
+
+		var re = new RegExp(highlight);
+		var leaves = tree.findLeaves(re);
+		// require check the sequence header to make sure it doesn't have duplicates
+		if (leaves[0] !== undefined ){
+			leaves[0].highlighted = true;
+			tree.fitInPanel(leaves);
+		}
+		
+		tree.draw();
+		tree.on('click', function (e) {
+			var node = tree.getNodeAtMousePosition(e);
+			if (node) {
+				tree.redrawFromBranch(node);
+			}
+		});
+
 	}
 
-	return global_seq_array;
-}
+	function getRandomColor() {
+		var letters = '0123456789ABCDEF';
+		var color = '#';
+		for (var i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
 
 
-function simpleTemplating(data) {
-    var html = '<ul>';
-    $.each(data, function(index, item){
-        html += '<li>'+ item +'</li>';
-    });
-    html += '</ul>';
-    return html;
-}
+})
