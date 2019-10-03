@@ -24,7 +24,7 @@ gem 'kaminari'
 gem 'recaptcha'
 gem 'will_paginate', '~> 3.1.0'
 gem 'rubyzip'
-gem 'font-awesome-sass', '~> 5.11.1'
+gem 'font-awesome-sass', '~> 4.5.0'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
