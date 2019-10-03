@@ -1,18 +1,6 @@
-<!-- send important field to backend, store the data into customized database -->
-<!-- also send an email to our group about the new sequence -->
-<!-- create the button in download that can download the new database package -->
-<!-- also make download for graph happens -->
-
-<!-- submit the param to function in query_controller by the url through ajax-->
-<!-- do field validation in javascript -->
-<!-- send request and get back the response -->
-<!-- do all the backend at backend -->
-
-
 <div class="well-submit-sequence">
 	<p id="_submit_seq_p">
 		Your RDase sequence does not belong to any of the ortholog groups currently in the database. In order to submit your sequence to our database automatically your sequence must be annotated as a reductive dehalogenase and made publicly available with an NCBI or IMG accession number. If you do not have an accession number, you can send the sequence directly to the <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a>. We will evaluate your sequence and add it to the database manually. Thank you for supporting the RDase Database!
-		Your sequence match one of the RD_OD group in our database.
 	</p>
 
 	<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f| %>
@@ -25,39 +13,9 @@
 		<%= f.text_field :organism, placeholder: "Organism (Optional)", :size=>"100" %><br/>
 		<%# recaptcha_tags :align => "center" %>
 		<%= f.submit "Send", :class => "btn btn-primary", id: "submit-seq" %>
+		<%= f.text_area :form_sequence, :value => "#{@fasta_seq}", :style => "display:none;" %>
 	<% end %>
 	<h3 id="submit-message"></h3>
 
 
 </div>
-
-<script>
-
-	$('#submit-seq').submit(function(e){
-		e.preventDefault();
-		var sequence = $('.seq-search-sequence').val();
-		var group = $('#simtext-group').text().replace(/^\s+|\s+$/g, '');
-		var form = $(this);
-		form.attr('sequence',sequence);
-		
-		console.log(typeof(form.serialize()));
-		$.ajax({
-			type:"POST",
-			url: "/submit_sequence",
-			// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
-			data: form.serialize()+ '&sequence=' + sequence + '&group=' + group,
-			success: function(data){
-				console.log("success");
-				console.log(data);
-				$("#submit-message").text(data.message);
-				$("#submit-seq").remove();
-				$("#_submit_seq_p").remove();
-
-			},
-			error: function(data){
-				$("#submit-message").text(data.message_err);
-			}
-		})
-	})
-
-</script>

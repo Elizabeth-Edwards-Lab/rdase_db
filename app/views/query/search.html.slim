@@ -51,8 +51,10 @@
         = render 'seq_search/filters'
     .form-actions
       = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
-      = link_to 'Reset', search_path, class: 'btn'
+      = link_to 'Reset', search_path, class: 'btn', :id => 'reset-button'
 
+
+/ = render partial: "submit_sequence"
 
 - if @error.present?
   - if @error.class == String
@@ -62,9 +64,7 @@
     p.alert.alert-danger
       - @error.each do |key, array|
         = array
-      
-/ = render partial: "phylogenies"
-/ = render partial: "submit_sequence"
+
 - elsif @aa_similarity.present?
   hr
   = render partial: "result"

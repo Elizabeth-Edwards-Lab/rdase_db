@@ -1,0 +1,39 @@
+/ query_submit_sequence_modal_path is just respond_to do |format| format.html format.js end
+div.wrapper.text-center
+	= link_to 'Submit sequence to our database', "#modal-window",  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'btn btn-primary btn-lg', :id => 'submit-sequence-modal'}
+	#modal-window.modal.hide.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" 
+	  .modal-dialog role="document" 
+	    .modal-content
+	    	.modal-header
+	    	  h4#myModalLabel.modal-title Sequence Submission Form
+
+	    	.modal-body
+		    	.well-submit-sequence
+		    	  p#_submit_seq_p
+		    	    | Your RDase sequence does not belong to any of the ortholog groups currently in the database. In order to submit your sequence to our database automatically your sequence must be annotated as a reductive dehalogenase and made publicly available with an NCBI or IMG accession number. If you do not have an accession number, you can send the sequence directly to the
+
+		    	    a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank"  Elizabeth Edwards Lab 
+
+		    	    | We will evaluate your sequence and add it to the database manually. Thank you for supporting the RDase Database!
+
+		    	  = form_with url:'/submit_sequence', remote: true, :html => {:id => "submit-seq"} do |f|
+		    	    = f.text_field :name, placeholder: "Your Name (Required) ", :required=>true
+		    	    br/
+		    	    = f.text_field :email, placeholder: "example@abc.com (Required) ", :type=>"email",:required=>true
+		    	    br/
+		    	    = f.text_field :ncbi_accession_number, placeholder: "NCBI Accession Number (Required) ", :type=>"text",:required=>true
+		    	    br/
+		    	    = f.text_field :dna, placeholder: "DNA Sequence in FASTA format (Optional)"
+		    	    br/
+		    	    = f.text_field :institution, placeholder: "Your Institution (Optional)"
+		    	    br/
+		    	    = f.text_field :publications, placeholder: "Citation (Optional)"
+		    	    br/
+		    	    = f.text_field :organism, placeholder: "Organism (Optional)"
+		    	    br/
+		    	    = f.submit "Send", :class => "btn btn-primary", id: "submit-seq"
+		    	    = f.text_area :form_sequence, :value => "#{@fasta_seq}", :style => "display:none;"
+		    	  h3#submit-message
+
+		    .modal-footer
+		    	button.close data-dismiss="modal" type="button"  Exist

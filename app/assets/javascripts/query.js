@@ -59,13 +59,7 @@ $(document).ready(function(){
 	// phylogenies tree module
 	$('#do-tree').submit(function(e){
 		e.preventDefault();
-		// var sequence = $('.seq-search-sequence').val(); // if render new page, then it will be undefined ...
-		var sequence; 
-		if ($('.seq-search-sequence').val() === undefined){
-			sequence = $('.new-table-seq-search-sequence').val();
-		}else {
-			sequence = $('.seq-search-sequence').val();
-		}
+		sequence = $('.seq-search-sequence').val(); 
 		var form = $(this);
 		$.ajax({
 			type:"POST",
@@ -167,6 +161,38 @@ $(document).ready(function(){
 		}
 		return color;
 	}
+
+
+	// submit sequence part
+	$('#submit-seq').submit(function(e){
+		e.preventDefault();
+		var sequence = $('.seq-search-sequence').val();
+		var group = $('#simtext-group').text().replace(/^\s+|\s+$/g, '');
+		var form = $(this);
+		form.attr('sequence',sequence);
+		
+		console.log(typeof(form.serialize()));
+		$.ajax({
+			type:"POST",
+			url: "/submit_sequence",
+			// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
+			data: form.serialize()+ '&sequence=' + sequence + '&group=' + group,
+			success: function(data){
+				console.log("success");
+				console.log(data);
+				$("#submit-message").text(data.message);
+				$("#submit-seq").remove();
+				$("#_submit_seq_p").remove();
+
+			},
+			error: function(data){
+				$("#submit-message").text(data.message_err);
+			}
+		})
+	})
+
+
+	
 
 
 })

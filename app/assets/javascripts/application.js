@@ -16,10 +16,10 @@
 //= require jquery
 // 	require jquery_ujs // don't need this in this app
 //= require bootstrap
+//= require popper
 
 // Application JS
 //= require query
-//= require simple
 
 // Third Party
 //  require pagination.min

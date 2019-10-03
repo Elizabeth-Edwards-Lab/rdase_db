@@ -23,31 +23,31 @@ module QueryValidator
     	
     	else
 	    	# "\n\n>sequence\n\nseq\n\n\n".strip => ">sequence\n\nseq"
-	    	sequence_splited = sequence.strip.split(/\n/)
+	    	sequence = sequence.gsub(/\r/, '').gsub(/ /,'')
+	    	begin
+	    		query = Bio::FastaFormat.new( sequence )
 
-	    	if sequence_splited.length >= 2
-	    		# possible standard fasta input
-	    		header = sequence_splited[0]
-	    		validate_sequence = sequence_splited[sequence_splited.length - 1]
+	    		if query.to_seq.definition.empty?
+	    			header = ">Submitted Sequence 1"
+	    		else
+	    			header = query.to_seq.definition
+	    		end
 
-	    		if !header.include? ">"
-	    			header = ">#{header}"
-	 				end
-
-	    	elsif sequence_splited.length == 1 
-	    		# possible only given header or just sequence
-	    		if sequence_splited[0].include? ">"
+	    		if query.to_seq.seq.empty?
 	    			error_msg["empty"] = "Please enter an amino acid sequence. Or try our example!"
 	    		else
-	    			header = ">Submitted Sequence 1"
+	    			is_match = query.to_seq.seq =~ /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/
+	    			if is_match.nil?
+	    				error_msg["wrong"] = "Your amino acid sequence is not validated. Please follow fasta format with no space or any escape characters."
+	    			end
+	    			
 	    		end
-	    	end
 
-	    	# format ok; now test if the sequence is ok
-	    	is_match = validate_sequence =~ /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/
-	    	if is_match.nil?
-	    		error_msg["wrong"] = "Your amino acid sequence is not validated. Please follow fasta format."
+	    	rescue
+	    		error_msg["wrong"] = "Your amino acid sequence is not validated. Please follow fasta format with no space or any escape characters."
 	    	end
+	    	
+
     	end
     end
 		
@@ -55,7 +55,7 @@ module QueryValidator
 		if error_msg.length > 0
 			return error_msg
 		elsif error_msg == 0
-			return "#{header}\n#{validate_sequence}"
+			return ">#{header}\n#{query.to_seq.seq}"
 		end
 
 	end

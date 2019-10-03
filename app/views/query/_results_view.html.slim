@@ -1,10 +1,6 @@
 #seq-search-results
   - if @aa_sequence_result.present?
-    .alert.alert-success.alert-block
-      h3#seqresulttag
-        | Sequence result for #{@query.definition}
-        br
-        | Total return sequence: #{@aa_sequence_result.length}
+  
     - if @aa_sequence_result.length > 0
       - @aa_sequence_result.each do |sequence|
         .seq-search-hit

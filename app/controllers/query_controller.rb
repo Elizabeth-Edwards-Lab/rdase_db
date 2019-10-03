@@ -50,18 +50,13 @@ class QueryController < ApplicationController
         redirect_to :controller => 'query', :action => 'search', params: params.merge(:notice => "Please provide only one sequence.").permit(:notice) and return
       end
 
-      # Save the query first
-      user_input = Query.new
-      user_input.sequence = params[:sequence].gsub(/\s+/, "|")
-      user_input.save!
-
       if params[:new_result_tab] == "1"
         
         redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => params[:sequence],
           :gap_cost => params[:gap_cost], :extend_cost => params[:extend_cost],:mismatch_penalty => params[:mismatch_penalty],
           :match_reward => params[:match_reward], :evalue => params[:evalue], :gapped_alignment => params[:gapped_alignment],
-          :filter_query_sequence => params[:filter_query_sequence],:commit => params[:commit], :query_id => user_input.id).permit(:sequence, :gap_cost, :extend_cost, 
-          :mismatch_penalty, :match_reward, :evalue, :gapped_alignment, :gapped_alignment, :filter_query_sequence, :commit, :query_id)
+          :filter_query_sequence => params[:filter_query_sequence],:commit => params[:commit]).permit(:sequence, :gap_cost, :extend_cost, 
+          :mismatch_penalty, :match_reward, :evalue, :gapped_alignment, :gapped_alignment, :filter_query_sequence, :commit)
       end 
 
 
@@ -92,6 +87,16 @@ class QueryController < ApplicationController
         program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
         database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
         sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+
+        # Save the query for "each" sequence
+        begin
+          user_input = Query.new
+          user_input.sequence = @sequence.seq
+          user_input.save!
+        rescue 
+          user_input = Query.new
+          user_input.save!
+        end
 
 
         blast_options = set_blast_options(program,params)
@@ -616,9 +621,12 @@ class QueryController < ApplicationController
   # implement the decision tree
   def submit_sequence
     puts "params.inspect => #{params.inspect}"
-    render json: {"message": "test break."}
 
-    fasta_array = params[:sequence].scan(/>[^>]*/)
+    raw_sequence = params[:sequence]
+    if raw_sequence == "undefined"
+      raw_sequence = params[:form_sequence]
+    end
+    fasta_array = raw_sequence.scan(/>[^>]*/)
 
     query_name = nil
     sequence = nil
@@ -646,10 +654,16 @@ class QueryController < ApplicationController
       render json: {"message_err": e.message }
 
     end
-
     
   end
 
+    # def index
+    #   @posts = Post.all
+    #   respond_to do |format|
+    #     format.html  # index.html.erb => will render the index.html.erb as default
+    #     format.json  { render :json => @posts } => will render index.html.json as default; it will render other if specified
+    #   end
+    # end
 
 
   def download_new_fasta 
