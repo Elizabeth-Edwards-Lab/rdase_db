@@ -24,7 +24,7 @@ gem 'kaminari'
 gem 'recaptcha'
 gem 'will_paginate', '~> 3.1.0'
 gem 'rubyzip'
-gem 'font-awesome-sass', '~> 4.5.0'
+# gem 'font-awesome-sass', '~> 4.5.0'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -49,7 +49,7 @@ group :development do
   gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
-  # gem 'syncfast', git: 'git@bitbucket.org:wishartlab/syncfast'
+  gem 'syncfast', git: 'git@bitbucket.org:wishartlab/syncfast'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
