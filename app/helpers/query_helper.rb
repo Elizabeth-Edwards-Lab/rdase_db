@@ -10,4 +10,8 @@ module QueryHelper
 			return header
 		end
 	end
+
+	def get_percentage_identity(identity, seq_length)
+		return (identity.to_f / seq_length.to_f * 100).round(2)
+	end
 end

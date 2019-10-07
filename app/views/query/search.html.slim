@@ -3,10 +3,13 @@
     fieldset
       legend
         | Enter an amino acid sequence in
-        | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'}
+        | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'} #{button_tag 'Example', type: 'button', class: 'btn btn-primary load-example' }
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
-      br
-      = button_tag 'Load Example', type: 'button', class: 'btn btn-primary load-example'
+      .form-actions
+        = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
+        = link_to 'Reset', search_path, class: 'btn', :id => 'reset-button'
+      / br
+      / = button_tag 'Load Example', type: 'button', class: 'btn btn-primary load-example'
 
     fieldset
       legend BLAST Parameters
@@ -45,13 +48,7 @@
             = label_tag :filter_query_sequence, class: 'checkbox' do
               = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
               | Filter query sequence (DUST &amp; SEG)
-
-    - if lookup_context.find_all('seq_search/_filters').any?
-      fieldset
-        = render 'seq_search/filters'
-    .form-actions
-      = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
-      = link_to 'Reset', search_path, class: 'btn', :id => 'reset-button'
+    
 
 
 / = render partial: "submit_sequence"

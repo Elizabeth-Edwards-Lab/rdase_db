@@ -1,0 +1,2 @@
+module SubmitSequenceHelper
+end

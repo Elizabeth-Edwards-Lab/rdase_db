@@ -44,7 +44,7 @@ module QueryValidator
 	    		end
 
 	    	rescue
-	    		error_msg["wrong"] = "Your amino acid sequence is not validated. Please follow fasta format with no space or any escape characters."
+	    		error_msg["wrong"] = "Your amino acid sequence is not validated. Please follow FASTA format."
 	    	end
 	    	
 

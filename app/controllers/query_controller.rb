@@ -210,7 +210,6 @@ class QueryController < ApplicationController
                   # puts "group_hash[group_number] => #{group_number[group_number]}"
                   group_hash[group_number].each do |s_identity|
                     
-                    # puts "reversed_group_hash[s_identity] => #{reversed_group_hash[s_identity]}"
                     if identity_with_90.include? s_identity
                       next
                     else
