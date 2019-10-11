@@ -22,9 +22,6 @@
     <!-- this should present after use submit the sequence -->
     <div class="col" id='submit-seq-result-div'>
     	
-    	<table id='upload-seq-result-table'>
-
-    	</table>
     </div>
 
 
@@ -60,25 +57,27 @@
 			// give the sequence back for generating new fasta file
 			data: form.serialize(),
 			beforeSend: function(){
-				// $('#generate-phylogenetic-tree').hide();
-				// $('#waiting-gif').removeAttr("style");
-				// $('.upload-seq-result-table').empty();
+
+				$('#upload-seq-result-table').empty();
+				$('#p-submit-result').empty();
 				$('#submit-seq-result-div').empty();
 			},
 			success: function(data){
-				// I can either render data from javascript side
-				// I can also render data in rails way
-				// console.log(data)
-				// console.log(data.result)
-				// console.log(data.result.length)
-				// console.log(data.result[0].header)
-				// console.log(data.result[0].status)
-				// console.log(data.result[1].msg)
-				// console.log(data.notice)
-				// console.log(data);
+
 				if(data.result != undefined){
 					// console.log(data.result);
-					$('#submit-seq-result-div').prepend("<h3>Result</h3>" + construct_table(data));
+					$('#submit-seq-result-div').prepend("<h3 id=\"p-submit-result\">Result</h3>" + construct_table(data));
+
+					var submit_form = `<form method="post" action="/save_sequence" id="save-seqeunce">
+															<hr>
+															Name: <input type="text" name="FirstName"><br>
+															Email: <input type="text" name="Email"><br>
+															<input value="Save To Database" type="submit" class="btn btn-primary" /><br>
+															<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+														</form>`
+
+					$('#submit-seq-result-div').append(submit_form)
+					// $('#submit-seq-result-div').append("<button type=\"button\" class=\"btn btn-primary\" id=\"submit-seq-btn\">Submit</button>")
 					// var table = $('#upload-seq-result-table');
 					// table.prepend(construct_table(data));
 				}else if (data.notice != undefined){
@@ -126,6 +125,29 @@
 		return table_content;
 	}
 
+
+	$('#save-seqeunce').submit(function(e){
+		e.preventDefault();
+		var form = $(this);
+		console.log(form);
+		$.ajax({
+			type:"POST",
+			url: "/save_sequence",
+			// give the sequence back for generating new fasta file
+			data: form.serialize(),
+			beforeSend: function(xhr){
+				// seems work without below line to avoid `Can't verify CSRF token authenticity rails`
+				// xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+			},
+			success: function(data){
+				console.log(data)
+			},
+			error: function(data){
+				$("#submit-message").text("Error occurs.");
+			},
+			timeout: 1000 * 60
+		})
+	});
 
 
 

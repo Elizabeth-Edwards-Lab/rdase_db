@@ -42,6 +42,7 @@ class SubmitSequenceController < ApplicationController
 				@uploading_result = submit_sequence_caller(fasta_array)
 				render json: { "result": @uploading_result }
 			end
+
 		elsif params[:sequence].present? == false and params[:authenticity_token].present? == true
 
 			render json: { "notice": "Please enter sequence." }
@@ -54,5 +55,23 @@ class SubmitSequenceController < ApplicationController
 
 
 	end
+
+	# add the correct sequence to database
+	def save_sequence_to_db
+		puts params.inspect
+		# Parameters: {"FirstName"=>"xuan", "Email"=>"cao", "authenticity_token"=>"xma4WROg4X5wBTnb0sORg+yEBsAKdAtdAO7reDOnexOjIwTpNsfg5vAictLHoF/NtNeVQbt8cnjPREyYJxRwsg=="}
+		# render json: { "success": "yes!"}
+
+
+
+	end
+
+
+
+
+
+
+
+
 
 end

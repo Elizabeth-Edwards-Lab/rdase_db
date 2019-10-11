@@ -45,9 +45,11 @@ Rails.application.routes.draw do
 		as: :phylogenetic_tree,
 		via: [:post]
 
+	post "save_sequence" => "submit_sequence#save_sequence_to_db"
 	match "submit_sequence" => "submit_sequence#submit",
 		as: :submit_sequence,
 		via: [:get, :post]
+
 
 	resources :protein, only: [:show, :index] do
 	end
