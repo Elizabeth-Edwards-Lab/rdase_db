@@ -1,0 +1,134 @@
+<div class="container">
+  <div class="row">
+  	<!-- div for enter sequence -->
+    <div class="col">
+    	<h3>Upload Your Amino Acid Sequence Here</h3>
+    	<div>
+    		<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
+    			<%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div', :id => 'upload-text' %>
+    			<br>
+    			<%# f.submit 'Upload', class: 'btn btn-primary upload-btn', disabled: false %>
+    			<%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
+    			OR
+ 
+    			<%= f.file_field :fasta, :id => 'upload-file-btn',disabled: false %>    			
+    		<% end %>
+    		
+    	</div>
+    </div>
+
+
+
+    <!-- this should present after use submit the sequence -->
+    <div class="col" id='submit-seq-result-div'>
+    	
+    	<table id='upload-seq-result-table'>
+
+    	</table>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+	// https://stackoverflow.com/questions/8423217/jquery-checkbox-checked-state-changed-event
+	// detect if the checkbox is changed
+	var upload_file_btn = $('#upload-file-btn');
+	$("#upload-file-btn").change(function() {
+
+		if( $('#upload-file-btn').get(0).files.length >= 1 ){
+			// console.log("file uploaded");
+			$('#upload-text').attr('disabled', true);
+			$('#upload-text').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
+		}else{
+			// console.log("file not uploaded");
+			$('#upload-text').attr('disabled', false);
+			$('#upload-text').removeAttr('placeholder');
+		}
+	});
+
+	$('#upload-seq').submit(function(e){
+		e.preventDefault();
+		var form = $(this);
+		$.ajax({
+			type:"POST",
+			url: "/submit_sequence",
+			// give the sequence back for generating new fasta file
+			data: form.serialize(),
+			beforeSend: function(){
+				// $('#generate-phylogenetic-tree').hide();
+				// $('#waiting-gif').removeAttr("style");
+				// $('.upload-seq-result-table').empty();
+				$('#submit-seq-result-div').empty();
+			},
+			success: function(data){
+				// I can either render data from javascript side
+				// I can also render data in rails way
+				// console.log(data)
+				// console.log(data.result)
+				// console.log(data.result.length)
+				// console.log(data.result[0].header)
+				// console.log(data.result[0].status)
+				// console.log(data.result[1].msg)
+				// console.log(data.notice)
+				// console.log(data);
+				if(data.result != undefined){
+					// console.log(data.result);
+					$('#submit-seq-result-div').prepend("<h3>Result</h3>" + construct_table(data));
+					// var table = $('#upload-seq-result-table');
+					// table.prepend(construct_table(data));
+				}else if (data.notice != undefined){
+					// console.log(data.notice);
+					$('#submit-seq-result-div').prepend(`<p class=\"alert alert-danger\" role=\"alert\">${data.notice}</p>`);
+				}
+
+				
+			},
+			error: function(data){
+				$("#submit-message").text("Error occurs.");
+			},
+			timeout: 1000 * 60
+
+
+		});
+	});
+
+	// for styling 
+	// var style = $('<style>.class { background-color: blue; }</style>');
+	// $('html > head').append(style);
+	// https://stackoverflow.com/questions/13075920/add-css-rule-via-jquery-for-future-created-elements
+	var construct_table = function(data){
+		
+		var table_content = "";
+		
+		table_content += "<table id='upload-seq-result-table'>\
+												<tr>\
+												<th>Header</th>\
+												<th>Status</th>\
+												<th>Message</th>\
+											</tr>";
+		for(var i = 0; i < data.result.length; i++){
+			header = data.result[i].header;
+			status = data.result[i].status;
+			msg    = data.result[i].msg;
+			// if status is success, add some style, etc.
+			table_content += `<tr>\
+														<th>${header}</th>\
+														<th>${status}</th>\
+														<th>${msg}</th>\
+												</tr>`;
+		}
+		table_content += "</table>";
+		return table_content;
+	}
+
+
+
+
+
+
+</script>

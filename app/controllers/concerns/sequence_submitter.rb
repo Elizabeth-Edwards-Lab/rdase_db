@@ -95,7 +95,7 @@ module SequenceSubmitter
 
           group_hash[group_number].each do |s_identity|
 
-            if identity_with_90.include? s_identity
+            if identity_group.include? s_identity
               next
             else
               is_belong_to_group = false
@@ -172,8 +172,12 @@ module SequenceSubmitter
     return final_identified_group
   end
 
+  # self-defined data structure
+  def collection(header,status,msg)
+    collection_hash = { :header => header, :status => status, :msg => msg }
+  end
+
   # Basic Logic:
-  # Note: we assume the sequence is after check if the sequence already in the database (from controller)
   # Do blastp
   # a.check if there any sequence in the database share more than 90% of identity with query sequence
   #   if yes: grap all the groups and confirm that it matches all representive of that group by 90%
@@ -184,22 +188,32 @@ module SequenceSubmitter
   # c. (if b is yes) confirm with nt/gene level
   #   if yes: return the group number and add the sequence to database if user has the accession number
   #   if no: return the result as: it shares representive of the group share 90% of database at aa level, but not at nt level.
+  def sequence_check_for_submission(sequence,group_hash,reversed_group_hash)
 
-  def sequence_check_for_submission(sequence)
-
-    result = Hash.new
-    query = Bio::FastaFormat.new( sequence )
-    query_name = query.definition
-    sequence = query.to_seq
-    sequence.auto # Guess the type of sequence. Changes the class of sequence.
-
-    query_sequence_type = sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
-
-    program = 'blastp'
-    database = 'reductive_dehalogenase_protein'
-    blast_options = get_blast_options
-
+    
+    result_array = Array.new
+    
     begin
+
+      
+      query = Bio::FastaFormat.new( sequence )
+      query_name = query.definition
+      sequence = query.to_seq
+
+      existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => sequence.seq)
+      if !existing_matched_group_exist.nil? # find existing sequence
+        result_array << collection(query_name, "WARN", "Matching #{existing_matched_group_exist.header}")
+        return result_array
+      end
+
+      sequence.auto # Guess the type of sequence. Changes the class of sequence.
+      query_sequence_type = sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
+
+      program = 'blastp'
+      database = 'reductive_dehalogenase_protein'
+      blast_options = get_blast_options
+
+
       blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
       aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
       identity_with_90 = check_alignment_identity(aa_report, 90)
@@ -207,38 +221,52 @@ module SequenceSubmitter
       # group_hash => group : Array {seq_definition}
       # reversed_group_hash = seq_definition : group
       if identity_with_90.length > 0
-        group_hash, reversed_group_hash = get_group_sequence_table
-        identified_group_at_aa_level = get_identified_groups(identity_with_90,group_hash,reversed_group_hash)
+        # group_hash, reversed_group_hash = get_group_sequence_table
+        identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash)
       else
-        result["FAILED"] = "Your sequence doesn't share 90\% of any sequences in database at aa level."
-        return result
+        result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of any sequences in database at amino acid level.")
+        return result_array
       end
 
       if identified_group_at_aa_level.length > 0
         final_identified_group = get_final_identified_group(sequence.seq,identified_group_at_aa_level,group_hash)
       else
-        result["FAILED"] = "Your sequence doesn't share 90\% of representatives of the group at aa level."
-        return result
+        result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of representatives of the group at amino acid level.")
+        return result_array
       end
 
       if final_identified_group.length > 0
-        result["SUCCESS"] = final_identified_group
+        result_array << collection(query_name, "SUCCESS","Your sequence belongs RD group: #{final_identified_group.join(",")}")
       else
-        result["FAILED"] = "Your sequence shares 90\% of representatives of the group at aa level; but not at nt level."
-        return result
+        result_array << collection(query_name, "FAILED","Your sequence shares 90\% of representatives of the group at amino acid level; but not at nt level.")
+        return result_array
       end
 
       
-    rescue
-      result["ERROR"] = "Your sequence is not validated. Or send it to our lab for manual checking."
+    rescue => exception
+      puts exception
+      result_array << collection(query_name, "ERROR","Your sequence is not validated. Or send it to our lab for manual checking.")
     end
-
     
-    return result
-
-
+    return result_array
 
   end
+
+
+
+  def submit_sequence_caller(fasta_array)
+
+    uploading_result = Array.new
+    group_hash, reversed_group_hash = get_group_sequence_table
+    fasta_array.each do |fasta_seq|
+      # check if the sequence is already in database
+      result = sequence_check_for_submission(fasta_seq,group_hash,reversed_group_hash)
+      uploading_result.push(*result)
+
+    end
+    return uploading_result
+  end
+
 end
 
 

@@ -164,32 +164,33 @@ $(document).ready(function(){
 
 
 	// submit sequence part
-	$('#submit-seq').submit(function(e){
-		e.preventDefault();
-		var sequence = $('.seq-search-sequence').val();
-		var group = $('#simtext-group').text().replace(/^\s+|\s+$/g, '');
-		var form = $(this);
-		form.attr('sequence',sequence);
+	// This is not used anymore as we moved out the submit sequence as independent module
+	// $('#submit-seq').submit(function(e){
+	// 	e.preventDefault();
+	// 	var sequence = $('.seq-search-sequence').val();
+	// 	var group = $('#simtext-group').text().replace(/^\s+|\s+$/g, '');
+	// 	var form = $(this);
+	// 	form.attr('sequence',sequence);
 		
-		console.log(typeof(form.serialize()));
-		$.ajax({
-			type:"POST",
-			url: "/submit_sequence",
-			// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
-			data: form.serialize()+ '&sequence=' + sequence + '&group=' + group,
-			success: function(data){
-				console.log("success");
-				console.log(data);
-				$("#submit-message").text(data.message);
-				$("#submit-seq").remove();
-				$("#_submit_seq_p").remove();
+	// 	console.log(typeof(form.serialize()));
+	// 	$.ajax({
+	// 		type:"POST",
+	// 		url: "/submit_sequence",
+	// 		// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
+	// 		data: form.serialize()+ '&sequence=' + sequence + '&group=' + group,
+	// 		success: function(data){
+	// 			console.log("success");
+	// 			console.log(data);
+	// 			$("#submit-message").text(data.message);
+	// 			$("#submit-seq").remove();
+	// 			$("#_submit_seq_p").remove();
 
-			},
-			error: function(data){
-				$("#submit-message").text(data.message_err);
-			}
-		})
-	})
+	// 		},
+	// 		error: function(data){
+	// 			$("#submit-message").text(data.message_err);
+	// 		}
+	// 	})
+	// })
 
 
 	

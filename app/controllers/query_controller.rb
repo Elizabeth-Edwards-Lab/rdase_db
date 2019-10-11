@@ -9,7 +9,7 @@ class QueryController < ApplicationController
 
   def search
 
-    puts "params.inspect => #{params.inspect}"
+    # puts "params.inspect => #{params.inspect}"
     if params[:notice].present?
       @error = params[:notice]
     end
@@ -507,7 +507,7 @@ class QueryController < ApplicationController
 
   # Create the phylogenies tree
   def phylogenies
-    puts "params => #{params.inspect}"
+    # puts "params => #{params.inspect}"
     # try to get params[:sequence] first. If nil, means new page is rendered
     raw_sequence = params[:sequence]
     if raw_sequence == "undefined"
@@ -617,52 +617,45 @@ class QueryController < ApplicationController
   end
 
 
-  # implement the decision tree
-  def submit_sequence
-    puts "params.inspect => #{params.inspect}"
+  # # implement the decision tree
+  # def submit_sequence
+  #   puts "params.inspect => #{params.inspect}"
 
-    raw_sequence = params[:sequence]
-    if raw_sequence == "undefined"
-      raw_sequence = params[:form_sequence]
-    end
-    fasta_array = raw_sequence.scan(/>[^>]*/)
+  #   raw_sequence = params[:sequence]
+  #   if raw_sequence == "undefined"
+  #     raw_sequence = params[:form_sequence]
+  #   end
+  #   fasta_array = raw_sequence.scan(/>[^>]*/)
 
-    query_name = nil
-    sequence = nil
-    if fasta_array.length > 1
-      @query = Bio::FastaFormat.new( fasta_array[0] )
-      query_name = @query.definition
-      sequence = @query.to_seq
-    end
+  #   query_name = nil
+  #   sequence = nil
+  #   if fasta_array.length > 1
+  #     @query = Bio::FastaFormat.new( fasta_array[0] )
+  #     query_name = @query.definition
+  #     sequence = @query.to_seq
+  #   end
 
-    begin
-      # organism should be similar, otherwise it won't get to this step
-      new_sequence_info = SequenceInfo.new
-      new_sequence_info.organism = params[:organism] || nil
-      new_sequence_info.reference = params[:publications] || nil
-      new_sequence_info.type = "Enzyme"
-      new_customized_protein_sequences = CustomizedProteinSequence.new
-      new_customized_protein_sequences.header = query_name
-      new_customized_protein_sequences.chain  = sequence
-      new_customized_protein_sequences.key_group = "NCBI Accession"
-      new_customized_protein_sequences.key = params[:ncbi_accession_number]
-      new_customized_protein_sequences.reference = params[:publications] || nil
-      new_customized_protein_sequences.organism  = params[:organism] || nil
+  #   begin
+  #     # organism should be similar, otherwise it won't get to this step
+  #     new_sequence_info = SequenceInfo.new
+  #     new_sequence_info.organism = params[:organism] || nil
+  #     new_sequence_info.reference = params[:publications] || nil
+  #     new_sequence_info.type = "Enzyme"
+  #     new_customized_protein_sequences = CustomizedProteinSequence.new
+  #     new_customized_protein_sequences.header = query_name
+  #     new_customized_protein_sequences.chain  = sequence
+  #     new_customized_protein_sequences.key_group = "NCBI Accession"
+  #     new_customized_protein_sequences.key = params[:ncbi_accession_number]
+  #     new_customized_protein_sequences.reference = params[:publications] || nil
+  #     new_customized_protein_sequences.organism  = params[:organism] || nil
     
-    rescue Exception => e 
-      render json: {"message_err": e.message }
+  #   rescue Exception => e 
+  #     render json: {"message_err": e.message }
 
-    end
+  #   end
     
-  end
+  # end
 
-    # def index
-    #   @posts = Post.all
-    #   respond_to do |format|
-    #     format.html  # index.html.erb => will render the index.html.erb as default
-    #     format.json  { render :json => @posts } => will render index.html.json as default; it will render other if specified
-    #   end
-    # end
 
 
   def download_new_fasta 

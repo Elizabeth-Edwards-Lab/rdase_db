@@ -7,51 +7,65 @@
     p.alert.alert-danger
       - @error.each do |key, array|
         = array
-        
+
 - elsif @aa_similarity.present?
   hr
   = render partial: "result"
   = render partial: "results_view"
-
-  - if @is_exist_chain == false
-
-    - if @append_seq_to_relative_rd_og == true
-      / send what group it belongs to, either assign to a group or create new group
-      = render partial: "submit_sequence", group: @final_identity_groups
-
-      .result-div
-        #result-text
-          = render partial: "phylogenies"
-
-    - elsif @append_seq_to_relative_rd_og_without_group == true
-      / send no group it belongs to
-      = render partial: "submit_sequence", group: @final_identity_groups
-
-      .result-div
-        #result-text
-          = render partial: "phylogenies"
-
-    - elsif @append_seq_to_csv == true
+  .result-div
+    #result-text
+      p#result-textt 
+      | #{link_to 'Submit your sequence to our database!', submit_sequence_path, target: '_blank'}
+      hr
+      = render partial: "phylogenies"
       
-      = render partial: "submit_sequence"
+- elsif params[:commit].present?
+  p.alert.alert-danger No Results
 
-      .result-div
-        #result-text
-          p#result-textt Your sequence is not in our database!
-          hr
-          = render partial: "phylogenies"
+/ - elsif @aa_similarity.present?
+/   hr
+/   = render partial: "result"
+/   = render partial: "results_view"
+
+/   - if @is_exist_chain == false
+
+/     - if @append_seq_to_relative_rd_og == true
+/       / send what group it belongs to, either assign to a group or create new group
+/       = render partial: "submit_sequence", group: @final_identity_groups
+
+/       .result-div
+/         #result-text
+/           = render partial: "phylogenies"
+
+/     - elsif @append_seq_to_relative_rd_og_without_group == true
+/       / send no group it belongs to
+/       = render partial: "submit_sequence", group: @final_identity_groups
+
+/       .result-div
+/         #result-text
+/           = render partial: "phylogenies"
+
+/     - elsif @append_seq_to_csv == true
+      
+/       = render partial: "submit_sequence"
+
+/       .result-div
+/         #result-text
+/           p#result-textt Your sequence is not in our database!
+/           hr
+/           = render partial: "phylogenies"
 
 
-    - else
-      .result-div
-        #result-text
-          = render partial: "phylogenies"
+/     - else
+/       .result-div
+/         #result-text
+/           = render partial: "phylogenies"
 
-  - else
+/   - else
 
 
-    .result-div
-      #result-text
-        p#result-textt Your sequence is already in our database!
-        hr
-        = render partial: "phylogenies"
+/     .result-div
+/       #result-text
+/         p#result-textt Your sequence is already in our database!
+/         hr
+/         = render partial: "phylogenies"
