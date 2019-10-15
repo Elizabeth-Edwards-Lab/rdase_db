@@ -9,11 +9,10 @@ class SubmitSequenceController < ApplicationController
 		# puts params.inspect
 
 		fasta_array = Array.new
-		# puts params[:sequence].present?
+		puts params.inspect
 		if params[:sequence].present?
 			# puts "params[:sequence] => #{params[:sequence]}"
 			fasta_array = params[:sequence].scan(/>[^>]*/)
-			puts "fasta_array => #{fasta_array} => #{fasta_array.length}"
 			if fasta_array.length == 0 
 
 				render json: { "notice": "Please enter sequence." }
@@ -28,6 +27,7 @@ class SubmitSequenceController < ApplicationController
 		elsif !params[:fasta].nil?
 			# make sure that once upload the file, user can't insert any sequence
 			uploaded_io = params[:fasta]
+			puts uploaded_io
 			now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
 			file_name = uploaded_io.original_filename.gsub(".fasta","#{now}.fasta")
 			file_path = Rails.root.join('public', 'uploads/', file_name)
@@ -46,6 +46,7 @@ class SubmitSequenceController < ApplicationController
 		elsif params[:sequence].present? == false and params[:authenticity_token].present? == true
 
 			render json: { "notice": "Please enter sequence." }
+
 			
 		end
 
@@ -68,6 +69,46 @@ class SubmitSequenceController < ApplicationController
 
 
 
+
+ 
+ # # implement the decision tree
+ # def submit_sequence
+ #   puts "params.inspect => #{params.inspect}"
+
+ #   raw_sequence = params[:sequence]
+ #   if raw_sequence == "undefined"
+ #     raw_sequence = params[:form_sequence]
+ #   end
+ #   fasta_array = raw_sequence.scan(/>[^>]*/)
+
+ #   query_name = nil
+ #   sequence = nil
+ #   if fasta_array.length > 1
+ #     @query = Bio::FastaFormat.new( fasta_array[0] )
+ #     query_name = @query.definition
+ #     sequence = @query.to_seq
+ #   end
+
+ #   begin
+ #     # organism should be similar, otherwise it won't get to this step
+ #     new_sequence_info = SequenceInfo.new
+ #     new_sequence_info.organism = params[:organism] || nil
+ #     new_sequence_info.reference = params[:publications] || nil
+ #     new_sequence_info.type = "Enzyme"
+ #     new_customized_protein_sequences = CustomizedProteinSequence.new
+ #     new_customized_protein_sequences.header = query_name
+ #     new_customized_protein_sequences.chain  = sequence
+ #     new_customized_protein_sequences.key_group = "NCBI Accession"
+ #     new_customized_protein_sequences.key = params[:ncbi_accession_number]
+ #     new_customized_protein_sequences.reference = params[:publications] || nil
+ #     new_customized_protein_sequences.organism  = params[:organism] || nil
+   
+ #   rescue Exception => e 
+ #     render json: {"message_err": e.message }
+
+ #   end
+   
+ # end
 
 
 

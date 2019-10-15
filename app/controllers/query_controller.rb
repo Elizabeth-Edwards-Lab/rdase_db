@@ -573,8 +573,7 @@ class QueryController < ApplicationController
       fasta_new << raw_sequence.gsub(sequence_def.definition, highlight_name) + "\n"
     end
     fasta_new.close()
-    puts "highlight_name => #{highlight_name}"
-    puts "num of selected sequence => #{all_sequence.length}"
+    
     # the tree is based on AA (amino acid)
     muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
     if RUBY_PLATFORM == "x86_64-linux"
@@ -615,47 +614,6 @@ class QueryController < ApplicationController
     end
 
   end
-
-
-  # # implement the decision tree
-  # def submit_sequence
-  #   puts "params.inspect => #{params.inspect}"
-
-  #   raw_sequence = params[:sequence]
-  #   if raw_sequence == "undefined"
-  #     raw_sequence = params[:form_sequence]
-  #   end
-  #   fasta_array = raw_sequence.scan(/>[^>]*/)
-
-  #   query_name = nil
-  #   sequence = nil
-  #   if fasta_array.length > 1
-  #     @query = Bio::FastaFormat.new( fasta_array[0] )
-  #     query_name = @query.definition
-  #     sequence = @query.to_seq
-  #   end
-
-  #   begin
-  #     # organism should be similar, otherwise it won't get to this step
-  #     new_sequence_info = SequenceInfo.new
-  #     new_sequence_info.organism = params[:organism] || nil
-  #     new_sequence_info.reference = params[:publications] || nil
-  #     new_sequence_info.type = "Enzyme"
-  #     new_customized_protein_sequences = CustomizedProteinSequence.new
-  #     new_customized_protein_sequences.header = query_name
-  #     new_customized_protein_sequences.chain  = sequence
-  #     new_customized_protein_sequences.key_group = "NCBI Accession"
-  #     new_customized_protein_sequences.key = params[:ncbi_accession_number]
-  #     new_customized_protein_sequences.reference = params[:publications] || nil
-  #     new_customized_protein_sequences.organism  = params[:organism] || nil
-    
-  #   rescue Exception => e 
-  #     render json: {"message_err": e.message }
-
-  #   end
-    
-  # end
-
 
 
   def download_new_fasta 

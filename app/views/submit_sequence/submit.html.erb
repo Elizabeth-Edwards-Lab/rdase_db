@@ -9,9 +9,9 @@
     			<br>
     			<%# f.submit 'Upload', class: 'btn btn-primary upload-btn', disabled: false %>
     			<%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
-    			OR
- 
-    			<%= f.file_field :fasta, :id => 'upload-file-btn',disabled: false %>    			
+    			<!-- OR -->
+ 					<!-- This works only if send data through rails; not ajax -->
+    			<%# f.file_field :fasta, :id => 'upload-file-btn',disabled: false %>    			
     		<% end %>
     		
     	</div>
@@ -39,6 +39,7 @@
 
 		if( $('#upload-file-btn').get(0).files.length >= 1 ){
 			// console.log("file uploaded");
+			$('#upload-text').val('');
 			$('#upload-text').attr('disabled', true);
 			$('#upload-text').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
 		}else{
@@ -48,9 +49,13 @@
 		}
 	});
 
+
+	// this ajax request overwrite the rails default parameter passing
 	$('#upload-seq').submit(function(e){
 		e.preventDefault();
 		var form = $(this);
+		var formData = new FormData(this);
+		console.log(formData);
 		$.ajax({
 			type:"POST",
 			url: "/submit_sequence",
@@ -77,9 +82,7 @@
 														</form>`
 
 					$('#submit-seq-result-div').append(submit_form)
-					// $('#submit-seq-result-div').append("<button type=\"button\" class=\"btn btn-primary\" id=\"submit-seq-btn\">Submit</button>")
-					// var table = $('#upload-seq-result-table');
-					// table.prepend(construct_table(data));
+
 				}else if (data.notice != undefined){
 					// console.log(data.notice);
 					$('#submit-seq-result-div').prepend(`<p class=\"alert alert-danger\" role=\"alert\">${data.notice}</p>`);
@@ -129,7 +132,6 @@
 	$('#save-seqeunce').submit(function(e){
 		e.preventDefault();
 		var form = $(this);
-		console.log(form);
 		$.ajax({
 			type:"POST",
 			url: "/save_sequence",
