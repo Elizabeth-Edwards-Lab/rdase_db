@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190925180139) do
+ActiveRecord::Schema.define(version: 20191015214614) do
 
   create_table "compound_strain_rels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "strain_header", null: false
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 20190925180139) do
     t.string "reference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "compound_id"
+    t.integer "protein_id"
   end
 
   create_table "compound_synonyms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -157,6 +159,15 @@ ActiveRecord::Schema.define(version: 20190925180139) do
     t.string "algorithm"
     t.string "email"
     t.boolean "file_upload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "references", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.integer "pubmed_id"
+    t.string "citation"
+    t.string "doi"
+    t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -26,7 +26,8 @@ namespace :update_compound_data do
 					new_compound_str_rel.compound_id = compound.id
 
 					new_compound_str_rel.save!
-					
+				end
+
 
 			end
 		end
