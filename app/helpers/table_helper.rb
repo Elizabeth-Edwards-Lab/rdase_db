@@ -79,8 +79,7 @@ module TableHelper
       # <i class="fas fa-sort-up"></i>
       icon = params[:d] == 'up' ? fontawesome('fas fa-sort-up') : fontawesome('fas fa-sort-down')
     else
-      # icon = glyphicon('sort')
-      icon = fontawesome('fas')
+      icon = fontawesome('fas fa-sort-up')
     end
     
     link_to_unless(condition, title.html_safe, 

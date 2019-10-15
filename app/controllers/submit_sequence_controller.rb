@@ -9,7 +9,7 @@ class SubmitSequenceController < ApplicationController
 		# puts params.inspect
 
 		fasta_array = Array.new
-		puts params[:sequence].present?
+		# puts params[:sequence].present?
 		if params[:sequence].present?
 			# puts "params[:sequence] => #{params[:sequence]}"
 			fasta_array = params[:sequence].scan(/>[^>]*/)

@@ -189,7 +189,10 @@ Comment: "All ORase group" to "All OGs" will do.
 
 2019-10-11
 1. finish add sequence to database (decision tree, loading animation)
-  1. save the successful data into temporary file and return that file location
+  1. save the successful data (with group information) into temporary file and return that file location
+  maybe save as json file; and read as json file.
+  2. ask about if shorter version of sequence would work. e.g. MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHD is in db g7
+  how about MGKFHLTLSRRDFMKSLGLAGAGLATVK is also g7 but not db
 2. create tree based on organisms and number of groups
 3. create the sequence and compound relationships and link them
 
