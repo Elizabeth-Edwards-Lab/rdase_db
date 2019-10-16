@@ -43,7 +43,7 @@ namespace :update_compound_data do
 
 	desc 'update the images'
 	task :update_the_image =>[:environment] do
-
+		
 
 	end
  

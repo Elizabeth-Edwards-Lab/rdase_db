@@ -188,9 +188,9 @@ module SequenceSubmitter
   # c. (if b is yes) confirm with nt/gene level
   #   if yes: return the group number and add the sequence to database if user has the accession number
   #   if no: return the result as: it shares representive of the group share 90% of database at aa level, but not at nt level.
+  # TODO: add the new group situation
   def sequence_check_for_submission(sequence,group_hash,reversed_group_hash)
 
-    
     result_array = Array.new
     
     begin
@@ -261,9 +261,11 @@ module SequenceSubmitter
     fasta_array.each do |fasta_seq|
       # check if the sequence is already in database
       result = sequence_check_for_submission(fasta_seq,group_hash,reversed_group_hash)
+      # TODO: if result is successful, add the seq to file
       uploading_result.push(*result)
 
     end
+    # add file location at the end, and pop the last items at controller
     return uploading_result
   end
 

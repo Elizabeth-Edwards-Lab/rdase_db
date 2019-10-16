@@ -194,7 +194,20 @@ Comment: "All ORase group" to "All OGs" will do.
   2. ask about if shorter version of sequence would work. e.g. MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHD is in db g7
   how about MGKFHLTLSRRDFMKSLGLAGAGLATVK is also g7 but not db
 2. create tree based on organisms and number of groups
-3. create the sequence and compound relationships and link them
+3. update the compound and protein information
+4. create the sequence and compound relationships and link them
+
+About submit sequence:
+Here is the protocol:
+Ask if user have the accession number of their sequence
+if No  => deny the request or ask them to send to our lab
+if Yes => ask them if their sequence have FeS binding and TAT peptide
+  if No => send to our lab
+  if Yes => show page for user to upload their sequence
+
+After evaluation, upload the successful sequence to database automatically (with user email and name)
+For failed sequence, send to lab for further analysis
+
 
 
 

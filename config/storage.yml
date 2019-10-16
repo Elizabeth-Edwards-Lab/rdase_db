@@ -1,0 +1,14 @@
+# To use the disk service from the previous example in the development environment, 
+# you would add the following to config/environments/development.rb:
+# Store files locally.
+# config.active_storage.service = :local
+
+# Mirroring is not atomic. It is possible for an upload to succeed on the primary service and fail on any of the subordinate services.
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+ 
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>

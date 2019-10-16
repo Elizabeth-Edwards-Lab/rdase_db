@@ -1,0 +1,512 @@
+Group by year	RD Group	Gene ID	Accession No	New locus tag	Publication date	Reference	Earliest Date	Name on tree Perez de Mora et al.	Note1	Note2	Spcies 	Organism/strain	Protein Name	Characteristics
+2004_20	27	8657042VS 	WP_012881438	DHCVS_RS00420	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_88	VS_88			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_19	26	8657050VS	WP_012881445	DHCVS_RS00460	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_96	VS_96			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_18	25	8657053VS 	WP_012881448	DHCVS_RS00475	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_99	VS_99			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_17	24	8657058VS 	WP_012881453	DHCVS_RS00500	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_104	VS_104			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_16	23	8657123VS	WP_012881517	DHCVS_RS00825	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_169	VS_169			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_10	17	8658187VS	ACZ62362	DHCVS_RS06140	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1260	VS_1260	17_II subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_5	12	8658189VS 	WP_012882508	DHCVS_RS06150	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1263	VS_1263			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_1	8	8658217VS 	WP_012882535		1-Aug-04	Muller, AEM	DhcVS_1291vcrA	VS_1291vcrA	vinyl chloride reductase VcrA		Dehalococcoides mccartyi	Dehalococcoides mccartyi VS	vcrA	
+	68	8658239VS	WP_012882555								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2005_6	34	8658241VS	WP_012882557	DHCVS_RS06425	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1316	VS_1316			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	61	8658252VS	WP_012882568								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	62	8658254VS	WP_012882570								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_19	26	8658261VS  	WP_012881445	DHCVS_RS06520	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1336	VS_1336			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	63	8658265VS	WP_012882577								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	64	8658269VS	WP_012882580								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	65	8658272VS	ACZ62446								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	66	8658274VS	WP_012882585								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_15	22	8658278VS 	WP_012882589	DHCVS_RS06600	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1353	VS_1353			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2005_3	31	8658285VS 	WP_012882596		1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1360	VS_1360			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+	69	8658300VS	WP_012882611								Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2005_10	38	8658303VS 	WP_012882613	DHCVS_RS06725	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1378	VS_1378			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_12	19	8658308VS 	WP_012882618	DHCVS_RS06750	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1383	VS_1383			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2005_12	40	8658312VS	WP_012882622	DHCVS_RS06770	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1387	VS_1387			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2005_2	30	8658318VS 	WP_012882628	DHCVS_RS06795	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1393	VS_1393			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2005_6	34	8658324VS	WP_012882633	DHCVS_RS06825	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1399	VS_1399			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_4	11	8658327VS 	WP_012882636	DHCVS_RS06930	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1421	VS_1421			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_3	10	8658346VS 	WP_012882655.1	DHCVS_RS06930	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1421	VS_1421			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_10	17	8658352VS  	WP_012882660	DHCVS_RS06960	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1427	VS_1427	17_II subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_6	13	8658355VS 	WP_012882663	DHCVS_RS06975	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1430	VS_1430			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2004_8	15	8658361VS	ACZ62535	DHCVS_RS07005	1-Nov-09	McMurdie, PLOS Gen.	DhcVS_1436	VS_1436			Dehalococcoides mccartyi	Dehalococcoides mccartyi VS		
+2008_2	42	A2cp1_0353	WP_012631767		1-Jan-09	NCBI direct submission					Anaeromyxobacter dehalogenans	Anaeromyxobacter dehalogenans 2CP-1		
+2008_3	43	A2cp1_0355	WP_012631769		1-Jan-09	NCBI direct submission					Anaeromyxobacter dehalogenans	Anaeromyxobacter dehalogenans 2CP-1		
+2000_1	2	AB194705	WP_019849417		1-Sep-05	Tsukagoshi, App. Mic. Biotech.					Desulfitobacterium sp.	Desulfitobacterium sp. KBC1		
+2012_2	46	ACT3-rdh01-1	EQB22800		4-Jul-05	ST, this volume	4-Jul-05				Dehalobacter	Dehalobacter		
+2012_2	46	ACT3-rdh02-1	EQB22800		4-Jul-05	ST, this volume					Dehalobacter	Dehalobacter		
+2012_1	45	ACT3-rdh07	WP_015043207		4-Jul-05	ST, this volume					Dehalobacter CF	Dehalobacter CF		
+2003_1	7	ACT3-rdh08	WP_015045247.1		4-Jul-05	ST, this volume					Dehalobacter CF	Dehalobacter CF		
+2003_1	7	ACT3-rdh09r	WP_015045247.1		4-Jul-05	ST, this volume					Dehalobacter	Dehalobacter		
+1998_1	6	ACT3-rdh12	WP_015043730.1		4-Jul-05	ST, this volume					Dehalobacter CF	Dehalobacter CF		
+2000_2	1	AF022812	WP_148512140		1-Aug-00	NCBI direct submission					Sulfurospirillum multivorans	Sulfurospirillum multivorans		
+2000_1	2	AF115542	WP_014792552		1-Jul-99	van de pas, jbc					Desulfitobacterium dehalogenans	Desulfitobacterium dehalogenans ATCC 51507	cprA	
+2000_1	2	AF259790	AAG49543		1-Apr-00	NCBI direct submission					Desulfitobacterium sp.	Desulfitobacterium sp. PCE1		
+2000_1	2	AF259791	AAG49544		1-Apr-00	NCBI direct submission					Desulfitobacterium sp.	Desulfitobacterium sp. Viet-1		
+1998_1	6	AJ439608	CAD28792.1		1-Aug-03	Maillard, AEM					Dehalobacterium halfniense	Dehalobacterium halfniense		
+2003_1	7	AJ539533	CAD62440.1		1-Jan-03	NCBI direct submission	1-Jan-03				Dehalobacter restrictus	Dehalobacter restrictus DSM 9455		
+1998_1	6	AM183918	WP_015261904.1		1-May-07	Marzorati, AEM					Desulfitobacterium dichloroeliminans	Desulfitobacterium dichloroeliminans LMG P-21439 	dcaA	
+2008_2	42	AnaeK_0341	WP_012524416		1-Aug-08	NCBI direct submission	1-Aug-08				Anaeromyxobacter dehalogenans	Anaeromyxobacter dehalogenans K		
+2008_3	43	AnaeK_0343	ACG71585		1-Aug-08	NCBI direct submission	1-Aug-08				Anaeromyxobacter dehalogenans	Anaeromyxobacter dehalogenans K		
+	76	AOV98763	AOV98763	DCWBC2_0088							Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	23	AOV98827	WP_011308794	DCWBC2_0154	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	22	AOV98866	WP_034376796	DCWBC2_0193	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	31	AOV99621	WP_011309542	DCWBC2_0994	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	17	AOV99914	AOV99914	DCWBC2_1302	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	12	AOV99916	AOV99916	DCWBC2_1304	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	8	AOV99943	AEI59432.1	DCWBC2_1333	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	37	AOV99955	WP_041344588	DCWBC2_1346	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	58	AOV99960	AOV99960	DCWBC2_1351	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	54	AOV99962	AOV99962	DCWBC2_1353	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	38	AOV99966	AOV99966	DCWBC2_1357	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	17	AOV99976	AOV99976	DCWBC2_1368	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	13	AOV99979	WP_015408026	DCWBC2_1371	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2016_1	15	AOV99987	WP_034376989	DCWBC2_1379	13-Oct-16	Molenda, Genome Announc.					Dehalococcoides mccartyi	Dehalococcoides mccartyi WBC-2		
+2018	79	APV44777	WP_058439793			DOI:10.1099/ijsem.0.001819			EdbA homolog		Dehalogenimonas	Dehalogenimonas		
+2018_8	34	ASJ33_RS00005	WP_041331565		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	11	ASJ33_RS00020	WP_041331569		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	10	ASJ33_RS00100	WP_041331586.1		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	13	ASJ33_RS00145	WP_023652877		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	15	ASJ33_RS00175	WP_041331600		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	23	ASJ33_RS01610	WP_041330544		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	82	ASJ33_RS01800	WP_080775287		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	12	ASJ33_RS07525	WP_023652767		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	67	ASJ33_RS07735	WP_023652806		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	80	ASJ33_RS07745	WP_023652808		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	68	ASJ33_RS08015	WP_072555823		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	34	ASJ33_RS08025	WP_041331518		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	18	ASJ33_RS08105	WP_041331829		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	68	ASJ33_RS08130	WP_041331507		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	34	ASJ33_RS08140	WP_041331518		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	55	ASJ33_RS08160	WP_041331523		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	83	ASJ33_RS08195	WP_080775295		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	69	ASJ33_RS08220	WP_041331540		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	33	ASJ33_RS08235	WP_041331542		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	19	ASJ33_RS08260	WP_041331547		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2018_8	40	ASJ33_RS08280	WP_041331556		6-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi CG3		
+2000_1	2	AY013360	AAG46187		1-Nov-00	NCBI direct submission					Desulfitobacterium sp.	Desulfitobacterium sp. PCE1		
+2000_4	3	AY013361	AAG46188		1-Nov-00	NCBI direct submission					Desulfitobacterium sp.	Desulfitobacterium sp. PCE1		
+2000_5	4	AY013362	WP_015942972		1-Nov-00	NCBI direct submission					Desulfitobacterium hafniense	Desulfitobacterium hafniense TCE1		
+2000_4	3	AY013363	AAG48370		1-Nov-00	NCBI direct submission	1-Nov-00				Desulfitobacterium dehalogenans	Desulfitobacterium dehalogenans		
+2000_5	4	AY013364	AAG46190		1-Nov-00	NCBI direct submission					Desulfitobacterium hafniense	Desulfitobacterium hafniense PCP-1		
+2000_1	2	AY013365	WP_019849417		1-Aug-00	NCBI direct submission	1-Apr-00				Desulfitobacterium hafniense	Desulfitobacterium hafniense DCB-2		
+2000_5	4	AY013366	AAG46193		1-Nov-00	NCBI direct submission					Desulfitobacterium hafniense	Desulfitobacterium hafniense DCB-2		
+2000_2	1	AY013367	AAG46194		1-Aug-00	NCBI direct submission	1-Aug-00				Sulfurospirillum halorespirans	Sulfurospirillum halorespirans PCE-M2		
+2000_6	5	AY165309	AAN85588		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+1998_1	6	AY216592	AAO60101.1		1-Jun-98	Miller, Arch Micro	1-Jan-02				Desulfitobacterium sp.	Desulfitobacterium sp. PCE-S		
+2004_2	9	AY349165	WP_018307567.1		1-Aug-04	Thibodeau, AEM					Desulfitobacterium hafniense	Desulfitobacterium hafniense PCP-1	cprA	
+2004_3	10	AY374245	AAR24325.1		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_4	11	AY374246	AAR24327		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_5	12	AY374247	BAG72160		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_6	13	AY374248	BAS32509		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_7	14	AY374249	AAR24333		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_8	15	AY374250	WP_034376989		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_9	16	AY374251	AAR24337		1-Sep-04	Holscher, AEM	1-Sep-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_10	17	AY374252	WP_011309827		1-Sep-04	Holscher, AEM			17_I subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_11	18	AY374253	AAR24341		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2004_12	19	AY374254	AAR24343		1-Sep-04	Holscher, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2018_8	8	B1772_06705	AQY73737.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2004_13	20	BAV1_0104	WP_011308708	DEHABAV1_RS00595	1-Oct-04	Krajmalnik-Brown, AEM	1-Oct-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_14	21	BAV1_0112	WP_011928631	DEHABAV1_RS00635	1-Oct-04	Krajmalnik-Brown, AEM	1-Oct-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+	60	BAV1_0119	WP_011928637	DEHABAV1_RS00670							Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_15	22	BAV1_0121	WP_011308832	DEHABAV1_RS00680	1-Oct-04	Krajmalnik-Brown, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_16	23	BAV1_0173	WP_011928681	DEHABAV1_RS00945	1-Oct-04	Krajmalnik-Brown, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_17	24	BAV1_0276	WP_011928754	DEHABAV1_RS01540	1-Oct-04	Krajmalnik-Brown, AEM	1-Oct-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1	bvcA	
+2004_18	25	BAV1_0281	WP_011928759	DEHABAV1_RS01565	1-Oct-04	Krajmalnik-Brown, AEM	1-Oct-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_19	26	BAV1_0284	WP_011928762	DEHABAV1_RS01580	1-Oct-04	Krajmalnik-Brown, AEM	1-Oct-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_20	27	BAV1_0296	WP_011928769	DEHABAV1_RS01640	1-Oct-04	Krajmalnik-Brown, AEM	1-Oct-04				Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2004_21	28	BAV1_0847	WP_011929137	DEHABAV1_RS04470	1-Oct-04	Krajmalnik-Brown, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi BAV1		
+2018	79	BRE15M_v1_110003			In prep.	In prep.			Ethylene dibromide (1,2-dibromoethane, [EDB]) dehalogenase = EdbA		Dehalogenimonas	Dehalogenimonas		
+2005_3	31	btf_1057	WP_015407127	BTF_RS05190	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_16	23	btf_121	WP_011928681	BTF_RS00595	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_9	16	btf_1393	WP_015407954	BTF_RS06835	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_1	8	btf_1407	WP_015407966.1	BTF_RS06905	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2014_11	55	btf_1409	WP_015407968	BTF_RS06915	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2005_4	32	btf_1440	WP_015407988	BTF_RS07060	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_12	19	btf_1443	WP_015407990	BTF_RS07075	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_11	18	btf_1446	WP_015407993	BTF_RS07090	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2005_12	40	btf_1449	WP_015407995	BTF_RS07105	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2005_2	30	btf_1454	WP_011309950	BTF_RS07130	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2005_6	34	btf_1460	WP_015408004	BTF_RS07160	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_4	11	btf_1463	WP_011309959	BTF_RS07175	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_3	10	btf_1481	WP_015408019.1	BTF_RS07260	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_10	17	btf_1488	WP_015408023	BTF_RS07290	Jun-13	Poritz FEMS Microbiol lett			17_II subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_6	13	btf_1491	WP_015408026	BTF_RS07305	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2004_8	15	btf_1497	WP_015408031	BTF_RS07335	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+	5	btf_185	WP_015407437	BTF_RS00905							Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2014_11	54	btf_1436	WP_015407985.1	BTF_RS07040							Dehalococcoides mccartyi	Dehalococcoides mccartyi BTF08		
+2014_5	47	cbdb_A243	YP_307395.1	CBDB_RS00995	1-Oct-05	Kube, Nat. Biotech	1-Oct-05				Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_3	31	cbdbA1092	WP_011309542								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_10	17	cbdbA1453	WP_011309827								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_5	12	cbdbA1455	WP_011309829								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_8	36	cbdbA1495	WP_011309863								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_9	37	cbdbA1535	WP_011309901								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2016_1	58	cbdbA1539	WP_011309906								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+	59	cbdbA1542	WP_011309909								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2014_11	54	cbdbA1546	AOV99962								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_10	38	cbdbA1550	WP_011309917								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_7	14	cbdbA1560	WP_011309926								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_11	39	cbdbA1563	WP_011309929								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_5	33	cbdbA1570	WP_011309936								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_4	32	cbdbA1575	WP_011309940								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_12	19	cbdbA1578	WP_011309943								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_12	40	cbdbA1582	WP_011309945								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_2	30	cbdbA1588	WP_011309950								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2005_6	34	cbdbA1595	WP_011309956								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_4	11	cbdbA1598	WP_015408006								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_3	10	cbdbA1618	WP_011309976.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_10	17	cbdbA1624	WP_011309982								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_6	13	cbdbA1627	WP_011309985								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_8	15	cbdbA1638	WP_011309991								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_16	23	cbdbA187	WP_011308794								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_15	22	cbdbA238	WP_011308832								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2014_11	52	cbdbA80	WP_011308698								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2014_11	53	cbdbA84	WP_011308703						trichlorobenzene reductase CbrA		Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1	cbrA	
+2004_13	20	cbdbA88	WP_011308708								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2004_14	21	cbdbA96	WP_011308716								Dehalococcoides mccartyi	Dehalococcoides mccartyi CBDB1		
+2009_2	44	CD1958 	EQE04755		1-Aug-11	Monot, J Med Microbiol					Clostridium difficile	Clostridium difficile 630		
+2009_2	44	CD196_1838 	EQE04755		1-Sep-09	Stabler, Genome Biol	1-Sep-09				Clostridium difficile	Clostridium difficile R20291		
+2014	29	CG1_X792_00440	WP_023651751								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	21	CG1_X792_00540	WP_023651758								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	23	CG1_X792_01310	WP_041330544								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	12	CG1_X792_06955	WP_023652767								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	61	CG1_X792_07135	WP_041331433								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	62	CG1_X792_07145	WP_041331437								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	63	CG1_X792_07165	WP_041331443								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	64	CG1_X792_07175	WP_041331444								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	65	CG1_X792_07215	WP_041331453								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	66	CG1_X792_07225	WP_041331455								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	20	CG1_X792_07240	WP_041331460								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	67	CG1_X792_07240	WP_041331460								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	18	CG1_X792_07370	WP_041331829								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	68	CG1_X792_07395	WP_041331507								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	34	CG1_X792_07405	WP_041331518								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	55	CG1_X792_07425	WP_041331523								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	69	CG1_X792_07485	WP_041331540								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	33	CG1_X792_07500	WP_041331542								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	19	CG1_X792_07525	WP_041331547								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	40	CG1_X792_07545	WP_041331556								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	30	CG1_X792_07570	WP_041331559								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	34	CG1_X792_07605	WP_041331565								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	11	CG1_X792_07620	WP_041331569								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	10	CG1_X792_07710	WP_041331586.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	17	CG1_X792_07740	WP_046961458								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	13	CG1_X792_07755	WP_023652877								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	15	CG1_X792_07785	WP_041331600								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	57	CG1_X792_07200	AII58460.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2014	35	CG4_X793_RS00330	WP_041340852								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	48	CG4_X793_RS00775	WP_041341013								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	23	CG4_X793_RS00800	WP_010935983								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	47	CG4_X793_RS01050	WP_041341117								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	70	CG4_X793_RS01165	WP_041341161								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	20	CG4_X793_RS01200	WP_041341177								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	34	CG4_X793_RS06710	WP_041343194								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	10	CG4_X793_RS06795	WP_041343235.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	17	CG4_X793_RS06825	WP_041343254								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	71	CG4_X793_RS06840	WP_041343259								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	15	CG4_X793_RS06870	WP_041343271								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG4		
+2014	35	CG5_X794_00350	WP_041344422								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	76	CG5_X794_00430	WP_041344437								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	23	CG5_X794_00760	WP_011308794								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	22	CG5_X794_00945	WP_034376796								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	29	CG5_X794_00970	WP_041344453								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	31	CG5_X794_04885	WP_015407127								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	17	CG5_X794_06395	WP_041344583								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	12	CG5_X794_06405	WP_015407263								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	37	CG5_X794_06560	WP_041344588								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	58	CG5_X794_06585	WP_011309906								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	59	CG5_X794_06595	WP_011309909								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	54	CG5_X794_06615	AOV99962								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	38	CG5_X794_06635	WP_011309917								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	14	CG5_X794_06685	WP_011309926								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	39	CG5_X794_06695	WP_011309929								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	33	CG5_X794_06740	WP_041344592								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	32	CG5_X794_06770	WP_011309940								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	19	CG5_X794_06785	WP_034376039								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	40	CG5_X794_06805	WP_011309945								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	30	CG5_X794_06830	WP_011309950								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	34	CG5_X794_06865	WP_034375905								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	11	CG5_X794_06880	WP_015408006								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	10	CG5_X794_06965	WP_034375937.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	17	CG5_X794_06995	WP_041344597								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	15	CG5_X794_07045	WP_034376989								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+2014	13	CG5_X794_07010	WP_015408026.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG5		
+1998_1	6	CR1_tceA	BAF57046.1		1-Apr-07	NCBI direct submission					Desulfitobacterium sp.	Desulfitobacterium sp. CR1		
+1998_1	6	D329-MS	WP_015043730.1		1-Sep-09	Grostern, EST					Dehalobacter MS (MS_rdhA2)	Dehalobacter MS	MS_rdhA2	
+1998_1	6	D334-WLm	ACH87597.1		1-May-09	Grostern, AEM					Dehalobacter WL (WL_rdhA3)	Dehalobacter WL	WL_rdhA3	
+2004_8	15	D335-WL	WP_010937220		1-Jun-09	Grostern, U of T					Dehalococcoides mccartyi	Dehalococcoides mccartyi WL		
+2005_6	34	D337-WL	WP_058291925		4-Jul-05	LAH					Dehalococcoides mccartyi	Dehalococcoides mccartyi WL		
+2004_1	8	D338-WL	AEI59454.1		1-Jun-09	Grostern, U of T					Dehalococcoides mccartyi	Dehalococcoides mccartyi WL		
+2000_6	5	D339-WL	WP_077974936		1-Jun-09	Grostern, U of T					Dehalococcoides mccartyi	Dehalococcoides mccartyi WL		
+2005_3	31	dcmb_1041	WP_015407127	DCMB_RS05155	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014_5	48	dcmb_120	WP_015406771	DCMB_RS00600	Jun-13	Poritz FEMS Microbiol lett	Jun-13				Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_5	12	dcmb_1341	WP_015407263	DCMB_RS06630	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014_5	49	dcmb_1366	WP_015407273	DCMB_RS06755	Jun-13	Poritz FEMS Microbiol lett	Jun-13				Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014-5	50	dcmb_1370	WP_059279995	DCMB_RS07580	Jun-13	Poritz FEMS Microbiol lett	Jun-13				Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2005_8	36	dcmb_1376	WP_011309863	DCMB_RS06810	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_8	14	dcmb_1383	WP_011309926	DCMB_RS06845	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2005_11	39	dcmb_1385	WP_011309929	DCMB_RS06855	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014	72	dcmb_1428	WP_015407319	DCMB_RS07060	30-Jan-14	Poritz et al. FEMS Microbiol. Lett. 2013 Jun; 343(2):101-4					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014	77	dcmb_1430	AGG07019	DCMB_RS07070	30-Jan-14	Poritz et al. FEMS Microbiol. Lett. 2013 Jun; 343(2):101-4					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014-5	51	dcmb_1434	WP_015407325	DCMB_RS07090	Jun-13	Poritz FEMS Microbiol lett	Jun-13				Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014	73	dcmb_1436	WP_015407327	DCMB_RS07100	30-Jan-14	Poritz et al. FEMS Microbiol. Lett. 2013 Jun; 343(2):101-4					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_6	13	dcmb_1438	WP_011309985	DCMB_RS07110	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_8	15	dcmb_1444	WP_011309991	DCMB_RS07140	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_16	23	dcmb_184	WP_011928681	DCMB_RS00915	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_15	22	dcmb_235	WP_011308832	DCMB_RS01170	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2005_1	29	dcmb_240	WP_015406828	DCMB_RS01195	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014_11	53	dcmb_86	WP_015406743	DCMB_RS00415	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_13	20	dcmb_91	WP_011308708	DCMB_RS00440	Jun-13	Poritz FEMS Microbiol lett					Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2004_10	17	dcmb_1339	WP_015407262.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2014_11	52	dcmb_81	WP_015406739.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi DCMB5		
+2018_8	23	DEHALATV1_RS00820	WP_010935983		27-Sep-17	Yohda et al. 2017 Sci Rep 7(1),2230					Dehalococcoides mccartyi	Dehalococcoides mccartyi UCH-ATV1		
+2018_8	5	DEHALATV1_RS04685	WP_015407437		27-Sep-17	Yohda et al. 2017 Sci Rep 7(1),2230					Dehalococcoides mccartyi	Dehalococcoides mccartyi UCH-ATV1		
+2018_8	8	DEHALATV1_RS06570	WP_061977500.1		27-Sep-17	Yohda et al. 2017 Sci Rep 7(1),2230					Dehalococcoides mccartyi	Dehalococcoides mccartyi UCH-ATV1		
+2018_8	81	DEHALATV1_RS06700	WP_081042194		27-Sep-17	Yohda et al. 2017 Sci Rep 7(1),2230					Dehalococcoides mccartyi	Dehalococcoides mccartyi UCH-ATV1		
+2018_8	38	DEHALATV1_RS06905	WP_096477008		27-Sep-17	Yohda et al. 2017 Sci Rep 7(1),2230					Dehalococcoides mccartyi	Dehalococcoides mccartyi UCH-ATV1		
+2018_8	75	DEHALATV1_RS06925	WP_010937203		27-Sep-17	Yohda et al. 2017 Sci Rep 7(1),2230					Dehalococcoides mccartyi	Dehalococcoides mccartyi UCH-ATV1		
+2014_5	48	DET0173	WP_010935976.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2000_6	5	DET0079_tceA	WP_010935886						trichloroethene reductase TceA		Dehalococcoides mccartyi	Dehalococcoides mccartyi 195	tceA	
+2004_16	23	DET0180	WP_010935983	DET_RS01045	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005_1	29	DET0235	WP_010936038	DET_RS01335	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2004_15	22	DET0302	WP_010936083	DET_RS01745	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005	70	DET0306	WP_010936087	DET_RS01765	1-Jan-05	Seshardi, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2004_13	20	DET0311	WP_010936092	DET_RS01785	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005_2	30	DET0318	WP_010936099	DET_RS01820	1-Jan-05	Sheshadri, Nature			perchloroethene reductase PceA		Dehalococcoides mccartyi	Dehalococcoides mccartyi 195	pceA	
+2005_3	31	DET1171	WP_010936862	DET_RS06050	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005_4	32	DET1519	WP_010937194	DET_RS07790	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005_5	33	DET1522	WP_010937197	DET_RS07805	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005	75	DET1528	WP_010937203	DET_RS07835	1-Jan-05	Seshardi, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005_6	34	DET1535	WP_010937210	DET_RS07865	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005	71	DET1538	WP_010937213	DET_RS07880	1-Jan-05	Seshardi, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2004_8	15	DET1545	WP_010937220	DET_RS07915	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2005_7	35	DET1559	WP_010937232	DET_RS07990	1-Jan-05	Sheshadri, Nature					Dehalococcoides mccartyi	Dehalococcoides mccartyi 195		
+2012_1	45	Dhaf_0693	AAL87752		1-Feb-12	Kim, BMC Microbio	1-Feb-12				Desulfitobacterium hafniense	Desulfitobacterium hafniense DCB-2		
+2004_2	9	Dhaf_0696	WP_015942955.1		1-Feb-12	Kim, BMC Microbio	1-Aug-04				Desulfitobacterium hafniense	Desulfitobacterium hafniense DCB-2		
+2000_5	4	Dhaf_0713	WP_015942972		1-Feb-12	Kim, BMC Microbio	1-Nov-00				Desulfitobacterium hafniense	Desulfitobacterium hafniense DCB-2		
+2000_1	2	Dhaf_0737	WP_015942994		1-Dec-08	NCBI direct submission					Desulfitobacterium hafniense	Desulfitobacterium hafniense DCB-2		
+1998_1	6	Dhaf_pceA	WP_011460641.1		1-Mar-06	Nonaka, J Bacteriol					Desulfitobacterium hafniense	Desulfitobacterium hafniense Y51		
+2016	72	Dm11a5_1395	WP_015407319	Dm11a5_RS06855	5-Apr-16	Zhao FEMS Microbiol Ecol. 2016 Nov 16. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2016	77	Dm11a5_1397	AGG07019	Dm11a5_RS06865	5-Apr-16	Zhao FEMS Microbiol Ecol. 2016 Nov 16. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2016	73	Dm11a5_1404	WP_015407327	Dm11a5_RS06895	5-Apr-16	Zhao FEMS Microbiol Ecol. 2016 Nov 16. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	23	Dm11a5_0188	WP_011308794.1	Dm11a5_RS00925	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	22	Dm11a5_0227	WP_034376796.1	Dm11a5_RS01110	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	29	Dm11a5_0232	WP_034376790.1	Dm11a5_RS01135	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	21	Dm11a5_0255	WP_023651882.1	Dm11a5_RS01240	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	20	Dm11a5_0263	WP_023651890.1	Dm11a5_RS01280	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	17	Dm11a5_1306	WP_062900260.1	Dm11a5_RS06420	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	12	Dm11a5_1308	WP_015407263.1	Dm11a5_RS06430	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	5	Dm11a5_1352	WP_062900263.1	Dm11a5_RS06655	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	16	Dm11a5_1355	WP_062900265.1	Dm11a5_RS06670	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	51	Dm11a5_1395	WP_015407319.1		5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	18	Dm11a5_1419	WP_034376170.1	Dm11a5_RS06980	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	54	Dm11a5_1424	WP_034376069.1	Dm11a5_RS07005	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	38	Dm11a5_1428	WP_011309917.1	Dm11a5_RS07025	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	14	Dm11a5_1437	WP_011309926.1	Dm11a5_RS07070	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	39	Dm11a5_1439	WP_011309929.1	Dm11a5_RS07080	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	32	Dm11a5_1453	WP_011309940.1	Dm11a5_RS07155	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	19	Dm11a5_1456	WP_034376039.1	Dm11a5_RS07170	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	40	Dm11a5_1460	WP_034375893.1	Dm11a5_RS07190	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	34	Dm11a5_1473	WP_034375905.1	Dm11a5_RS07245	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	11	Dm11a5_1477	WP_011309959.1	Dm11a5_RS07260	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	10	Dm11a5_1497	WP_034375937.1	Dm11a5_RS07345	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	17	Dm11a5_1503	WP_041344597.1	Dm11a5_RS07375	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	13	Dm11a5_1506	WP_015408026.1	Dm11a5_RS07390	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2018_8	15	Dm11a5_1515	WP_034376989.1	Dm11a5_RS07420	5-Apr-17	NCBI					Dehalococcoides mccartyi	Dehalococcoides mccartyi 11a5		
+2005_6	34	DQ115513	WP_034375905		1-Dec-05	ASW, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2005_4	32	DQ115514	AAZ91692		1-Dec-05	ASW, AEM					Dehalococcoides mccartyi	Dehalococcoides mccartyi FL2		
+2008_1	41	Glov_2870	WP_012470907		1-May-08	NCBI direct submission	1-May-08				Geobacter lovleyi	Geobacter lovleyi SZ		
+2008_1	41	Glov_2872	WP_012470909		1-May-08	NCBI direct submission					Geobacter lovleyi	Geobacter lovleyi SZ		
+2005_7	35	GT_0124	WP_012984061	DEHALGT_RS00610	1-Feb-10	NCBI direct submission	1-Jan-05				Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_16	23	GT_0241	WP_011928681	DEHALGT_RS01195	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_10	17	GT_1189	WP_011309827	DEHALGT_RS06060	1-Feb-10	NCBI direct submission			17_I subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_5	12	GT_1191	WP_011309829	DEHALGT_RS06070	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_1	8	GT_1237	WP_012984515.1	DEHALGT_RS06295	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_9	37	GT_1269	WP_011309901	DEHALGT_RS06440	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_10	38	GT_1276	WP_011309917	DEHALGT_RS06470	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_7	14	GT_1285	WP_011309926	DEHALGT_RS06515	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_11	39	GT_1287	WP_011309929	DEHALGT_RS06525	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_5	33	GT_1295	WP_011309936	DEHALGT_RS06565	1-Feb-10	NCBI direct submission	1-Jan-05				Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_4	32	GT_1300	WP_011309940	DEHALGT_RS06590	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_12	19	GT_1303	WP_011309943	DEHALGT_RS06605	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_12	40	GT_1307	WP_011309945	DEHALGT_RS06625	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_2	30	GT_1312	WP_011309950	DEHALGT_RS06650	1-Feb-10	NCBI direct submission	 				Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_6	34	GT_1318	WP_012984539	DEHALGT_RS06680	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_4	11	GT_1321	WP_015408006	DEHALGT_RS06695	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_3	10	GT_1338	WP_011309976.1	DEHALGT_RS06780	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_10	17	GT_1344	WP_012984545	DEHALGT_RS06810	1-Feb-10	NCBI direct submission			17_II subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_6	13	GT_1347	WP_011309985	DEHALGT_RS06825	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2004_8	15	GT_1353	WP_011309991	DEHALGT_RS06855	1-Feb-10	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GT		
+2005_1	29	GY50_0087	WP_023651751	GY50_RS00395	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_14	21	GY50_0094	WP_023651758	GY50_RS00430	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014_11	56	GY50_0119	WP_023651783	GY50_RS00550	11-Aug-13	Ding et al. unpublished					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_16	23	GY50_0194	WP_023651845	GY50_RS00915	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_14	21	GY50_0236	WP_023651882	GY50_RS01100	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_13	20	GY50_0244	WP_023651890	GY50_RS01140	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014_11	57	GY50_0906	WP_023652427	GY50_RS04390	11-Aug-13	Ding et al. unpublished	11-Aug-13				Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_5	12	GY50_1310	WP_023652767	GY50_RS06335	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014	67	GY50_1350	WP_023652806	GY50_RS06530	11-Feb-14	Ding et al. Environ Microbiol. 2017 Jul;19(7):2906-2915.					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_15	22	GY50_1386	WP_012882589	GY50_RS06690	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014	31	GY50_1393	WP_012882596	GY50_RS06725	11-Feb-14	Ding et al. Environ Microbiol. 2017 Jul;19(7):2906-2915.					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014_11	55	GY50_1397	WP_023652842	GY50_RS06745	11-Aug-13	Ding et al. unpublished					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014_11	57	GY50_1405	WP_023652849	GY50_RS06785	11-Aug-13	Ding et al. unpublished					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2005_12	40	GY50_1411	WP_023652855	GY50_RS06815	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2014	30	GY50_1417	WP_023652859	GY50_RS06840	11-Feb-14	Ding et al. Environ Microbiol. 2017 Jul;19(7):2906-2915.					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_3	10	GY50_1427	WP_023652869	GY50_RS06890	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_10	17	GY50_1433	WP_023652875	GY50_RS06920	13-Aug-15	NCBI direct submission			17_II subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_6	13	GY50_1436	WP_023652877	GY50_RS06935	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2004_8	15	GY50_1443	WP_023652882	GY50_RS06965	13-Aug-15	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2018_8	80	GY50_RS06540	WP_023652808.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi GY50		
+2016	48	IBK_0161	WP_061977011	IBK_RS00790	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	23	IBK_0226	WP_011928681	IBK_RS01115	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	22	IBK_0275	WP_059280032	IBK_RS01370	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	31	IBK_0998	WP_015407127	IBK_RS04950	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	12	IBK_1313	WP_015407263	IBK_RS06500	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	50	IBK_1368	WP_059279995	IBK_RS06765	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	36	IBK_1374	WP_011309863	IBK_RS06795	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	14	IBK_1381	WP_011309926	IBK_RS06830	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	39	IBK_1383	WP_011309929	IBK_RS06840	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	72	IBK_1409	WP_059279991	IBK_RS06975	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	73	IBK_1418	WP_015407327	IBK_RS07015	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	74	IBK_1420	PKH45602	IBK_RS07025	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	75	IBK_1423	WP_059279986	IBK_RS07040	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	38	IBK_1427	WP_011309917	IBK_RS07060	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	32	IBK_1434	WP_059279981	IBK_RS07095	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	30	IBK_1439	WP_011309950	IBK_RS07120	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	34	IBK_1445	WP_061977549.1	IBK_RS07150	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	11	IBK_1448	WP_011309959	IBK_RS07165	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	13	IBK_1477	WP_011309985	IBK_RS07310	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2016	15	IBK_1483	WP_011309991	IBK_RS07340	20-Oct-16	Yohda et al. J Biosci Bioeng. 2015 Jul;120(1):69-77. 					Dehalococcoides mccartyi	Dehalococcoides mccartyi IBARAKI		
+2004_5	12	JNA_RD1	AHZ58510		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2005_6	34	JNA_RD10	WP_059279975		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2005_7	35	JNA_RD11	WP_059280018		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2005_10	38	JNA_RD12	AHZ58531		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2005_11	39	JNA_RD13	AHZ58533		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2014_5	47	JNA_RD14	WP_011308837		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2014_5	48	JNA_RD15	AHZ58536		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2014-5	49	JNA_RD16	AHZ58538		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2014-5	50	JNA_RD17	AHZ58540		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2014-5	51	JNA_RD18	WP_015407325		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+	74	JNA_RD19	PKH45602								Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_6	13	JNA_RD2	BAS32509		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_7	14	JNA_RD3	WP_011309926		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_9	15	JNA_RD4	AHZ58516		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_10	17	JNA_RD5	WP_011309982		Mar-14	NCBI direct submission			17_II subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_10	17	JNA_RD6	WP_015407262		Mar-14	NCBI direct submission			17_I subgroup		Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_16	23	JNA_RD7	WP_011928681		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2005_2	30	JNA_RD8	WP_059279979		14-Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2005_4	32	JNA_RD9	AHZ58525.1		Mar-14	NCBI direct submission					Dehalococcoides mccartyi	Dehalococcoides mccartyi JNA		
+2004_3	10	KB1_1	WP_078987031		1-Dec-05	ASW, AEM	1-Sep-04				KB-1 consortium	KB-1 consortium		
+2005_6	34	KB1_10	WP_078987022		1-Dec-05	ASW, AEM					KB-1 consortium	KB-1 consortium		
+2005_9	37	KB1_11	WP_011309901		1-Dec-05	ASW, AEM	1-Oct-05				KB-1 consortium	KB-1 consortium		
+2004_11	18	KB1_12	WP_034376170		1-Dec-05	ASW, AEM	1-Sep-04				KB-1 consortium	KB-1 consortium		
+2005_2	30	KB1_13	WP_078987019		1-Dec-05	ASW, AEM	1-Jan-05				KB-1 consortium	KB-1 consortium		
+2004_1	8	KB1_14	WP_079398699.1		1-Dec-05	ASW, AEM	1-Aug-04				KB-1 consortium	KB-1 consortium		the orgainsm is Dehalococcoides mccartyi; KB-1 is not organism name
+2004_4	11	KB1_2	WP_011309959		1-Dec-05	ASW, AEM	1-Sep-04				KB-1 consortium	KB-1 consortium		
+2005_12	40	KB1_22	WP_079398701		4-Jul-05	LAH					KB-1 consortium	KB-1 consortium		
+2004_5	12	KB1_3	WP_015407263		1-Dec-05	LAH	1-Sep-04				KB-1 consortium	KB-1 consortium		
+2004_6	13	KB1_4	WP_011309985		1-Dec-05	ASW, AEM	1-Sep-04				KB-1 consortium	KB-1 consortium		
+2004_8	15	KB1_5	WP_078987038		1-Dec-05	ASW, AEM	1-Sep-04				KB-1 consortium	KB-1 consortium		
+2004_21	28	KB1_6	ABA64533		1-Dec-05	ASW, AEM	1-Oct-04	bvcA	vinyl chloride reductase BvcA		KB-1 consortium	KB-1 consortium		
+2004_12	19	KB1_7	ABA64535		1-Dec-05	ASW, AEM					KB-1 consortium	KB-1 consortium		
+2004_10	17	KB1_8 	WP_079398697		1-Dec-05	ASW, AEM	1-Sep-04		17_I subgroup		KB-1 consortium	KB-1 consortium		
+2004_10	17	KB1_9 	WP_078987034		1-Dec-05	ASW, AEM			17_II subgroup		KB-1 consortium	KB-1 consortium		
+2014_11	56	KB11024_1	No seq in fasta file		4-Jul-05	LAH	4-Jul-05	KB1_25			KB-1 consortium	KB-1 consortium		
+2005_1	29	KB13107_1	WP_078986767		4-Jul-05	LAH	1-Jan-05	KB1_23			KB-1 consortium	KB-1 consortium		
+2004_15	22	KB13107_2	WP_078986765		4-Jul-05	LAH	1-Oct-04				KB-1 consortium	KB-1 consortium		
+2004_16	23	KB13108_1	WP_011928681		4-Jul-05	LAH	1-Oct-04	KB1_26			KB-1 consortium	KB-1 consortium		
+2004_3	10	KB13109_4 	WP_078987031		4-Jul-05	LAH		identical to KB1_1			KB-1 consortium	KB-1 consortium		
+2005_12	40	KB13109_7	WP_079398701		4-Jul-05	LAH	1-Oct-05	identical to KB1_22			KB-1 consortium	KB-1 consortium		
+2005_6	34	KB13109_9 	WP_078987022		4-Jul-05	LAH	1-Jan-05	identical to KB1_10			KB-1 consortium	KB-1 consortium		
+2005_9	37	KB13240_1 	WP_011309901		4-Jul-05	LAH		identical sequence to KB1_11			KB-1 consortium	KB-1 consortium		
+2005_11	39	KB13241_1	WP_011309929		4-Jul-05	LAH	1-Oct-05	KB1_15			KB-1 consortium	KB-1 consortium		
+	50	KB13241_2(KB1_16)	WP_059279995								KB-1 consortium	KB-1 consortium		
+2014_5	49	KB13241_3	AIZ97091		4-Jul-05	LAH	4-Jul-05	KB1_17			KB-1 consortium	KB-1 consortium		
+2004_7	14	KB13241_4	WP_011309926		4-Jul-05	LAH	1-Sep-04	KB1_18			KB-1 consortium	KB-1 consortium		
+2005_8	36	KB13241_5			4-Jul-05	LAH	1-Oct-05	KB1_19			KB-1 consortium	KB-1 consortium		
+2005_10	38	KB13241_6	AIZ97097		4-Jul-05	LAH	1-Oct-05	KB1_20			KB-1 consortium	KB-1 consortium		
+2004_12	19	KB13241_7 	WP_034376039		4-Jul-05	LAH		identical to KB1_7			KB-1 consortium	KB-1 consortium		
+2005_4	32	KB13241_8	WP_011309940		4-Jul-05	LAH	1-Jan-05	KB1_21			KB-1 consortium	KB-1 consortium		
+2000_6	5	KB1338_1	AIZ97109		4-Jul-05	LAH	1-Dec-00	KB1_27			KB-1 consortium	KB-1 consortium		
+2017_1	23	KBDCA1_B1777_01060	WP_011928681			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	28	KBDCA1_B1777_04415	WP_077998113			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	31	KBDCA1_B1777_05680	WP_015407127			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	17	KBDCA1_B1777_07170	WP_077998282			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	12	KBDCA1_B1777_07180	WP_015407263			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	38	KBDCA1_B1777_07340	WP_011309917			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	10	KBDCA1_B1777_07410				Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA1		
+2017_1	23	KBDCA2_B1778_00915	WP_011928681			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	28	KBDCA2_B1778_04230	WP_077998113			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	31	KBDCA2_B1778_05480	WP_015407127			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	17	KBDCA2_B1778_06970	WP_077998282			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	12	KBDCA2_B1778_06980	WP_015407263			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	38	KBDCA2_B1778_07140	WP_011309917			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	10	KBDCA2_B1778_07210				Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA2		
+2017_1	23	KBDCA3_B1779_00920	WP_011928681			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	22	KBDCA3_B1779_01385	WP_059280032			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	60	KBDCA3_B1779_01395	WP_078409551			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	28	KBDCA3_B1779_04245	WP_077998113			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	31	KBDCA3_B1779_05125	WP_015407127			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	17	KBDCA3_B1779_06580	WP_078409763			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	12	KBDCA3_B1779_06590	WP_011309829			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		
+2017_1	10	KBDCA3_B1779_06795				Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBDCA3		with * => 72.0        72.0        9%        3e-12        76.92%        PKH45890.1
+2017_1	23	KBTCE1_B1772_00670	WP_011928681			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	22	KBTCE1_B1772_00855	WP_078986765			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	29	KBTCE1_B1772_00880	WP_078986767			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	31	KBTCE1_B1772_05085	WP_011309542			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	17	KBTCE1_B1772_06540	WP_079398697			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	12	KBTCE1_B1772_06550	WP_015407263			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	8	KBTCE1_B1772_06705	WP_079398699.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	18	KBTCE1_B1772_06845	WP_034376170			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	40	KBTCE1_B1772_06860	WP_079398701			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	30	KBTCE1_B1772_06885	WP_078987019			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	34	KBTCE1_B1772_06915	WP_078987022			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	11	KBTCE1_B1772_06930	WP_011309959			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	10	KBTCE1_B1772_07015	WP_078987031			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	17	KBTCE1_B1772_07045	WP_078987034			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	13	KBTCE1_B1772_07060	WP_011309985			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	15	KBTCE1_B1772_07090	WP_078987038			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE1		
+2017_1	5	KBTCE3_B1774_00360	AQU03914.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE2		
+2017_1	78	KBTCE3_B1774_00405	AQU03922.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE2		
+2017_1	48	KBTCE3_B1774_00725	AQU03980.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE2		
+2017_1	23	KBTCE3_B1774_00730	AQU03981.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE2		
+2017_1	71	KBTCE3_B1774_06400				Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE2		
+2017_1	5	KBTCE2B1773_00500	AQU02578.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE3		
+2017_1	78	KBTCE2B1773_00545	AQU02586.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE3		
+2017_1	48	KBTCE2B1773_00865	AQU02645.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE3		
+2017_1	23	KBTCE2B1773_00870	AQU02646.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE3		
+2017_1	71	KBTCE2B1773_06750				Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBTCE3		
+2018_8	35	KBVC1_B1775_00335	AQX72641.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	23	KBVC1_B1775_00925	AQX72750.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	17	KBVC1_B1775_06115	AQX73717.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	37	KBVC1_B1775_06430	AQX73775.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	38	KBVC1_B1775_06460	AQX73781.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	39	KBVC1_B1775_06520	AQX73789.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	19	KBVC1_B1775_06610	AQX73808.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	40	KBVC1_B1775_06630	AQX73812.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	30	KBVC1_B1775_06655	AQX73817.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	33	KBVC1_B1775_06685	AQX73823.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	17	KBVC1_B1775_06815	AQX73849.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2018_8	15	KBVC1_B1775_06860	AQX73858.1		11-Mar-17	Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC1		
+2017_1	23	KBVC2_B1776_00680	WP_011928681			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	22	KBVC2_B1776_00865	WP_078986765			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	29	KBVC2_B1776_00890	WP_078986767			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	31	KBVC2_B1776_04775	WP_011309542			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	17	KBVC2_B1776_06230	WP_078987004			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	12	KBVC2_B1776_06240	WP_015407263			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	8	KBVC2_B1776_06395	WP_078987008.1			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	18	KBVC2_B1776_06535	WP_034376170			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	40	KBVC2_B1776_06550	WP_078987018			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	30	KBVC2_B1776_06575	WP_078987019			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	34	KBVC2_B1776_06605	WP_078987022			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	11	KBVC2_B1776_06620	WP_011309959			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	10	KBVC2_B1776_06705	WP_078987031			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	17	KBVC2_B1776_06735	WP_078987034			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	13	KBVC2_B1776_06750	WP_011309985			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2017_1	15	KBVC2_B1776_06780	WP_078987038			Molenda et al. 2018 bioRxiv https://doi.org/10.1101/345173 					Dehalococcoides mccartyi	Dehalococcoides mccartyi KBVC2		
+2018	79	KTB48865	WP_058439793			DOI:10.1186/s40793-016-0165-7			EdbA homolog		Dehalogenimonas	Dehalogenimonas		
+2014_11	52	MB_mbrA	ADF96893		1-Aug-10	Chow, ISMEJ			PCE to tDCE reductase MbrA		Dehalococcoides mccartyi	Dehalococcoides mccartyi MB	mbrA	
+2004_5	12	MB_rdhA5 	ACF24861		1-Aug-10	Chow, ISMEJ					Dehalococcoides mccartyi	Dehalococcoides mccartyi MB		
+2004_10	17	MB_dceA1	EU625402.1		1-Aug-10	Chow, ISMEJ			17_II subgroup	In previous files MBmbrA	Dehalococcoides mccartyi	Dehalococcoides mccartyi MB		
+2018_8	80	CG1_X792_07250	WP_041331461.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2018_8	83	CG1_X792_07460	WP_080775295.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
+2018_8	82	CG1_X792_01510	WP_080775287.1								Dehalococcoides mccartyi	Dehalococcoides mccartyi CG1		
