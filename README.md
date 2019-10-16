@@ -196,6 +196,7 @@ Comment: "All ORase group" to "All OGs" will do.
 2. create tree based on organisms and number of groups
 3. update the compound and protein information
 4. create the sequence and compound relationships and link them
+5. also update the download contents 
 
 About submit sequence:
 Here is the protocol:

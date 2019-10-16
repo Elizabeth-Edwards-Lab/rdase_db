@@ -6,7 +6,7 @@ ruby '2.5.0'
 #   "https://github.com/#{repo_name}.git"
 # end
 
-gem 'rails', '~> 5.1.7'
+gem 'rails', '~> 5.2.0'
 gem 'mysql2', '~> 0.4.9'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'

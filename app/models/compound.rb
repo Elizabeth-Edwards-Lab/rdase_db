@@ -4,7 +4,7 @@ class Compound < ApplicationRecord
 
 
 	before_validation :increment_public_id, on: :create
-  
+  has_one_attached :image
 
 	private
 
