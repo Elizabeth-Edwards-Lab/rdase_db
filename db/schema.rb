@@ -10,9 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191016201904) do
+ActiveRecord::Schema.define(version: 2019_10_16_211633) do
 
-  create_table "compound_strain_rels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "compound_strain_rels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "strain_header", null: false
     t.string "rddb_id", null: false
     t.string "reference"
@@ -22,12 +43,12 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.integer "protein_id"
   end
 
-  create_table "compound_synonyms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "compound_synonyms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "compounds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "compounds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "public_id", null: false
     t.string "name", null: false
     t.string "smiles"
@@ -83,7 +104,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.string "wikipedia_id"
   end
 
-  create_table "customized_nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "customized_nucleotide_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "header"
     t.text "chain"
     t.integer "uploader_id"
@@ -103,7 +124,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.string "protein_name"
   end
 
-  create_table "customized_protein_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "customized_protein_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "header"
     t.text "chain"
     t.integer "uploader_id"
@@ -123,7 +144,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.string "protein_name"
   end
 
-  create_table "nucleotide_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "nucleotide_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "header"
     t.text "chain"
     t.datetime "created_at", null: false
@@ -138,7 +159,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.string "key"
   end
 
-  create_table "protein_sequences", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "protein_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "header"
     t.text "chain"
     t.datetime "created_at", null: false
@@ -154,7 +175,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.string "key"
   end
 
-  create_table "queries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "queries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.text "sequence", limit: 4294967295
     t.integer "query_range_up"
     t.integer "query_range_down"
@@ -169,7 +190,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "references", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "references", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "pubmed_id"
     t.string "citation"
     t.string "doi"
@@ -178,7 +199,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sequence_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "sequence_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "generic_id"
     t.string "origin"
     t.string "reference"
@@ -191,7 +212,7 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "uploaders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "uploaders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "uploader_id", null: false
     t.string "name", null: false
     t.string "email", null: false
@@ -200,4 +221,5 @@ ActiveRecord::Schema.define(version: 20191016201904) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end
