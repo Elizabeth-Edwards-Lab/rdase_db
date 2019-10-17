@@ -195,7 +195,10 @@ table.compound-table.content-table.table-condensed
     /   td = nah bio_link_out :wikipedia, compound.wikipedia_id
 
     = show_header 'Associated Strains', compound
-    tr
+    table
+      - protein.each do |pro|
+        = link_to "#{pro.header}", protein_path(pro.id), :id => 'show-button'
+
 
 
     = show_header 'References', id: 'references'

@@ -141,7 +141,6 @@ class ProteinController < ApplicationController
 
 
   def show
-    puts "params.inspect => #{params.inspect}"
     @protein_s = CustomizedProteinSequence.find(params[:id])
     @member = Array.new
     group_members = CustomizedProteinSequence.where(:group => @protein_s.group)
@@ -153,6 +152,12 @@ class ProteinController < ApplicationController
     end
 
     @gene_s = CustomizedNucleotideSequence.find_by(:header => @protein_s.header)
+
+    @compound = Array.new
+    associated_compound = CompoundStrainRel.where(:protein_id => @protein_s.id)
+    associated_compound.each do |comp|
+      @compound << Compound.find(comp.compound_id)
+    end
     
   end
 end

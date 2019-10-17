@@ -18,5 +18,10 @@ class CompoundController < ApplicationController
 	def show
 		@compound = Compound.find(params[:id])
     # @synonyms = CompoundSynonym.find(params[:id])
+    @protein = Array.new
+    associated_protein = CompoundStrainRel.where(:compound_id => params[:id])
+    associated_protein.each do |pro|
+      @protein << CustomizedProteinSequence.find(pro.protein_id)
+    end
 	end
 end

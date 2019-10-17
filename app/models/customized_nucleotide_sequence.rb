@@ -1,6 +1,9 @@
 class CustomizedNucleotideSequence < ApplicationRecord
+	
+	UPLOADER_TYPES = ['RDDB','USER']
+	
 	validates :chain, format: { with: /\A[ACTGN]+\z/ }
-	UPLOADER_TYPES = ['RDDB','USER'] 
+	 
 
 
 	validates_inclusion_of :uploader, 

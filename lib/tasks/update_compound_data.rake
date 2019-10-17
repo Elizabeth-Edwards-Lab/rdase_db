@@ -5,7 +5,16 @@ namespace :update_compound_data do
 	desc 'remember: there are two names of the protein sequence => common name and NCBI accession number'
 	desc 'this step should come after the protein table is fully uploaded'
 	task :update_the_protein_rel => [:environment] do
-		CSV.foreach("data/compound information.tsv", { :headers => true, :col_sep => "\t" }) do |row|
+		CSV.foreach("data/compound_information_2019_10_16.tsv", { :headers => true, :col_sep => "\t" }) do |row|
+      # Compound Name 
+      # SMILES  
+      # InChi 
+      # InChiKey  
+      # Strains 
+      # Protein 
+      # Reference 
+      # Protein ID from OG database 
+      # NCBI ID
 			inchikey = row[3]
 			protein_id_from_OGdb = row[7]
 			# create the reference table that contain all the reference
@@ -22,7 +31,7 @@ namespace :update_compound_data do
 					new_compound_str_rel = CompoundStrainRel.new 
 					new_compound_str_rel.protein_id = protein.id
 					new_compound_str_rel.rddb_id = compound.public_id
-					new_compound_str_rel.header = protein.header
+					new_compound_str_rel.strain_header = protein.header
 					new_compound_str_rel.compound_id = compound.id
 
 					new_compound_str_rel.save!

@@ -105,8 +105,9 @@
 <h4>Interactive Compounds</h4>
 <div id = "tablediv">
   <table>
-    <tr>
-    </tr>
+    <% @compound.each do |comp| %>
+      <td><%= link_to "#{comp.name}", compound_path(comp.id), :id => 'button-ish' %></td>
+    <% end %>
   </table>
 </div>
 
