@@ -31,27 +31,27 @@ table.compound-table.content-table.table-condensed
     
     tr
       th Structure
-      td Show image. . .
+      td = image_tag(compound.image) if compound.image.attached?
 
-    tr
-      th Synonyms
-      td
-        table.display.simple-datatable
-          thead
-            tr
-              th Synonym
-              th Source
-          tbody
+    / tr
+    /   th Synonyms
+    /   td
+    /     table.display.simple-datatable
+    /       thead
+    /         tr
+    /           th Synonym
+    /           th Source
+    /       tbody
             / @synonyms is given by controller
             / - @synonyms.each do |k, v| 
             /   tr
             /     td = nah k
             /     td = nah v
 
-    tr
-      th Predicted Properties
-      td.data-table-container 
-        = render partial: 'properties_table', locals: { record: compound }
+    / tr
+    /   th Predicted Properties
+    /   td.data-table-container 
+    /     = render partial: 'properties_table', locals: { record: compound }
         / = moldb_properties_table(compound)
     tr
       th Chemical Formula
@@ -75,17 +75,6 @@ table.compound-table.content-table.table-condensed
       th Monoisotopic Molecular Weight
       td = compound.mono_mass
 
-
-    / = show_header 'Ontology', compound
-    / - if !compound.nil?
-    /   tr
-    /     th Ontology
-    /     td = "Should have ontology for this compound"
-    / - else
-    /   tr
-    /     th Ontology
-    /     td = nah nil, 'No ontology term'
-
     = show_header 'Physico-Chemical Properties - Experimental', compound
     tr
       th Physico-Chemical Properties - Experimental
@@ -100,7 +89,7 @@ table.compound-table.content-table.table-condensed
             tr
               th Physical state
               td = nah compound.state
-              td =
+              td = 
             tr
               th Physical Description
               td = nah compound.physical_description
@@ -201,9 +190,9 @@ table.compound-table.content-table.table-condensed
     tr
       th HET ID
       td = nah bio_link_out :het, compound.het_id
-    tr
-      th Wikipedia ID
-      td = nah bio_link_out :wikipedia, compound.wikipedia_id
+    / tr
+    /   th Wikipedia ID
+    /   td = nah bio_link_out :wikipedia, compound.wikipedia_id
 
     = show_header 'Associated Strains', compound
     tr

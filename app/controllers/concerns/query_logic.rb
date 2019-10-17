@@ -131,12 +131,12 @@ module QueryLogic
 
 
 	def protein_index_just_filter(params, sort=nil, download=nil)
-		accession = params[:accession]
+		accession = params[:accession_no]
 		header    = params[:header]
 		group     = params[:group]
 		organism  = params[:organism]
 		if accession.present? and !header.present? and !group.present? and !organism.present? # 1 field
-		  protein = CustomizedProteinSequence.where("header like ?", "%#{accession}%")
+		  protein = CustomizedProteinSequence.where("accession_no like ?", "%#{accession}%")
 		elsif !accession.present? and header.present? and !group.present? and !organism.present? # 1 field
 		  protein = CustomizedProteinSequence.where("header like ?", "%#{header}%")
 		elsif !accession.present? and !header.present? and group.present? and !organism.present? # 1 field
@@ -144,11 +144,11 @@ module QueryLogic
 		elsif !accession.present? and !header.present? and !group.present? and organism.present? # 1 field
 		  protein = CustomizedProteinSequence.where("organism like ?", "%#{organism}%")
 		elsif accession.present? and header.present? and !group.present? and !organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("header like ? and header like ?", "%#{accession}%","%#{header}%")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ?", "%#{accession}%","%#{header}%")
 		elsif accession.present? and !header.present? and group.present? and !organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("header like ? and customized_protein_sequences.group like ?", "%#{accession}%","#{group}")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and customized_protein_sequences.group like ?", "%#{accession}%","#{group}")
 		elsif accession.present? and !header.present? and !group.present? and organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("header like ? and organism like ?", "%#{accession}%","%#{organism}%")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and organism like ?", "%#{accession}%","%#{organism}%")
 		elsif !accession.present? and header.present? and group.present? and !organism.present? # 2 field
 		  protein = CustomizedProteinSequence.where("header like ? and group like ?", "%#{header}%","#{group}")
 		elsif !accession.present? and header.present? and !group.present? and organism.present? # 2 field
@@ -156,13 +156,13 @@ module QueryLogic
 		elsif !accession.present? and !header.present? and group.present? and organism.present? # 2 field
 		  protein = CustomizedProteinSequence.where("group like ? and organism like ?", "#{group}","%#{organism}%")
 		elsif accession.present? and header.present? and group.present? and !organism.present? # 3 field
-		  protein = CustomizedProteinSequence.where("header like ? and header like ? and group like ?", "%#{accession}%", "%#{header}%", "#{group}")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ? and group like ?", "%#{accession}%", "%#{header}%", "#{group}")
 		elsif accession.present? and header.present? and !group.present? and organism.present?
-		  protein = CustomizedProteinSequence.where("header like ? and header like ? and organism like ?", "%#{accession}%", "%#{header}%", "%#{organism}%")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ? and organism like ?", "%#{accession}%", "%#{header}%", "%#{organism}%")
 		elsif !accession.present? and header.present? and group.present? and organism.present?
-		  protein = CustomizedProteinSequence.where("header like ? and group like ? and organism like ?", "%#{header}%", "#{group}", "%#{organism}%")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and group like ? and organism like ?", "%#{header}%", "#{group}", "%#{organism}%")
 		else
-		  protein = CustomizedProteinSequence.where("header like ? and header like ? and group like ? and organism like ?", "%#{accession}%", "%#{header}%", "#{group}","%#{organism}%")
+		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ? and group like ? and organism like ?", "%#{accession}%", "%#{header}%", "#{group}","%#{organism}%")
 		end
 
 		if sort.nil?

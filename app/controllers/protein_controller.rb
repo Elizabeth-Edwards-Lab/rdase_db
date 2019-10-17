@@ -6,7 +6,7 @@ class ProteinController < ApplicationController
   include QueryLogic
 
   def download_filtered_result_fasta
-    accession = params[:accession]
+    accession = params[:accession_no]
     header    = params[:header]
     group     = params[:group]
     organism  = params[:organism]
@@ -27,7 +27,7 @@ class ProteinController < ApplicationController
 
 
   def download_filtered_result
-    accession = params[:accession]
+    accession = params[:accession_no]
     header    = params[:header]
     group     = params[:group]
     organism  = params[:organism]
@@ -63,7 +63,7 @@ class ProteinController < ApplicationController
  
 
   	if params[:commit] == "Filter"
-      accession = params[:accession]
+      accession = params[:accession_no]
       header    = params[:header]
       group     = params[:group]
       organism  = params[:organism]

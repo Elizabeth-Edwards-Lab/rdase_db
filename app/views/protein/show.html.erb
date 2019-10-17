@@ -9,7 +9,7 @@
   <table>
     <tr>
       <th>Accession Number</th>
-      <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.tree_name %>" target="_blank"> <%= @protein_s.header %></td>
+      <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.accession_no %>" target="_blank"> <%= @protein_s.accession_no %></td>
     </tr>
     <tr>
       <th>Protein Header</th>
@@ -29,6 +29,17 @@
         <% end %>
       </td>
     </tr>
+
+    <tr>
+      <th>Organism</th>
+      <th><%= @protein_s.organism || nil %></th>
+    </tr>
+
+    <tr>
+      <th>Protein Name</th>
+      <th><%= @protein_s.protein_name || nil %></th>
+    </tr>
+
     <tr>
       <th>Last Updated </th>
       <td><%= @protein_s.updated_at || nil %></td>

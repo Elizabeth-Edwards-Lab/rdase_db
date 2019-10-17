@@ -7,7 +7,7 @@
 	      <th>RDDB ID</th>
 	      <th>Name</th>
 	      <th>Structure</th>
-	      <th>Formula</th>
+	      <!-- <th>Formula</th> -->
 	      
 	    </tr>
 
@@ -28,9 +28,7 @@
 	      	<!-- <%= cp.public_id %> -->
 	        <td><%= link_to "#{cp.public_id}", compound_path(cp.id), :id => 'button-ish' %></td>
 	        <td><%= cp.name %></td>
-	        <td><%= cp.smiles %></td>
-	        <td><%= nil %></td>
-	        
+	        <td><%= image_tag(cp.image) if cp.image.attached? %> </td>
 	        
 	      </tr>
 	    <% end %>

@@ -11,18 +11,18 @@
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
 	      <%# table_sort_link 'Locus Tag', :header %>
-	      <th><%= table_sort_link "Accession No.", :accession %></th>
+	      <th><%= table_sort_link "Accession No.", :accession_no %></th>
 	      <th><%= table_sort_link "Common Name", :header %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
-	      <th>Characteristics</th>
+<!-- 	      <th>Characteristics</th> -->
 	      
 	    </tr>
 
 	    <tr>
 	    <%= form_with url:'protein', method: :get do |f| %>
 	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
-	      <th><%= f.text_field 	:accession %></th>
+	      <th><%= f.text_field 	:accession_no %></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
@@ -36,7 +36,17 @@
 	    <% @protein.each do |pt| %>
 	      <tr>
 	      	<td><%= link_to "show", protein_path(pt.id), :id => 'show-button' %></td>
-	        <td><%= pt.header %></td>
+
+	      	<% if pt.accession_no.nil? %>
+	      		<td>Not Available</td>
+	      	<% else %>
+	      		<td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= pt.accession_no %>" target="_blank">
+	      			<%= pt.accession_no %>
+	      		</td>
+	      	<% end %>
+	        
+
+
 	        <td><%= pt.header %></td>
 
 	        <% if pt.group.nil? %>
@@ -54,7 +64,7 @@
 	        	<td style="font-style: italic"><%= pt.organism %></td>
 	        <% end %>
 	        
-	        <td></td>
+<!-- 	        <td></td> -->
 	        
 	        
 	      </tr>
@@ -62,8 +72,8 @@
 	    
 	  </tbody>
 	</table>
-	<%= link_to "Export As CSV", protein_download_filtered_result_path(:accession => params[:accession],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
-	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:accession => params[:accession],:header => params[:header], :group => params[:group], :organism => params[:organism], :accession => params[:accession]), :id => "export-button" %>
+	<%= link_to "Export As CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
+	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism], :accession_no => params[:accession_no]), :id => "export-button" %>
 	<hr>
 	<%= paginate @protein %>
 	<br>

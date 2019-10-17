@@ -13,6 +13,19 @@ module CompoundHelper
 		end
 	end
 
+	def bio_link_to(name = "", options = nil, html_options = nil, &block)
+	  html_options ||= {}
+
+	  html_options[:target] ||= '_blank'
+
+	  html_options[:class] ||= ''
+	  html_options[:class] << ' wishart-link-out'
+	  html_options[:class].strip!
+
+	  link_to "#{name} #{glyphicon('new-window')}".html_safe,
+	    options, html_options, &block
+	end
+
 	def nah(value=nil, message="Not Available")
 	  if value.present?
 	    value.to_s.html_safe
