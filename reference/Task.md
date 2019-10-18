@@ -102,10 +102,12 @@ Comment: "All ORase group" to "All OGs" will do.
   maybe save as json file; and read as json file.
   2. ask about if shorter version of sequence would work. e.g. MGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHD is in db g7
   how about MGKFHLTLSRRDFMKSLGLAGAGLATVK is also g7 but not db
-2. create tree based on organisms and number of groups
+2. create tree based on organisms and number of groups => groups and organisms can be pass to back-end
 3. update the compound and protein information => Done; but there are still some sequences are not found in fasta
-4. create the sequence and compound relationships and link them
+4. create the sequence and compound relationships and link them; => Done; need to make the linkage looks better
 5. also update the download contents 
+6. recreate the Blast database 
+
 
 About submit sequence:
 Here is the protocol:

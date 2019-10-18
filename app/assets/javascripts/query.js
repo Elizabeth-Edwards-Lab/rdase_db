@@ -1,7 +1,7 @@
 // jQuery(function($){}) and $(document).ready(function(){} are equivalent.
 $(document).ready(function(){
 	$('.load-example').on('click', function(){
-		console.log("load-example clicked");
+		// console.log("load-example clicked");
 		// $('.seq-search-sequence').text("");
 		var example1 = '>8657036VS\nMGKFHLTLSRRDFMKSLGLAGAGLATVKVGTPVFHDLDEVISNENSNWRRPWWVKEREFDKPTVDVDWGIYKRFDKFTYAPANARIAMFGQEAVMKANQDWNNLVAKRLQEDTAGFTIRDRAMDEGLCEEGINGGYPAPRTASLPQDLADMADPPIVLSKGRWEGTPEENSRMVRCVLKLAGAGSVAFGVASEDKAEKFIYTHEHVWGDFKHYKIGDYDDIWEDEETRYHPHKCKYMITYTIPESEELLRRAPSNFAEATVDQAYSESRVIFGRMTNFLWALGKYICGGDCSNAHSIHTATAAWTGLSECSRMHQQTISSEFGNIMRQFCIWTDLPLAPTPPIDMGIMRYCLTCKKCADTCPSGAISHEDPTWERAFAPYCQEGVYDYDFSHAKCSQFWKQSSWGCSMCTGSCPFGHKNYGTVHDVISATAAVTPIFNGFFRNMDDLFGYGKNPGMESWWDQEPRYRGLYREIF';
 		$('.seq-search-sequence').val(example1);
@@ -59,13 +59,25 @@ $(document).ready(function(){
 	// phylogenies tree module
 	$('#do-tree').submit(function(e){
 		e.preventDefault();
-		sequence = $('.seq-search-sequence').val(); 
+		sequence = $('.seq-search-sequence').val();
 		var form = $(this);
+		var all_groups = get_all_groups();
+		var all_organims = get_all_organims();
+		var extra_param = '&sequence=' + sequence;
+		if (all_groups.length != 1){
+			extra_param += '&groups' + JSON.stringify(all_groups);
+			// else if all_groups.length == 1, means that only one selecting box or user select all group;
+		} 
+		if (all_organims.length != 1){
+			extra_param += '&organisms' + JSON.stringify(all_organims);
+		}
+		// console.log(form);
 		$.ajax({
 			type:"POST",
 			url: "/phylogenetic_tree",
 			// give the sequence back for generating new fasta file
-			data: form.serialize() + '&sequence=' + sequence,
+			// extra_param => if user only choose use one box, then only pass params[:group] or params[:organism]
+			data: form.serialize() + extra_param,
 			beforeSend: function(){
 				// $('#generate-phylogenetic-tree').hide();
 				$('#waiting-gif').removeAttr("style");
@@ -96,6 +108,58 @@ $(document).ready(function(){
 
 		})
 	})
+
+	// if there is All groups options, then return all groups options immediately without checking other options
+	function get_all_groups(){
+		
+		var all_groups = [];
+		var val1 = $( "select#orig-group" ).val();
+		if (val1 == "" || val1 == "All OGs"){
+			all_groups.push("All OGs");
+			return all_groups;
+		}
+		// at this step, val1 shouldn't be "" or "All OGs"
+		all_groups.push(val1);
+
+		var val2array = $( "select#append-group");
+		for(var i = 0; i < val2array.length; i++){
+			if (val2array[i].value == "All OGs"){
+				return ["All OGs"];
+			}else{
+				all_groups.push(val2array[i].value);
+			};
+			
+		};
+
+		return all_groups;
+
+
+	}
+
+	// 
+	function get_all_organims(){
+		
+		var all_organims = [];
+		var val1 = $( "select#orig-organism" ).val();
+		if (val1 == "" || val1 == "All Organism"){
+			all_organims.push("All Organism");
+			return all_organims;
+		}
+		// at this step, val1 shouldn't be "" or "All OGs"
+		all_organims.push(val1);
+
+		var val2array = $( "select#append-organism");
+		for(var i = 0; i < val2array.length; i++){
+			if (val2array[i].value == "All Organism"){
+				return ["All Organism"];
+			}else{
+				all_organims.push(val2array[i].value);
+			};
+			
+		};
+
+		return all_organims;
+	}
 
 	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F
 	// data_group is json object
@@ -161,38 +225,6 @@ $(document).ready(function(){
 		}
 		return color;
 	}
-
-
-	// submit sequence part
-	// This is not used anymore as we moved out the submit sequence as independent module
-	// $('#submit-seq').submit(function(e){
-	// 	e.preventDefault();
-	// 	var sequence = $('.seq-search-sequence').val();
-	// 	var group = $('#simtext-group').text().replace(/^\s+|\s+$/g, '');
-	// 	var form = $(this);
-	// 	form.attr('sequence',sequence);
-		
-	// 	console.log(typeof(form.serialize()));
-	// 	$.ajax({
-	// 		type:"POST",
-	// 		url: "/submit_sequence",
-	// 		// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
-	// 		data: form.serialize()+ '&sequence=' + sequence + '&group=' + group,
-	// 		success: function(data){
-	// 			console.log("success");
-	// 			console.log(data);
-	// 			$("#submit-message").text(data.message);
-	// 			$("#submit-seq").remove();
-	// 			$("#_submit_seq_p").remove();
-
-	// 		},
-	// 		error: function(data){
-	// 			$("#submit-message").text(data.message_err);
-	// 		}
-	// 	})
-	// })
-
-
 	
 
 

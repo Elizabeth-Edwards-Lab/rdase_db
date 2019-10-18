@@ -521,21 +521,24 @@ class QueryController < ApplicationController
     current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S_%L").gsub("/","_").gsub(" ","_").gsub(":","_")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
-    all_sequence = nil
+
+    all_sequence = extract_sequence_for_tree(params)
+    
+    # all_sequence = nil
     # all_sequence = CustomizedProteinSequence.all
     # number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
     
-    if params[:group] != "" and params[:organism] == ""
-      all_sequence = CustomizedProteinSequence.where(:group => params[:group])
-    elsif params[:group] == "" and params[:organism] != ""
-      all_sequence = CustomizedProteinSequence.where(:organism => params[:organism])
-    elsif params[:group] != "" and params[:organism] != ""
-      all_sequence = CustomizedProteinSequence.where(:group => params[:group], :organism => params[:organism])
-    else
-      all_sequence = CustomizedProteinSequence.all
-    end
+    # if params[:group] != "" and params[:organism] == ""
+    #   all_sequence = CustomizedProteinSequence.where(:group => params[:group])
+    # elsif params[:group] == "" and params[:organism] != ""
+    #   all_sequence = CustomizedProteinSequence.where(:organism => params[:organism])
+    # elsif params[:group] != "" and params[:organism] != ""
+    #   all_sequence = CustomizedProteinSequence.where(:group => params[:group], :organism => params[:organism])
+    # else
+    #   all_sequence = CustomizedProteinSequence.all
+    # end
 
-    number_of_group = all_sequence.distinct.pluck(:group).length
+    number_of_group = all_sequence.distinct.pluck(:group).length # get number of unique groups
 
     # obtain group information for colouring and marking the node
     # and add the selected sequence into temporary fasta file

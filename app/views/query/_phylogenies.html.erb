@@ -4,18 +4,49 @@
 
 	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
 
-		<%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All OGs', :class => "option-button" %>
-		<br>
-		<%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All Organism', :class => "option-button" %>
+		<%# f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All OGs', :class => "option-button" %>
+		<%# f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All Organism', :class => "option-button" %>
+		<div class="container">
+		  <div class="row">
+
+		    <div class="col-4">Select OG group(s)</div>
+		    <div class="col-8">Select Organism(s)</div>
+
+		    <div class="w-100"></div>
+		    <!-- increment stack here -->
+		    <div class="col-4 stack-group"><%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), {:prompt => 'All OGs'}, :id => "orig-group" %></div>
+		    <div class="col-8 stack-organism"><%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), {:prompt => 'All Organism'}, :id => "orig-organism" %></div>
+
+		    <div class="w-100"><hr></div>
+
+		    <div class="col-4"><button id='add-group' type="button" >Add Group</button></div>
+		    <div class="col-8"><button id='add-organism' type="button" >Add Organism</button></div>
+
+		  </div>
+		</div>
+
+		<!-- <p>Select OG group(s)</p> -->
+		<%# f.select :group, options_for_select(["1","2","3"]), :prompt => 'All OGs', :class => "option-button" %>
+		<!-- <p>Select Organism(s)</p>	 -->
+		<%# f.select :organism, options_for_select(['Mare', 'StallionnnnnnnnnnnnnnnnnnnStallionnnnnnnnnnnnnnnnnnn', 'Gelding']), :prompt => 'All Organism', :class => "option-button" %>
+		
+
+
+
 		<br>
 		<%= f.text_area :form_sequence, :value => "#{@fasta_seq}", :style => "display:none;" %>
 		<%= f.button 'Generate Phylogenetic Tree'.html_safe, :type => :submit, id: "generate-phylogenetic-tree", :class => "btn btn-primary" %>
+
+
 	<% end %>
-	<!-- <textarea style="display:none;">Hello</textarea> vs <textarea style="visibility:hidden;">Hello</textarea> => will take place in html -->
+
+
 	<%= image_tag 'loading.gif', :id=> "waiting-gif", :style => "visibility:hidden;" %>
 	
 	<p id="phylocanvas-page-warning"></p>
-	<div id="phylocanvas"></div>
+	<div id="phylocanvas">
+		<!-- This will render phylocanvas -->
+	</div>
 	
 
 	<p id="graph-note" style="visibility: hidden;">
@@ -23,3 +54,72 @@
 	</p>
 
 </div>
+
+<script type="text/javascript">
+	$('#add-group').click(function(){
+		
+		// getGroupOption();
+		var options = getGroupOption();
+		// console.log(options);
+		var options_element = "";
+		for(var i = 0; i < options.length; i++){
+			options_element += `<option value="${options[i]}">${options[i]}</option>`;
+		};
+
+		$('.col-4.stack-group').append(`<div><select id="append-group">${options_element}</select><button id="new-button-div" type="button">remove</button></div>`);
+
+	})
+
+	$('#add-organism').click(function(){
+
+		var options = getOrganismOption();
+		// console.log(options);
+		var options_element = "";
+		for(var i = 0; i < options.length; i++){
+			options_element += `<option value="${options[i]}">${options[i]}</option>`;
+		};
+
+		$('.col-8.stack-organism').append(`<div><select id="append-organism">${options_element}</select><button id="new-button-div" type="button">remove</button></div>`);
+
+	})
+
+	
+	// Remove parent of 'remove' link when link is clicked.
+	// reference: https://stackoverflow.com/questions/1501181/jquery-append-and-remove-element
+	$('.col-4.stack-group').on('click', '#new-button-div', function(e) {
+	    e.preventDefault();
+	    $(this).parent().remove();
+	});
+
+	$('.col-8.stack-organism').on('click', '#new-button-div', function(e) {
+	    e.preventDefault();
+	    $(this).parent().remove();
+	});
+
+	// 
+	function getOrganismOption(){
+		var group_list = []
+		$('select#orig-organism option').each(function(){
+			group_list.push($(this).val());
+		});
+		group_list.push("All Organism");
+		group_list.shift(); // remove first elements;
+		return group_list;
+
+	};
+
+	//
+	function getGroupOption(){
+		var group_list = []
+		$('select#orig-group option').each(function(){
+			group_list.push($(this).val());
+		});
+
+		group_list.push("All OGs");
+		group_list.shift();
+
+		return group_list;
+	};
+
+
+</script>

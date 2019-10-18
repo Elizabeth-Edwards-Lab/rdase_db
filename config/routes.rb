@@ -46,6 +46,9 @@ Rails.application.routes.draw do
 		via: [:post]
 
 	post "save_sequence" => "submit_sequence#save_sequence_to_db"
+	match "submit_sequence_lab" => "submit_sequence#submit_sequence_lab",
+		as: :submit_sequence_lab,
+		via: [:get, :post]
 	match "submit_sequence" => "submit_sequence#submit",
 		as: :submit_sequence,
 		via: [:get, :post]

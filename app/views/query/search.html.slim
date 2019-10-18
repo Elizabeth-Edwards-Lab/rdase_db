@@ -50,9 +50,13 @@
               | Filter query sequence (DUST &amp; SEG)
     
 
-
-/ = render partial: "submit_sequence"
-
+/ .result-div
+/   #result-text
+/     p#result-textt 
+/     | #{link_to 'Submit your sequence to our database!', submit_sequence_path, :method => :get, target: '_blank'}
+/     hr
+/     = render partial: "phylogenies"
+    
 - if @error.present?
   - if @error.class == String
     p.alert.alert-danger

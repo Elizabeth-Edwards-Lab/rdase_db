@@ -189,6 +189,51 @@ module QueryLogic
 		end
 	end
 
+	# param: rails param
+	# return: array of CustomizedProteinSequence object
+	# 
+	def extract_sequence_for_tree(params)
+
+		puts params[:group]
+		puts params[:organism]
+		puts params[:groups]
+		puts params[:organisms]
+		# 2
+		# Anaeromyxobacter dehalogenans K
+		# {"\"2\",\"1\""=>nil}
+		# {"\"Anaeromyxobacter dehalogenans K\",\"Clostridium difficile R20291\""=>nil}
+		final_groups = nil
+		final_organisms = nil
+
+		if params[:groups] == nil
+			final_groups = params[:group]
+		else
+			# contatenet the groups
+		end
+		
+		if params[:organisms] == nil
+			final_organisms = params[:organism]
+		else
+			# contatenet the organisms
+		end
+
+
+		
+		if params[:group] != "" and params[:organism] == ""
+      all_sequence = CustomizedProteinSequence.where(:group => params[:group])
+    elsif params[:group] == "" and params[:organism] != ""
+      all_sequence = CustomizedProteinSequence.where(:organism => params[:organism])
+    elsif params[:group] != "" and params[:organism] != ""
+      all_sequence = CustomizedProteinSequence.where(:group => params[:group], :organism => params[:organism])
+    else
+      all_sequence = CustomizedProteinSequence.all
+    end
+
+    return all_sequence
+
+	end
+
+
 	def describt_hit(hit)
 		puts hit.evalue           # E-value
 		puts hit.sw               # Smith-Waterman score (*)

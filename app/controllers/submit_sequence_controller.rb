@@ -67,6 +67,12 @@ class SubmitSequenceController < ApplicationController
 
 	end
 
+	# This is for sending to lab member emails
+	def submit_sequence_lab
+		puts params.inspect
+
+
+	end
 
 
 
