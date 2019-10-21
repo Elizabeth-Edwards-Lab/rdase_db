@@ -113,6 +113,74 @@ $(document).ready(function(){
 		})
 	})
 
+
+	$('#add-group').click(function(){
+		
+		// getGroupOption();
+		var options = getGroupOption();
+		// console.log(options);
+		var options_element = "";
+		for(var i = 0; i < options.length; i++){
+			options_element += `<option value="${options[i]}">${options[i]}</option>`;
+		};
+
+		$('.col-4.stack-group').append(`<div><select id="append-group">${options_element}</select><button id="new-button-div" type="button">remove</button></div>`);
+
+	})
+
+	$('#add-organism').click(function(){
+
+		var options = getOrganismOption();
+		// console.log(options);
+		var options_element = "";
+		for(var i = 0; i < options.length; i++){
+			options_element += `<option value="${options[i]}">${options[i]}</option>`;
+		};
+
+		$('.col-8.stack-organism').append(`<div><select id="append-organism">${options_element}</select><button id="new-button-div" type="button">remove</button></div>`);
+
+	})
+
+	
+	// Remove parent of 'remove' link when link is clicked.
+	// reference: https://stackoverflow.com/questions/1501181/jquery-append-and-remove-element
+	$('.col-4.stack-group').on('click', '#new-button-div', function(e) {
+	    e.preventDefault();
+	    $(this).parent().remove();
+	});
+
+	$('.col-8.stack-organism').on('click', '#new-button-div', function(e) {
+	    e.preventDefault();
+	    $(this).parent().remove();
+	});
+
+	// 
+	function getOrganismOption(){
+		var group_list = []
+		$('select#orig-organism option').each(function(){
+			group_list.push($(this).val());
+		});
+		group_list.push("All Organism");
+		group_list.shift(); // remove first elements;
+		// console.log(group_list);
+		return group_list;
+
+	};
+
+	//
+	function getGroupOption(){
+		var group_list = []
+		$('select#orig-group option').each(function(){
+			group_list.push($(this).val());
+		});
+
+		group_list.push("All OGs");
+		group_list.shift();
+
+		return group_list;
+	};
+
+	
 	// if there is All groups options, then return all groups options immediately without checking other options
 	function get_all_groups(){
 		
