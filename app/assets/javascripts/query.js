@@ -64,13 +64,17 @@ $(document).ready(function(){
 		var all_groups = get_all_groups();
 		var all_organims = get_all_organims();
 		var extra_param = '&sequence=' + sequence;
-		if (all_groups.length != 1){
-			extra_param += '&groups' + JSON.stringify(all_groups);
+		// 0 means there is no added selections
+		if (all_groups.length != 0){
+			extra_param += '&groups=' + JSON.stringify(all_groups);
 			// else if all_groups.length == 1, means that only one selecting box or user select all group;
 		} 
-		if (all_organims.length != 1){
-			extra_param += '&organisms' + JSON.stringify(all_organims);
+
+		if (all_organims.length != 0){
+			extra_param += '&organisms=' + JSON.stringify(all_organims);
 		}
+
+
 		// console.log(form);
 		$.ajax({
 			type:"POST",
@@ -115,8 +119,7 @@ $(document).ready(function(){
 		var all_groups = [];
 		var val1 = $( "select#orig-group" ).val();
 		if (val1 == "" || val1 == "All OGs"){
-			all_groups.push("All OGs");
-			return all_groups;
+			return ["All OGs"];
 		}
 		// at this step, val1 shouldn't be "" or "All OGs"
 		all_groups.push(val1);
@@ -142,8 +145,7 @@ $(document).ready(function(){
 		var all_organims = [];
 		var val1 = $( "select#orig-organism" ).val();
 		if (val1 == "" || val1 == "All Organism"){
-			all_organims.push("All Organism");
-			return all_organims;
+			return ["All Organism"];
 		}
 		// at this step, val1 shouldn't be "" or "All OGs"
 		all_organims.push(val1);

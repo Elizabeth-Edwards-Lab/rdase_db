@@ -196,29 +196,95 @@ module QueryLogic
 
 		puts params[:group]
 		puts params[:organism]
-		puts params[:groups]
-		puts params[:organisms]
-		# 2
-		# Anaeromyxobacter dehalogenans K
-		# {"\"2\",\"1\""=>nil}
-		# {"\"Anaeromyxobacter dehalogenans K\",\"Clostridium difficile R20291\""=>nil}
+		puts params[:groups].class
+		puts params[:organisms].class
+
+		# this is very ugly way to do the query, but this is the current approaches
 		final_groups = nil
-		final_organisms = nil
+		final_organisms = nil 
 
-		if params[:groups] == nil
-			final_groups = params[:group]
-		else
+		if params[:groups] != nil
 			# contatenet the groups
+
+			
+			if params[:groups].gsub(/\[/, "").gsub(/\]/, "").tr('"', "") == "All OGs"
+				# all groups no matter what
+				final_groups = "1=1"
+
+			else
+
+				final_groups = "customized_protein_sequences.group IN ("
+				groups_array = params[:groups].split(",")
+				groups_array[0...(groups_array.length - 1)].each do |g|
+					final_groups += "#{g.gsub(/[^\d]/, '')}"
+					final_groups += ","
+				end
+				final_groups += "#{groups_array[groups_array.length - 1].gsub(/[^\d]/, '')})"
+
+			end
+			
 		end
 		
-		if params[:organisms] == nil
-			final_organisms = params[:organism]
+		if params[:organisms] != nil
+
+			if params[:organisms].gsub(/\[/, "").gsub(/\]/, "").tr('"', "") == "All Organism"
+				# all groups no matter what
+				final_organisms = "1=1"
+			else
+				final_organisms = "organism IN ("
+				organism_array = params[:organisms].split(",")
+				organism_array[0...(organism_array.length - 1)].each do |o|
+					final_organisms += "\"#{o.gsub(/\[/, "").tr('"', "")}\""
+					final_organisms += ","
+				end
+				final_organisms += "\"#{organism_array[organism_array.length - 1].gsub(/\]/, "").tr('"', "")}\")"
+			end
+
+		end
+
+		# make sure add the all group sections
+		if final_groups.nil? and final_organisms.nil?
+			# specific group and organism
+			all_sequence = extract_sequence_for_tree_default_params(params)
+
+		elsif final_groups.nil? and !final_organisms.nil?
+
+			if params[:group] == ""
+				# all group with multiple organisms
+				all_sequence = CustomizedProteinSequence.where(final_organisms)
+			else
+				# specific group with multiple organims
+				all_sequence = CustomizedProteinSequence.where(final_organisms).where(:group => params[:group])
+			end
+
+		elsif !final_groups.nil? and final_organisms.nil?
+			# only final_organisms is nil 
+			if params[:organism] == ""
+				# all organism with multiple groups
+				all_sequence = CustomizedProteinSequence.where(final_groups)
+			else
+				# specific organism with multiple groups
+				all_sequence = CustomizedProteinSequence.where(final_groups).where(:organism => params[:organism])
+			end
+
+		elsif !final_groups.nil? and !final_organisms.nil?
+			# multiple groups and multiple organisms 
+			all_sequence = CustomizedProteinSequence.where(final_organisms).where(final_groups)
+				
 		else
-			# contatenet the organisms
+
+			all_sequence = CustomizedProteinSequence.all
+
 		end
 
+		puts all_sequence.length
+			
+    return all_sequence
 
-		
+	end
+
+
+	def extract_sequence_for_tree_default_params(params)
 		if params[:group] != "" and params[:organism] == ""
       all_sequence = CustomizedProteinSequence.where(:group => params[:group])
     elsif params[:group] == "" and params[:organism] != ""
@@ -228,11 +294,8 @@ module QueryLogic
     else
       all_sequence = CustomizedProteinSequence.all
     end
-
     return all_sequence
-
 	end
-
 
 	def describt_hit(hit)
 		puts hit.evalue           # E-value

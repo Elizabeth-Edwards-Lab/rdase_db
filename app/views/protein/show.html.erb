@@ -12,7 +12,7 @@
       <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.accession_no %>" target="_blank"> <%= @protein_s.accession_no %></td>
     </tr>
     <tr>
-      <th>Protein Header</th>
+      <th>Common Name</th>
       <td><%= @protein_s.header %></td>
     </tr>
     <tr>
@@ -23,7 +23,6 @@
       <th>Orthologous Groups</th>
       <td>
         <%= form_with url:'/protein', method: :get do |f| %>
-          <!-- <td><%# link_to "#{pt.group}", protein_group_path(pt.group) %></td> -->
           <%= hidden_field_tag(:group, @protein_s.group) %>
           <%= f.submit "#{@protein_s.group}", disabled: false, :id => 'group-click-button' %>
         <% end %>
@@ -86,21 +85,6 @@
   </table>
 </div>
 
-<!-- <hr>
-<h4>Other Group Members</h4>
-<div id = "tablediv">
-  <table>
-    <tr>
-      <th></th>
-      <td>
-        <%# @member.each do |m| %>
-          <%# link_to "#{m.header}", protein_path(:id => m.id) %>
-        <%# end %>
-      </td>
-    </tr>
-  </table>
-</div> -->
-
 <hr>
 <h4>Interactive Compounds</h4>
 <div id = "tablediv">
@@ -111,19 +95,5 @@
   </table>
 </div>
 
-<!-- <hr>
-<h4>External Links</h4>
-<div id = "tablediv">
-  <table>
-    <tr>
-      <th>GenBank ID Protein</th>
-      <%# if @protein_s.key_group == "NCBI Accession" %>
-        <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.tree_name %>"> <%= @protein_s.key %> </td>
-      <%# else %>
-        <td>NULL</td>
-      <%# end %>
-    </tr>
-  </table>
-</div> -->
 
 </div>

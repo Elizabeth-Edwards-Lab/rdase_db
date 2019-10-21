@@ -106,7 +106,7 @@ Comment: "All ORase group" to "All OGs" will do.
 3. update the compound and protein information => Done; but there are still some sequences are not found in fasta
 4. create the sequence and compound relationships and link them; => Done; need to make the linkage looks better
 5. also update the download contents 
-6. recreate the Blast database 
+6. recreate the Blast database (DONE)
 
 
 About submit sequence:

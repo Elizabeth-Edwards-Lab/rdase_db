@@ -58,6 +58,7 @@ class SubmitSequenceController < ApplicationController
 	end
 
 	# add the correct sequence to database
+	# and construct new blast database by makeblastdb
 	def save_sequence_to_db
 		puts params.inspect
 		# Parameters: {"FirstName"=>"xuan", "Email"=>"cao", "authenticity_token"=>"xma4WROg4X5wBTnb0sORg+yEBsAKdAtdAO7reDOnexOjIwTpNsfg5vAictLHoF/NtNeVQbt8cnjPREyYJxRwsg=="}
@@ -70,7 +71,7 @@ class SubmitSequenceController < ApplicationController
 	# This is for sending to lab member emails
 	def submit_sequence_lab
 		puts params.inspect
-
+		
 
 	end
 
