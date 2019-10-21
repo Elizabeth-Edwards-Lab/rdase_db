@@ -189,9 +189,17 @@ module SequenceSubmitter
   #   if yes: return the group number and add the sequence to database if user has the accession number
   #   if no: return the result as: it shares representive of the group share 90% of database at aa level, but not at nt level.
   # TODO: add the new group situation
+  #  @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+  # For new group:
+  # if your sequence shares greater than or equal to 90% pairwise ID are the amino acid level to a current 
+  # RdhA database sequence, but if the sequence is NOT 90% identical to any 
+  # members of X group in amino acids level (not all of them); then and if the sequence is also NOT 90% 
+  # identical to any members of X group in gene level, this sequence DOES NOT belongs to X group; then 
+  # create a new group. 
   def sequence_check_for_submission(sequence,group_hash,reversed_group_hash)
 
     result_array = Array.new
+    aa_threshold = 0.9
     
     begin
 
@@ -216,6 +224,7 @@ module SequenceSubmitter
 
       blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
       aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
+      aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
       identity_with_90 = check_alignment_identity(aa_report, 90)
 
       # group_hash => group : Array {seq_definition}
@@ -224,7 +233,16 @@ module SequenceSubmitter
         # group_hash, reversed_group_hash = get_group_sequence_table
         identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash)
       else
-        result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of any sequences in database at amino acid level.")
+        # add the new group selection criteria
+        if aa_similarity >= aa_threshold
+          last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
+          new_group_number = last_group + 1
+          result_array << collection(query_name,"NEW", "Your sequence belongs to a new RD group: #{new_group_number}")
+        else
+
+          result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of any sequences in database at amino acid level.")
+        end
+
         return result_array
       end
 
@@ -244,7 +262,7 @@ module SequenceSubmitter
 
       
     rescue => exception
-      puts exception
+      # puts exception
       result_array << collection(query_name, "ERROR","Your sequence is not validated. Or send it to our lab for manual checking.")
     end
     
@@ -259,6 +277,7 @@ module SequenceSubmitter
     uploading_result = Array.new
     group_hash, reversed_group_hash = get_group_sequence_table
     fasta_array.each do |fasta_seq|
+
       # check if the sequence is already in database
       result = sequence_check_for_submission(fasta_seq,group_hash,reversed_group_hash)
       # TODO: if result is successful, add the seq to file

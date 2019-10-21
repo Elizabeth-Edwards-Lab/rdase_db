@@ -3,9 +3,7 @@
 	<p id="_generate_tree">Click below to place your sequence in a Phylogenetic Tree using <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a></p>
 
 	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
-
-		<%# f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All OGs', :class => "option-button" %>
-		<%# f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), :prompt => 'All Organism', :class => "option-button" %>
+	
 		<div class="container">
 		  <div class="row">
 
@@ -24,14 +22,6 @@
 
 		  </div>
 		</div>
-
-		<!-- <p>Select OG group(s)</p> -->
-		<%# f.select :group, options_for_select(["1","2","3"]), :prompt => 'All OGs', :class => "option-button" %>
-		<!-- <p>Select Organism(s)</p>	 -->
-		<%# f.select :organism, options_for_select(['Mare', 'StallionnnnnnnnnnnnnnnnnnnStallionnnnnnnnnnnnnnnnnnn', 'Gelding']), :prompt => 'All Organism', :class => "option-button" %>
-		
-
-
 
 		<br>
 		<%= f.text_area :form_sequence, :value => "#{@fasta_seq}", :style => "display:none;" %>
