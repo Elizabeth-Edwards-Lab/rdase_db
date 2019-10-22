@@ -31,6 +31,7 @@
     		<% end %>
     		
     	</div>
+
     </div>
 
 
@@ -94,11 +95,28 @@
 
 
     <!-- this should present after use submit the sequence -->
-    <div class="col" id='submit-seq-result-div'>
-    	
+    <div class="col">
+      <div id='submit-seq-result-div'>
+
+                                     
+      </div>
+
+      <div id='save-sequence-form-div' style="display: none;">
+        <form method="post" action="/save_sequence" id="save-seqeunce">
+            <hr>
+            Name: <input type="text" name="name" maxlength="30" required><br>
+            Email: <input type="text" name="email" type="email" required><br>
+            <input value="Save To Database" type="submit" class="btn btn-primary" /><br>
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+        </form> 
+      </div>
     </div>
+    
+
+
   </div>
 </div>
+
 
 
 

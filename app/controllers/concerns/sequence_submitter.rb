@@ -173,8 +173,8 @@ module SequenceSubmitter
   end
 
   # self-defined data structure
-  def collection(header,status,msg)
-    collection_hash = { :header => header, :status => status, :msg => msg }
+  def collection(header,status,msg,group=nil)
+    collection_hash = { :header => header, :status => status, :msg => msg, :group => group }
   end
 
   # Basic Logic:
@@ -237,7 +237,7 @@ module SequenceSubmitter
         if aa_similarity >= aa_threshold
           last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
           new_group_number = last_group + 1
-          result_array << collection(query_name,"NEW", "Your sequence belongs to a new RD group: #{new_group_number}")
+          result_array << collection(query_name,"NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number)
         else
 
           result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of any sequences in database at amino acid level.")
@@ -254,7 +254,7 @@ module SequenceSubmitter
       end
 
       if final_identified_group.length > 0
-        result_array << collection(query_name, "SUCCESS","Your sequence belongs RD group: #{final_identified_group.join(",")}")
+        result_array << collection(query_name, "SUCCESS","Your sequence belongs RD group: #{final_identified_group.join(",")}",final_identified_group.join(","))
       else
         result_array << collection(query_name, "FAILED","Your sequence shares 90\% of representatives of the group at amino acid level; but not at nt level.")
         return result_array
@@ -287,6 +287,66 @@ module SequenceSubmitter
     # add file location at the end, and pop the last items at controller
     return uploading_result
   end
+
+
+  def save_result_to_db(result_array,fasta_array,uploader_name, uploader_email)
+
+    fasta_hash = Hash.new
+    fasta_array.each do |fasta_sequence|
+      query = Bio::FastaFormat.new( fasta_sequence )
+      fasta_hash[query.definition] = query.to_seq.seq
+    end
+
+    result_array.each do |result|
+      header = result[:header]
+      status = result[:status]
+      if result[:status] == "SUCCESS"
+        begin
+          # save to database
+          groups = result[:group].split(",")
+          groups.each do |gp|
+            
+            new_sequence = CustomizedProteinSequence.new
+            new_sequence.header = result[:header]
+            new_sequence.uploader = "USER"
+            new_sequence.uploader_name = uploader_name
+            new_sequence.uploader_email = uploader_email
+            new_sequence.group = gp
+            new_sequence.accession_no = result[:header] # result[:header] should be accession no OR manually extract accession number from local blast db
+            new_sequence.chain = fasta_hash[result[:header]]
+            new_sequence.save!
+
+
+          end
+        rescue => exception
+          puts exception
+          return false
+        end
+       
+
+      end
+
+    end
+
+    return true
+
+  end
+
+
+  def send_sequence_to_lab_without_validation(sequence,requester,requester_email,institution=nil,publications=nil,organism=nil)
+    
+    body = "<div>#{sequence}</div>
+            <div>
+              <p>requester: #{requester}</p>
+              <p>requester email: #{requester_email}</p>
+              <p>requester institution: #{institution}</p>
+              <p>requester publications: #{publications}</p>
+              <p>sequence organism: #{organism}</p>
+            </div>"
+
+    ActionMailer::Base.mail(from: "me@example.com", to: "xcao2@ualberta.ca", subject: "New Submission Request (Orthdb)", body: body).deliver
+  end
+
 
 end
 

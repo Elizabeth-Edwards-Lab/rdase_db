@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_211633) do
+ActiveRecord::Schema.define(version: 2019_10_22_222243) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -142,6 +142,8 @@ ActiveRecord::Schema.define(version: 2019_10_16_211633) do
     t.string "accession_no"
     t.string "species"
     t.string "protein_name"
+    t.string "uploader_name"
+    t.string "uploader_email"
   end
 
   create_table "nucleotide_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

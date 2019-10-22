@@ -43,6 +43,16 @@
       <th>Last Updated </th>
       <td><%= @protein_s.updated_at || nil %></td>
     </tr>
+
+    <tr>
+      <th> Submitter </th>
+      <% if @protein_s.uploader == "RDDB" %>
+        <td>Reductive Dehalogenase Database</td>
+      <% else %>
+        <td><%= @protein_s.uploader_name %>. Email: <%= @protein_s.uploader_email %></td>
+      <% end %>
+    </tr>
+
     <tr>
       <th>Reference </th>
       <td><%= @protein_s.reference || nil %></td>

@@ -57,17 +57,34 @@ $(document).ready(function(){
 
 				if(data.result != undefined){
 					// console.log(data.result);
+					// if(data.result[i].status == "SUCCESS"){
+					// 	// do stuff
+					// }
+					// else{
+					// 	result = your data is not appliable to our database; if you still wish to include your sequence to
+					// 	our database, you can send your data to E lab through email
+					// }
 					$('#submit-seq-result-div').prepend("<h3 id=\"p-submit-result\">Result</h3>" + construct_table(data));
 
-					var submit_form = `<form method="post" action="/save_sequence" id="save-seqeunce">
-															<hr>
-															Name: <input type="text" name="FirstName"><br>
-															Email: <input type="text" name="Email"><br>
-															<input value="Save To Database" type="submit" class="btn btn-primary" /><br>
-															<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
-														</form>`
+					// var submit_form = `<form method="post" action="/save_sequence" id="save-seqeunce">
+					// 										<hr>
+					// 										Name: <input type="text" name="FirstName"><br>
+					// 										Email: <input type="text" name="Email"><br>
+					// 										<input value="Save To Database" type="submit" class="btn btn-primary" /><br>
+					// 										<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+					// 									</form>`
 
-					$('#submit-seq-result-div').append(submit_form)
+					// $('#submit-seq-result-div').append(submit_form);
+
+					$('#save-sequence-form-div').removeAttr("style");
+
+
+					var fasta_data = "<div id='uploaded_fasta_data' style=\"display:none;\">";
+					for(var i = 0; i < data.fasta.length; i++){
+						fasta_data += `<p>${data.fasta[i]}</p>`;
+					}
+					fasta_data += "</div>";
+					$('#submit-seq-result-div').append(fasta_data);
 
 				}else if (data.notice != undefined){
 					// console.log(data.notice);
@@ -98,16 +115,19 @@ $(document).ready(function(){
 												<th>Header</th>\
 												<th>Status</th>\
 												<th>Message</th>\
+												<th style=\"display: none;\">Group</th>\
 											</tr>";
 		for(var i = 0; i < data.result.length; i++){
 			header = data.result[i].header;
 			status = data.result[i].status;
 			msg    = data.result[i].msg;
+			group  = data.result[i].group;
 			// if status is success, add some style, etc.
 			table_content += `<tr>\
-														<th>${header}</th>\
-														<th>${status}</th>\
-														<th>${msg}</th>\
+														<td>${header}</td>\
+														<td>${status}</td>\
+														<td>${msg}</td>\
+														<td style=\"display: none;\">${group}</td>\
 												</tr>`;
 		}
 		table_content += "</table>";
@@ -118,11 +138,15 @@ $(document).ready(function(){
 	$('#save-seqeunce').submit(function(e){
 		e.preventDefault();
 		var form = $(this);
+		var table_data = retrieve_table_data();
+		var seq_data   = retrieve_sequence_data();
 		$.ajax({
 			type:"POST",
 			url: "/save_sequence",
 			// give the sequence back for generating new fasta file
-			data: form.serialize(),
+			// may need to pass through file name because the seq_data will be very large potentially
+			// data: { authenticity_token: $('[name="csrf-token"]')[0].content},
+			data: form.serialize() + "&table=" + JSON.stringify(table_data) + "&sequence=" + JSON.stringify(seq_data),
 			beforeSend: function(xhr){
 				// seems work without below line to avoid `Can't verify CSRF token authenticity rails`
 				// xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -137,8 +161,26 @@ $(document).ready(function(){
 		})
 	});
 
+	var retrieve_table_data = function(){
+		var message = [];
+		$('#upload-seq-result-table').find('tr').each(function (i, el) {
+			var $tds = $(this).find('td');
+            header = $tds.eq(0).text();
+            status = $tds.eq(1).text();
+            group = $tds.eq(3).text();
+            message.push({"header":header, "status":status, "group":group});
+		});
 
+		return message;
+	}
 
+	var retrieve_sequence_data = function(){
+		var sequence = [];
+		$('#uploaded_fasta_data').find('p').each(function(i,el){
+			sequence.push($(this).text());
+		})
+		return sequence;
+	}
 	// submit sequence to lab part
 	// This is not used anymore as we moved out the submit sequence as independent module
 
