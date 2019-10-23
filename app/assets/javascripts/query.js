@@ -295,6 +295,24 @@ $(document).ready(function(){
 		}
 		return color;
 	}
+
+
+	// query main pages;
+	// #blast-parameters is the button that display parameters option for user (like ncbi-blast)
+	$('#blast-parameters').click(function(){
+		var blast_box = $('.row#parameter-box');
+		var is_style = blast_box.attr('style');
+		if (is_style){
+			$('.row#parameter-box').removeAttr('style');
+			// <i class="fas fa-plus"></i>
+			$('#blast-param-sign').attr('class','fas fa-minus');
+		}else{
+			$('.row#parameter-box').attr('style','display: none;');
+			$('#blast-param-sign').attr('class','fas fa-plus');
+
+		}
+		// console.log(is_style);
+	})
 	
 
 

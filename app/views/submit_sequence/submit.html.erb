@@ -9,8 +9,8 @@
   			Also, check if your sequence contain FeS binding domains and TAT signal peptide.<br>
   			We appreciated all the submissions.
   		</p>
-  		<button id="public-id"> I have public domain No. (e.g. NCBI Accession No.)</button>
-  		<button id="binding-domain" style="display: none;"> My sequence(s) contain FeS binding domains and TAT signal peptide</button>
+  		<button id="public-id"> My sequence(s) have public domain number (e.g. NCBI Accession No.) AND contain FeS binding domains and TAT signal peptide</button>
+  		<!-- <button id="binding-domain" style="display: none;"> My sequence(s) contain FeS binding domains and TAT signal peptide</button> -->
       <br>OR<br>
       <button id="send-to-lab">Send Email to Elizabeth Edwards Lab</button>
 
@@ -47,17 +47,19 @@
               <div>
                 <%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div', :id => 'upload-text' %>
                 <br>
-                <%# f.submit 'Upload', class: 'btn btn-primary upload-btn', disabled: false %>
-                <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
-                <!-- OR -->
-                <!-- This works only if send data through rails; not ajax -->
-                <!-- send data through ajax -->
                 <%= f.file_field :fasta, :id => 'upload-file-btn', disabled: false %>
               </div>
 
             </div>
 
             <div class="col">
+              <hr>
+              <h4>Fasta format</h4>
+              <div class="fasta-box">
+                <p>>[NCBI, RAST or JGI number] <br>[Your Amino Acid Sequence]</p>
+           
+              </div>
+              
               <hr>
               <table>
                 <tr>

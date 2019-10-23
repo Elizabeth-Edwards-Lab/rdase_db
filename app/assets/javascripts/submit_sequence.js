@@ -2,15 +2,17 @@ $(document).ready(function(){
 
 
 	$('#public-id').click(function () {
-		$('#binding-domain').removeAttr('style');
+		// $('#binding-domain').removeAttr('style');
 		$('#public-id').attr('style',"display: none;");
+		$('#submit-interface').removeAttr('style');
+		$('.container.decision-tree').attr('style',"display: none;");
 	
 	});
 
-	$('#binding-domain').click(function () {
-		$('#submit-interface').removeAttr('style');
-		$('.container.decision-tree').attr('style',"display: none;");
-	});
+	// $('#binding-domain').click(function () {
+	// 	$('#submit-interface').removeAttr('style');
+	// 	$('.container.decision-tree').attr('style',"display: none;");
+	// });
 
 	$('#send-to-lab').click(function () {
 		$('#submit-to-lab-interface').removeAttr('style');

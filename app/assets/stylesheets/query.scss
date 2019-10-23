@@ -151,7 +151,18 @@
   font-size: 13px;
 }
 
-
+#blast-parameters{
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #ffffff;
+  font-size: 20px;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 
 

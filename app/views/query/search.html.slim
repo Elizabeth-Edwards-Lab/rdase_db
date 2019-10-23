@@ -2,18 +2,22 @@
   = form_tag search_path(anchor: :results), :target => "_blank", id: 'seq-search-form' do
     fieldset
       legend
-        | Enter an amino acid sequence in
+        | Enter An Amino Acid Sequence in
         | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'} #{button_tag 'Example', type: 'button', class: 'btn btn-primary load-example' }
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
       .form-actions
         = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
         = link_to 'Reset', search_path, class: 'btn', :id => 'reset-button'
-      / br
-      / = button_tag 'Load Example', type: 'button', class: 'btn btn-primary load-example'
 
-    fieldset
-      legend BLAST Parameters
-      .row
+    / in the future, you can add more fieldset with more options
+
+    fieldset 
+      / legend BLAST Parameters
+      
+      i#blast-param-sign.fas.fa-plus
+      span &nbsp;
+      = button_tag "BLAST Parameters", :id => "blast-parameters", type: "button"
+      .row#parameter-box style=("display: none;")
         .col-md-4.col-sm-4
           .form-group
             = label_tag :gap_cost, 'Cost to open a gap'
