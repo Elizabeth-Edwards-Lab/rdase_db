@@ -34,6 +34,17 @@ module CompoundHelper
 	  end
 	end
 
+	def table_header_divider(title, options={}, &block)
+      options[:colspan] ||= 2
+      options[:id] ||= title.to_s.parameterize
+
+      content_tag(:tr, id: options[:id]) do
+        content_tag(:th, class: 'divider', colspan: options[:colspan]) do
+          block_given? ? block.call : title
+        end
+      end
+    end
+
 	def bio_url(site, id)
 	  case site.to_sym
 	    when :pubchem_compound             then "http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?cid=#{id}"

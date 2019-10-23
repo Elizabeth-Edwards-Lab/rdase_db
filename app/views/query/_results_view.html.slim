@@ -21,7 +21,10 @@
               = form_with url:'protein', method: :get do |f|
                 = hidden_field_tag(:group, @sequence_group[sequence.definition])
                 | Group: 
-                td= f.submit "#{@sequence_group[sequence.definition]}", disabled: false, formtarget: "_blank", :id => 'group-click-button'
+                - if @sequence_group[sequence.definition].present?
+                  td = f.submit "#{@sequence_group[sequence.definition]}", disabled: false, formtarget: "_blank", :id => 'group-click-button'
+                - else
+                  td No Group
               
           div
             .seq-search-sequence-labels

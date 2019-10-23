@@ -85,7 +85,7 @@
     <tr>
       <th>Nucleotide Sequence</th>
       <td>
-        <% if @gene_s.chain.present? %>
+        <% if !@gene_s.nil? and chain.present? %>
           <em class="sequence-wrap" ><%= @gene_s.chain %></em>
         <% else %>
           <%= nah %>
@@ -99,8 +99,14 @@
 <h4>Interactive Compounds</h4>
 <div id = "tablediv">
   <table>
-    <% @compound.each do |comp| %>
-      <td><%= link_to "#{comp.name}", compound_path(comp.id), :id => 'button-ish' %></td>
+    <% if @compound.length > 0 %>
+
+      <% @compound.each do |comp| %>
+        <td><%= link_to "#{comp.name}", compound_path(comp.id), :id => 'button-ish' %></td>
+      <% end %>
+
+    <% else %>
+      <td> Not Available </td>
     <% end %>
   </table>
 </div>

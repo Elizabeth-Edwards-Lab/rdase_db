@@ -1,18 +1,5 @@
 table.compound-table.content-table.table-condensed
   tbody
-    = show_header "Record Information", compound
-    tr
-      th Version
-      td = 1.0
-    tr
-      th Creation date
-      td = compound.created_at
-    tr
-      th Update date
-      td = compound.updated_at
-    tr
-      th Primary ID
-      td: strong = compound.public_id
 
     = show_header 'Chemical Information', compound
 
@@ -20,39 +7,18 @@ table.compound-table.content-table.table-condensed
       th Compound Name
       td: strong = compound.name
     tr
-      / create description
+      th Primary ID
+      td: strong = compound.public_id
+
+    tr
       th Description
       td = nah compound.description
     tr
-      / create cas number
       th CAS Number
       td = nah compound.cas_number
-
-    
     tr
       th Structure
       td = image_tag(compound.image) if compound.image.attached?
-
-    / tr
-    /   th Synonyms
-    /   td
-    /     table.display.simple-datatable
-    /       thead
-    /         tr
-    /           th Synonym
-    /           th Source
-    /       tbody
-            / @synonyms is given by controller
-            / - @synonyms.each do |k, v| 
-            /   tr
-            /     td = nah k
-            /     td = nah v
-
-    / tr
-    /   th Predicted Properties
-    /   td.data-table-container 
-    /     = render partial: 'properties_table', locals: { record: compound }
-        / = moldb_properties_table(compound)
     tr
       th Chemical Formula
       td = compound.formula
@@ -138,15 +104,7 @@ table.compound-table.content-table.table-condensed
               th Refractive Index
               td = nah compound.refractive_index
               td = compound.refractive_index_reference
-    / = table_header_divider 'Spectra'
-    / tr
-    /   th Spectra
-    /   - if @compound.moldb_inchikey
-    /     td = specdb_spectra_list(@compound)
-    /   - else
-    /     td = nah
-    
-    / add the bio_link_out helper function
+
     = show_header 'External Links', compound
     tr
       th ChemSpider ID
@@ -197,20 +155,22 @@ table.compound-table.content-table.table-condensed
     = show_header 'Associated Strains', compound
     table
       - protein.each do |pro|
+        / create the strain card // same for strain => create compound card
+        br
         = link_to "#{pro.header}", protein_path(pro.id), :id => 'show-button'
 
 
 
-    = show_header 'References', id: 'references'
-    tr
-      th Synthesis Reference
-      td citations
-    tr
-      th General Reference
-      td citations
-    tr
-      th Content Reference
-      td ContentReference
+    / = table_header_divider 'References', id: 'references'
+    / tr
+    /   th Synthesis Reference
+    /   td citations
+    / tr
+    /   th General Reference
+    /   td citations
+    / tr
+    /   th Content Reference
+    /   td ContentReference
 
 
 
