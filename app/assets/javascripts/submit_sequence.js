@@ -5,8 +5,9 @@ $(document).ready(function(){
 		// $('#binding-domain').removeAttr('style');
 		$('#public-id').attr('style',"display: none;");
 		$('#submit-interface').removeAttr('style');
+		$('#selection-info').removeAttr('style');
 		$('.container.decision-tree').attr('style',"display: none;");
-	
+		
 	});
 
 	// $('#binding-domain').click(function () {

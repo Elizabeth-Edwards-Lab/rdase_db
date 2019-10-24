@@ -9,7 +9,7 @@
   			Also, check if your sequence contain FeS binding domains and TAT signal peptide.<br>
   			We appreciated all the submissions.
   		</p>
-  		<button id="public-id"> My sequence(s) have public domain number (e.g. NCBI Accession No.) AND contain FeS binding domains and TAT signal peptide</button>
+  		<button id="public-id"> My sequence(s) have public domain number (e.g. NCBI Accession No.) <strong>AND/OR</strong> My sequence(s) contain FeS binding domains and TAT signal peptide</button>
   		<!-- <button id="binding-domain" style="display: none;"> My sequence(s) contain FeS binding domains and TAT signal peptide</button> -->
       <br>OR<br>
       <button id="send-to-lab">Send Email to Elizabeth Edwards Lab</button>
@@ -99,6 +99,39 @@
 
     <!-- this should present after use submit the sequence -->
     <div class="col">
+
+      <div id="selection-info" style="display: none;">
+        
+        <h4>Default Blast Parameters</h4>
+        <div class="fasta-box">
+          <table id="default-parameter-table">
+            <tbody>
+              <tr>
+                <td>Cost to open a gap: </td>
+                <td><strong>11</strong></td>
+              </tr>
+              <tr>
+                <td>Cost to extend a gap: </td>
+                <td><strong>1</strong></td>
+              </tr>
+              <tr>
+                <td>Penalty for mismatch: </td>
+                <td><strong>-3</strong></td>
+              </tr>
+              <tr>
+                <td>Reward for match: </td>
+                <td><strong>2</strong></td>
+              </tr>
+              <tr>
+                <td>Expected Value (E-Value): &nbsp;&nbsp; </td>
+                <td><strong>0.0000001</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr>
+
       <div id='submit-seq-result-div'>
 
                                      

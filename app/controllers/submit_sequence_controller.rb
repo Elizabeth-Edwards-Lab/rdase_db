@@ -82,8 +82,8 @@ class SubmitSequenceController < ApplicationController
 
 
 		# parameter passed
-		status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
-
+		# status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
+		status = false
 		if status == true
 			render json: { "status": "Successfully saved to our database"}
 		elsif status == false

@@ -85,7 +85,7 @@
     <tr>
       <th>Nucleotide Sequence</th>
       <td>
-        <% if !@gene_s.nil? and chain.present? %>
+        <% if !@gene_s.nil? and @gene_s.chain.present? %>
           <em class="sequence-wrap" ><%= @gene_s.chain %></em>
         <% else %>
           <%= nah %>
