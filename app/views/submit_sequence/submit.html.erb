@@ -17,37 +17,105 @@
   	</div>
 
   	<!-- div for enter sequence -->
-    <div class="col" id="submit-interface" style="display: none;">
-    	<h3>Upload Your Amino Acid Sequence Here</h3>
-    	<div>
-    		<%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
-    			<%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div', :id => 'upload-text' %>
-    			<br>
-    			<%# f.submit 'Upload', class: 'btn btn-primary upload-btn', disabled: false %>
-    			<%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
-    			<!-- OR -->
- 					<!-- This works only if send data through rails; not ajax -->
-    			<%# f.file_field :fasta, :id => 'upload-file-btn',disabled: false %>    			
-    		<% end %>
-    		
-    	</div>
+    <div id="submit-interface" style="display: none;">
+    	<h3>Submitt Amino Acid Sequence for Annotation</h3>
+      <hr>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
+              <%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div' %>
+              <br>
+              
+               <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
+              <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
+              <!-- OR -->
+                <!-- This works only if send data through rails; not ajax -->
+              <%= f.file_field :fasta, class: 'upload-file-btn',disabled: false %>          
+            <% end %>
+            
+          </div>
 
+          <!-- this should present after use submit the sequence -->
+          <div class="col">
+
+            <div id="selection-info" style="display: none;">
+              
+              <h4>Default Blast Parameters</h4>
+              <div class="fasta-box">
+                <table id="default-parameter-table">
+                  <tbody>
+                    <tr>
+                      <td>Cost to open a gap: </td>
+                      <td><strong>11</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Cost to extend a gap: </td>
+                      <td><strong>1</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Penalty for mismatch: </td>
+                      <td><strong>-3</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Reward for match: </td>
+                      <td><strong>2</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Expected Value (E-Value): &nbsp;&nbsp; </td>
+                      <td><strong>0.000001 &nbsp;</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id='submit-seq-result-div'>                         
+            </div>
+
+            <div id='save-sequence-form-div' style="display: none;">
+              <form method="post" action="/save_sequence" id="save-seqeunce">
+                <table id="save-seqeunce-submit-table">
+                  <tbody>
+                    <tr>
+                      <td>Name: </td>
+                      <td><input type="text" name="name" maxlength="30" size="30" required><br></td>
+                    </tr>
+                    <tr>
+                      <td>Email:</td>
+                      <td><input type="text" name="email" type="email" size="30" required><br></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td style="float: right;"><input value="Save To Database" type="submit" class="btn btn-primary" /><br></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/><br></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form> 
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
 
     <div id="submit-to-lab-interface" style="display: none;">
-      
+      <h3>Submit Amino Acid Sequence to Our Lab</h3>
+      <hr>
       <%= form_with url:'/submit_sequence_lab', remote: true, :html => {:id => "upload-seq-to-lab"} do |f| %>
         
         <div class="container">
           <div class="row">
             <div class="col">
-              
-              <h3>Upload Your Amino Acid Sequence Here</h3>
               <div>
-                <%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div', :id => 'upload-text' %>
+                <%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div' %>
                 <br>
-                <%= f.file_field :fasta, :id => 'upload-file-btn', disabled: false %>
+                <%= f.file_field :fasta, class: 'upload-file-btn-direct-lab', disabled: false %>
               </div>
 
             </div>
@@ -65,11 +133,12 @@
               <table>
                 <tr>
                   <td>Name</th>
-                  <td><%= f.text_field :name, :size => "40", placeholder: "Your Name (Required) ",  :required=>true %></td>
+                  <td><%= f.text_field :name, :size => "40", placeholder: "Your Name (Required) " %></td>
                 </tr>
                 <tr>
                   <td>Email</th>
-                  <td><%= f.text_field :email, :size => "40", placeholder: "example@abc.com (Required) ", :type=>"email",:required=>true %></td>
+                    <!-- ,:required=>true -->
+                  <td><%= f.text_field :email, :size => "40", placeholder: "example@abc.com (Required) ", :type=>"email" %></td>
                 </tr>
                 <tr>
                   <td>Institution</th>
@@ -88,8 +157,8 @@
           </div>
         </div>
         <hr>
-
-        <%= f.submit "Send", :class => "btn btn-primary", id: "submit-seq", :style => "position:relative;top:50%;left:50%;" %>
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+        <%= f.submit "Send", :class => "btn btn-primary", id: "submit-seq", :style => "position:relative; top:50%; left:50%;" %>
                   
       <% end %>
 
@@ -97,56 +166,7 @@
     
 
 
-    <!-- this should present after use submit the sequence -->
-    <div class="col">
 
-      <div id="selection-info" style="display: none;">
-        
-        <h4>Default Blast Parameters</h4>
-        <div class="fasta-box">
-          <table id="default-parameter-table">
-            <tbody>
-              <tr>
-                <td>Cost to open a gap: </td>
-                <td><strong>11</strong></td>
-              </tr>
-              <tr>
-                <td>Cost to extend a gap: </td>
-                <td><strong>1</strong></td>
-              </tr>
-              <tr>
-                <td>Penalty for mismatch: </td>
-                <td><strong>-3</strong></td>
-              </tr>
-              <tr>
-                <td>Reward for match: </td>
-                <td><strong>2</strong></td>
-              </tr>
-              <tr>
-                <td>Expected Value (E-Value): &nbsp;&nbsp; </td>
-                <td><strong>0.0000001</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <hr>
-
-      <div id='submit-seq-result-div'>
-
-                                     
-      </div>
-
-      <div id='save-sequence-form-div' style="display: none;">
-        <form method="post" action="/save_sequence" id="save-seqeunce">
-            <hr>
-            Name: <input type="text" name="name" maxlength="30" required><br>
-            Email: <input type="text" name="email" type="email" required><br>
-            <input value="Save To Database" type="submit" class="btn btn-primary" /><br>
-            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
-        </form> 
-      </div>
-    </div>
     
 
 

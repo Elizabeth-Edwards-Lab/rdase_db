@@ -1,36 +1,8 @@
 // Place all the styles related to the submit_sequence controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-// .upload-div{
-//   margin: 0px; 
-//   width: 491px; 
-//   height: 268px;
-//   resize: both;
-//   overflow: auto;
-// }
 
-
-.upload-file-btn  {
-    position: relative;
-    overflow: hidden;
-}
-.upload-file-btn input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
-
-#upload-text {
+.upload-div {
     font-family: "Times New Roman", Times, serif;
     font-size: 12px;
 }
@@ -46,4 +18,8 @@ div.fasta-box {
 #default-parameter-table td {
    padding: 0; 
    margin: 0;
+}
+
+#save-seqeunce-submit-table{
+    float: right;
 }

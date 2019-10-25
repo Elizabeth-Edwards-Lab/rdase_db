@@ -303,7 +303,7 @@ module SequenceSubmitter
       if result[:status] == "SUCCESS"
         begin
           # save to database
-          groups = result[:group].split(",")
+          groups = result[:group].split(",") # likely only have one group. so if more than one group, save them separately 
           groups.each do |gp|
             
             new_sequence = CustomizedProteinSequence.new
@@ -332,6 +332,20 @@ module SequenceSubmitter
 
   end
 
+  def construct_new_blast_db
+
+
+    # what about gene database??? 
+    # ask user to submit gene sequence as well?
+    # How about only add user's amino acid sequence to database, but not constructing the blast_db;
+    # which blast_db should be construct at certain period of time after the sequence has been fully annotated by our lab
+    # make this as notification for all users
+    # The key point of the db is for people to annotate their sequence against our databases; also for educating people what is RD and their groups
+
+
+
+  end
+
 
   def send_sequence_to_lab_without_validation(sequence,requester,requester_email,institution=nil,publications=nil,organism=nil)
     
@@ -345,6 +359,12 @@ module SequenceSubmitter
             </div>"
 
     ActionMailer::Base.mail(from: "me@example.com", to: "xcao2@ualberta.ca", subject: "New Submission Request (Orthdb)", body: body).deliver
+  end
+
+
+  def create_temp_fasta_file(fasta_array)
+
+
   end
 
 

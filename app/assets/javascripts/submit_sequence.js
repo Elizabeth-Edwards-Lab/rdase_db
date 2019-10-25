@@ -23,18 +23,26 @@ $(document).ready(function(){
 	
 	// https://stackoverflow.com/questions/8423217/jquery-checkbox-checked-state-changed-event
 	// detect if the checkbox is changed
-	var upload_file_btn = $('#upload-file-btn');
-	$("#upload-file-btn").change(function() {
-
-		if( $('#upload-file-btn').get(0).files.length >= 1 ){
-			// console.log("file uploaded");
-			$('#upload-text').val('');
-			$('#upload-text').attr('disabled', true);
-			$('#upload-text').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
+	$(".upload-file-btn").change(function() {
+		if( $('.upload-file-btn').get(0).files.length >= 1){
+			$('.upload-div').val('');
+			$('.btn.btn-primary.upload-btn').text("Upload with file");
+			$('.upload-div').attr('disabled', true);
+			$('.upload-div').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
 		}else{
-			// console.log("file not uploaded");
-			$('#upload-text').attr('disabled', false);
-			$('#upload-text').removeAttr('placeholder');
+			$('.upload-div').attr('disabled', false);
+			$('.upload-div').removeAttr('placeholder');
+		}
+	});
+
+	$(".upload-file-btn-direct-lab").change(function() {
+		if( $('.upload-file-btn-direct-lab').get(0).files.length >= 1){
+			$('.upload-div').val('');
+			$('.upload-div').attr('disabled', true);
+			$('.upload-div').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
+		}else{
+			$('.upload-div').attr('disabled', false);
+			$('.upload-div').removeAttr('placeholder');
 		}
 	});
 
@@ -42,14 +50,15 @@ $(document).ready(function(){
 	// this ajax request overwrite the rails default parameter passing
 	$('#upload-seq').submit(function(e){
 		e.preventDefault();
-		var form = $(this);
-		var formData = new FormData(this);
-		console.log(formData);
+
 		$.ajax({
 			type:"POST",
 			url: "/submit_sequence",
 			// give the sequence back for generating new fasta file
-			data: form.serialize(),
+			data:  new FormData(this),
+			contentType: false,
+			cache: false,
+			processData:false,
 			beforeSend: function(){
 
 				$('#upload-seq-result-table').empty();
@@ -59,29 +68,8 @@ $(document).ready(function(){
 			success: function(data){
 
 				if(data.result != undefined){
-					// console.log(data.result);
-					// if(data.result[i].status == "SUCCESS"){
-					// 	// do stuff
-					// }
-					// else{
-					// 	result = your data is not appliable to our database; if you still wish to include your sequence to
-					// 	our database, you can send your data to E lab through email
-					// }
-					$('#submit-seq-result-div').prepend("<h3 id=\"p-submit-result\">Result</h3>" + construct_table(data));
-
-					// var submit_form = `<form method="post" action="/save_sequence" id="save-seqeunce">
-					// 										<hr>
-					// 										Name: <input type="text" name="FirstName"><br>
-					// 										Email: <input type="text" name="Email"><br>
-					// 										<input value="Save To Database" type="submit" class="btn btn-primary" /><br>
-					// 										<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
-					// 									</form>`
-
-					// $('#submit-seq-result-div').append(submit_form);
-
+					$('#submit-seq-result-div').prepend("<hr><h4 id=\"p-submit-result\">Result</h4>" + construct_table(data));
 					$('#save-sequence-form-div').removeAttr("style");
-
-
 					var fasta_data = "<div id='uploaded_fasta_data' style=\"display:none;\">";
 					for(var i = 0; i < data.fasta.length; i++){
 						fasta_data += `<p>${data.fasta[i]}</p>`;
@@ -189,15 +177,21 @@ $(document).ready(function(){
 
 	$('#upload-seq-to-lab').submit(function(e){
 		e.preventDefault();
-		var form = $(this);
+		
 		$.ajax({
 			type:"POST",
 			url: "/submit_sequence_lab",
 			// 'form.serialize()+ '&sequence=' + sequence' is kind ugly but it works.
-			data: form.serialize(),
+			data:  new FormData(this),
+			contentType: false,
+			cache: false,
+			processData:false,
+
+			beforeSend: function(xhr){
+
+			},
 			success: function(data){
 				console.log("success");
-				console.log(data);
 
 			},
 			error: function(data){
