@@ -362,12 +362,6 @@ module SequenceSubmitter
   end
 
 
-  def create_temp_fasta_file(fasta_array)
-
-
-  end
-
-
 end
 
 

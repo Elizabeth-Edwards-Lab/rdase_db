@@ -32,10 +32,12 @@ class SubmitSequenceController < ApplicationController
 			# uploaded_io = params[:fasta]
 			# puts uploaded_io
 			now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
-			# file_name = uploaded_io.original_filename.gsub(".fasta","#{now}.fasta")
-			# file_path = Rails.root.join('public', 'uploads/', file_name)
+			file_name = params[:fasta].original_filename.gsub(".fasta","#{now}.fasta")
+			file_path = Rails.root.join('tmp', 'uploads/', file_name)
+			file_content = params[:fasta].tempfile.read
+			File.write(file_path,file_content)
 			# puts uploaded_io.read contains the content of file; no need to save to file
-			fasta_array = params[:fasta].tempfile.read.scan(/>[^>]*/)
+			fasta_array = file_content.scan(/>[^>]*/)
 
 			if fasta_array.length == 0 
 				render json: { "notice": "Please enter sequence." }
@@ -45,7 +47,7 @@ class SubmitSequenceController < ApplicationController
 				@uploading_result = submit_sequence_caller(fasta_array)
 
 
-				render json: { "result": @uploading_result, "fasta": fasta_array }
+				render json: { "result": @uploading_result, "fasta": fasta_array, "file_name": file_name }
 			end
 
 		elsif params[:sequence].present? == false and params[:authenticity_token].present? == true
@@ -66,7 +68,14 @@ class SubmitSequenceController < ApplicationController
 		uploader_name = params[:name]
 		uploader_email = params[:email]
 		uploading_result = JSON.parse(params[:table])
+		file_name = params[:file_name]
 		fasta_array = JSON.parse(params[:sequence])
+		puts "uploading_result => #{uploading_result}"
+		puts "fasta_array => #{fasta_array}"
+		puts "params.inspect => #{params.inspect}"
+
+		render json: { "status": "Successfully saved to our database"}
+
 
 		# need to figure out how to pass uploading_result,fasta_array to save_sequence_to_db
 		# get fasta_array from file (since you are storing the uploaded file to server anyway)
@@ -75,7 +84,14 @@ class SubmitSequenceController < ApplicationController
 		# how to give the file path? send the file path through ajax; and render it at page but hide it.
 
 		# parameter passed
-		status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
+		if file_name.nil?
+			status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
+		else
+			file_path = Rails.root.join('tmp', 'uploads/', file_name)
+			fasta_array = File.open(file_path).read.scan(/>[^>]*/)
+			status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
+		end
+
 		if status == true
 			render json: { "status": "Successfully saved to our database"}
 		elsif status == false
@@ -93,8 +109,6 @@ class SubmitSequenceController < ApplicationController
 
 		# transformed_param = JSON.parse(params)
 		# puts transformed_param
-
-		render json: { "notice": "test" }
 		if params[:sequence].present?
 
 			fasta_array = params[:sequence].scan(/>[^>]*/)
@@ -114,14 +128,6 @@ class SubmitSequenceController < ApplicationController
 			end
 
 		elsif !params[:fasta].nil?
-			# make sure that once upload the file, user can't insert any sequence
-			# puts "params[:fasta].tempfile.read => #{params[:fasta].tempfile.read}"
-			# Rails way to get file
-			# uploaded_io = params[:fasta]
-			# now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
-			# file_name = uploaded_io.original_filename.gsub(".fasta","#{now}.fasta")
-			# file_path = Rails.root.join('public', 'uploads/', file_name)
-			# puts uploaded_io.read contains the content of file; no need to save to file
 
 			fasta_array = params[:fasta].tempfile.read.scan(/>[^>]*/)
 

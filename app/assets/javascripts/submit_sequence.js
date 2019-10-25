@@ -48,6 +48,7 @@ $(document).ready(function(){
 
 
 	// this ajax request overwrite the rails default parameter passing
+	// this ajax is for submit sequence to annotate
 	$('#upload-seq').submit(function(e){
 		e.preventDefault();
 
@@ -64,18 +65,26 @@ $(document).ready(function(){
 				$('#upload-seq-result-table').empty();
 				$('#p-submit-result').empty();
 				$('#submit-seq-result-div').empty();
+				$('#save-sequence-form-div').attr("style","display: none;");
 			},
 			success: function(data){
-
+				console.log(data.file_path);
 				if(data.result != undefined){
 					$('#submit-seq-result-div').prepend("<hr><h4 id=\"p-submit-result\">Result</h4>" + construct_table(data));
 					$('#save-sequence-form-div').removeAttr("style");
+					
 					var fasta_data = "<div id='uploaded_fasta_data' style=\"display:none;\">";
 					for(var i = 0; i < data.fasta.length; i++){
 						fasta_data += `<p>${data.fasta[i]}</p>`;
 					}
 					fasta_data += "</div>";
 					$('#submit-seq-result-div').append(fasta_data);
+
+					if (data.file_path != undefined){
+						var fasta_file_path = `<div id='fasta_file_path' style="display:none;"><p>${data.file_path}</p></div>`;
+						$('#submit-seq-result-div').append(fasta_file_path);
+					}
+					
 
 				}else if (data.notice != undefined){
 					// console.log(data.notice);
@@ -125,19 +134,26 @@ $(document).ready(function(){
 		return table_content;
 	}
 
-
+	// this ajax is for after annotation, and user decide to upload their data to our database
 	$('#save-seqeunce').submit(function(e){
 		e.preventDefault();
 		var form = $(this);
 		var table_data = retrieve_table_data();
-		var seq_data   = retrieve_sequence_data();
+		var seq_data   = retrieve_sequence_data(); // this only works if user submit their sequence by textarea
+		if($('#fasta_file_path').find('p').length == 1){
+			var extra = "&table=" + JSON.stringify(table_data) + "&sequence=" + JSON.stringify(seq_data) + "&file_name=" + file_name
+		}else{
+			var extra = "&table=" + JSON.stringify(table_data) + "&sequence=" + JSON.stringify(seq_data)
+		}
+
+		console.log(file_name);
 		$.ajax({
 			type:"POST",
 			url: "/save_sequence",
 			// give the sequence back for generating new fasta file
 			// may need to pass through file name because the seq_data will be very large potentially
 			// data: { authenticity_token: $('[name="csrf-token"]')[0].content},
-			data: form.serialize() + "&table=" + JSON.stringify(table_data) + "&sequence=" + JSON.stringify(seq_data),
+			data: form.serialize() + extra,
 			beforeSend: function(xhr){
 				// seems work without below line to avoid `Can't verify CSRF token authenticity rails`
 				// xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
@@ -172,8 +188,7 @@ $(document).ready(function(){
 		})
 		return sequence;
 	}
-	// submit sequence to lab part
-	// This is not used anymore as we moved out the submit sequence as independent module
+
 
 	$('#upload-seq-to-lab').submit(function(e){
 		e.preventDefault();
