@@ -14,7 +14,6 @@ class SubmitSequenceController < ApplicationController
 		if params[:sequence].present?
 			# puts "params[:sequence] => #{params[:sequence]}"
 			fasta_array = params[:sequence].scan(/>[^>]*/)
-			create_temp_fasta_file(fasta_array)
 			if fasta_array.length == 0 
 
 				render json: { "notice": "Please enter sequence." }
@@ -63,27 +62,12 @@ class SubmitSequenceController < ApplicationController
 	# add the correct sequence to database
 	# and construct new blast database by makeblastdb
 	def save_sequence_to_db
-		# Parameters: {"FirstName"=>"xuan", "Email"=>"cao", "authenticity_token"=>"xma4WROg4X5wBTnb0sORg+yEBsAKdAtdAO7reDOnexOjIwTpNsfg5vAictLHoF/NtNeVQbt8cnjPREyYJxRwsg=="}
-		# render json: { "success": "yes!"}
 		uploader_name = params[:name]
 		uploader_email = params[:email]
 		uploading_result = JSON.parse(params[:table])
 		file_name = params[:file_name]
 		fasta_array = JSON.parse(params[:sequence])
-		puts "uploading_result => #{uploading_result}"
-		puts "fasta_array => #{fasta_array}"
-		puts "params.inspect => #{params.inspect}"
-
-		render json: { "status": "Successfully saved to our database"}
-
-
-		# need to figure out how to pass uploading_result,fasta_array to save_sequence_to_db
-		# get fasta_array from file (since you are storing the uploaded file to server anyway)
-		# for the uploading_result; get from the table (id: upload-seq-result-table);
-		# invoke this function by ajax (with form id:save-seqeunce)
-		# how to give the file path? send the file path through ajax; and render it at page but hide it.
-
-		# parameter passed
+		
 		if file_name.nil?
 			status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
 		else

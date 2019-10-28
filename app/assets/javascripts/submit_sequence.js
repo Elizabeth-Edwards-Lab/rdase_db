@@ -146,7 +146,6 @@ $(document).ready(function(){
 			var extra = "&table=" + JSON.stringify(table_data) + "&sequence=" + JSON.stringify(seq_data)
 		}
 
-		console.log(file_name);
 		$.ajax({
 			type:"POST",
 			url: "/save_sequence",
@@ -159,7 +158,7 @@ $(document).ready(function(){
 				// xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
 			},
 			success: function(data){
-				console.log(data)
+				console.log(data);
 			},
 			error: function(data){
 				$("#submit-message").text("Error occurs.");
@@ -178,6 +177,7 @@ $(document).ready(function(){
             message.push({"header":header, "status":status, "group":group});
 		});
 
+		message.shift();
 		return message;
 	}
 

@@ -289,7 +289,7 @@ module SequenceSubmitter
   end
 
 
-  def save_result_to_db(result_array,fasta_array,uploader_name, uploader_email)
+  def save_result_to_db(result_array,fasta_array,uploader_name,uploader_email)
 
     fasta_hash = Hash.new
     fasta_array.each do |fasta_sequence|
@@ -298,32 +298,44 @@ module SequenceSubmitter
     end
 
     result_array.each do |result|
-      header = result[:header]
-      status = result[:status]
-      if result[:status] == "SUCCESS"
-        begin
-          # save to database
-          groups = result[:group].split(",") # likely only have one group. so if more than one group, save them separately 
-          groups.each do |gp|
-            
-            new_sequence = CustomizedProteinSequence.new
-            new_sequence.header = result[:header]
-            new_sequence.uploader = "USER"
-            new_sequence.uploader_name = uploader_name
-            new_sequence.uploader_email = uploader_email
-            new_sequence.group = gp
-            new_sequence.accession_no = result[:header] # result[:header] should be accession no OR manually extract accession number from local blast db
-            new_sequence.chain = fasta_hash[result[:header]]
-            new_sequence.save!
+      
+      begin
+        # save to database; only for those will have either existing group or new group number
+        # the result_array is json, not ruby hash
+        if result["status"] == "SUCCESS" # only store successful sequence
+          if result["group"].present?
+
+            groups = result["group"].split(",") # likely only have one group. so if more than one group, save them separately 
+            groups.each do |gp|
+              puts "groups => #{gp}"
+              new_sequence = CustomizedProteinSequence.new
+              new_sequence.header = result["header"]
+              new_sequence.uploader = "USER"
+              new_sequence.uploader_name = uploader_name
+              new_sequence.uploader_email = uploader_email
+              new_sequence.group = gp
+              new_sequence.accession_no = result["header"] # result[:header] should be accession no OR manually extract accession number from local blast db
+              new_sequence.chain = fasta_hash[result["header"]]
+              new_sequence.save!
 
 
+              # don't ask user for nt sequence yet. probably ask later through email
+              new_nt_sequence = CustomizedNucleotideSequence.new
+              new_nt_sequence.header = result["header"]
+              new_nt_sequence.uploader = "USER"
+              new_nt_sequence.uploader_name = uploader_name
+              new_nt_sequence.uploader_email = uploader_email
+              new_nt_sequence.group = gp
+              new_nt_sequence.accession_no = result["header"]
+              new_nt_sequence.save!
+
+            end
           end
-        rescue => exception
-          puts exception
-          return false
         end
-       
 
+      rescue => exception
+        puts exception
+        return false
       end
 
     end
@@ -331,6 +343,9 @@ module SequenceSubmitter
     return true
 
   end
+
+
+  # def save_to_protein_database(header, uploader, uploader_name,uploader_email,gp=nil,)
 
   def construct_new_blast_db
 
