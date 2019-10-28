@@ -10,10 +10,6 @@ $(document).ready(function(){
 		
 	});
 
-	// $('#binding-domain').click(function () {
-	// 	$('#submit-interface').removeAttr('style');
-	// 	$('.container.decision-tree').attr('style',"display: none;");
-	// });
 
 	$('#send-to-lab').click(function () {
 		$('#submit-to-lab-interface').removeAttr('style');
@@ -68,22 +64,29 @@ $(document).ready(function(){
 				$('#save-sequence-form-div').attr("style","display: none;");
 			},
 			success: function(data){
-				console.log(data.file_path);
+				console.log(data.result);
 				if(data.result != undefined){
-					$('#submit-seq-result-div').prepend("<hr><h4 id=\"p-submit-result\">Result</h4>" + construct_table(data));
-					$('#save-sequence-form-div').removeAttr("style");
 					
-					var fasta_data = "<div id='uploaded_fasta_data' style=\"display:none;\">";
-					for(var i = 0; i < data.fasta.length; i++){
-						fasta_data += `<p>${data.fasta[i]}</p>`;
-					}
-					fasta_data += "</div>";
-					$('#submit-seq-result-div').append(fasta_data);
+					$('#submit-seq-result-div').prepend("<hr><h4 id=\"p-submit-result\">Result</h4>" + construct_table(data));
+					
 
-					if (data.file_path != undefined){
-						var fasta_file_path = `<div id='fasta_file_path' style="display:none;"><p>${data.file_path}</p></div>`;
-						$('#submit-seq-result-div').append(fasta_file_path);
+					if (containSuccess(data.result)){
+						$('#save-sequence-form-div').removeAttr("style");
+						// below is just for appending data for submit the data to database
+						var fasta_data = "<div id='uploaded_fasta_data' style=\"display:none;\">";
+						for(var i = 0; i < data.fasta.length; i++){
+							fasta_data += `<p>${data.fasta[i]}</p>`;
+						}
+
+						fasta_data += "</div>";
+						$('#submit-seq-result-div').append(fasta_data);
+
+						if (data.file_path != undefined){
+							var fasta_file_path = `<div id='fasta_file_path' style="display:none;"><p>${data.file_path}</p></div>`;
+							$('#submit-seq-result-div').append(fasta_file_path);
+						}
 					}
+					
 					
 
 				}else if (data.notice != undefined){
@@ -101,6 +104,16 @@ $(document).ready(function(){
 
 		});
 	});
+
+
+	var containSuccess = function(result){
+		for(var i = 0; i < result.length; i++){
+			if (data.result[i].status == "SUCCESS"){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// for styling 
 	// var style = $('<style>.class { background-color: blue; }</style>');
