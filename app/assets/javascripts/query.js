@@ -99,7 +99,15 @@ $(document).ready(function(){
 				else{
 					$('#waiting-gif').attr("style","visibility:hidden;");
 					$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
-					create_phylocanvas(data.tree, data.highlight, data.group, data.group_number);
+					var current_tree_no = $('#tree-group').find('canvas').length;
+					if (current_tree_no < 5){
+						$('#tree-group').prepend(`<div id=\"phylocanvas-${current_tree_no}\"></div>`);
+						create_phylocanvas(data.tree, data.highlight, data.group, data.group_number,`phylocanvas-${current_tree_no}`);
+					}else{
+						$('#phylocanvas-page-warning').removeAttr("style");
+						$('#phylocanvas-page-warning').text("We only allow max 5 trees; If you wish generate more tree, please try on your local machine.");
+					}
+					
 				}
 				$('#graph-note').removeAttr("style","visibility:hidden;");
 				
@@ -118,7 +126,6 @@ $(document).ready(function(){
 		
 		// getGroupOption();
 		var options = getGroupOption();
-		// console.log(options);
 		var options_element = "";
 		for(var i = 0; i < options.length; i++){
 			options_element += `<option value="${options[i]}">${options[i]}</option>`;
@@ -233,8 +240,9 @@ $(document).ready(function(){
 
 	// sample data: (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F
 	// data_group is json object
-	var create_phylocanvas = function phylocanvas(data,highlight,data_group, group_number) {
-		var tree = Phylocanvas.createTree('phylocanvas');
+	var create_phylocanvas = function phylocanvas(data,highlight,data_group, group_number, tree_name) {
+		// createTree find the div by: document.getElementById(element)
+		var tree = Phylocanvas.createTree(tree_name);
 		tree.setTreeType('circular');
 		tree.load(data);
 
