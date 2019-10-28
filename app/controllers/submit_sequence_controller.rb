@@ -123,8 +123,7 @@ class SubmitSequenceController < ApplicationController
 					query = Bio::FastaFormat.new( fasta_sequence )
 					sequence += "<p>>#{query.definition}</p><br><p>#{query.to_seq.seq}</p><br>"
 				end
-
-
+				
 				send_sequence_to_lab_without_validation(sequence,params[:name],params[:email],params[:institution],params[:publications],params[:organism])
 
 			end
