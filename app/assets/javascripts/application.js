@@ -20,6 +20,8 @@
 
 // Application JS
 //= require query
+//= require simple
+//= require submit_sequence
 
 // Third Party
 //  require pagination.min
@@ -27,6 +29,7 @@
 //= require phylocanvas-quickstart
 //= require html2canvas.min
 //= require blaster.min
+//= require jquery.quickfit
 
 // Always load turbolinks last
 // require turbolinks

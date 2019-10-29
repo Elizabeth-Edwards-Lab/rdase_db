@@ -1,0 +1,47 @@
+/ hr/
+/ #mainimage
+/   = image_tag 'Orthologydb_logo.png', alt: 'RedOrthDB'
+
+.home-banner
+  = image_tag "Orthologydb_logo.png", style: 'height:70%; width:auto;'
+  .banner-text
+    / = image_tag "RDDB_logo.png", style: 'height:70%; width:auto;'
+    .link-bar.one
+      .link-text
+        = link_to "Browse Amino Acid Sequences".html_safe, protein_index_path
+    .link-bar.two
+      .link-text
+        = link_to "Browse Compounds".html_safe, compound_index_path
+    .link-bar.three
+      .link-text
+        = link_to "Blast Your Sequence".html_safe, search_path
+    .link-bar.four
+      .link-text
+        = link_to "Submit Your Sequence".html_safe, submit_sequence_path
+
+.well.about-page-header
+  h3.about-page-header
+    | Welcome to Reductive Dehalogenase DB Version 1.0
+  p#abouttext
+    | The Reductive Dehalogenases Database is a freely available electronic database containing the
+    | largest and most comprehensive set of amino acid sequence and nucleotide sequence of reductive
+    | dehalogenase enzymes.  In 2013, Hug et al. (LINK TO PAPER) developed an ortholog-based
+    | classification system for reductive dehalogenases by defining orthologous groups (OG), in order
+    | to integrate new sequencing data and unify the terminology used, especially for reductive
+    | dehalogenases whose functions are unknown.
+    br/
+    | The Reductive Dehalogenases Database is a tool to help the analysis and facilitate OG-
+    | classification of new reductive dehalogenases.
+    a href="/about"  Read more about the database.
+h3.about-page-header Citing the Reductive Dehalogenases Database
+#abouttext2
+  p#theabouttext
+    | The Reductive Dehalogenases Database is offered to the public as a freely available resource.
+    | Use and re-distribution of the data, in whole or in part, for commercial purposes
+    | requires explicit permission of the authors and explicit acknowledgment of the source
+    | material (Reductive Dehalogenases Database) and the original publication (see below). We ask that
+    | users who download significant portions of the database cite the following paper in
+    | any resulting publications.
+  hr/
+  h4 Please Cite:
+  p 1. J Doe, et al., Sample Paper 2019, Potential Journal
