@@ -1,5 +1,6 @@
 // jQuery(function($){}) and $(document).ready(function(){} are equivalent.
 $(document).ready(function(){
+
 	$('.load-example').on('click', function(){
 		// console.log("load-example clicked");
 		// $('.seq-search-sequence').text("");

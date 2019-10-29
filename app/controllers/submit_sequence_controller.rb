@@ -69,6 +69,7 @@ class SubmitSequenceController < ApplicationController
 		fasta_array = JSON.parse(params[:sequence])
 		
 		if file_name.nil?
+			# save_result_to_db(result_array,fasta_array,uploader_name,uploader_email,organism,reference)
 			status = save_result_to_db(uploading_result,fasta_array, uploader_name, uploader_email)
 		else
 			file_path = Rails.root.join('tmp', 'uploads/', file_name)

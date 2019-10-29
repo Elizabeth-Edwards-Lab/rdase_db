@@ -1,4 +1,20 @@
 #TODO List
+
+2019-10-28
+1. create the staging server after the site is published
+2. make sure the no group can be selected
+3. add characteristics on browsing database
+4. request organism name, ncbi accession number, reference (optional) in submitting annotated stuff => DONE
+5. remove the selection certeria for nt level at 90% => DONE
+6. ask for gene sequence for submitting jobs => PENDING 
+7. prettify the statistics page
+8. create the template for associated compound and strains.
+
+
+
+
+
+PAST
 1. filter database result + add link to each query => done
 3. tree image + discard the sequence with *  => done
 
@@ -123,15 +139,7 @@ For failed sequence, send to lab for further analysis
 
 
 
-2019-10-28
-1. create the staging server after the site is published
-2. make sure the no group can be selected
-3. add characteristics on browsing database
-4. request organism name, ncbi accession number, reference (optional) in submitting annotated stuff
-5. remove the selection certeria for nt level at 90%
-6. ask for gene sequence for submitting jobs 
-7. prettify the statistics page
-8. create the template for associated compound and strains.
+
 
 
 

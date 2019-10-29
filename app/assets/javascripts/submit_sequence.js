@@ -1,5 +1,10 @@
 $(document).ready(function(){
+	$body = $("body");
 
+	$(document).on({
+	    ajaxStart: function() { $body.addClass("loading"); },
+	    ajaxStop: function() { $body.removeClass("loading"); }    
+	});
 
 	$('#public-id').click(function () {
 		// $('#binding-domain').removeAttr('style');
@@ -64,13 +69,13 @@ $(document).ready(function(){
 				$('#save-sequence-form-div').attr("style","display: none;");
 			},
 			success: function(data){
-				console.log(data.result);
 				if(data.result != undefined){
-					
-					$('#submit-seq-result-div').prepend("<hr><h4 id=\"p-submit-result\">Result</h4>" + construct_table(data));
+					$('#selection-info').attr("style", "display: none;");
+					$('#submit-seq-result-div').prepend("<h4 id=\"p-submit-result\">Result</h4><hr>" + construct_table(data));
 					
 
-					if (containSuccess(data.result)){
+					if (containSuccess(data)){
+						console.log("has success");
 						$('#save-sequence-form-div').removeAttr("style");
 						// below is just for appending data for submit the data to database
 						var fasta_data = "<div id='uploaded_fasta_data' style=\"display:none;\">";
@@ -106,9 +111,10 @@ $(document).ready(function(){
 	});
 
 
-	var containSuccess = function(result){
-		for(var i = 0; i < result.length; i++){
-			if (data.result[i].status == "SUCCESS"){
+	var containSuccess = function(data){
+		for(var i = 0; i < data.result.length; i++){
+
+			if (data.result[i].status == "SUCCESS" || data.result[i].status == "NEW"){
 				return true;
 			}
 		}

@@ -15,7 +15,7 @@
 	      <th><%= table_sort_link "Common Name", :header %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
-<!-- 	      <th>Characteristics</th> -->
+	      <th>Characteristics</th>
 	      
 	    </tr>
 
@@ -49,6 +49,7 @@
 
 	        <td><%= pt.header %></td>
 
+	        <!-- display group -->
 	        <% if pt.group.nil? %>
 	        	<td>No Group</td>
 	        <% else %>
@@ -58,13 +59,15 @@
 	        	<% end %>
 	        <% end %>
 
+	        <!-- display organism -->
 	        <% if pt.organism.nil? %>
 	        	<td>No Organism</td>
 	        <% else %>
 	        	<td><%= pt.organism %></td>
 	        <% end %>
 	        
-<!-- 	        <td></td> -->
+
+	        <td><%= pt.protein_name %></td>
 	        
 	        
 	      </tr>

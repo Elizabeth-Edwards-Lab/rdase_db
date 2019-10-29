@@ -18,7 +18,7 @@
 
   	<!-- div for enter sequence -->
     <div id="submit-interface" style="display: none;">
-    	<h3>Submitt Amino Acid Sequence for Annotation</h3>
+    	<h3>Submission</h3>
       <hr>
       <div class="container">
         <div class="row">
@@ -26,12 +26,11 @@
             <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
               <%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div' %>
               <br>
-              
-               <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
+              <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
               <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
               <!-- OR -->
                 <!-- This works only if send data through rails; not ajax -->
-              <%= f.file_field :fasta, class: 'upload-file-btn',disabled: false %>          
+              <%= f.file_field :fasta, class: 'upload-file-btn', disabled: false %>          
             <% end %>
             
           </div>
@@ -40,7 +39,14 @@
           <div class="col">
 
             <div id="selection-info" style="display: none;">
-              
+              <h4>Fasta format</h4>
+              <div class="fasta-box">
+                <p>>[NCBI, RAST or JGI number] <br>[Your Amino Acid Sequence]</p>
+                <p>>WP_012881438 <br>MEMNIYHSTISRRNFMKGLGLSGAALGAATASA<br>PVFHDLDEMITSVPKSTTQHAWWVKERDYEDIT<br>
+                TPVDWTVWSRREALKNPMPPGFAG...</p>
+              </div>
+
+
               <h4>Default Blast Parameters</h4>
               <div class="fasta-box">
                 <table id="default-parameter-table">
@@ -68,12 +74,14 @@
                   </tbody>
                 </table>
               </div>
+              
             </div>
 
             <div id='submit-seq-result-div'>                         
             </div>
 
             <div id='save-sequence-form-div' style="display: none;">
+              <!-- OMG, I didn't use Rails format convention in erb... -->
               <form method="post" action="/save_sequence" id="save-seqeunce">
                 <table id="save-seqeunce-submit-table">
                   <tbody>
@@ -83,8 +91,16 @@
                     </tr>
                     <tr>
                       <td>Email:</td>
-                      <td><input type="text" name="email" type="email" size="30" required><br></td>
+                      <td><input type="email" name="email"  size="30" required><br></td>
                     </tr>
+<!--                     <tr>
+                      <td>Organism:</td>
+                      <td><input type="text" name="organism"  size="30" required><br></td>
+                    </tr>
+                    <tr>
+                      <td>Reference:</td>
+                      <td><input type="text" name="reference" placeholder="(optional)" size="30"><br></td>
+                    </tr> -->
                     <tr>
                       <td></td>
                       <td style="float: right;"><input value="Save To Database" type="submit" class="btn btn-primary" /><br></td>
@@ -172,6 +188,8 @@
 
   </div>
 </div>
+
+<div class="modal"><!-- Place at bottom of page --></div>
 
 
 

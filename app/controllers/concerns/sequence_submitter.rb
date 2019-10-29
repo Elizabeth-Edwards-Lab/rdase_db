@@ -119,58 +119,6 @@ module SequenceSubmitter
   end
 
 
-  def check_alignment_identity_at_nt_level(aa_sequence,database,threshold) 
-
-    blast_options = { 'e' => 0.10 }
-    blast_options = blast_options.collect { |key, value| value.present? ? "-#{key} #{value}" : nil }.compact.join(" ")
-    blaster = Bio::Blast.local('tblastn', "#{Rails.root}/index/blast/#{database}",blast_options)
-    nt_report = blaster.query(aa_sequence)
-
-    dna_level_hit_90 = Array.new
-    nt_report.each do |hit|
-      match_identity = hit.identity.to_f / hit.query_len.to_f * 100
-      if match_identity >= threshold
-        dna_level_hit_90 << hit.target_def  
-      end
-    end
-
-    return dna_level_hit_90
-
-  end
-
-  # This function check the group in gene level
-  # aa_sequence => original user input sequence
-  # identity_group => Array contains previous identified group
-  def get_final_identified_group(aa_sequence,identity_group,group_hash)
-    final_identified_group = Array.new # this is final check for the similarity
-    dna_level_hit_90 = check_alignment_identity_at_nt_level(aa_sequence,"reductive_dehalogenase_gene", 90)  # check for the sequence that hit level 90
-
-    if dna_level_hit_90.length > 0
-      identity_group.each do |group_number|
-        final_check_pass = true
-        nt_definition_array = group_hash[group_number]
-        if nt_definition_array.length == 1
-          if dna_level_hit_90.include? nt_definition_array[0]
-            final_check_pass = true
-          end
-        else # nt_definition_array.length > 1
-          nt_definition_array.each do |nt_definition|
-            if dna_level_hit_90.include? nt_definition
-              next
-            else
-              final_check_pass = false
-            end
-          end
-        end
-
-        if final_check_pass == true
-          final_identified_group << group_number
-        end
-      end # end of identity_groups.each do |group_number|
-    end
-
-    return final_identified_group
-  end
 
   # self-defined data structure
   def collection(header,status,msg,group=nil)
@@ -185,7 +133,7 @@ module SequenceSubmitter
   # b. (if a is yes) check if all representitive share 90% percentage
   #   if yes: confirm with nt/gene level
   #   if no: return the result as: not all representive of the group share 90% of database
-  # c. (if b is yes) confirm with nt/gene level
+  # c. (if b is yes) confirm with nt/gene level => this check has been removed based on meeting on 2019-10-28
   #   if yes: return the group number and add the sequence to database if user has the accession number
   #   if no: return the result as: it shares representive of the group share 90% of database at aa level, but not at nt level.
   # TODO: add the new group situation
@@ -202,7 +150,6 @@ module SequenceSubmitter
     aa_threshold = 0.9
     
     begin
-
       
       query = Bio::FastaFormat.new( sequence )
       query_name = query.definition
@@ -225,41 +172,35 @@ module SequenceSubmitter
       blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
       aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
       aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
-      identity_with_90 = check_alignment_identity(aa_report, 90)
+      identity_with_90 = check_alignment_identity(aa_report, 90)  # identity_with_90 contains all the header that share >=90% identity
 
       # group_hash => group : Array {seq_definition}
       # reversed_group_hash = seq_definition : group
       if identity_with_90.length > 0
         # group_hash, reversed_group_hash = get_group_sequence_table
-        identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash)
+        identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level
+      
       else
-        # add the new group selection criteria
+        # if identity_with_90.length == 0; no RD with ~=90% identity => create new RD groups
+
         if aa_similarity >= aa_threshold
           last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
           new_group_number = last_group + 1
           result_array << collection(query_name,"NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number)
         else
-
-          result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of any sequences in database at amino acid level.")
+          result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.")
         end
 
         return result_array
       end
 
       if identified_group_at_aa_level.length > 0
-        final_identified_group = get_final_identified_group(sequence.seq,identified_group_at_aa_level,group_hash)
+        result_array << collection(query_name, "SUCCESS","Your sequence belongs RD group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","))
       else
-        result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% of representatives of the group at amino acid level.")
-        return result_array
+        result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.")
       end
 
-      if final_identified_group.length > 0
-        result_array << collection(query_name, "SUCCESS","Your sequence belongs RD group: #{final_identified_group.join(",")}",final_identified_group.join(","))
-      else
-        result_array << collection(query_name, "FAILED","Your sequence shares 90\% of representatives of the group at amino acid level; but not at nt level.")
-        return result_array
-      end
-
+      return result_array
       
     rescue => exception
       # puts exception
@@ -285,6 +226,7 @@ module SequenceSubmitter
 
     end
     # add file location at the end, and pop the last items at controller
+    uploading_result[0]["status"] = "SUCCESS"
     return uploading_result
   end
 
@@ -302,7 +244,7 @@ module SequenceSubmitter
       begin
         # save to database; only for those will have either existing group or new group number
         # the result_array is json, not ruby hash
-        if result["status"] == "SUCCESS" # only store successful sequence
+        if result["status"] == "SUCCESS" or result["status"] == "NEW" #only store successful sequence
           if result["group"].present?
 
             groups = result["group"].split(",") # likely only have one group. so if more than one group, save them separately 
