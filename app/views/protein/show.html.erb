@@ -98,17 +98,18 @@
 <hr>
 <h4>Interactive Compounds</h4>
 <div id = "tablediv">
-  <table>
+  <div class="well-panel">
     <% if @compound.length > 0 %>
 
       <% @compound.each do |comp| %>
-        <td><%= link_to "#{comp.name}", compound_path(comp.id), :id => 'button-ish' %></td>
+        <%= render :partial => 'compound_card', :locals => { :compound => comp} %>
+        <!-- <p><%# link_to "#{comp.name}", compound_path(comp.id), :id => 'button-ish' %></p> -->
       <% end %>
 
     <% else %>
-      <td> Not Available </td>
+      <p> Not Available </p>
     <% end %>
-  </table>
+  </div>
 </div>
 
 

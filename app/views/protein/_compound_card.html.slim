@@ -1,0 +1,20 @@
+.card
+  .card-header
+    = link_to "#{compound.name}".html_safe, compound
+  .card-body
+    div.container
+      div.row
+        div.col-4
+          - if compound.image.attached?
+            = image_tag(compound.image)
+          - else
+            = image_tag("Photo-Not-Available-Image.jpg", :style => "width:130px;height:130px;")
+        div.col-8
+          p
+            | Compound Name: #{compound.name}
+          p
+            | Compound Formula: #{compound.formula}
+          p
+            | Average Mass: #{compound.average_mass}
+          p
+            = link_to "More Infomation".html_safe, compound

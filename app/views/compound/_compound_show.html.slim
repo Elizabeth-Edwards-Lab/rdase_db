@@ -148,29 +148,16 @@ table.compound-table.content-table.table-condensed
     tr
       th HET ID
       td = nah bio_link_out :het, compound.het_id
-    / tr
-    /   th Wikipedia ID
-    /   td = nah bio_link_out :wikipedia, compound.wikipedia_id
 
     = show_header 'Associated Strains', compound
     table
-      - protein.each do |pro|
-        / create the strain card // same for strain => create compound card
-        br
-        = link_to "#{pro.header}", protein_path(pro.id), :id => 'show-button'
 
-
-
-    / = table_header_divider 'References', id: 'references'
-    / tr
-    /   th Synthesis Reference
-    /   td citations
-    / tr
-    /   th General Reference
-    /   td citations
-    / tr
-    /   th Content Reference
-    /   td ContentReference
+      .well-panel
+        - if @protein.length > 0
+          - @protein.each do |prot|
+            = render :partial => 'protein_card', :locals => { :protein => prot}
+        - else
+          p Not Available
 
 
 

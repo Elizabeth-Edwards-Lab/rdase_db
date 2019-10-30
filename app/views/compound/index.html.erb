@@ -28,7 +28,11 @@
 	      	<!-- <%= cp.public_id %> -->
 	        <td><%= link_to "#{cp.public_id}", compound_path(cp.id), :id => 'button-ish' %></td>
 	        <td><%= cp.name %></td>
-	        <td><%= image_tag(cp.image) if cp.image.attached? %> </td>
+	        <% if cp.image.attached? %>
+	        	<td><%= image_tag(cp.image) %></td>
+	        <% else %>
+	        	<td><%= image_tag("Photo-Not-Available-Image.jpg", :style => "width:130px;height:130px;") %></td>
+	        <% end %>
 	        
 	      </tr>
 	    <% end %>
