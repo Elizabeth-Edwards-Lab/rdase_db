@@ -18,9 +18,7 @@ class QueryController < ApplicationController
     params[:filters] ||= {}
 
     if params[:commit].present?
-      # do parameter validation
-      # sequence can't be too long
-      # etc.
+
       if params[:sequence].present?
 
         # do validation first to make sure the the sequence is ok for blasting
@@ -118,15 +116,8 @@ class QueryController < ApplicationController
           end
         end
 
-
-        # puts "@existing_matched_group => #{@existing_matched_group}"
-        # puts "@is_exist_chain => #{@is_exist_chain}"
-
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
 
-        # for first sequence in aa_fasta
-        # note: 0.9 for 11,1 is too high; 0.8 is good
-        # same for tblastn, 0.8 is good
         if @aa_similarity > 0.0
           
           # load the group
@@ -162,13 +153,6 @@ class QueryController < ApplicationController
           end # end protein_sequence.each do |single_entry|
 
           # identify the group of orth
-          # If your sequence shares greater than or equal to 90% pairwise ID are the amino acid level to a current RdhA database sequence
-          # query_sequence have low e-value with 90% of amino acid sequence in database?
-          # or query_sequence has 90% similarity (identity) with all sequence in database?
-
-          # identity_with_90 contains all the sequence header with 90% identity
-          # if the match identity is greater than 90%, add to identity_with_90 array
-          # in order to find the RD_OG group, find all match_identity first
           identity_with_90 = Array.new 
           aa_report.each do |hit|
             match_identity = (hit.identity * 100) / hit.query_len
@@ -177,37 +161,26 @@ class QueryController < ApplicationController
               identity_with_90 << hit.target_def
             end
 
-          end # end of aa_report.each do |hit|
-          # puts "identity_with_90 definition => #{identity_with_90.inspect}"
+          end
 
 
-          identity_groups = Array.new  # identity_group contains the eligiable group number
+          @identity_groups = Array.new  # identity_group contains the eligiable group number
           
           # if there is no sequence that is identity with 90%
           # conclude no group matched and but greater 80% similarity with entire database in AA level
           # just run the tree feature
           if identity_with_90.length > 0
-            # for each definition, get the its group_number
-            # if it is just one sequence group, then the query is belong to that group
-            # add to identity_groups
-            # else if the group has more than one sequence, check if each one share 90% of identity
             identity_with_90.each do |definition|
               group_number = reversed_group_hash[definition]
-              # puts group_number
               if !group_number.blank? && !group_number.nil?
                 is_belong_to_group = true
-                # puts "group_hash[group_number] => #{group_hash[group_number]}"
-                # puts "group_hash[group_number].length => #{group_hash[group_number].length}"
                 if group_hash[group_number].length == 1
                   # if the group just have one member, then if the query is 90% identical to this member
                   # then the query belong to the group
                   is_belong_to_group = true
 
-                else 
-                  # if one of them is not included, then the query doesn't belong to the group
-                  # retrieve all the member in this group
-                  # check if all the member is in identity_with_90
-                  # puts "group_hash[group_number] => #{group_number[group_number]}"
+                else
+
                   group_hash[group_number].each do |s_identity|
                     
                     if identity_with_90.include? s_identity
@@ -216,105 +189,25 @@ class QueryController < ApplicationController
                       is_belong_to_group = false
                     end
                   end
-                end # end of if group_hash[group_number].length == 1
+                end
 
                 if is_belong_to_group == true
-                  if !identity_groups.include? group_number
-                    identity_groups << group_number
+                  if !@identity_groups.include? group_number
+                    @identity_groups << group_number
                   end
-                end # end of is_belong_to_group == true
-              end # end of if !group_number.blank? && !group_number.nil?
-              # should create a new group based on average aa sequence similiarity larger than 90%
-              # yes, this logic is at later processing
+                end 
 
-              # if remove the step check if all other sequences (at same group) also share match_identity with greater than 90.
-              # identity_groups << reversed_group_hash[definition]
-            end # end of identity_with_90.each do |identity|
+              end 
 
-              
-
-            # puts "identity_groups => #{identity_groups}"
-
-            @final_identity_groups = Array.new # this is final check for the similarity
-            @append_seq_to_relative_rd_og = false
-            @append_seq_to_relative_rd_og_without_group = false
-            @append_seq_to_new_rd_og = false
-
-            # if the sequence belong to one group, double check with DNA level
-            # to check DNA level, run tblastn (convert AA to NT and against NT database)
-            # and only check for the sequence within group
-            # (how to construct new nt blast database?) you can't simply translate AA to NT
-            if identity_groups.length > 0
-
-              dna_level_hit_90 = Array.new
-              nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
-              # @nt_similarity = nt_report.hits().length.to_f / nt_report.db_num().to_f
-
-              nt_report.each do |hit|
-                match_identity = (hit.identity * 100) / hit.query_len
-                # puts "#{hit.target_def} => #{match_identity}"
-                if match_identity >= 90
-                  dna_level_hit_90 << hit.target_def  
-                end
-              end
-
-              # if the dna_level_hit_90 has more than one sequence, check what they are 
-              # dna_level_hit_90 contains matching definition
-              # if pass final_check_pass, then add to @final_identity_groups for showing to user
-              # group_hash => hash each group for all avaiable headers
-              # identity_groups contains all the matched group number at AA level
-              if dna_level_hit_90.length > 0
-                # if has some more than 90 check each group
-                # for each identity_groups
-                identity_groups.each do |group_number|
-                  final_check_pass = true
-                  nt_definition_array = group_hash[group_number]
-                  if nt_definition_array.length == 1
-                    if dna_level_hit_90.include? nt_definition_array[0]
-                      final_check_pass = true
-                    end
-                  else # nt_definition_array.length > 1
-                    nt_definition_array.each do |nt_definition|
-                      if dna_level_hit_90.include? nt_definition
-                        next
-                      else
-                        final_check_pass = false
-                      end
-                    end
-                  end
-
-                  if final_check_pass == true
-                    @final_identity_groups << group_number
-                  end
-                end # end of identity_groups.each do |group_number|
-              end # end of dna_level_hit_90.length > 1
-
-
-              if @final_identity_groups.length > 0
-                # add to database 
-                @append_seq_to_relative_rd_og = true
-              else
-                @append_seq_to_relative_rd_og_without_group = true
-
-              end
-
-            else # if identity_groups.length == 0 (share more than 80% of all aa sequence; but
-                 #                                  doesn't belong to any groups)
-              @append_seq_to_csv = true # just save to database, do nothing
-
-
-            end
-
-          else # identity_with_90.length == 0 # doesn't belong to any group
-               
-            # save to csv/xlsx but not database
-            @append_seq_to_csv = true
+            end 
 
           end # end of identity_with_90.length > 0
+
 
         end # end of @aa_similarity > 0.80
 
         break # only parse one fasta file
+
       end # end of fasta_array.each
     end
 
@@ -381,6 +274,7 @@ class QueryController < ApplicationController
         blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
         aa_report = blaster.query(@sequence.seq)
         @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+
         @is_exist_chain = false
         @existing_matched_group = nil
         aa_report.each do |hit|
@@ -392,6 +286,7 @@ class QueryController < ApplicationController
             end
           end
         end
+        
         @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
         if @aa_similarity > 0.0
           group_hash = Hash.new
@@ -423,7 +318,8 @@ class QueryController < ApplicationController
               identity_with_90 << hit.target_def
             end
           end # end of aa_report.each do |hit|
-          identity_groups = Array.new  # identity_group contains the eligiable group number
+
+          @identity_groups = Array.new  # identity_group contains the eligiable group number
           if identity_with_90.length > 0
             identity_with_90.each do |definition|
               group_number = reversed_group_hash[definition]
@@ -441,65 +337,21 @@ class QueryController < ApplicationController
                   end
                 end # end of if group_hash[group_number].length == 1
                 if is_belong_to_group == true
-                  if !identity_groups.include? group_number
-                    identity_groups << group_number
+                  if !@identity_groups.include? group_number
+                    @identity_groups << group_number
                   end
                 end # end of is_belong_to_group == true
               end # end of if !group_number.blank? && !group_number.nil?
             end # end of identity_with_90.each do |identity|
-            @final_identity_groups = Array.new # this is final check for the similarity
-            @append_seq_to_relative_rd_og = false
-            @append_seq_to_relative_rd_og_without_group = false
-            @append_seq_to_new_rd_og = false
-            if identity_groups.length > 0
-              dna_level_hit_90 = Array.new
-              nt_report = run_tblastn(@sequence.seq,"reductive_dehalogenase_gene")
-              nt_report.each do |hit|
-                match_identity = (hit.identity * 100) / hit.query_len
-                if match_identity >= 90
-                  dna_level_hit_90 << hit.target_def  
-                end
-              end
-              if dna_level_hit_90.length > 0
-                identity_groups.each do |group_number|
-                  final_check_pass = true
-                  nt_definition_array = group_hash[group_number]
-                  if nt_definition_array.length == 1
-                    if dna_level_hit_90.include? nt_definition_array[0]
-                      final_check_pass = true
-                    end
-                  else # nt_definition_array.length > 1
-                    nt_definition_array.each do |nt_definition|
-                      if dna_level_hit_90.include? nt_definition
-                        next
-                      else
-                        final_check_pass = false
-                      end
-                    end
-                  end
-                  if final_check_pass == true
-                    @final_identity_groups << group_number
-                  end
-                end # end of identity_groups.each do |group_number|
-              end # end of dna_level_hit_90.length > 1
-              if @final_identity_groups.length > 0
-                @append_seq_to_relative_rd_og = true
-              else
-                @append_seq_to_relative_rd_og_without_group = true
-              end
-            else # if identity_groups.length == 0 (share more than 80% of all aa sequence; but
-              @append_seq_to_csv = true # just save to database, do nothing
-            end
-          else # identity_with_90.length == 0 # doesn't belong to any group
-            @append_seq_to_csv = true
-          end # end of identity_with_90.length > 0
+          end
 
         end # end of @aa_similarity > 0.80
 
+        
         break # only parse one fasta file
       end # end of fasta_array.each
       
-    else # if params[:commit].present? is false
+    else
       redirect_to :controller => 'query', :action => 'search'
     end
 
@@ -507,8 +359,6 @@ class QueryController < ApplicationController
 
   # Create the phylogenies tree
   def phylogenies
-    # puts "params => #{params.inspect}"
-    # try to get params[:sequence] first. If nil, means new page is rendered
     raw_sequence = params[:sequence]
     if raw_sequence == "undefined"
       raw_sequence = params[:form_sequence]
@@ -522,22 +372,7 @@ class QueryController < ApplicationController
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
 
-    all_sequence = extract_sequence_for_tree(params)
-    
-    # all_sequence = nil
-    # all_sequence = CustomizedProteinSequence.all
-    # number_of_group = all_sequence.distinct.pluck(:group).length - 1 # remove null
-    
-    # if params[:group] != "" and params[:organism] == ""
-    #   all_sequence = CustomizedProteinSequence.where(:group => params[:group])
-    # elsif params[:group] == "" and params[:organism] != ""
-    #   all_sequence = CustomizedProteinSequence.where(:organism => params[:organism])
-    # elsif params[:group] != "" and params[:organism] != ""
-    #   all_sequence = CustomizedProteinSequence.where(:group => params[:group], :organism => params[:organism])
-    # else
-    #   all_sequence = CustomizedProteinSequence.all
-    # end
-
+    all_sequence = extract_sequence_for_tree(params)  # get desired sequence based on user options
     number_of_group = all_sequence.distinct.pluck(:group).length # get number of unique groups
 
     # obtain group information for colouring and marking the node

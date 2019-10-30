@@ -1,23 +1,19 @@
-/ hr/
-/ #mainimage
-/   = image_tag 'Orthologydb_logo.png', alt: 'RedOrthDB'
-
 .home-banner
   = image_tag "Orthologydb_logo.png", style: 'height:70%; width:auto;'
   .banner-text
     / = image_tag "RDDB_logo.png", style: 'height:70%; width:auto;'
     .link-bar.one
       .link-text
-        = link_to "Browse Amino Acid Sequences".html_safe, protein_index_path
+        = link_to "Browse Amino Acid Sequences".html_safe, protein_index_path, style: 'font-size:15px;'
     .link-bar.two
       .link-text
-        = link_to "Browse Compounds".html_safe, compound_index_path
+        = link_to "Browse Compounds".html_safe, compound_index_path, style: 'font-size:15px;'
     .link-bar.three
       .link-text
-        = link_to "Blast Your Sequence".html_safe, search_path
+        = link_to "Blast Your Sequence".html_safe, search_path, style: 'font-size:15px;'
     .link-bar.four
       .link-text
-        = link_to "Submit Your Sequence".html_safe, submit_sequence_path
+        = link_to "Submit Your Sequence".html_safe, submit_sequence_path, style: 'font-size:15px;'
 
 .well.about-page-header
   h3.about-page-header
