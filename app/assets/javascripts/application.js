@@ -22,7 +22,6 @@
 //= require query
 //= require simple
 //= require submit_sequence
-//= require protein
 
 // Third Party
 //  require pagination.min
