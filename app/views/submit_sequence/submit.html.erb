@@ -3,16 +3,17 @@
 
 
   	<div class="container decision-tree">
-  		<h3>Submission Rules</h3>
-  		<p>
-  			In order to add your amino acid sequence to our database, you have to make sure your sequence(s) is annotated by NCBI, RAST or JGI as a putative reductive dehalogenase and with accession no.<br>
-  			Also, check if your sequence contain FeS binding domains and TAT signal peptide.<br>
-  			We appreciated all the submissions.
-  		</p>
-  		<button id="public-id"> My sequence(s) have public domain number (e.g. NCBI Accession No.) <strong>AND/OR</strong> My sequence(s) contain FeS binding domains and TAT signal peptide</button>
-  		<!-- <button id="binding-domain" style="display: none;"> My sequence(s) contain FeS binding domains and TAT signal peptide</button> -->
-      <br>OR<br>
-      <button id="send-to-lab">Send Email to Elizabeth Edwards Lab</button>
+      <h4>Submission</h4>
+      <hr>
+      <div id="public-id-info-div">
+    		<p><strong>Does your sequence(s) have public domain number (e.g. NCBI Accession No.)?</strong></p>
+        <button id="public-id-yes">Yes</button> &nbsp;&nbsp; <button id="public-id-no">No</button>
+      </div>
+
+      <div id="binding-domain-info-div" style="display: none;">
+        <p><strong>Does your sequence(s) contain FeS binding domains and TAT signal peptide?</strong></p>
+        <button id="binding-domain-yes">Yes</button> &nbsp;&nbsp; <button id="binding-domain-no">No</button>
+      </div>
 
   	</div>
 
@@ -28,8 +29,6 @@
               <br>
               <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
               <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
-              <!-- OR -->
-                <!-- This works only if send data through rails; not ajax -->
               <%= f.file_field :fasta, class: 'upload-file-btn', disabled: false %>          
             <% end %>
             

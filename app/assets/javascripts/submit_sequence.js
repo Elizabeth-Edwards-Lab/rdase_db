@@ -6,20 +6,29 @@ $(document).ready(function(){
 	    ajaxStop: function() { $body.removeClass("loading"); }    
 	});
 
-	$('#public-id').click(function () {
-		// $('#binding-domain').removeAttr('style');
-		$('#public-id').attr('style',"display: none;");
+
+	$('#public-id-no').click(function(){
+		// send to lab 
+		$('.container.decision-tree').attr('style',"display: none;");
+		$('#submit-to-lab-interface').removeAttr('style');
+
+	});
+
+	$('#public-id-yes').click(function(){
+		$('#public-id-info-div').attr('style',"display: none;");
+		$('#binding-domain-info-div').removeAttr('style');
+	})
+
+	$('#binding-domain-yes').click(function(){
+		$('.container.decision-tree').attr('style',"display: none;");
 		$('#submit-interface').removeAttr('style');
 		$('#selection-info').removeAttr('style');
+	})
+
+	$('#binding-domain-no').click(function(){
 		$('.container.decision-tree').attr('style',"display: none;");
-		
-	});
-
-
-	$('#send-to-lab').click(function () {
 		$('#submit-to-lab-interface').removeAttr('style');
-		$('.container.decision-tree').attr('style',"display: none;");
-	});
+	})
 
 	
 	// https://stackoverflow.com/questions/8423217/jquery-checkbox-checked-state-changed-event

@@ -226,7 +226,7 @@ module SequenceSubmitter
 
     end
     # add file location at the end, and pop the last items at controller
-    uploading_result[0]["status"] = "SUCCESS"
+    # uploading_result[0]["status"] = "SUCCESS"
     return uploading_result
   end
 
