@@ -68,7 +68,7 @@
       <th>Amino Acid Sequence</th>
       <td>
         <% if @protein_s.chain.present? %>
-          <em class="sequence-wrap" ><%= @protein_s.chain %></em>
+          <em class="sequence-wrap" ><%= style_chain(@protein_s.chain) %></em>
         <% else %>
           <%= nah %>
         <% end %>
@@ -86,7 +86,7 @@
       <th>Nucleotide Sequence</th>
       <td>
         <% if !@gene_s.nil? and @gene_s.chain.present? %>
-          <em class="sequence-wrap" ><%= @gene_s.chain %></em>
+          <em class="sequence-wrap" ><%= style_chain(@gene_s.chain) %></em>
         <% else %>
           <%= nah %>
         <% end %>

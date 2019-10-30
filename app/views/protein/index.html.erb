@@ -66,9 +66,12 @@
 	        	<td><%= pt.organism %></td>
 	        <% end %>
 	        
-
-	        <td><%= pt.protein_name %></td>
-	        
+	        <!-- display characteristics -->
+	        <% if contain_compound(pt.id) == true %>
+	        	<td>Yes</td>
+	        <% else %>
+	        	<td></td>
+	        <% end %>
 	        
 	      </tr>
 	    <% end %>

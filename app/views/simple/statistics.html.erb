@@ -6,43 +6,43 @@
 
 	<table class="statistics-table">
 		<tr>
-			<th>Sequence Type</th>
+			<th>Statistics Type</th>
 			<th>Number of Sequences</th>
 		</tr>
 
 		<tr>
-			<td>Original amino acid sequence</td>
-			<td><%= @number_of_original_aa_sequence %></td>
+			<td>Last updated amino acid sequences</td>
+			<td class="stats-num"><%= @number_of_original_aa_sequence %></td>
 		</tr>
 
 		<tr>
-			<td>Original nucleotide sequence</td>
-			<td><%= @number_of_original_nt_sequence %></td>
+			<td>Last updated nucleotide sequences</td>
+			<td class="stats-num"><%= @number_of_original_nt_sequence %></td>
 		</tr>
 
 		<tr>
-			<td>Customized amino acid sequence</td>
-			<td><%= @number_of_cus_aa_sequence %></td>
+			<td>Current number of amino acid sequences in database</td>
+			<td class="stats-num"><%= @number_of_cus_aa_sequence %></td>
 		</tr>
 
 		<tr>
-			<td>Customized nucleotide sequence</td>
-			<td><%= @number_of_cus_nt_sequence %></td>
+			<td>Current number of nucleotide sequences in database</td>
+			<td class="stats-num"><%= @number_of_cus_nt_sequence %></td>
 		</tr>
 
 		<tr>
-			<td>Total Number Of RD Group</td>
-			<td><%= @number_of_group %></td>
+			<td>Total Number Of RD Groups</td>
+			<td class="stats-num"><%= @number_of_group %></td>
 		</tr>
 
 		<tr>
-			<td>Total Number Of RD Organism</td>
-			<td><%= @number_of_organism %></td>
+			<td>Total Number Of RD Organisms</td>
+			<td class="stats-num"><%= @number_of_organism %></td>
 		</tr>
 
 		<tr>
 			<td> Total Number of Compounds</td>
-			<td> <%= @number_of_compound %> </td>
+			<td class="stats-num"> <%= @number_of_compound %> </td>
 		</tr>
 
 	</table>

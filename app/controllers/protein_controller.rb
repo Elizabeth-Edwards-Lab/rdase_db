@@ -4,6 +4,7 @@ class ProteinController < ApplicationController
   # SortParamsParser is for sort_table_link
   include SortParamsParser
   include QueryLogic
+  helper ProteinHelper
 
   def download_filtered_result_fasta
     accession = params[:accession_no]
