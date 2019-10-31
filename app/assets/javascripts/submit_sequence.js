@@ -70,7 +70,7 @@ $(document).ready(function(){
 			$('.upload-div').removeAttr('placeholder');
 		}
 	});
-
+	
 
 	// this ajax request overwrite the rails default parameter passing
 	// this ajax is for submit sequence to annotate

@@ -1,5 +1,14 @@
 #TODO List
 
+
+2019-10-31
+1. ask for gene sequence for submitting jobs
+2. make filter can select the No Group options (optimize the filter function)
+3. make user submit accession_no + organism
+
+
+
+
 2019-10-28
 1. create the staging server after the site is published => DONE
 2. make sure the no group can be selected => DONE

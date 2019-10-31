@@ -75,10 +75,12 @@ class ProteinController < ApplicationController
         # protein = CustomizedProteinSequence.where("header like ? AND header like ? AND customized_protein_sequences.group like ? AND organism like ?", 
         if !accession.present? and !header.present? and !group.present? and !organism.present?
           # no filter certiera given, sort by default (which is sort by group)
+          puts "nothing present"
           @protein = CustomizedProteinSequence.order(group: :ASC).limit(25).page(params[:page])
           
         elsif accession.present? or header.present? or group.present? or organism.present?
           # filter certiera is given
+          puts "one thing present"
           @protein = protein_index_just_filter(params)
 
         end
