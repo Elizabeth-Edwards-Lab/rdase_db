@@ -2,7 +2,7 @@
 
 2019-10-28
 1. create the staging server after the site is published => DONE
-2. make sure the no group can be selected => Working on it
+2. make sure the no group can be selected => DONE
 3. add characteristics on browsing database  => DONE
 4. request organism name, ncbi accession number, reference (optional) in submitting annotated stuff => PENDING
 5. remove the selection certeria for nt level at 90% => DONE

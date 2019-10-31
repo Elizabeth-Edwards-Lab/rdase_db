@@ -7,6 +7,8 @@ $(document).ready(function(){
 	});
 
 
+
+	// decision tree button selection; will render with different contents
 	$('#public-id-no').click(function(){
 		// send to lab 
 		$('.container.decision-tree').attr('style',"display: none;");
@@ -29,21 +31,34 @@ $(document).ready(function(){
 		$('.container.decision-tree').attr('style',"display: none;");
 		$('#submit-to-lab-interface').removeAttr('style');
 	})
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	
 	// https://stackoverflow.com/questions/8423217/jquery-checkbox-checked-state-changed-event
 	// detect if the checkbox is changed
-	$(".upload-file-btn").change(function() {
-		if( $('.upload-file-btn').get(0).files.length >= 1){
-			$('.upload-div').val('');
-			$('.btn.btn-primary.upload-btn').text("Upload with file");
-			$('.upload-div').attr('disabled', true);
-			$('.upload-div').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
+	$("#upload-file-btn-aa").change(function() {
+		if( $('#upload-file-btn-aa').get(0).files.length >= 1){
+			$('#upload-div-aa').val('');
+			$('#upload-div-aa').attr('disabled', true);
+			$('#upload-div-aa').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
 		}else{
-			$('.upload-div').attr('disabled', false);
-			$('.upload-div').removeAttr('placeholder');
+			$('#upload-div-aa').attr('disabled', false);
+			$('#upload-div-aa').removeAttr('placeholder');
 		}
 	});
+
+	$("#upload-file-btn-nt").change(function() {
+		if( $('#upload-file-btn-nt').get(0).files.length >= 1){
+			$('#upload-div-nt').val('');
+			$('#upload-div-nt').attr('disabled', true);
+			$('#upload-div-nt').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
+		}else{
+			$('#upload-div-nt').attr('disabled', false);
+			$('#upload-div-nt').attr('placeholder',"Optional. We only evaluate your amino acid sequences.\nPlease use the header name that match your amino acid sequences.");
+		}
+	});
+	//////////////////////////////////////////////////////////////////////////////////////////
+
 
 	$(".upload-file-btn-direct-lab").change(function() {
 		if( $('.upload-file-btn-direct-lab').get(0).files.length >= 1){

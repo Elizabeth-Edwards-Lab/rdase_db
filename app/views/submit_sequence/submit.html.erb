@@ -26,11 +26,26 @@
         <div class="row">
           <div class="col">
             <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
-              <%= f.text_area :sequence, :rows => 30, :cols => 80, class: 'upload-div' %>
-              <br>
-              <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
-              <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
-              <%= f.file_field :fasta, class: 'upload-file-btn', disabled: false %>          
+              <div>
+                <h5>Animo Acid Sequence(s)</h5>
+                <%= f.text_area :sequence, class: 'upload-div', :id => "upload-div-aa" %>
+                <br>
+                <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
+                <%= f.file_field :fasta, class: 'upload-file-btn', :id => "upload-file-btn-aa", disabled: false %>
+                <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
+              </div>
+
+              <!-- <hr> -->
+              
+              <!-- <div>
+                <h5>Nucleotide Sequence(s)</h5>
+                <%# f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", :placeholder => "Optional. We only evaluate your amino acid sequences.\nPlease use the header name that match your amino acid sequences. " %>
+                <br>
+                <%# f.file_field :nt_fasta, class: 'upload-file-btn', :id => "upload-file-btn-nt", disabled: false %>
+              </div> -->
+
+              
+
             <% end %>
             
           </div>

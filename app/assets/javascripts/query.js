@@ -102,7 +102,7 @@ $(document).ready(function(){
 					$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
 					var current_tree_no = $('#tree-group').find('canvas').length;
 					
-					if (current_tree_no < 10){
+					if (current_tree_no < 5){
 						$('#tree-group').prepend(`<div id=\"phylocanvas-${current_tree_no}\"></div>`);
 						create_phylocanvas(data.tree, data.highlight, data.group, data.group_number,`phylocanvas-${current_tree_no}`);
 					}else{
