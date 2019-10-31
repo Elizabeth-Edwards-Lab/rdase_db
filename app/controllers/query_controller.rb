@@ -152,6 +152,7 @@ class QueryController < ApplicationController
 
           end # end protein_sequence.each do |single_entry|
 
+
           # identify the group of orth
           identity_with_90 = Array.new 
           aa_report.each do |hit|
@@ -311,6 +312,9 @@ class QueryController < ApplicationController
               end
             end
           end # end protein_sequence.each do |single_entry|
+
+
+
           identity_with_90 = Array.new 
           aa_report.each do |hit|
             match_identity = (hit.identity * 100) / hit.query_len
@@ -371,8 +375,10 @@ class QueryController < ApplicationController
     current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S_%L").gsub("/","_").gsub(" ","_").gsub(":","_")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
-
+    puts "params.inspect => #{params.inspect}"
     all_sequence = extract_sequence_for_tree(params)  # get desired sequence based on user options
+    puts "all_sequence length => #{all_sequence.length}"
+
     number_of_group = all_sequence.distinct.pluck(:group).length # get number of unique groups
 
     # obtain group information for colouring and marking the node

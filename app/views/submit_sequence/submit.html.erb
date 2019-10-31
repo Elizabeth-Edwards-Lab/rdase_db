@@ -5,6 +5,7 @@
   	<div class="container decision-tree">
       <h4>Submission</h4>
       <hr>
+      <p>If you wish to submit nucleotide sequence, please send email to our lab at <a href="/contact">here</a>.</p>
       <div id="public-id-info-div">
     		<p><strong>Does your sequence(s) have public domain number (e.g. NCBI Accession No.)?</strong></p>
         <button id="public-id-yes">Yes</button> &nbsp;&nbsp; <button id="public-id-no">No</button>
@@ -140,12 +141,12 @@
               <table>
                 <tr>
                   <td>Name</th>
-                  <td><%= f.text_field :name, :size => "40", placeholder: "Your Name (Required) " %></td>
+                  <td><%= f.text_field :name, :size => "40", placeholder: "Your Name (Required)", :required => true %></td>
                 </tr>
                 <tr>
                   <td>Email</th>
                     <!-- ,:required=>true -->
-                  <td><%= f.text_field :email, :size => "40", placeholder: "example@abc.com (Required) ", :type=>"email" %></td>
+                  <td><%= f.text_field :email, :size => "40", placeholder: "example@abc.com (Required) ", :type=>"email", :required => true %></td>
                 </tr>
                 <tr>
                   <td>Institution</th>
@@ -158,6 +159,10 @@
                 <tr>
                   <td>Organism</th>
                   <td><%= f.text_field :organism, :size => "40", placeholder: "Organism (Optional)" %></td>
+                </tr>
+                <tr>
+                  <td>Comments</th>
+                  <td><%= f.text_area :comment, :size => "40" %></td>
                 </tr>
               </table>
             </div>

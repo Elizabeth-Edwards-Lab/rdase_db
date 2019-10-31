@@ -303,19 +303,14 @@ module SequenceSubmitter
 
   end
 
-
-  def send_sequence_to_lab_without_validation(sequence,requester,requester_email,institution=nil,publications=nil,organism=nil)
+  # TODO: need nt sequence as well
+  def send_sequence_to_lab_without_validation(aa_sequence,requester,requester_email,institution,publications,organism, comment)
     
-    body = "<div>#{sequence}</div>
-            <div>
-              <p>requester: #{requester}</p>
-              <p>requester email: #{requester_email}</p>
-              <p>requester institution: #{institution}</p>
-              <p>requester publications: #{publications}</p>
-              <p>sequence organism: #{organism}</p>
-            </div>"
-
-    ActionMailer::Base.mail(from: "me@example.com", to: "xcao2@ualberta.ca", subject: "New Submission Request (Orthdb)", body: body).deliver
+    # SendSequenceMailer.send_submit_mail(parameters...).deliver
+    # send_submit_mail(username, email, lab_email, aa_sequence, nt_sequence, comment)
+    SendSequenceMailer.send_submit_mail(requester, requester_email, "xcao2@ualberta.ca", aa_sequence, aa_sequence, comment).deliver
+    SendSequenceMailer.send_confirm_mail(requester, requester_email).deliver
+    
   end
 
 

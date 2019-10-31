@@ -1,16 +1,27 @@
 #TODO List
 
 2019-10-28
-1. create the staging server after the site is published
-2. make sure the no group can be selected
-3. add characteristics on browsing database 
-4. request organism name, ncbi accession number, reference (optional) in submitting annotated stuff => DONE
-5. remove the selection certeria for nt level at 90% => DONE (remember to change the blast page too.)
+1. create the staging server after the site is published => DONE
+2. make sure the no group can be selected => Working on it
+3. add characteristics on browsing database  => DONE
+4. request organism name, ncbi accession number, reference (optional) in submitting annotated stuff => PENDING
+5. remove the selection certeria for nt level at 90% => DONE
 6. ask for gene sequence for submitting jobs => PENDING 
 7. prettify the statistics page => DONE
-8. create the template for associated compound and strains.
-9. set up email 
-10. prettify the sequence viewer
+8. create the template for associated compound and strains. => DONE
+9. set up email => Working on it
+10. prettify the sequence viewer => DONE
+
+Comment:
+For point 4:
+	If user want to include species informatioon, they have to include them in the heading of fasta sequence.
+	Reason: something like this:
+	> Accession No | Organism | Insitution
+	> Your sequence...
+For point 6:
+	If user want to send gene sequence, they have to send through email.
+	Reason: Since the selection requirement doesn't require gene identity anymore, I think this is no longer necessary in short term. I understand that different gene sequences (even after transcription and translation, the protein sequences are same), will cause different protein folding.
+
 
 
 

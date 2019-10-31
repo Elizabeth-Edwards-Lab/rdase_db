@@ -12,8 +12,8 @@
 
 		    <div class="w-100"></div>
 		    <!-- increment stack here -->
-		    <div class="col-4 stack-group"><%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), {:prompt => 'All OGs'}, :id => "orig-group" %></div>
-		    <div class="col-8 stack-organism"><%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }), {:prompt => 'All Organism'}, :id => "orig-organism" %></div>
+		    <div class="col-4 stack-group"><%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }.map { |x| x == nil ? 'No Group' : x }), {:prompt => 'All OGs'}, :id => "orig-group" %></div>
+		    <div class="col-8 stack-organism"><%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }.map { |x| x == nil ? 'No Organism' : x }), {:prompt => 'All Organism'}, :id => "orig-organism" %></div>
 
 		    <div class="w-100"><hr></div>
 

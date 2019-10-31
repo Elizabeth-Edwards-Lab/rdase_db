@@ -108,9 +108,11 @@ class SubmitSequenceController < ApplicationController
 					sequence += "<p>>#{query.definition}</p><br><p>#{query.to_seq.seq}</p><br>"
 				end
 
-				send_sequence_to_lab_without_validation(sequence,params[:name],params[:email],params[:institution],params[:publications],params[:organism])
+				send_sequence_to_lab_without_validation(sequence,params[:name],params[:email],params[:institution],params[:publications],params[:organism],params[:comment])
 			
 			end
+			
+			render json: { "notice": "Submit successfully." }
 
 		elsif !params[:fasta].nil?
 
@@ -125,9 +127,10 @@ class SubmitSequenceController < ApplicationController
 					sequence += "<p>>#{query.definition}</p><br><p>#{query.to_seq.seq}</p><br>"
 				end
 				
-				send_sequence_to_lab_without_validation(sequence,params[:name],params[:email],params[:institution],params[:publications],params[:organism])
+				send_sequence_to_lab_without_validation(sequence,params[:name],params[:email],params[:institution],params[:publications],params[:organism],params[:comment])
 
 			end
+			render json: { "notice": "Submit successfully." }
 
 		elsif params[:sequence].present? == false and params[:authenticity_token].present? == true
 
