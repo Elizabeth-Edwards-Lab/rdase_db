@@ -79,7 +79,7 @@
 	  </tbody>
 	</table>
 	<%= link_to "Export As CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
-	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism], :accession_no => params[:accession_no]), :id => "export-button" %>
+	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
 	<hr>
 	<%= paginate @protein %>
 	<br>

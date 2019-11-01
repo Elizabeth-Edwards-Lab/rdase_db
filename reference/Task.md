@@ -31,7 +31,7 @@ Comments: I added following:
          if the blast sequence match any group, it will show whether the matching OG has any characterized members, and link to those members
 
 - on the sequence list page a column to indicate whether an OG has been characterized, and a link to that information. characterized RDases could also be identified by name ie TceA
-Comments: I thought to use "Yes" or "No" indicate whether the chain is characterized. 
+Comments: I thought to use "Yes" or "No" indicate whether the chain is characterized (implemented). 
          I thought TceA is protein name; and I also thought if the chain has associated compounds, then it is characterized.
 
 

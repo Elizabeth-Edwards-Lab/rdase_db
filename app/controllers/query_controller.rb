@@ -206,7 +206,8 @@ class QueryController < ApplicationController
 
 
         end # end of @aa_similarity > 0.80
-
+        puts "@existing_matched_group => #{@existing_matched_group}"
+        puts "@identity_groups => #{@identity_groups}"
         break # only parse one fasta file
 
       end # end of fasta_array.each

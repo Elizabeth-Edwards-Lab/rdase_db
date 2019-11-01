@@ -9,27 +9,78 @@
     </td>
   </tr>
   
-  <tr>
-    <th>Orthologous Group</th>
-    <td>
-    	<% if @identity_groups.nil?  %>
-    		<%= "No matching orthologous group" %>
-    	<% else %>
-        <% if @identity_groups.length == 0 %>
-          <% if !@existing_matched_group.nil? %>
-            <%= @existing_matched_group %>
-          <% else %>
-            <%= "No matching orthologous group" %>
-          <% end %>
-        <% else %>
 
-    		  <% @identity_groups.each do |group_number| %>
-            <%= "#{group_number}\t" %>
-    		  <% end %>
-        <% end %>
-    	<% end %>
-    </td>
-  </tr>
+  <% if @existing_matched_group.nil? and @identity_groups.length == 0 %>
+    
+    <tr>
+      <th>Orthologous Group</th>
+      <td>No matching orthologous group</td>
+    </tr>
+
+  <% else %>
+      
+    <% if !@existing_matched_group.nil? %>
+
+      <tr>
+        <th>Orthologous Group</th>
+        <!-- <td><%= @existing_matched_group %></td> -->
+        <td>
+          <%= form_with url:'protein', method: :get do |f| %>
+            <%= hidden_field_tag(:group, @existing_matched_group) %>
+            <%= f.submit "#{@existing_matched_group}", disabled: false, :id => 'group-click-button', formtarget: "_blank" %>
+          <% end %>
+        </td>
+      </tr>
+
+      <tr>
+        <th>Characterized Members</th>
+        <!-- find that group, and all members, find all members that is characterized -->
+        <td>
+          <% get_characterized_member(@existing_matched_group).each do |member| %>
+            <%= link_to "#{member[1]}", protein_path(member[0]), target: "_blank" %> &nbsp;
+          <% end %>
+        </td>
+
+        
+      </tr>
+
+    <% elsif @identity_groups.length != 0 %>
+
+      <tr>
+        <th>Orthologous Group</th>
+        <td>
+          <% @identity_groups.each do |group_number| %>
+            <!-- <%= "#{group_number}\t" %> -->
+            <%= form_with url:'protein', method: :get do |f| %>
+              <%= hidden_field_tag(:group, group_number) %>
+              <%= f.submit "#{group_number}", disabled: false, :id => 'group-click-button', formtarget: "_blank" %>
+            <% end %>
+            &nbsp;
+          <% end %>
+        </td>
+      </tr>
+
+      <tr>
+        <th>Characterized Members</th>
+        <td>
+          <!-- find the characterized member -->
+          <%= get_characterized_member_s(@identity_groups).each do |member| %>
+            <%= link_to "#{member[1]}", protein_path(member[0]), target: "_blank" %> &nbsp;
+          <% end %>
+        </td>
+      </tr>
+
+    <% else %>
+      <!-- rock buttom, no matching group -->
+      <tr>
+        <th>Orthologous Group</th>
+        <td>No matching orthologous group</td>
+      </tr>
+
+    <% end %>
+
+  <% end %>
+
 
   <tr>
     <th>Exist In Database</th>
