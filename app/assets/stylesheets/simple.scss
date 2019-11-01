@@ -161,7 +161,7 @@ th, tr, td {
 .home-banner {
   position: relative;
   left: 0px;
-  top: -10px;
+  top: 0px;
   overflow-x: hidden;
   .banner {
     width: 100%;
@@ -173,12 +173,7 @@ th, tr, td {
     height: 50%;
     background-color:rgba(355,355,355,0.8);
     width: 100%;
-    // .banner-logo {
-    //   height: 90%;
-    //   margin-top: 1%;
-    //   margin-left: 5%;
-    //   float: left;
-    // }
+
     .link-bar {
       height: 20%;
       float: right;

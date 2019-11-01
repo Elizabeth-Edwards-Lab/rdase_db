@@ -1,48 +1,55 @@
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id = "titlnav">
-
+<nav class="navbar navbar-expand-lg navbar-light bg-white" id = "titlnav">
+  
   <div class="dontcollapse_navbar-collapse" id="navbarSupportedContent" >
-      <ul class="navbar-nav mr-auto">
-        <li id="logopic">
-          <a id = "first" href="/home">
-          <%= image_tag 'RDDB_logo.png', width: 156, height:140, alt: 'RedOrthDB'%>
-          </a>
-        </li>
-        <li class= "nav-item" id = "firstli">
-         <a id = "first" href="/home">Reductive Dehalogenase DB <span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
-    </div>
-      <div class="collapse_navbar-collapse" id="navbarSupportedContent" >
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item" ><a class="nav-link" href=/search>Blastp</a></li>
-        <li class="nav-item" ><a class="nav-link" href=/submit_sequence>Submission</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Database
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/protein">Sequence</a>
-            <a class="dropdown-item" href="/compound">Compound</a>
-          </div>
-        </li>
+    <ul class="navbar-nav mr-auto">
+      <li id="logopic">
+        <a id = "first" href="/home">
+        <%= image_tag 'RDDB_logo.png', width: 156, height:140, alt: 'RedOrthDB'%>
+        </a>
+      </li>
+      <li class= "nav-item" id = "firstli">
+       <a id = "first" href="/home">Reductive Dehalogenase DB <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            About
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/about">About RDDB</a>
-            <a class="dropdown-item" href="/downloads">Downloads</a>
-            <a class="dropdown-item" href="/statistics">Statistics</a>
-            <a class="dropdown-item" href="/help">Help/Tutorial</a>
-          </div>
-        </li>
-        <li class="nav-item" ><a class="nav-link" href=/contact>Contact</a></li>
-      </ul>
-    </div>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" ><a class="nav-link" href=/search>Blastp</a></li>
+      <li class="nav-item" ><a class="nav-link" href=/submit_sequence>Submission</a></li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Database
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/protein">Sequence</a>
+          <a class="dropdown-item" href="/compound">Compound</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          About
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/about">About RDDB</a>
+          <a class="dropdown-item" href="/downloads">Downloads</a>
+          <a class="dropdown-item" href="/statistics">Statistics</a>
+          <a class="dropdown-item" href="/help">Help/Tutorial</a>
+        </div>
+      </li>
+      <li class="nav-item" ><a class="nav-link" href=/contact>Contact</a></li>
+
+    </ul>
+  </div>
 </nav>
+
+

@@ -6,7 +6,6 @@
 }
 
 #first{
-
   width: 300px;
   text-align: center;
 }
@@ -28,22 +27,26 @@ html #first{
   }
 }
 
-
-
-
 #titlnav{
   width: 100%;
-
   padding: 0px;
 }
+
+
+#navbarNavDropdown{
+  background-color: white;
+  margin-right: 50px;
+}
+
+.navbar-toggler{
+  width: 30%;
+  margin: 0 auto;
+}
+
 .nav-link:hover, .nav-link:active {
   color: grey !important;
 }
 
-
-.nav-item{
-  padding-top: 49px;
-}
 
 .nav-link{
   color: #002a5c !important;
@@ -86,17 +89,6 @@ html #first{
   padding: 10px;
 }
 
-// .container{
-//   background-color:#002a5c;
-//   padding: 0px;
-//   margin-right: 0;
-//   margin-left: 0;
-//   color: white;
-//   border: 1px solid #e3e3e3;
-//   border-radius: 4px;
-//   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-//   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-// }
 .load-example{
   vertical-align: center;
   padding: 10px;
@@ -124,3 +116,37 @@ fieldset{
     width: 100%;
   }
 }
+
+.navbar-collapse{
+  .navbar-nav{
+    .nav-item{
+      text-align: center;
+    }
+    .nav-item.dropdown.show{
+      .dropdown-item{
+        text-align: center;
+      }
+    }
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

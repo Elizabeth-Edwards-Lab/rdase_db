@@ -6,7 +6,24 @@
 2. make filter can select the No Group options (optimize the filter function)
 3. make user submit accession_no + organism
 
+I like the new home page quick start, but I can't read the font please change colour
 
+
+I would still prefer the banner to be visible right from the beginning. I think it will help orient new users without making them scroll down. We have to assume users have no idea what's going on when they first open the page.
+
+Please force users to submit DNA sequence. The point of this database is to be better than NCBI. Users need to submit as at least as good as NCBI data and metadata....and ideally better! speaking of which.....can we have a box where a user can write their annotation and compound information for the dehalogenase they are submitting? If they have it.
+
+For the blast result page please put blast alignment as the last thing on the blast result page. Users will have problems finding the tree building button at the bottom otherwise.
+
+If I blast a sequence which has no group the blast result page says "No Matching OD Group" This should say "No matching orthologous group". On this same page "Number returning sequence" should say "Number of aligned sequences" also
+The blast result page says "Blasting Result for ####" this should just say "Blast results for"
+
+I keep making suggestions regarding making it easy for users to find out whether an OG has been biochemically characterized. None of these have been implemented. This is really important. Biochemical information is going to be one of the most sought after pieces of information by users. Please implement one. some of my previous suggestions included:
+- on the blast result page immediately indicating whether or not the matching OG has any characterized members. This could be a link to an info page
+- on the sequence list page a column to indicate whether an OG has been characterized, and a link to that information. characterized RDases could also be identified by name ie TceA
+- or being able to click right on the OG # to get to a page where you get information about the OG from the current sequence page
+
+genus and species need to be in italics
 
 
 2019-10-28
