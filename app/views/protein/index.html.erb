@@ -63,14 +63,14 @@
 	        <% if pt.organism.nil? %>
 	        	<td>No Organism</td>
 	        <% else %>
-	        	<td><%= pt.organism %></td>
+	        	<td><%= itatic_species_genus(pt.organism) %></td>
 	        <% end %>
 	        
 	        <!-- display characteristics -->
 	        <% if contain_compound(pt.id) == true %>
-	        	<td>Yes</td>
+	        	<td style="color:red;"><strong>Yes</strong></td>
 	        <% else %>
-	        	<td></td>
+	        	<td>No</td>
 	        <% end %>
 	        
 	      </tr>

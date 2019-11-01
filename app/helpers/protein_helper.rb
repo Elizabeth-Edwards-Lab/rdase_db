@@ -37,4 +37,40 @@ module ProteinHelper
 	end
 
 
+	def itatic_species_genus(organism)
+		species = ["Dehalococcoides", "mccartyi",
+							"Anaeromyxobacter","dehalogenans",
+							"Desulfitobacterium", "sp.",
+							"Dehalobacter",
+							"Sulfurospirillum", "multivorans",
+							"Desulfitobacterium", "dehalogenans",
+							"Dehalobacterium", "halfniense",
+							"Dehalobacter", "restrictus",
+							"Desulfitobacterium", "dichloroeliminans",
+							"Dehalogenimonas",
+							"Desulfitobacterium", "hafniense",
+							"Sulfurospirillum", "halorespirans",
+							"Clostridium", "difficile",
+							"Geobacter", "lovleyi", "lykanthroporepellens"]
+
+		name_array = organism.split(" ")
+		if name_array.length == 1
+			itatic_string = "<i>#{name_array[0]}</i>"
+			return itatic_string.html_safe
+		elsif name_array.length > 1
+			itatic_string = ""
+			name_array.each do |name_|
+				if species.include? name_
+					itatic_string += "<i>#{name_}</i> "
+				else
+					itatic_string += "#{name_} "
+				end
+			end
+			itatic_string[itatic_string.length - 1] = ""
+			return itatic_string.html_safe
+		end
+
+	end
+
+
 end

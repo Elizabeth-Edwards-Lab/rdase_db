@@ -10,13 +10,15 @@
 - elsif @aa_similarity.present?
   hr
   = render partial: "result"
-  = render partial: "results_view"
+  
   .result-div
     #result-text
       p#result-textt 
       | #{link_to 'Submit your sequence to our database!', submit_sequence_path, target: '_blank'}
       hr
       = render partial: "phylogenies"
+      
+  = render partial: "results_view"
       
 - elsif params[:commit].present?
   p.alert.alert-danger No Results

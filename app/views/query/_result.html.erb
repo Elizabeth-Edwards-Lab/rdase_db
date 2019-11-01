@@ -1,25 +1,25 @@
 <div>
-<h3 id="seqresulttag"> Blasting Result for <%= @query.definition %></h3>
+<h3 id="seqresulttag"> Blast results for <%= @query.definition %></h3>
 <table class="each-result">
 
   <tr>
-    <th>Number of Returning Sequence</th>
+    <th>Number of aligned sequences</th>
     <td>
       <%= @aa_sequence_result.length %>
     </td>
   </tr>
   
   <tr>
-    <th>Matching Group</th>
+    <th>Orthologous Group</th>
     <td>
     	<% if @identity_groups.nil?  %>
-    		<%= "No Matching OD Group" %>
+    		<%= "No matching orthologous group" %>
     	<% else %>
         <% if @identity_groups.length == 0 %>
           <% if !@existing_matched_group.nil? %>
             <%= @existing_matched_group %>
           <% else %>
-            <%= "No Matching OD Group" %>
+            <%= "No matching orthologous group" %>
           <% end %>
         <% else %>
 
