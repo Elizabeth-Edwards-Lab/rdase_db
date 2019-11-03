@@ -6,6 +6,7 @@
       <h4>Submission</h4>
       <hr>
       <p>If you wish to submit nucleotide sequence, please send email to our lab at <a href="/contact">here</a>.</p>
+      <p><a href="/help">How does RDDB assign sequences to groups?</a></p>
       <div id="public-id-info-div">
     		<p><strong>Does your sequence(s) have public domain number (e.g. NCBI Accession No.)?</strong></p>
         <button id="public-id-yes">Yes</button> &nbsp;&nbsp; <button id="public-id-no">No</button>
@@ -24,6 +25,7 @@
       <hr>
       <div class="container">
         <div class="row">
+
           <div class="col">
             <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
               <div>
@@ -46,52 +48,14 @@
 
               
 
+<!--               create two separate boxes => after user submit their gene and amino acid sequence,
+              hide the boxes, and render the request; as well as asking user provide more information. -->
             <% end %>
             
           </div>
 
           <!-- this should present after use submit the sequence -->
           <div class="col">
-
-            <div id="selection-info" style="display: none;">
-              <h4>Fasta format</h4>
-              <div class="fasta-box">
-                <p>>[NCBI, RAST or JGI number] <br>[Your Amino Acid Sequence]</p>
-                <p>>WP_012881438 <br>MEMNIYHSTISRRNFMKGLGLSGAALGAATASA<br>PVFHDLDEMITSVPKSTTQHAWWVKERDYEDIT<br>
-                TPVDWTVWSRREALKNPMPPGFAG...</p>
-              </div>
-
-
-              <h4>Default Blast Parameters</h4>
-              <div class="fasta-box">
-                <table id="default-parameter-table">
-                  <tbody>
-                    <tr>
-                      <td>Cost to open a gap: </td>
-                      <td><strong>11</strong></td>
-                    </tr>
-                    <tr>
-                      <td>Cost to extend a gap: </td>
-                      <td><strong>1</strong></td>
-                    </tr>
-                    <tr>
-                      <td>Penalty for mismatch: </td>
-                      <td><strong>-3</strong></td>
-                    </tr>
-                    <tr>
-                      <td>Reward for match: </td>
-                      <td><strong>2</strong></td>
-                    </tr>
-                    <tr>
-                      <td>Expected Value (E-Value): &nbsp;&nbsp; </td>
-                      <td><strong>0.000001 &nbsp;</strong></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              
-            </div>
-
             <div id='submit-seq-result-div'>                         
             </div>
 
@@ -145,12 +109,6 @@
             </div>
 
             <div class="col">
-              <h4>Fasta format</h4>
-              <div class="fasta-box">
-                <p>>[NCBI, RAST or JGI number] <br>[Your Amino Acid Sequence]</p>
-                <p>>WP_012881438 <br>MEMNIYHSTISRRNFMKGLGLSGAALGAATASA<br>PVFHDLDEMITSVPKSTTQHAWWVKERDYEDIT<br>
-                TPVDWTVWSRREALKNPMPPGFAG...</p>
-              </div>
               
               <hr>
               <table>
