@@ -51,7 +51,7 @@ class QueryController < ApplicationController
       end
 
       if params[:new_result_tab] == "1"
-        
+        # consider render status (for animation) first, then render the result to result page
         redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => params[:sequence],
           :gap_cost => params[:gap_cost], :extend_cost => params[:extend_cost],:mismatch_penalty => params[:mismatch_penalty],
           :match_reward => params[:match_reward], :evalue => params[:evalue], :gapped_alignment => params[:gapped_alignment],
@@ -224,7 +224,7 @@ class QueryController < ApplicationController
     end
 
     if params[:commit].present?
-      
+
       if params[:sequence].present?
         params_sequence = params[:sequence].clone
         after_validation = validate_amino_acid_sequnence(params_sequence)
@@ -361,6 +361,9 @@ class QueryController < ApplicationController
 
   end
 
+
+
+
   # Create the phylogenies tree
   def phylogenies
     raw_sequence = params[:sequence]
@@ -375,9 +378,9 @@ class QueryController < ApplicationController
     current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S_%L").gsub("/","_").gsub(" ","_").gsub(":","_")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
-    puts "params.inspect => #{params.inspect}"
+    # puts "params.inspect => #{params.inspect}"
     all_sequence = extract_sequence_for_tree(params)  # get desired sequence based on user options
-    puts "all_sequence length => #{all_sequence.length}"
+    # puts "all_sequence length => #{all_sequence.length}"
 
     number_of_group = all_sequence.distinct.pluck(:group).length # get number of unique groups
 
@@ -461,7 +464,7 @@ class QueryController < ApplicationController
 
 
   def download_new_fasta 
-    puts "params.inspect => #{params.inspect}"
+    # puts "params.inspect => #{params.inspect}"
     filename = params[:file_name]
     send_file filename, :type => "application/fasta", :filename =>  "rdhA_nt_all_customized.fasta"
   end

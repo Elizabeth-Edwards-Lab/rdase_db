@@ -12,8 +12,6 @@
     / in the future, you can add more fieldset with more options
 
     fieldset 
-      / legend BLAST Parameters
-      
       i#blast-param-sign.fas.fa-plus
       span &nbsp;
       = button_tag "BLAST Parameters", :id => "blast-parameters", type: "button"
@@ -55,6 +53,7 @@
 
     
 - if @error.present?
+  .loading-animation
   - if @error.class == String
     p.alert.alert-danger
       = @error
@@ -64,9 +63,9 @@
         = array
 
 - elsif @aa_similarity.present?
+  .loading-animation
   hr
   = render partial: "result"
-  
   .result-div
     #result-text
       p#result-textt 
@@ -79,4 +78,8 @@
 
 - elsif params[:commit].present?
   p.alert.alert-danger No Results
+
+.modal
+
+
 

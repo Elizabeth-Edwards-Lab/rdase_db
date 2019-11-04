@@ -1,6 +1,15 @@
 // jQuery(function($){}) and $(document).ready(function(){} are equivalent.
 $(document).ready(function(){
 
+	// every time the new page load, the entire javascript will reload; so it won't be blast-btn.click event!
+	$('.btn.btn-primary.blast-btn').click(function(){
+		if($('#seq-search-form').attr("target") === undefined){
+			$("body").addClass("loading");
+		}
+		
+	})
+
+
 	$('.load-example').on('click', function(){
 		// console.log("load-example clicked");
 		// $('.seq-search-sequence').text("");
@@ -30,15 +39,16 @@ $(document).ready(function(){
 	var seq_search_form = $('#seq-search-form');
 	$("#new_result_tab").change(function() {
 	    if(this.checked) {
-
+	    	console.log("checked");
 	    	if(seq_search_form.attr("target") === undefined){
 				// not checked attribute yet; add one
 				seq_search_form.attr('target','_blank');
-				seq_search_form.attr('value','1'); // will render new pages
+				$("#new_result_tab").attr('value','1'); // will render new pages
 			}
 		}else if(!this.checked){
+			console.log("unchecked");
 			seq_search_form.removeAttr("target");
-			seq_search_form.attr('value','0');
+			$("#new_result_tab").attr('value','0');
 			// console.log(seq_search_form.attr("target"));
 		}
 	});
