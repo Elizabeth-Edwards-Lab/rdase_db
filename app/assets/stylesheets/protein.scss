@@ -30,6 +30,15 @@
 #tablediv {
 	max-width: 80%;
 	overflow: auto;
+	tr{
+		border: none;
+	}
+	th{
+		border: none;
+	}
+	td{
+		border: none;
+	}
 }
 
 .container.protein-info table{
@@ -180,6 +189,18 @@
 	background-color: #E3EEFC;
 }
 
+
+#strain-table{
+	td {
+		border: none;
+	}
+	tr{
+	  border: none;
+	}
+	th{
+		border: none;
+	}
+}
 
 
 
