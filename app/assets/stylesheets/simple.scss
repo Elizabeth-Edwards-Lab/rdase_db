@@ -10,20 +10,27 @@
 	padding: 30px;
 }
 
+.well.about-page-header{
+  min-height: 20px;
+  background-color: white;
+  color: #002a5c;
+  // border: 1px solid #e3e3e3;
+  // border-radius: 4px;
+  // -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  // box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  text-align: center
+}
+
 .about-page-header{
-  padding: 30px;
+  padding: 10px;
 }
 
 #abouttext{
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: #002a5c;
-  color: white;
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  color: #002a5c;
 }
 
 #abouttext2{
@@ -44,46 +51,11 @@
   text-align:left;
 }
 
-
-.about-page-header{
-	padding: 30px;
-}
 
 #mainimage{
 	text-align: center;
 	padding: 30px;
 }
-
-#abouttext{
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  background-color: #002a5c;
-  color: white;
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-}
-
-#abouttext2{
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  margin-left: 30px;
-  background-color: #d9edf7;
-  color: #31708f;
-  border: 1px solid #bce8f1;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  width: 80%;
-}
-
-#theabouttext{
-  text-align:left;
-}
-
 
 .mechanism-img{
   border: 1px solid #ddd;
@@ -183,25 +155,38 @@ th, tr, td {
       position: relative;
       white-space: nowrap;
       padding: 1%;
+
       .link-text {
         width: 40%;
+        
+        p{
+          font-size: 15px;
+          margin-bottom: 0em; // overwrite the general p style
+        }
+
+        a{
+          padding: 0%;
+          text-decoration: underline;
+          display: inline;
+          color:#002a5c;
+        }
       }
 
       &.one {
         width: 65%;
-        right: -65%;
+        // right: -65%;
       }
       &.two {
         width: 55%;
-        right: -55%;
+        // right: -55%;
       }
       &.three {
         width: 50%;
-        right: -50%;
+        // right: -50%;
       }
       &.four {
         width: 60%;
-        right: -60%;
+        // right: -60%;
       }
 
       a {
@@ -275,6 +260,8 @@ th, tr, td {
   }
 
 }
+
+
 
 
 

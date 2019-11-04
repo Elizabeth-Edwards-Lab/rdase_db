@@ -10,7 +10,6 @@ class SubmitSequenceController < ApplicationController
 		puts "submit params => #{params.inspect}"
 		fasta_array = Array.new
 
-
 		# this submit require storing the sequence for actually save to database
 		if params[:aa_sequence].present?
 			# puts "params[:sequence] => #{params[:sequence]}"
