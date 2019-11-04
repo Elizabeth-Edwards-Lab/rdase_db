@@ -102,8 +102,8 @@ $(document).ready(function(){
 			// extra_param => if user only choose use one box, then only pass params[:group] or params[:organism]
 			data: form.serialize() + extra_param,
 			beforeSend: function(){
-				// $('#generate-phylogenetic-tree').hide();
-				$('#waiting-gif').removeAttr("style");
+				
+				// $('#waiting-gif').removeAttr("style");
 			},
 			success: function(data){
 				$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
@@ -111,12 +111,12 @@ $(document).ready(function(){
 				var number_sequence = Number(data.num_sequence)
 				// console.log(data.num_sequence)
 				if (number_sequence == 0){
-					$('#waiting-gif').attr("style","visibility:hidden;");
+					// $('#waiting-gif').attr("style","visibility:hidden;");
 					$('#phylocanvas-page-warning').removeAttr("style","visibility:hidden;");
 					$('#phylocanvas-page-warning').text("Your selection return 0 sequence. Please choose different selection. More detail can be found in our sequence database.")
 				}
 				else{
-					$('#waiting-gif').attr("style","visibility:hidden;");
+					// $('#waiting-gif').attr("style","visibility:hidden;");
 					$('#phylocanvas-page-warning').attr("style","visibility:hidden;");
 					var current_tree_no = $('#tree-group').find('canvas').length;
 					

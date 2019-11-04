@@ -282,7 +282,7 @@ module QueryLogic
 			return all_sequence
 
 		elsif !groups.include? "All OGs" and !organisms.include? "All Organism"
-			puts "groups don't include All OGs and organisms don't include All Organism"
+			# puts "groups don't include All OGs and organisms don't include All Organism"
 			# select either group or nil group and organism or nil organism
 			# groups has already removed the non groups (null)
 			# since the organisms that select has to contain the groups, so select group first, then select organism
@@ -293,14 +293,14 @@ module QueryLogic
 				groups.delete("No Group")
 				all_sequence_non_group = CustomizedProteinSequence.where(:group => nil)
 			end
-			puts "all_sequence_non_group => #{all_sequence_non_group.length}"
+			# puts "all_sequence_non_group => #{all_sequence_non_group.length}"
 
 			all_sequence = nil
 			if groups.length > 0
 				final_groups = construct_in_clause_conditon(groups,"group")
 				all_sequence = CustomizedProteinSequence.where(final_groups)
 			end
-			puts "all_sequence_non_group => #{all_sequence.length}"
+			# puts "all_sequence_non_group => #{all_sequence.length}"
 
 			all_sequence = construct_record(all_sequence,all_sequence_non_group)
 			# end of select desired group first
