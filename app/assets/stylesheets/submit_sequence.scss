@@ -1,10 +1,19 @@
-// Place all the styles related to the submit_sequence controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
 
 .upload-div {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 12px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  // resize: none;
+}
+
+textarea.upload-div{
+  width: 500px;
+  height: 600px;
+}
+
+
+.btn.btn-primary.upload-btn{
+  float:right;
 }
 
 div.fasta-box {
@@ -45,7 +54,3 @@ body.loading .modal {
     display: block;
 }
 
-textarea.upload-div{
-  width: 500px;
-  height: 600px;
-}

@@ -42,7 +42,7 @@ $(document).ready(function(){
 			$('#upload-div-aa').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
 		}else{
 			$('#upload-div-aa').attr('disabled', false);
-			$('#upload-div-aa').removeAttr('placeholder');
+			$('#upload-div-aa').attr('placeholder',"> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Amino Acid Sequence ...");
 		}
 	});
 
@@ -53,7 +53,7 @@ $(document).ready(function(){
 			$('#upload-div-nt').attr('placeholder', "File detected. To remove file, click 'Choose File', and click 'Cancel' without selecting anything. Disclaimer: We won't store your file at our database. ");
 		}else{
 			$('#upload-div-nt').attr('disabled', false);
-			$('#upload-div-nt').attr('placeholder',"Optional. We only evaluate your amino acid sequences.\nPlease use the header name that match your amino acid sequences.");
+			$('#upload-div-nt').attr('placeholder',"> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Nucleotide Sequence ...");
 		}
 	});
 	//////////////////////////////////////////////////////////////////////////////////////////

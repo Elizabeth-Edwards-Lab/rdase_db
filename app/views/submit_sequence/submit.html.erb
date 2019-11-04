@@ -23,77 +23,42 @@
       </div> -->
   	</div>
 
-  	<!-- div for enter sequence -->
-    <div id="submit-interface" style="display: none;">
+    <div id="submit-interface" style="display: none;" >
     	<h3>Submission</h3>
       <hr>
-      <div class="container">
-        <div class="row">
-
-          <div class="col">
-            <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
+      <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
+        <div class="container">
+          <div class="row">
+            
+            <div class="col">
               <div>
-                <h5>Animo Acid Sequence(s)</h5>
-                <%= f.text_area :sequence, class: 'upload-div', :id => "upload-div-aa" %>
+                <h5>Animo Acid Sequence(s) in <a href="/help#assign-rules" target="_blank">our fasta format</a></h5>
+                <%= f.text_area :aa_sequence, class: 'upload-div', :id => "upload-div-aa", :placeholder => "> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Amino Acid Sequence ...".html_safe %>
                 <br>
                 <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
-                <%= f.file_field :fasta, class: 'upload-file-btn', :id => "upload-file-btn-aa", disabled: false %>
-                <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
+                <%= f.file_field :aa_fasta, class: 'upload-file-btn', :id => "upload-file-btn-aa", disabled: false %>
               </div>
+            </div>
 
-              <!-- <hr> -->
-              
-              <!-- <div>
+            <div class="col">
+              <div>
                 <h5>Nucleotide Sequence(s)</h5>
-                <%# f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", :placeholder => "Optional. We only evaluate your amino acid sequences.\nPlease use the header name that match your amino acid sequences. " %>
+                <%= f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", :placeholder => "> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Nucleotide Sequence ...".html_safe %>
                 <br>
-                <%# f.file_field :nt_fasta, class: 'upload-file-btn', :id => "upload-file-btn-nt", disabled: false %>
-              </div> -->
-
-              
-
-<!--               create two separate boxes => after user submit their gene and amino acid sequence,
-              hide the boxes, and render the request; as well as asking user provide more information. -->
-            <% end %>
-            
-          </div>
-
-          <!-- this should present after use submit the sequence -->
-          <div class="col">
-            <div id='submit-seq-result-div'>                         
-            </div>
-
-            <div id='save-sequence-form-div' style="display: none;">
-              <!-- OMG, I didn't use Rails format convention in erb... -->
-              <form method="post" action="/save_sequence" id="save-seqeunce">
-                <table id="save-seqeunce-submit-table">
-                  <tbody>
-                    <tr>
-                      <td>Name: </td>
-                      <td><input type="text" name="name" maxlength="30" size="30" required><br></td>
-                    </tr>
-                    <tr>
-                      <td>Email:</td>
-                      <td><input type="email" name="email"  size="30" required><br></td>
-                    </tr>
-
-                    <tr>
-                      <td></td>
-                      <td style="float: right;"><input value="Save To Database" type="submit" class="btn btn-primary" /><br></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/><br></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form> 
+                <%= f.file_field :nt_fasta, class: 'upload-file-btn', :id => "upload-file-btn-nt", disabled: false %>
+              </div>
             </div>
           </div>
-
         </div>
-      </div>
+        
+        <hr>
+        <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
+      <% end %>
     </div>
+
+
+
+
 
 
     <div id="submit-to-lab-interface" style="display: none;">
@@ -153,12 +118,6 @@
 
     </div>
     
-
-
-
-    
-
-
   </div>
 </div>
 

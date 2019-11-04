@@ -7,14 +7,15 @@ class SubmitSequenceController < ApplicationController
 	# Use ajax strategy for clean page design
 	def submit
 		# puts params.inspect
-
+		puts "submit params => #{params.inspect}"
 		fasta_array = Array.new
 
+
 		# this submit require storing the sequence for actually save to database
-		if params[:sequence].present?
+		if params[:aa_sequence].present?
 			# puts "params[:sequence] => #{params[:sequence]}"
 			fasta_array = params[:sequence].scan(/>[^>]*/)
-			if fasta_array.length == 0 
+			if fasta_array.length == 0
 
 				render json: { "notice": "Please enter sequence." }
 			elsif fasta_array.length > 20
@@ -27,17 +28,16 @@ class SubmitSequenceController < ApplicationController
 			end
 
 		elsif !params[:fasta].nil?
-			# make sure that once upload the file, user can't insert any sequence
-			# uploaded_io = params[:fasta]
-			# puts uploaded_io
+
 			now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
 			file_name = params[:fasta].original_filename.gsub(".fasta","#{now}.fasta")
 			file_path = Rails.root.join('tmp', 'uploads/', file_name)
 			file_content = params[:fasta].tempfile.read
 			File.write(file_path,file_content)
-			# puts uploaded_io.read contains the content of file; no need to save to file
-			fasta_array = file_content.scan(/>[^>]*/)
 
+
+
+			fasta_array = file_content.scan(/>[^>]*/)
 			if fasta_array.length == 0 
 				render json: { "notice": "Please enter sequence." }
 			elsif fasta_array.length > 20

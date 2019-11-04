@@ -314,6 +314,204 @@ module SequenceSubmitter
   end
 
 
+
+
+
+  # return possible_errors, if possible_errors.length > 0 means there are something wrong
+
+  def validation_submission(params)
+
+
+    possible_errors = Array.new
+    aa_seq_array = is_sequence_empty(params[:aa_sequence], params[:aa_fasta])
+    nt_seq_array = is_sequence_empty(params[:nt_sequence], params[:nt_fasta])
+
+    if aa_seq_array.nil? or nt_seq_array.nil?
+      possible_errors << "Either your amino acid sequence or nucleotide sequence are empty"
+    end
+
+    # Check aa sequence 
+    aa_sequence_hash = Hash.new
+    invalid_definition = ""
+    invalid_sequence = ""
+    aa_seq_array.each do |fasta_sequence|
+      query = Bio::FastaFormat.new( fasta_sequence )
+      aa_sequence_definition = parse_definition(query.definition)
+      aa_sequence = validate_seq(query.to_seq.seq,"aa")
+      if aa_sequence_definition.nil?
+        invalid_definition += "#{query.definition}\n"
+      end
+
+      if aa_sequence.nil?
+        invalid_sequence += "#{query.definition}\n"
+      end
+
+      if !aa_sequence_definition.nil? and !aa_sequence.nil?
+        aa_sequence_hash[aa_sequence_definition[0]] = aa_sequence
+      end
+      
+    end
+    
+    if invalid_definition.length > 0 or invalid_sequence.length > 0
+      # something wrong with aa sequence field
+      invalid_submission_msg = "Your following amino acid sequences are not following our submission rules:\n"
+      if invalid_definition.length > 0
+        invalid_submission_msg += "Failed fasta format:\n #{invalid_definition}"
+      end
+      if invalid_sequence.length > 0
+        invalid_submission_msg += "Failed amino acid sequence:\n #{invalid_sequence}"
+      end
+
+      possible_errors << invalid_submission_msg
+
+    end
+
+
+
+    # Check nt sequence
+    nt_sequence_hash = Hash.new
+    invalid_definition = ""
+    invalid_sequence = ""
+    nt_seq_array.each do |fasta_sequence|
+      query = Bio::FastaFormat.new( fasta_sequence )
+      nt_sequence_definition = parse_definition(query.definition)
+      nt_sequence = validate_seq(query.to_seq.seq,"nt")
+      if nt_sequence_definition.nil?
+        invalid_definition += "#{query.definition}\n"
+      end
+
+      if nt_sequence.nil?
+        invalid_sequence += "#{query.definition}\n"
+      end
+
+      if !nt_sequence_definition.nil? and !nt_sequence.nil?
+        nt_sequence_hash[nt_sequence_definition[0]] = nt_sequence
+      end
+    end
+
+    if invalid_definition.length > 0 or invalid_sequence.length > 0
+      # something wrong with aa sequence field
+      invalid_submission_msg = "Your following nucleotide sequences are not following our submission rules:\n"
+      if invalid_definition.length > 0
+        invalid_submission_msg += "Failed fasta format:\n #{invalid_definition}"
+      end
+      if invalid_sequence.length > 0
+        invalid_submission_msg += "Failed nucleotide sequence:\n #{invalid_sequence}"
+      end
+
+      possible_errors << invalid_submission_msg
+    end
+    
+
+
+    # check missing sequence
+    missing_aa_sequence, missing_nt_sequence = check_matchness(aa_sequence_hash,nt_sequence_hash)
+    missing_seq_string = ""
+    if missing_aa_sequence.length > 0
+      missing_seq_string += "You are missing following amino acid sequence for your nucleotide sequence:\n"
+      missing_aa_sequence.each do |aa_seq_name|
+        missing_seq_string += "#{aa_seq_name}\n"
+      end
+    end
+
+    if missing_nt_sequence.length > 0
+      missing_seq_string += "You are missing following nucleotide sequence for your amino acid sequence:\n"
+      missing_nt_sequence.each do |nt_seq_name|
+        missing_seq_string += "#{nt_seq_name}\n"
+      end
+    end
+
+    if missing_seq_string.length > 0
+      possible_errors << missing_seq_string
+    end
+
+
+
+    return possible_errors
+
+
+
+  end
+
+
+  # check the matches of the sequences
+  def check_matchness(aa_sequence_hash,nt_sequence_hash)
+    missing_nt_sequence = Array.new
+    aa_sequence_hash.each do |defi, seq|
+      if nt_sequence_hash[defi].nil? 
+        # miss that stuff
+        missing_nt_sequence << defi
+      end
+    end
+
+    missing_aa_sequence = Array.new
+    nt_sequence_hash.each do |defi, seq|
+      if aa_sequence_hash[defi].nil?
+        missing_aa_sequence << defi
+      end
+    end
+
+
+    return missing_aa_sequence, missing_nt_sequence
+  end
+
+
+  # return nil is sequence is empty
+  # return fasta_array if sequence is not empty
+  def is_sequence_empty(sequence, fasta_file)
+    empty_seq = true
+    fasta_array = nil
+    begin 
+      fasta_array = sequence.scan(/>[^>]*/)
+      if fasta_array.length != 0
+        empty_seq = false
+      end
+    rescue
+      # enter this point: sequence text area field is empty or nil
+      # note: fasta_file = params[:fasta]
+      begin
+        fasta_array = fasta_file.tempfile.read.scan(/>[^>]*/)
+        if fasta_array.length != 0
+          empty_seq = false
+        end
+      rescue
+        # fasta_file is nil so equence text area field is empty or nil and fasta_file is empty or nil
+        empty_seq = true
+      end
+    end
+
+    if empty_seq == true
+      return nil
+    else
+      return fasta_array
+    end
+
+  end
+
+  def parse_definition(definition)
+
+    definition = definition.split("|")
+    if definition.length == 3 or definition.length == 4
+      return definition
+    else
+      return nil
+    end
+
+  end
+
+
+  def validate_seq(sequence, seq_type)
+    if seq_type == "aa"
+      va = sequence =~ /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/
+    end
+
+    if seq_type == "nt"
+      va = sequence =~ /\A[ACTGN]+\z/
+    end
+
+    return va
+  end
+
 end
 
 
