@@ -52,14 +52,7 @@
             = label_tag :filter_query_sequence, class: 'checkbox' do
               = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
               | Filter query sequence (DUST &amp; SEG)
-    
 
-/ .result-div
-/   #result-text
-/     p#result-textt 
-/     | #{link_to 'Submit your sequence to our database!', submit_sequence_path, :method => :get, target: '_blank'}
-/     hr
-/     = render partial: "phylogenies"
     
 - if @error.present?
   - if @error.class == String

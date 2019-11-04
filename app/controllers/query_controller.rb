@@ -3,9 +3,11 @@ class QueryController < ApplicationController
   include QueryLogic
   include QueryValidator # concerns is for reducing logic in controller
   helper QueryHelper # helper is for reducing logic in view
-  # for reducing logic in ActiveRecord, do it in model file
+
+
 
 	before_action :set_blast_defaults_for_aa
+  
 
   def search
 
@@ -206,10 +208,7 @@ class QueryController < ApplicationController
 
 
         end # end of @aa_similarity > 0.80
-        puts "@existing_matched_group => #{@existing_matched_group}"
-        puts "@identity_groups => #{@identity_groups}"
         break # only parse one fasta file
-
       end # end of fasta_array.each
     end
 
