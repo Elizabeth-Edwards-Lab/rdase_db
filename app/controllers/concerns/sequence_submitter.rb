@@ -177,9 +177,7 @@ module SequenceSubmitter
       # group_hash => group : Array {seq_definition}
       # reversed_group_hash = seq_definition : group
       if identity_with_90.length > 0
-        # group_hash, reversed_group_hash = get_group_sequence_table
-        identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level
-      
+        identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level      
       else
         # if identity_with_90.length == 0; no RD with ~=90% identity => create new RD groups
 
@@ -218,12 +216,8 @@ module SequenceSubmitter
     uploading_result = Array.new
     group_hash, reversed_group_hash = get_group_sequence_table
     fasta_array.each do |fasta_seq|
-
-      # check if the sequence is already in database
       result = sequence_check_for_submission(fasta_seq,group_hash,reversed_group_hash)
-      # TODO: if result is successful, add the seq to file
       uploading_result.push(*result)
-
     end
     # add file location at the end, and pop the last items at controller
     # uploading_result[0]["status"] = "SUCCESS"
@@ -287,44 +281,151 @@ module SequenceSubmitter
   end
 
 
-  # def save_to_protein_database(header, uploader, uploader_name,uploader_email,gp=nil,)
 
-  def construct_new_blast_db
+  def collection_v2(header,accession_no,organism,status,msg,group,reference)
+    collection_hash = { :header => header, :accession_no => accession_no, 
+      :organism => organism, :status => status, :msg => msg, :group => group,
+      :reference => reference }
+  end
+
+  def annotation_submission(sequence,group_hash,reversed_group_hash)
+
+    result_array = Array.new
+    aa_threshold = 0.9
+    
+    # at this point, the fasta format should be standard; any failed processing should be caught at validation_submission part
+    query = Bio::FastaFormat.new( sequence )
+
+    definition = query.definition.split("|")
+
+    header_info    = definition[0]
+    accession_no   = definition[1]
+    organism       = definition[2]
+    reference      = definition[3]
+    sequence       = query.to_seq
+
+    existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => sequence.seq)
+    if !existing_matched_group_exist.nil? # find existing sequence
+      result_array << collection(header_info, accession_no, organism, "WARN", "Matching #{existing_matched_group_exist.header}", nil, reference)
+      return result_array
+    end
+
+    sequence.auto # Guess the type of sequence. Changes the class of sequence.
+    query_sequence_type = sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
+    blaster = Bio::Blast.local( 'blastp', "#{Rails.root}/index/blast/reductive_dehalogenase_protein", get_blast_options)
+    
+    aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
+    aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+    identity_with_90 = check_alignment_identity(aa_report, 90)  # identity_with_90 contains all the header that share >=90% identity
+
+    # group_hash => group : Array {seq_definition}
+    # reversed_group_hash = seq_definition : group
+    if identity_with_90.length > 0
+      identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level      
+    else
+      if aa_similarity >= aa_threshold
+        last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
+        new_group_number = last_group + 1
+        result_array << collection(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number, reference)
+      else
+        result_array << collection(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.", nil, reference)
+      end
+
+      return result_array
+    end
+
+    if identified_group_at_aa_level.length > 0
+      result_array << collection(header_info, accession_no, organism, "SUCCESS","Your sequence belongs RD group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
+    else
+      result_array << collection(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.",nil, reference)
+    end
+
+    return result_array
+
+  end
+
+  def save_success_sequence(aa_sequence, nt_sequence, header, accession_no, organism, group, reference, uploader_name, uploader_email)
+
+    new_sequence = CustomizedProteinSequence.new
+    new_sequence.header         = header
+    new_sequence.uploader       = "USER"
+    new_sequence.uploader_name  = uploader_name
+    new_sequence.uploader_email = uploader_email
+    new_sequence.group          = group
+    new_sequence.accession_no   = accession_no # result[:header] should be accession no OR manually extract accession number from local blast db
+    new_sequence.chain          = aa_sequence
+    new_sequence.reference      = reference
+    new_sequence.save!
 
 
-    # what about gene database??? 
-    # ask user to submit gene sequence as well?
-    # How about only add user's amino acid sequence to database, but not constructing the blast_db;
-    # which blast_db should be construct at certain period of time after the sequence has been fully annotated by our lab
-    # make this as notification for all users
-    # The key point of the db is for people to annotate their sequence against our databases; also for educating people what is RD and their groups
-
+    # don't ask user for nt sequence yet. probably ask later through email
+    new_nt_sequence = CustomizedNucleotideSequence.new
+    new_nt_sequence.header         = header
+    new_nt_sequence.uploader       = "USER"
+    new_nt_sequence.uploader_name  = uploader_name
+    new_nt_sequence.uploader_email = uploader_email
+    new_nt_sequence.group          = group
+    new_nt_sequence.accession_no   = accession_no
+    new_nt_sequence.chain          = nt_sequence
+    new_sequence.reference         = reference
+    new_nt_sequence.save!
 
 
   end
 
-  # TODO: need nt sequence as well
-  def send_sequence_to_lab_without_validation(aa_sequence,requester,requester_email,institution,publications,organism, comment)
+
+  # aa_fasta_array[header] => aa_sequence; same as nt_fasta_array
+  def submit_sequence_caller_for_aa_nt(aa_fasta_array, nt_fasta_array,uploader_name, uploader_email)
     
-    # SendSequenceMailer.send_submit_mail(parameters...).deliver
-    # send_submit_mail(username, email, lab_email, aa_sequence, nt_sequence, comment)
-    SendSequenceMailer.send_submit_mail(requester, requester_email, "xcao2@ualberta.ca", aa_sequence, aa_sequence, comment).deliver
-    SendSequenceMailer.send_confirm_mail(requester, requester_email).deliver
-    
+    uploading_result = Array.new
+    group_hash, reversed_group_hash = get_group_sequence_table
+    aa_fasta_array.each do |fasta_seq|
+      result = annotation_submission(fasta_seq,group_hash,reversed_group_hash)
+      uploading_result.push(*result)
+    end
+    # collection_hash = { :header => header, :accession_no => accession_no, 
+      # :organism => organism, :status => status, :msg => msg, :group => group,
+      # :reference => reference }
+
+    # add the successful sequence to database 
+    uploading_result.each do |submission|
+      header = submission[:header]
+      accession_no = submission[:accession_no]
+      organism = submission[:organism]
+      status = submission[:status]
+      group  = submission[:group]
+      reference = submission[:reference]
+      if status == "SUCCESS" or status == "NEW"
+        group.split(",").each do |g|
+          save_success_sequence(aa_fasta_array[header], nt_fasta_array[header], header, accession_no, organism, g, reference, uploader_name, uploader_email)
+        end
+      end
+
+    end
+
+    return uploading_result
+
   end
-
-
-
 
 
   # return possible_errors, if possible_errors.length > 0 means there are something wrong
-
   def validation_submission(params)
 
-
     possible_errors = Array.new
+
     aa_seq_array = is_sequence_empty(params[:aa_sequence], params[:aa_fasta])
+    # if user submit more than 20 sequence at time, return error immediately
+    if !aa_seq_array.nil? and aa_seq_array.length > 20
+      possible_errors << "You submitted more than 20 amino acid sequences. While, we only accept 20 amino acid sequences or less per submission."
+      return possible_errors
+    end
+
     nt_seq_array = is_sequence_empty(params[:nt_sequence], params[:nt_fasta])
+    if !nt_seq_array.nil? and nt_seq_array.length > 20
+      possible_errors << "You submitted more than 20 nucleotide sequences. While, we only accept 20 nucleotide sequences or less per submission."
+      return possible_errors
+    end
+
 
     if aa_seq_array.nil? or nt_seq_array.nil?
       possible_errors << "Either your amino acid sequence or nucleotide sequence are empty"
@@ -337,7 +438,7 @@ module SequenceSubmitter
     aa_seq_array.each do |fasta_sequence|
       query = Bio::FastaFormat.new( fasta_sequence )
       aa_sequence_definition = parse_definition(query.definition)
-      aa_sequence = validate_seq(query.to_seq.seq,"aa")
+      aa_sequence = validate_seq(query.to_seq.seq,"aa") # fail return nil; success return 0
       if aa_sequence_definition.nil?
         invalid_definition += "#{query.definition}\n"
       end
@@ -347,7 +448,7 @@ module SequenceSubmitter
       end
 
       if !aa_sequence_definition.nil? and !aa_sequence.nil?
-        aa_sequence_hash[aa_sequence_definition[0]] = aa_sequence
+        aa_sequence_hash[aa_sequence_definition[0]] = query.to_seq.seq
       end
       
     end
@@ -367,7 +468,6 @@ module SequenceSubmitter
     end
 
 
-
     # Check nt sequence
     nt_sequence_hash = Hash.new
     invalid_definition = ""
@@ -385,7 +485,7 @@ module SequenceSubmitter
       end
 
       if !nt_sequence_definition.nil? and !nt_sequence.nil?
-        nt_sequence_hash[nt_sequence_definition[0]] = nt_sequence
+        nt_sequence_hash[nt_sequence_definition[0]] = query.to_seq.seq
       end
     end
 
@@ -427,9 +527,16 @@ module SequenceSubmitter
 
 
 
-    return possible_errors
-
-
+    # if error, return error
+    # else, return aa_array and nt_array 
+    if possible_errors.length > 0
+      return possible_errors
+    else
+      aa_nt_array = Hash.new
+      aa_nt_array["aa"] << aa_seq_array
+      aa_nt_array["nt"] << nt_seq_array
+      return aa_nt_array
+    end
 
   end
 
@@ -492,6 +599,7 @@ module SequenceSubmitter
 
     definition = definition.split("|")
     if definition.length == 3 or definition.length == 4
+      # check the validation of accession number 
       return definition
     else
       return nil
@@ -501,6 +609,7 @@ module SequenceSubmitter
 
 
   def validate_seq(sequence, seq_type)
+
     if seq_type == "aa"
       va = sequence =~ /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/
     end
