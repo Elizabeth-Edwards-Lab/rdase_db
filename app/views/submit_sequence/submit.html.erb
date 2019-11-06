@@ -19,8 +19,14 @@
   	</div>
 
     <div id="submit-interface" style="display: none;" >
+      <!-- if user successfully submit standard fasta format, redirect to a new page for displaying the result  -->
+      <!-- else, present the possible errors for user to update -->
     	<h3>Submission</h3>
       <hr>
+      <div class="alert alert-warning" role="alert" id="possible_errors" style="display: none;">
+
+      </div>
+
       <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
         <div class="container">
           <div class="row">
@@ -51,6 +57,13 @@
         Email: <%= f.email_field :uploader_email, required: true %>
         <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
       <% end %>
+    </div>
+
+    <div id="submit-interface-result" style="display: none;">
+
+
+
+
     </div>
 
     <div id="submit-to-lab-interface" style="display: none;">

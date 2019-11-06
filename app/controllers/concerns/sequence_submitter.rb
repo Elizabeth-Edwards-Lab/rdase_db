@@ -1,5 +1,7 @@
 module SequenceSubmitter
   extend ActiveSupport::Concern
+  
+  require 'nokogiri'
 
   def get_blast_options
     # set the default blast parameter
@@ -300,15 +302,15 @@ module SequenceSubmitter
 
     definition = query.definition.split("|")
 
-    header_info    = definition[0]
-    accession_no   = definition[1]
-    organism       = definition[2]
+    header_info    = definition[0].strip
+    accession_no   = definition[1].strip
+    organism       = definition[2].strip
     reference      = definition[3]
     sequence       = query.to_seq
 
     existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => sequence.seq)
     if !existing_matched_group_exist.nil? # find existing sequence
-      result_array << collection(header_info, accession_no, organism, "WARN", "Matching #{existing_matched_group_exist.header}", nil, reference)
+      result_array << collection_v2(header_info, accession_no, organism, "WARN", "Matching #{existing_matched_group_exist.header}", nil, reference)
       return result_array
     end
 
@@ -328,24 +330,25 @@ module SequenceSubmitter
       if aa_similarity >= aa_threshold
         last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
         new_group_number = last_group + 1
-        result_array << collection(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number, reference)
+        result_array << collection_v2(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number, reference)
       else
-        result_array << collection(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.", nil, reference)
+        result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.", nil, reference)
       end
 
       return result_array
     end
 
     if identified_group_at_aa_level.length > 0
-      result_array << collection(header_info, accession_no, organism, "SUCCESS","Your sequence belongs RD group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
+      result_array << collection_v2(header_info, accession_no, organism, "SUCCESS","Your sequence belongs RD group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
     else
-      result_array << collection(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.",nil, reference)
+      result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.",nil, reference)
     end
 
     return result_array
 
   end
 
+  # at this point, the sequence should be perfect; then, that's the issue of validation
   def save_success_sequence(aa_sequence, nt_sequence, header, accession_no, organism, group, reference, uploader_name, uploader_email)
 
     new_sequence = CustomizedProteinSequence.new
@@ -377,6 +380,7 @@ module SequenceSubmitter
 
 
   # aa_fasta_array[header] => aa_sequence; same as nt_fasta_array
+  # at this point, the aa_fasta and nt_fasta should be perfect, otherwise, something wrong with validation
   def submit_sequence_caller_for_aa_nt(aa_fasta_array, nt_fasta_array,uploader_name, uploader_email)
     
     uploading_result = Array.new
@@ -385,11 +389,22 @@ module SequenceSubmitter
       result = annotation_submission(fasta_seq,group_hash,reversed_group_hash)
       uploading_result.push(*result)
     end
+
+    aa_fasta_hash = convert_fasta_array_to_hash(aa_fasta_array)
+    nt_fasta_hash = convert_fasta_array_to_hash(nt_fasta_array)
+    # puts aa_fasta_hash
+
     # collection_hash = { :header => header, :accession_no => accession_no, 
       # :organism => organism, :status => status, :msg => msg, :group => group,
       # :reference => reference }
 
-    # add the successful sequence to database 
+    # puts "test submit_sequence_caller_for_aa_nt"
+    # uploading_result.each do |row|
+    #   puts row.inspect
+    # end
+
+    # add the successful sequence to database   
+    # aa_fasta_array is array not hash 
     uploading_result.each do |submission|
       header = submission[:header]
       accession_no = submission[:accession_no]
@@ -397,9 +412,11 @@ module SequenceSubmitter
       status = submission[:status]
       group  = submission[:group]
       reference = submission[:reference]
+      # group = "1"
+      # status = "SUCCESS"
       if status == "SUCCESS" or status == "NEW"
         group.split(",").each do |g|
-          save_success_sequence(aa_fasta_array[header], nt_fasta_array[header], header, accession_no, organism, g, reference, uploader_name, uploader_email)
+          save_success_sequence(aa_fasta_hash[header], nt_fasta_hash[header], g , accession_no, organism, g, reference, uploader_name, uploader_email)
         end
       end
 
@@ -407,6 +424,20 @@ module SequenceSubmitter
 
     return uploading_result
 
+  end
+
+
+  # fasta array comes from scan('[\>]')
+  def convert_fasta_array_to_hash(fasta_array)
+    fasta_hash = Hash.new
+
+    fasta_array.each do |fasta_sequence|
+      query = Bio::FastaFormat.new( fasta_sequence )
+      aa_sequence_definition = parse_definition(query.definition)
+      fasta_hash[aa_sequence_definition[0].strip] = query.to_seq.seq
+    end
+
+    return fasta_hash
   end
 
 
@@ -444,13 +475,16 @@ module SequenceSubmitter
 
     # Check aa sequence 
     aa_sequence_hash = Hash.new
+    header_array = Array.new
+    accession_no_array = Array.new
     invalid_definition = ""
     invalid_sequence = ""
     aa_seq_array.each do |fasta_sequence|
       query = Bio::FastaFormat.new( fasta_sequence )
       aa_sequence_definition = parse_definition(query.definition)
+
       aa_sequence = validate_seq(query.to_seq.seq,"aa") # fail return nil; success return 0
-      puts "validation aa_sequence => #{aa_sequence}"
+      # puts "validation aa_sequence => #{aa_sequence}"
       if aa_sequence_definition.nil?
         invalid_definition += "#{query.definition}\n"
       end
@@ -461,6 +495,9 @@ module SequenceSubmitter
 
       if !aa_sequence_definition.nil? and !aa_sequence.nil?
         aa_sequence_hash[aa_sequence_definition[0]] = query.to_seq.seq
+
+        header_array << aa_sequence_definition[0].strip
+        accession_no_array << aa_sequence_definition[1].strip
       end
       
     end
@@ -481,16 +518,45 @@ module SequenceSubmitter
 
     end
 
+    # check uniqueness of header
+    duplicate_header = check_uniqueness_of_header(header_array)
+    if duplicate_header.length != 0
+      invalid_submission_msg = "Your following amino acid sequences have duplicate header:\n"
+      duplicate_header.each do |d_header|
+        invalid_submission_msg += "#{d_header}\n"
+      end
 
+      possible_errors << invalid_submission_msg
+      
+      return possible_errors
+    end
+
+    # check if the accession number is validate or not
+    # we only check the correctness of aa accession number; not gene; since we only care one accession number
+    invalid_accession_num = validate_accession_numbers(accession_no_array)
+    if invalid_accession_num.length != 0
+      invalid_submission_msg = "Your following amino acid sequences have invalid accession number from NCBI. Please check NCBI protein database:<br>"
+      invalid_accession_num.each do |accession_no|
+        invalid_submission_msg += "#{accession_no}<br>"
+      end
+
+      possible_errors << invalid_submission_msg
+      
+      return possible_errors
+    end
+
+    ########################################################################################
     # Check nt sequence
     nt_sequence_hash = Hash.new
+    header_array = Array.new
     invalid_definition = ""
     invalid_sequence = ""
     nt_seq_array.each do |fasta_sequence|
       query = Bio::FastaFormat.new( fasta_sequence )
       nt_sequence_definition = parse_definition(query.definition)
       nt_sequence = validate_seq(query.to_seq.seq,"nt")
-      puts "validation nt_sequence => #{nt_sequence}"
+      
+      # puts "validation nt_sequence => #{nt_sequence}"
       if nt_sequence_definition.nil?
         invalid_definition += "#{query.definition}\n"
       end
@@ -501,12 +567,14 @@ module SequenceSubmitter
 
       if !nt_sequence_definition.nil? and !nt_sequence.nil?
         nt_sequence_hash[nt_sequence_definition[0]] = query.to_seq.seq
+
+        header_array << nt_sequence_definition[0].strip
       end
     end
 
     if invalid_definition.length > 0 or invalid_sequence.length > 0
       # something wrong with aa sequence field
-      invalid_submission_msg = "Your following nucleotide sequences are not following our submission rules\n"
+      invalid_submission_msg = "Your following nucleotide sequences are not following our submission rules"
       if invalid_definition.length > 0
         invalid_submission_msg += "Failed fasta format:\n #{invalid_definition}"
       end
@@ -518,12 +586,23 @@ module SequenceSubmitter
       return possible_errors
     end
     
+    duplicate_header = check_uniqueness_of_header(header_array)
+    if duplicate_header.length != 0
+      invalid_submission_msg = "Your following nucleotide sequences have duplicate header:\n"
+      duplicate_header.each do |d_header|
+        invalid_submission_msg += "#{d_header}\n"
+      end
+      
+      possible_errors << invalid_submission_msg
+      
+      return possible_errors
+    end
 
 
     # check missing sequence
     missing_aa_sequence, missing_nt_sequence = check_matchness(aa_sequence_hash,nt_sequence_hash)
-    puts "missing_aa_sequence => #{missing_aa_sequence}"
-    puts "missing_nt_sequence => #{missing_nt_sequence}"
+    # puts "missing_aa_sequence => #{missing_aa_sequence}"
+    # puts "missing_nt_sequence => #{missing_nt_sequence}"
     missing_seq_string = ""
     if missing_aa_sequence.length > 0
       missing_seq_string += "You are missing following amino acid sequence based on your nucleotide sequence:\n"
@@ -613,6 +692,22 @@ module SequenceSubmitter
   end
 
 
+  # more than one headers have same name is not allowed
+  def check_uniqueness_of_header(header_array)
+    uniqueness = Array.new
+    duplicates = Array.new
+
+    header_array.each do |header|
+      if uniqueness.include? header
+        duplicates << header
+      else
+        uniqueness << header
+      end
+    end
+
+    return duplicates.uniq
+
+  end
   
   def parse_definition(definition)
 
@@ -630,6 +725,46 @@ module SequenceSubmitter
     end
 
   end
+
+
+
+
+  def validate_accession_numbers(accession_no_array)
+
+    invalid_accession_num = Array.new
+    accession_no_array.each do |accession_no|
+
+      if validate_accession_number(accession_no) == false
+        invalid_accession_num << accession_no
+      end
+
+    end
+
+    return invalid_accession_num
+  end
+
+  # return false if accession number is invalid
+  def validate_accession_number(accession_no)
+    is_valid_accession_no = false
+    # check NCBI. to determine the accession_no is correct, grap the origin aa sequence and compare
+    # documents about ncbi api
+    # https://www.ncbi.nlm.nih.gov/books/NBK25500/#_chapter1_Downloading_Document_Summaries_
+    ncbi_protein_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=#{accession_no}"
+    ncbi_res = open(ncbi_protein_api) # StringIO object
+    if ncbi_res.status.include? "200"
+      doc = Nokogiri::XML(ncbi_res.read)
+      if doc.xpath('//ERROR').length == 0
+
+        is_valid_accession_no = true
+
+      end
+    end 
+
+    return is_valid_accession_no
+
+  end
+
+
 
   
   def validate_seq(sequence, seq_type)

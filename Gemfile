@@ -25,6 +25,7 @@ gem 'recaptcha'
 gem 'will_paginate', '~> 3.1.0'
 gem 'rubyzip'
 gem 'font-awesome-sass', '~> 5.11.1'
+gem 'nokogiri'
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -36,8 +37,8 @@ group :production do
   gem 'execjs'
   gem 'libv8', '~> 7.3.492'
   gem 'mini_racer', '0.2.6'
-  # gem 'puma'
-  # gem 'puma_worker_killer'
+  gem 'puma'
+  gem 'puma_worker_killer'
 end
 
 group :development do
