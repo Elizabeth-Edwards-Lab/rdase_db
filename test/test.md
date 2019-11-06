@@ -36,3 +36,43 @@ class UsersTest < ApplicationSystemTestCase
   end
 end
 ```
+
+
+# run all test for single file
+rails test test/models/my_model.rb
+
+# run single test from one file 
+```
+class MyModelTest < ActiveSupport::TestCase
+
+  test "valid with good attributes" do
+    # do whatever you do
+  end
+
+  test "invalid with bad attributes" do
+    # do whatever you do
+  end
+end
+```
+ruby -I test test/unit/my_model_test.rb -n test_invalid_with_bad_attributes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

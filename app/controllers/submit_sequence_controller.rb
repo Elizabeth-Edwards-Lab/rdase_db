@@ -7,12 +7,17 @@ class SubmitSequenceController < ApplicationController
 	def submit
 		# puts params.inspect
 		puts "submit params => #{params.inspect}"
-		fasta_array = Array.new
-		
+		puts "params.class => #{params.class}"
+
 
 		if params[:authenticity_token].present?
+
 			# submit hit
 			submission_result = validation_submission(params)
+			puts submission_result 
+			puts submission_result.class 
+			# Test passed... Need more test
+
 			if submission_result.class == Hash
 				# submit_sequence_caller_for_aa_nt will save success and new to database automatically
 				# uploading_result is for showing the status for user

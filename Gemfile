@@ -36,8 +36,8 @@ group :production do
   gem 'execjs'
   gem 'libv8', '~> 7.3.492'
   gem 'mini_racer', '0.2.6'
-  gem 'puma'
-  gem 'puma_worker_killer'
+  # gem 'puma'
+  # gem 'puma_worker_killer'
 end
 
 group :development do
@@ -67,4 +67,5 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'rspec-rails', '~> 3.8'
 end

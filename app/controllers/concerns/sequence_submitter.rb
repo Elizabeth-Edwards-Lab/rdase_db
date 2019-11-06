@@ -282,6 +282,8 @@ module SequenceSubmitter
 
 
 
+
+  # below are new code for submission engine 
   def collection_v2(header,accession_no,organism,status,msg,group,reference)
     collection_hash = { :header => header, :accession_no => accession_no, 
       :organism => organism, :status => status, :msg => msg, :group => group,
@@ -408,12 +410,19 @@ module SequenceSubmitter
   end
 
 
+  # TODO: still need to validate the DNA to RNA
+          # validate the correctness of assession number
+  # to test concern in console
+  # controller = ActionController::Base::ApplicationController.new
+  # controller.extend(MyConcern)
+  # controller.concern_method "hello world"
   # return possible_errors, if possible_errors.length > 0 means there are something wrong
   def validation_submission(params)
 
     possible_errors = Array.new
 
     aa_seq_array = is_sequence_empty(params[:aa_sequence], params[:aa_fasta])
+    puts "aa_seq_array => #{aa_seq_array}"
     # if user submit more than 20 sequence at time, return error immediately
     if !aa_seq_array.nil? and aa_seq_array.length > 20
       possible_errors << "You submitted more than 20 amino acid sequences. While, we only accept 20 amino acid sequences or less per submission."
@@ -421,6 +430,7 @@ module SequenceSubmitter
     end
 
     nt_seq_array = is_sequence_empty(params[:nt_sequence], params[:nt_fasta])
+    puts "nt_seq_array => #{nt_seq_array}"
     if !nt_seq_array.nil? and nt_seq_array.length > 20
       possible_errors << "You submitted more than 20 nucleotide sequences. While, we only accept 20 nucleotide sequences or less per submission."
       return possible_errors
@@ -429,6 +439,7 @@ module SequenceSubmitter
 
     if aa_seq_array.nil? or nt_seq_array.nil?
       possible_errors << "Either your amino acid sequence or nucleotide sequence are empty"
+      return possible_errors
     end
 
     # Check aa sequence 
@@ -439,6 +450,7 @@ module SequenceSubmitter
       query = Bio::FastaFormat.new( fasta_sequence )
       aa_sequence_definition = parse_definition(query.definition)
       aa_sequence = validate_seq(query.to_seq.seq,"aa") # fail return nil; success return 0
+      puts "validation aa_sequence => #{aa_sequence}"
       if aa_sequence_definition.nil?
         invalid_definition += "#{query.definition}\n"
       end
@@ -455,7 +467,7 @@ module SequenceSubmitter
     
     if invalid_definition.length > 0 or invalid_sequence.length > 0
       # something wrong with aa sequence field
-      invalid_submission_msg = "Your following amino acid sequences are not following our submission rules:\n"
+      invalid_submission_msg = "Your following amino acid sequences are not following our submission rules\n"
       if invalid_definition.length > 0
         invalid_submission_msg += "Failed fasta format:\n #{invalid_definition}"
       end
@@ -464,6 +476,8 @@ module SequenceSubmitter
       end
 
       possible_errors << invalid_submission_msg
+
+      return possible_errors
 
     end
 
@@ -476,6 +490,7 @@ module SequenceSubmitter
       query = Bio::FastaFormat.new( fasta_sequence )
       nt_sequence_definition = parse_definition(query.definition)
       nt_sequence = validate_seq(query.to_seq.seq,"nt")
+      puts "validation nt_sequence => #{nt_sequence}"
       if nt_sequence_definition.nil?
         invalid_definition += "#{query.definition}\n"
       end
@@ -491,7 +506,7 @@ module SequenceSubmitter
 
     if invalid_definition.length > 0 or invalid_sequence.length > 0
       # something wrong with aa sequence field
-      invalid_submission_msg = "Your following nucleotide sequences are not following our submission rules:\n"
+      invalid_submission_msg = "Your following nucleotide sequences are not following our submission rules\n"
       if invalid_definition.length > 0
         invalid_submission_msg += "Failed fasta format:\n #{invalid_definition}"
       end
@@ -500,22 +515,25 @@ module SequenceSubmitter
       end
 
       possible_errors << invalid_submission_msg
+      return possible_errors
     end
     
 
 
     # check missing sequence
     missing_aa_sequence, missing_nt_sequence = check_matchness(aa_sequence_hash,nt_sequence_hash)
+    puts "missing_aa_sequence => #{missing_aa_sequence}"
+    puts "missing_nt_sequence => #{missing_nt_sequence}"
     missing_seq_string = ""
     if missing_aa_sequence.length > 0
-      missing_seq_string += "You are missing following amino acid sequence for your nucleotide sequence:\n"
+      missing_seq_string += "You are missing following amino acid sequence based on your nucleotide sequence:\n"
       missing_aa_sequence.each do |aa_seq_name|
         missing_seq_string += "#{aa_seq_name}\n"
       end
     end
 
     if missing_nt_sequence.length > 0
-      missing_seq_string += "You are missing following nucleotide sequence for your amino acid sequence:\n"
+      missing_seq_string += "You are missing following nucleotide sequence based on your amino acid sequence:\n"
       missing_nt_sequence.each do |nt_seq_name|
         missing_seq_string += "#{nt_seq_name}\n"
       end
@@ -533,8 +551,8 @@ module SequenceSubmitter
       return possible_errors
     else
       aa_nt_array = Hash.new
-      aa_nt_array["aa"] << aa_seq_array
-      aa_nt_array["nt"] << nt_seq_array
+      aa_nt_array["aa"] = aa_seq_array
+      aa_nt_array["nt"] = nt_seq_array
       return aa_nt_array
     end
 
@@ -563,8 +581,7 @@ module SequenceSubmitter
   end
 
 
-  # return nil is sequence is empty
-  # return fasta_array if sequence is not empty
+  # Test: Working
   def is_sequence_empty(sequence, fasta_file)
     empty_seq = true
     fasta_array = nil
@@ -595,11 +612,18 @@ module SequenceSubmitter
 
   end
 
+
+  
   def parse_definition(definition)
 
     definition = definition.split("|")
     if definition.length == 3 or definition.length == 4
       # check the validation of accession number 
+      # If you want to remove only leading and trailing whitespace (like PHP's trim) you can use .strip, but if you want to remove all whitespace, you can use .gsub(/\s+/, "") instead .
+      definition[0] = definition[0].strip
+      definition[1] = definition[1].strip
+      definition[2] = definition[2].strip
+
       return definition
     else
       return nil
@@ -607,7 +631,7 @@ module SequenceSubmitter
 
   end
 
-
+  
   def validate_seq(sequence, seq_type)
 
     if seq_type == "aa"
