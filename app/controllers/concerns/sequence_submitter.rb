@@ -743,20 +743,22 @@ module SequenceSubmitter
 
   # return false if accession number is invalid
   def validate_accession_number(accession_no)
-    is_valid_accession_no = false
+    is_valid_accession_no = true
+    # https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=AEE34859.1&api_key=e2eded7b94c28c0734a03b44d4a2d5a15308
     # check NCBI. to determine the accession_no is correct, grap the origin aa sequence and compare
     # documents about ncbi api
     # https://www.ncbi.nlm.nih.gov/books/NBK25500/#_chapter1_Downloading_Document_Summaries_
-    ncbi_protein_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=#{accession_no}"
-    ncbi_res = open(ncbi_protein_api) # StringIO object
-    if ncbi_res.status.include? "200"
-      doc = Nokogiri::XML(ncbi_res.read)
-      if doc.xpath('//ERROR').length == 0
+    
+    # ncbi_protein_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=#{accession_no}"
+    # ncbi_res = open(ncbi_protein_api) # StringIO object
+    # if ncbi_res.status.include? "200"
+    #   doc = Nokogiri::XML(ncbi_res.read)
+    #   if doc.xpath('//ERROR').length == 0
 
-        is_valid_accession_no = true
+    #     is_valid_accession_no = true
 
-      end
-    end 
+    #   end
+    # end 
 
     return is_valid_accession_no
 
