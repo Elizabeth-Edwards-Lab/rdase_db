@@ -9,10 +9,10 @@ class SubmitSequenceController < ApplicationController
 
 
 		if params[:authenticity_token].present?
-
+			puts "here"
 			# submit hit
 			submission_result = validation_submission(params)
-			# puts submission_result 
+			puts submission_result 
 			# puts submission_result.class 
 			# Test passed... Need more test
 

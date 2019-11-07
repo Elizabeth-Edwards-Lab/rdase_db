@@ -111,7 +111,7 @@ $(document).ready(function(){
 				$("#possible_errors").prepend(`<p>${data}</p>`);
 			},
 
-			timeout: 1000 * 60
+			timeout: 1000 * 600
 
 
 		});
