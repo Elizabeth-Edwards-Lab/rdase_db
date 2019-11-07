@@ -1,7 +1,5 @@
 module SequenceSubmitter
   extend ActiveSupport::Concern
-  
-  require 'nokogiri'
 
   def get_blast_options
     # set the default blast parameter
