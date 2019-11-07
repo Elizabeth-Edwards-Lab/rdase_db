@@ -34,6 +34,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 group :production do
   gem 'newrelic_rpm'
   # gem 'appsignal'
+  gem 'nokogiri'
   gem 'execjs'
   gem 'libv8', '~> 7.3.492'
   gem 'mini_racer', '0.2.6'
