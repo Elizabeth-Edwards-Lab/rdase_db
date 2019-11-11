@@ -1,6 +1,22 @@
 #TODO List
 
 
+2019-11-12
+1. update accession no => Done, in my local database
+2. update the filter function
+3. make NCBI accept our server
+
+4. 3D-structures of enzyme/protein
+5. RefSeq ID, UniProt ID, PDB ID
+6. Creating an existing tree of all known reductive dehalogenases.
+7. “Browse” or “Search” options for the database.
+8. Sequence features (sequence length, MW, active site location, predicted pI, etc.).
+9. Automated process that involves querying newly deposited bacterial genome. 
+10. “Model 3D” using Proteus2
+11. “Build Tree”
+12. WishartLab database style
+
+
 2019-10-31
 1. ask for gene sequence for submitting jobs
 2. make filter can select the No Group options (optimize the filter function)

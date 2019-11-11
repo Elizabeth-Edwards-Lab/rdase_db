@@ -1,6 +1,6 @@
 
 <div id="well-tree">
-	<p id="_generate_tree">Click below to place your sequence in a Phylogenetic Tree using <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a></p>
+	<p id="_generate_tree">Click below to build a Phylogenetic Tree with your query sequence using <a href="http://www.drive5.com/muscle/"> MUSCLE </a> and <a href="http://phylocanvas.org/">Phylocanvas</a></p>
 
 	<%= form_with url:'/phylogenetic_tree', remote: true,  :html => {:id => "do-tree"} do |f| %>
 	
@@ -41,7 +41,7 @@
 	
 	<p id="graph-note" style="visibility: hidden;">
 		<hr>
-		For more advanced graph viewer, plesase see <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>
+		For more advanced graph viewer, please see <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>
 	</p>
 
 </div>

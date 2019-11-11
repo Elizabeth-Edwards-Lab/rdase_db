@@ -16,7 +16,8 @@ class SimpleController < ApplicationController
   	end
 
 	def downloads
-
+		# get last date of update strain
+		@last_update_date = CustomizedProteinSequence.order("created_at DESC").limit(1)[0].created_at
 
 	end
 

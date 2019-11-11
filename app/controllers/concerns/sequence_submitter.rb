@@ -157,7 +157,7 @@ module SequenceSubmitter
 
       existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => sequence.seq)
       if !existing_matched_group_exist.nil? # find existing sequence
-        result_array << collection(query_name, "WARN", "Matching #{existing_matched_group_exist.header}")
+        result_array << collection(query_name, "WARN", "Your sequence exists in our database. Common Name: #{existing_matched_group_exist.header} ")
         return result_array
       end
 
@@ -531,7 +531,7 @@ module SequenceSubmitter
 
     # check if the accession number is validate or not
     # we only check the correctness of aa accession number; not gene; since we only care one accession number
-    invalid_accession_num = validate_accession_numbers(accession_no_array)
+    invalid_accession_num = validate_accession_numbers(accession_no_array, "aa")
     if invalid_accession_num.length != 0
       invalid_submission_msg = "Your following amino acid sequences have invalid accession number from NCBI. Please check NCBI protein database:<br>"
       invalid_accession_num.each do |accession_no|
@@ -547,6 +547,7 @@ module SequenceSubmitter
     # Check nt sequence
     nt_sequence_hash = Hash.new
     header_array = Array.new
+    accession_no_array = Array.new
     invalid_definition = ""
     invalid_sequence = ""
     nt_seq_array.each do |fasta_sequence|
@@ -567,6 +568,7 @@ module SequenceSubmitter
         nt_sequence_hash[nt_sequence_definition[0]] = query.to_seq.seq
 
         header_array << nt_sequence_definition[0].strip
+        accession_no_array << nt_sequence_definition[1].strip
       end
     end
 
@@ -595,6 +597,19 @@ module SequenceSubmitter
       
       return possible_errors
     end
+
+    invalid_accession_num = validate_accession_numbers(accession_no_array, "nt")
+    if invalid_accession_num.length != 0
+      invalid_submission_msg = "Your following nucleotide sequences have invalid accession number from NCBI. Please check NCBI protein database:<br>"
+      invalid_accession_num.each do |accession_no|
+        invalid_submission_msg += "#{accession_no}<br>"
+      end
+
+      possible_errors << invalid_submission_msg
+      
+      return possible_errors
+    end
+
 
 
     # check missing sequence
@@ -727,12 +742,12 @@ module SequenceSubmitter
 
 
 
-  def validate_accession_numbers(accession_no_array)
+  def validate_accession_numbers(accession_no_array, seq_type)
 
     invalid_accession_num = Array.new
     accession_no_array.each do |accession_no|
 
-      if validate_accession_number(accession_no) == false
+      if validate_accession_number(accession_no, seq_type) == false
         invalid_accession_num << accession_no
       end
 
@@ -742,15 +757,20 @@ module SequenceSubmitter
   end
 
   # return false if accession number is invalid
-  def validate_accession_number(accession_no)
-    is_valid_accession_no = true
-    # https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=AEE34859.1&api_key=e2eded7b94c28c0734a03b44d4a2d5a15308
-    # check NCBI. to determine the accession_no is correct, grap the origin aa sequence and compare
-    # documents about ncbi api
-    # https://www.ncbi.nlm.nih.gov/books/NBK25500/#_chapter1_Downloading_Document_Summaries_
-    
-    # ncbi_protein_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=#{accession_no}"
-    # ncbi_res = open(ncbi_protein_api) # StringIO object
+  def validate_accession_number(accession_no,seq_type)
+    # is_valid_accession_no = false
+    # # https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=AEE34859.1&api_key=e2eded7b94c28c0734a03b44d4a2d5a15308
+    # # check NCBI. to determine the accession_no is correct, grap the origin aa sequence and compare
+    # # documents about ncbi api
+    # # https://www.ncbi.nlm.nih.gov/books/NBK25500/#_chapter1_Downloading_Document_Summaries_
+    # ncbi_api = nil
+    # if seq_type == "aa"
+    #   ncbi_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=protein&id=#{accession_no}"
+    # elsif seq_type == "nt"
+    #   ncbi_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/epost.fcgi?db=nuccore&id=#{accession_no}"
+    # end
+
+    # ncbi_res = open(ncbi_api) # StringIO object
     # if ncbi_res.status.include? "200"
     #   doc = Nokogiri::XML(ncbi_res.read)
     #   if doc.xpath('//ERROR').length == 0
@@ -760,11 +780,11 @@ module SequenceSubmitter
     #   end
     # end 
 
+    is_valid_accession_no = true
+
     return is_valid_accession_no
 
   end
-
-
 
   
   def validate_seq(sequence, seq_type)
