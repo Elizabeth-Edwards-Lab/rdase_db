@@ -138,6 +138,7 @@ class ProteinController < ApplicationController
         end
       end
     end
+    
   end
 
 

@@ -2,6 +2,7 @@ class QueryController < ApplicationController
   # include concerns
   include QueryLogic
   include QueryValidator # concerns is for reducing logic in controller
+  include TreeBuilder
   helper QueryHelper # helper is for reducing logic in view
 
 
@@ -375,7 +376,7 @@ class QueryController < ApplicationController
     sequence_def = Bio::FastaFormat.new( fasta_array[0] )
     aa_sequence = sequence_def.to_seq.seq
     
-    current_time = Time.now.strftime("%Y/%m/%d %H:%M:%S_%L").gsub("/","_").gsub(" ","_").gsub(":","_")
+    current_time = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
     fasta_new  = File.open("#{Rails.root}/tmp/tmp_fasta/fasta_#{current_time}.fasta","w")
 
     # puts "params.inspect => #{params.inspect}"
@@ -461,6 +462,9 @@ class QueryController < ApplicationController
     end
 
   end
+
+
+
 
 
   def download_new_fasta 

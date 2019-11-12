@@ -7,13 +7,31 @@
 3. make NCBI accept our server
 
 4. 3D-structures of enzyme/protein
+
 5. RefSeq ID, UniProt ID, PDB ID
-6. Creating an existing tree of all known reductive dehalogenases.
-7. “Browse” or “Search” options for the database.
+add external links 
+https://www.ebi.ac.uk/uniprot/japi/index.html => for uniprot blast
+`blastp -query querySeq.fasta -db pdbaa -remote` => for pdb  https://www.biostars.org/p/112709/
+<!-- 6. Creating an existing tree of all known reductive dehalogenases. (move to action 11.) -->
+
+7. “Browse” or “Search” options for the database. => Done
+
 8. Sequence features (sequence length, MW, active site location, predicted pI, etc.).
+https://web.expasy.org/protparam/
+https://github.com/jensengroup/propka-3.1
+https://web.expasy.org/compute_pi/pi_tool-doc.html
+https://www.bioinformatics.org/sms/index.html
+
 9. Automated process that involves querying newly deposited bacterial genome. 
-10. “Model 3D” using Proteus2
-11. “Build Tree”
+https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch
+They may not have this ability to let me retrieve the data 
+
+10. “Model 3D” using Proteus2 => add options for model 3d with proteus2
+http://www.proteus2.ca/proteus2/contact.jsp
+convert the program to ruby???
+
+11. “Build Tree” => standalone build tree + creating an existing tree for all known reductive dehalogenases
+
 12. WishartLab database style
 
 
