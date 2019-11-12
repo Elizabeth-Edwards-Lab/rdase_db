@@ -1,0 +1,77 @@
+
+<div class="container">
+
+	<h3> Phylogenetic Tree </h3>
+	<hr>
+
+	<p>This is pre-constructed phylogenetic tree by one of our expert (Last Updated: <%= @last_update_date %>) </p>
+	<div id="pre-rendered-tree" style="border-style: solid; border-width: 5px;">
+		
+		<%= content_tag :div, class: "controller-phy_data", data: {phy_data: @phy_data} do %>
+		<% end %>
+		<%= content_tag :div, class: "controller-group_info", data: {group_info: @group_info} do %>
+		<% end %>
+	</div>
+	
+	<hr>
+	<div class="container" id="tree-construction-interface">
+		<h4>Create your customized phylogenetic tree based on our current database: </h4>
+		<%= form_with url:'/phylogeny', remote: true,  :html => {:id => "phylogeny-do-tree"} do |f| %>
+			
+			<div>
+
+			  <div class="row">
+
+			    <div class="col-4">Select OG group(s)</div>
+			    <div class="col-8">Select Organism(s)</div>
+
+			    <div class="w-100"></div>
+			    <!-- increment stack here -->
+
+			    <div class="col-4 stack-group">
+			    	<%= f.select :group, options_for_select(@group_number_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }.map { |x| x == nil ? 'No Group' : x }), {:prompt => 'All OGs'}, :id => "orig-group" %>
+			    </div>
+
+			    <div class="col-8 stack-organism">
+			    	<%= f.select :organism, options_for_select(@organism_list.sort { |a,b| a && b ? a <=> b : a ? -1 : 1 }.map { |x| x == nil ? 'No Organism' : x }), {:prompt => 'All Organism'}, :id => "orig-organism" %>
+			    </div>
+
+			    <div class="w-100"></div>
+
+			    <div class="col-4"><button id='add-group' type="button" >Add Group</button></div>
+			    <div class="col-8"><button id='add-organism' type="button" >Add Organism</button></div>
+
+			  </div>
+			</div>
+
+			<br>
+			
+			<%= f.button 'Generate Phylogenetic Tree'.html_safe, :type => :submit, id: "generate-phylogenetic-tree", :class => "btn btn-primary" %>
+
+
+		<% end %>
+	</div>
+	<br>
+	<div id="tree-result-div" style="border-style: solid; border-width: 5px;">
+
+		<p id="phylocanvas-page-warning"></p>
+		<div id="tree-group">
+			<!-- phylocanvas tree will be rendered here -->
+		</div>
+
+	</div>
+
+	<hr>
+	<div id="tree-description">
+		<p>
+			Sequence alignment and Tree File (in Newick format) are constructed by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>.<br>
+			Phylogenetic Tree is rendered and presented by  <a href="http://phylocanvas.org/">Phylocanvas</a> Javascript Library.<br>
+			For more advanced graph viewer, please see <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>
+		</p>
+	</div>
+	
+	
+	
+
+</div>
+<div class="modal"></div>

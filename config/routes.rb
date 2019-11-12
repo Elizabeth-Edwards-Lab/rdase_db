@@ -45,12 +45,17 @@ Rails.application.routes.draw do
 		as: :submit_sequence,
 		via: [:get, :post]
 
+	match "phylogeny" => "phylogeny#show",
+		as: :phylogeny,
+		via: [:get, :post]
+
 
 	resources :protein, only: [:show, :index] do
 	end
 
 	resources :compound, only: [:show, :index] do 
 	end
+
 
 	root to: 'simple#home'
 

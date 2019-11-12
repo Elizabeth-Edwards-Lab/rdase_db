@@ -153,7 +153,7 @@ module TreeBuilder
   end
 
 
-  # if the datafile has 
+  # build_tree_data assume there are some sequence in current_time file
   def build_tree_data(current_time)
   	# the tree is based on AA (amino acid)
   	muscle_path = "vendor/MUSCLE/muscle3.8.31_i86linux64"
@@ -162,35 +162,28 @@ module TreeBuilder
   	else
   	  muscle_path = "vendor/MUSCLE/muscle3.8.31_i86darwin64"
   	end
+    muscle = system( muscle_path,
+                        "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
+                        "-out","tmp/tmp_fasta/#{current_time}.afa",
+                        "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
+                        "-maxiters", "1",
+                        "-diags","-sv",
+                        "-distance1","kbit20_3","-quiet")
 
-  	if all_sequence.length != 0
-  	  muscle = system( muscle_path,
-  	                    "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
-  	                    "-out","tmp/tmp_fasta/#{current_time}.afa",
-  	                    "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
-  	                    "-maxiters", "1",
-  	                    "-diags","-sv",
-  	                    "-distance1","kbit20_3","-quiet")
-
-  	  # muscle may not finished, then render
-  	  while muscle.nil?
-  	    next
-  	  end
-
-  	  phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
-
-  	  tree_data = ""
-  	  phy.each do |line|
-  	    tree_data = tree_data + line.gsub("\n","")
-  	  end
-  	  phy.close()
-
-  		return tree_data
-
-    else
-
-      return nil
+    # muscle may not finished, then render
+    while muscle.nil?
+      next
     end
+
+    phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
+
+    tree_data = ""
+    phy.each do |line|
+      tree_data = tree_data + line.gsub("\n","")
+    end
+    phy.close()
+
+    return tree_data
 
 
   end

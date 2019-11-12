@@ -123,6 +123,7 @@ $(document).ready(function(){
 					if (current_tree_no < 5){
 						$('#tree-group').prepend(`<div id=\"phylocanvas-${current_tree_no}\"></div>`);
 						create_phylocanvas(data.tree, data.highlight, data.group, data.group_number,`phylocanvas-${current_tree_no}`);
+						
 					}else{
 						$('#phylocanvas-page-warning').removeAttr("style");
 						$('#phylocanvas-page-warning').text("We only allow max 5 trees; If you wish generate more tree, please try on your local machine.");
@@ -308,9 +309,9 @@ $(document).ready(function(){
 		tree.draw();
 		tree.on('click', function (e) {
 			var node = tree.getNodeAtMousePosition(e);
-			if (node) {
-				tree.redrawFromBranch(node);
-			}
+			// if (node) {
+			// 	tree.redrawFromBranch(node);
+			// }
 		});
 
 	}
@@ -332,14 +333,12 @@ $(document).ready(function(){
 		var is_style = blast_box.attr('style');
 		if (is_style){
 			$('.row#parameter-box').removeAttr('style');
-			// <i class="fas fa-plus"></i>
 			$('#blast-param-sign').attr('class','fas fa-minus');
 		}else{
 			$('.row#parameter-box').attr('style','display: none;');
 			$('#blast-param-sign').attr('class','fas fa-plus');
 
 		}
-		// console.log(is_style);
 	})
 	
 
