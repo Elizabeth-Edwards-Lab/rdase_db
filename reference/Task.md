@@ -11,7 +11,12 @@
 5. RefSeq ID, UniProt ID, PDB ID
 add external links 
 https://www.ebi.ac.uk/uniprot/japi/index.html => for uniprot blast
+package it as jar file for running the blast 
+
 `blastp -query querySeq.fasta -db pdbaa -remote` => for pdb  https://www.biostars.org/p/112709/
+`./ncbi-blast-2.6.0+/bin/blastp -query test_aa_fa.fasta -db pdbaa -remote`
+return something like this "4UQU_A  Chain A, TETRACHLOROETHENE REDUCTIVE DEHALOGENASE CATALYT...  117     3e-28"
+4UQU is pdb id => http://www.rcsb.org/structure/4UQU
 <!-- 6. Creating an existing tree of all known reductive dehalogenases. (move to action 11.) -->
 
 7. “Browse” or “Search” options for the database. => Done
@@ -22,15 +27,14 @@ https://github.com/jensengroup/propka-3.1
 https://web.expasy.org/compute_pi/pi_tool-doc.html
 https://www.bioinformatics.org/sms/index.html
 
-9. Automated process that involves querying newly deposited bacterial genome. 
+9. Automated process that involves querying newly deposited bacterial genome. => Partially Done
 https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch
-They may not have this ability to let me retrieve the data 
 
 10. “Model 3D” using Proteus2 => add options for model 3d with proteus2
 http://www.proteus2.ca/proteus2/contact.jsp
 convert the program to ruby???
 
-11. “Build Tree” => standalone build tree + creating an existing tree for all known reductive dehalogenases
+11. “Build Tree” => standalone build tree + creating an existing tree for all known reductive dehalogenases => Done
 
 12. WishartLab database style
 
