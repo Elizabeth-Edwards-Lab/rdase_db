@@ -17,6 +17,8 @@ package it as jar file for running the blast
 `./ncbi-blast-2.6.0+/bin/blastp -query test_aa_fa.fasta -db pdbaa -remote`
 return something like this "4UQU_A  Chain A, TETRACHLOROETHENE REDUCTIVE DEHALOGENASE CATALYT...  117     3e-28"
 4UQU is pdb id => http://www.rcsb.org/structure/4UQU
+
+RefSeq is DNA database
 <!-- 6. Creating an existing tree of all known reductive dehalogenases. (move to action 11.) -->
 
 7. “Browse” or “Search” options for the database. => Done
