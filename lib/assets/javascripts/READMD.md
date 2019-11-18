@@ -29,3 +29,8 @@ is referenced as:
 //= require sub/something
 ```
 You can view the search path by inspecting Rails.application.config.assets.paths in the Rails console.
+
+
+# Create jQuery plugin
+https://stackoverflow.com/questions/1117086/how-to-create-a-jquery-plugin-with-methods
+

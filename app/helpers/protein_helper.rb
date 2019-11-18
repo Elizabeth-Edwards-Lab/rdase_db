@@ -10,7 +10,6 @@ module ProteinHelper
 		end
 	end
 
-
 	def style_chain(chain)
 		after_style = ""
 		length_per_line = 60 # 60 char then \n

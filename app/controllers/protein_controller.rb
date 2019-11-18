@@ -4,6 +4,7 @@ class ProteinController < ApplicationController
   # SortParamsParser is for sort_table_link
   include SortParamsParser
   include QueryLogic
+  include SeqSummarizer
   helper ProteinHelper
 
   def download_filtered_result_fasta
@@ -163,5 +164,39 @@ class ProteinController < ApplicationController
       @compound << Compound.find(comp.compound_id)
     end
     
+    @mw = calculateMolecularWeight(@protein_s.chain)
+    
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

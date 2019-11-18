@@ -1,9 +1,6 @@
 $(document).ready(function(){
 
 
-
-	// add group button and add organism button are implemented in query.js
-	// create pre-existing tree and render
 	color_hash = {0: "#A52306", 1: "#163FE6", 2: "#6A7BF1", 3: "#F55C05", 4: "#45784C", 
 								5: "#B9D279", 6: "#9B1E83", 7: "#0C70F4", 8: "#8F7663", 9: "#D5317D", 
 								10: "#4EF49D", 11: "#1372D8", 12: "#3235A3", 13: "#8F95CF", 14: "#D326CF", 
@@ -24,10 +21,18 @@ $(document).ready(function(){
 								85: "#B70F93", 86: "#4EFEB0", 87: "#2AB09C", 88: "#F2211F", 89: "#48236C", 
 								90: "#656D36", 91: "#7619BD", 92: "#CC6873", 93: "#CF3AC7", 94: "#529A93", 
 								95: "#F581D0", 96: "#6590CD", 97: "#C0A2DF", 98: "#65F816", 99: "#561A0F"};
+
 	var data = $('.controller-phy_data').data("phyData");
 	var data_group = $('.controller-group_info').data("groupInfo");
-	create_phylocanvas_for_phylogeny(data,data_group,"pre-rendered-tree");
-	$('.phylocanvas-history').remove();
+	if (data != undefined && data_group != undefined){
+		create_preloading_tree(data,data_group);
+	}
+
+	// add group button and add organism button are implemented in query.js
+	// create pre-existing tree and render
+
+	
+	
 
 
 	// phylogenies tree module
@@ -97,7 +102,16 @@ $(document).ready(function(){
 		});
 	});
 
-		// if there is All groups options, then return all groups options immediately without checking other options
+
+
+	// only load pre-tree when at phylogeny page
+	function create_preloading_tree(data,data_group){
+		create_phylocanvas_for_phylogeny(data,data_group,"pre-rendered-tree");
+		$('.phylocanvas-history').remove();
+
+	}
+
+	// if there is All groups options, then return all groups options immediately without checking other options
 	function get_all_groups(){
 		
 		var all_groups = [];

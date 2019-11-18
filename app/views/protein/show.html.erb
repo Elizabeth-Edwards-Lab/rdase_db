@@ -62,6 +62,11 @@
 
 <hr>
 <h4>Protein Properties</h4>
+<!-- Button for quick view of the sequence -->
+<button class="little-button" onclick="writeFASTA('<%= @protein_s.chain %>', 
+                      '<%= @protein_s.header %>','<%= @protein_s.accession_no %>', '<%= @protein_s.organism %>')">FASTA</button>
+<button class="little-button" onclick="writeSequenceStats('<%= @protein_s.chain %>')">Statistics</button>
+<!-- Button for quick view of the sequence -->
 <div id = "tablediv">
   <table>
     <tr>
@@ -69,11 +74,25 @@
       <td>
         <% if @protein_s.chain.present? %>
           <em class="sequence-wrap" ><%= style_chain(@protein_s.chain) %></em>
+          <%= content_tag :div, class: "protein_s_chain", data: {proteinChain: @protein_s.chain} do %>
+          <% end %>
         <% else %>
           <%= nah %>
         <% end %>
       </td>
     </tr> 
+    <tr>
+      <th>Sequence Length</th>
+      <td><%= @protein_s.chain.length %></td>
+    </tr> 
+    <tr>
+      <th>Molecular Weight</th>
+      <td><%= @mw %> kDa</td>
+    </tr>
+    <tr>
+      <th>Predicted PI (EMBOSS)</th>
+      <td><p id="ppi-emboss"></p></td>
+    </tr>
   </table>
 </div>
 
@@ -103,7 +122,6 @@
 
       <% @compound.each do |comp| %>
         <%= render :partial => 'compound_card', :locals => { :compound => comp} %>
-        <!-- <p><%# link_to "#{comp.name}", compound_path(comp.id), :id => 'button-ish' %></p> -->
       <% end %>
 
     <% else %>

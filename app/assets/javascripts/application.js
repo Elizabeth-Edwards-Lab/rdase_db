@@ -22,6 +22,8 @@
 //= require query
 //= require simple
 //= require submit_sequence
+//= require phylogeny
+//= require protein
 
 // Third Party
 //  require pagination.min
