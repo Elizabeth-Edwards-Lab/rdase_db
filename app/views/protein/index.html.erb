@@ -15,7 +15,7 @@
 	      <th><%= table_sort_link "Common Name", :header %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
-	      <th>Characterized</th>
+	      <th><%= table_sort_link "Characterized", :characterized %></th>
 	      
 	    </tr>
 
@@ -26,7 +26,7 @@
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
-	      <th></th>
+	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:125px" %></th>
 	    <% end %>
 	      
 	    </tr>
@@ -67,7 +67,7 @@
 	        <% end %>
 	        
 	        <!-- display characteristics -->
-	        <% if contain_compound(pt.id) == true %>
+	        <% if pt.characterized == 1 %>
 	        	<td style="color:red;"><strong>Yes</strong></td>
 	        <% else %>
 	        	<td>No</td>

@@ -61,57 +61,93 @@
 </div>
 
 <hr>
-<h4>Protein Properties</h4>
-<!-- Button for quick view of the sequence -->
-<button class="little-button" onclick="writeFASTA('<%= @protein_s.chain %>', 
-                      '<%= @protein_s.header %>','<%= @protein_s.accession_no %>', '<%= @protein_s.organism %>')">FASTA</button>
-<button class="little-button" onclick="writeSequenceStats('<%= @protein_s.chain %>')">Statistics</button>
-<!-- Button for quick view of the sequence -->
-<div id = "tablediv">
-  <table>
-    <tr>
-      <th>Amino Acid Sequence</th>
-      <td>
-        <% if @protein_s.chain.present? %>
-          <em class="sequence-wrap" ><%= style_chain(@protein_s.chain) %></em>
-          <%= content_tag :div, class: "protein_s_chain", data: {proteinChain: @protein_s.chain} do %>
-          <% end %>
-        <% else %>
-          <%= nah %>
-        <% end %>
-      </td>
-    </tr> 
-    <tr>
-      <th>Sequence Length</th>
-      <td><%= @protein_s.chain.length %></td>
-    </tr> 
-    <tr>
-      <th>Molecular Weight</th>
-      <td><%= @mw %> kDa</td>
-    </tr>
-    <tr>
-      <th>Predicted PI (EMBOSS)</th>
-      <td><p id="ppi-emboss"></p></td>
-    </tr>
-  </table>
+<div>
+  <h4>Protein Properties</h4>
+  <% if @protein_s.chain.present? %>
+    <!-- Button for quick view of the sequence -->
+    <button class="little-button" onclick="writeFASTA('<%= @protein_s.chain %>', 
+                          '<%= @protein_s.header %>','<%= @protein_s.accession_no %>', '<%= @protein_s.organism %>')">FASTA</button>
+    <button class="little-button" onclick="writeSequenceStats('<%= @protein_s.chain %>','aa')">Statistics</button>
+    <!-- Button for quick view of the sequence -->
+    <div id = "tablediv">
+      <table>
+        <tr>
+          <th>Amino Acid Sequence</th>
+          <td>
+            <em class="sequence-wrap" ><%= style_chain(@protein_s.chain) %></em>
+            <%= content_tag :div, class: "protein_s_chain", data: {proteinChain: @protein_s.chain} do %>
+            <% end %>
+          </td>
+        </tr> 
+        <tr>
+          <th>Sequence Length</th>
+          <td><%= @protein_s.chain.length %></td>
+        </tr> 
+        <tr>
+          <th>Molecular Weight</th>
+          <td><%= @mw %> kDa</td>
+        </tr>
+        <tr>
+          <th>Predicted PI (EMBOSS)</th>
+          <td id="ppi-emboss"></td>
+        </tr>
+      </table>
+    </div>
+
+  <% else %>
+    <div id = "tablediv">
+      <table>
+        <tr>
+          <th>Amino Acid Sequence</th>
+          <td>
+            <%= nah %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  <% end %>
 </div>
 
 <hr>
-<h4>Gene Properties</h4>
-<div id = "tablediv">
-  <table>
+<div>
+  <h4>Gene Properties</h4>
+  <% if !@gene_s.nil? and @gene_s.chain.present? %>
+    <!-- Button for quick view of the sequence -->
+    <button class="little-button" onclick="writeFASTA('<%= @gene_s.chain %>', 
+                          '<%= @protein_s.header %>',undefined, '<%= @protein_s.organism %>')">FASTA</button>
+    <button class="little-button" onclick="writeSequenceStats('<%= @gene_s.chain %>','nt')">Statistics</button>
+    <!-- Button for quick view of the sequence -->
+    <div id = "tablediv">
+      <table>
+        <tr>
+          <th>Nucleotide Sequence</th>
+          <td>
+            <em class="sequence-wrap" ><%= style_chain(@gene_s.chain) %></em>
+            <%= content_tag :div, class: "gene_s_chain", data: {geneChain: @gene_s.chain} do %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <th>Molecular Weight</th>
+          <td id="gene-pmw"></td>
+        </tr>
+      </table>
+    </div>
+
+  <% else %>
+
+    <div id = "tablediv">
+      <table>
+        <tr>
+          <th>Nucleotide Sequence</th>
+          <td>
+            <%= nah %>
+          </td>
+        </tr>
+      </table>
+    </div>
     
-    <tr>
-      <th>Nucleotide Sequence</th>
-      <td>
-        <% if !@gene_s.nil? and @gene_s.chain.present? %>
-          <em class="sequence-wrap" ><%= style_chain(@gene_s.chain) %></em>
-        <% else %>
-          <%= nah %>
-        <% end %>
-      </td>
-    </tr>
-  </table>
+  <% end %>
 </div>
 
 <hr>

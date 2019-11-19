@@ -1,5 +1,7 @@
 #TODO List
 
+2019-11-17
+1. HMDB use https://github.com/BetterErrors/better_errors to create better error page
 
 2019-11-12
 1. update accession no => Done, in my local database

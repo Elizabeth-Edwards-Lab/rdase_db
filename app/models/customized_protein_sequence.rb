@@ -1,8 +1,6 @@
 class CustomizedProteinSequence < ApplicationRecord
 
-	UPLOADER_TYPES = ['RDDB','USER'] 
-
-
+	UPLOADER_TYPES = ['RDDB','USER']
 	# association
 	# more information about association: https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
 	# has_many :compounds
