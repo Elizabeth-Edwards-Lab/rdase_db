@@ -22,11 +22,11 @@ class SimpleController < ApplicationController
 	end
 
 	def download_aa_original
-		send_file 'data/rdhA_all_aa_17-June-2019.fasta', :type => "application/fasta", :filename =>  "rdhA_all_aa_17-June-2019.fasta"		
+		send_file 'data/rdhA_all_aa_16-Oct-2019.fasta', :type => "application/fasta", :filename =>  "rdhA_all_aa_17-June-2019.fasta"		
 	end
 
 	def download_nt_original
-		send_file 'data/rdhA_all_nt_17-June-2019.fasta', :type => "application/fasta", :filename =>  "rdhA_all_nt_17-June-2019.fasta"		
+		send_file 'data/rdhA_all_nt_16-Oct-2019.fasta', :type => "application/fasta", :filename =>  "rdhA_all_nt_17-June-2019.fasta"		
 	end
 
 	def download_aa_cus
