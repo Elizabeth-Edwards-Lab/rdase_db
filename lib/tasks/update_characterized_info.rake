@@ -2,6 +2,7 @@ namespace :update_characterized_info do
 
 
 	# rake update_characterized_info:updates
+	# bundle exec rake update_characterized_info:updates RAILS_ENV=production
 	task :updates => [:environment] do
 		compound_strain_rel = CompoundStrainRel.all
 		characterized_protein_id = Array.new

@@ -1,5 +1,5 @@
 <div>
-<h3 id="seqresulttag"> BLASTp Results for <%= @query.definition %></h3>
+<h3 id="seqresulttag"> BLASTP Results for <%= @query.definition %></h3>
 <table class="each-result">
 
   <tr>
@@ -15,6 +15,10 @@
     <tr>
       <th>Orthologous Group</th>
       <td>No matching orthologous group</td>
+    </tr>
+    <tr>
+      <th>Characterized Members</th>
+      <td>No matching characterized members</td>
     </tr>
 
   <% else %>
@@ -75,6 +79,10 @@
       <tr>
         <th>Orthologous Group</th>
         <td>No matching orthologous group</td>
+      </tr>
+      <tr>
+        <th>Characterized Members</th>
+        <td>No matching characterized members</td>
       </tr>
 
     <% end %>
