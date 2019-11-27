@@ -18,9 +18,9 @@ set :rbenv_roles, :all # default value
 # role :app, %w{foodb@do-web-2}
 # role :web, %w{foodb@do-web-2}
 # role :db,  %w{foodb@do-web-2}
-role :app, %w{orth@159.89.189.226}
-role :web, %w{orth@159.89.189.226}
-role :db,  %w{orth@159.89.189.226}
+role :app, %w{orth@167.172.242.202}
+role :web, %w{orth@167.172.242.202}
+role :db,  %w{orth@167.172.242.202}
 
 
 # role-based syntax
