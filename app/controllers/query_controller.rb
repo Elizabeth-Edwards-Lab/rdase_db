@@ -430,21 +430,26 @@ class QueryController < ApplicationController
       muscle_path = "vendor/MUSCLE/muscle3.8.31_i86darwin64"
     end
 
+    # muscle -maketree -in seqs.afa -out seqs.phy
     if all_sequence.length != 0
       muscle = system( muscle_path,
                         "-in","tmp/tmp_fasta/fasta_#{current_time}.fasta",
                         "-out","tmp/tmp_fasta/#{current_time}.afa",
-                        "-tree1", "tmp/tmp_fasta/#{current_time}.phy",
-                        "-maxiters", "1",
-                        "-diags","-sv",
-                        "-distance1","kbit20_3","-quiet")
+                        "-maxiters", "1", "-quiet")
 
       # muscle may not finished, then render
       while muscle.nil?
         next
       end
 
+      muscle = system( muscle_path, 
+                      "-maketree", "-in", "tmp/tmp_fasta/#{current_time}.afa",
+                      "-out", "tmp/tmp_fasta/#{current_time}.phy")
 
+      while muscle.nil?
+        next
+      end
+      
       phy = File.open("tmp/tmp_fasta/#{current_time}.phy","r")
 
       tree_data = ""

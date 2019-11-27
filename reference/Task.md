@@ -2,6 +2,9 @@
 
 2019-11-17
 1. HMDB use https://github.com/BetterErrors/better_errors to create better error page
+2. make download csv download both aa and nt sequence. When I download the database nucleotide sequences are listed as AA. And only DNA sequences come in the csv file. It would be good to have both the DNA and the amion acid sequence in this file.
+3. use maketree of MUSCLE
+
 
 2019-11-12
 1. update accession no => Done, in my local database

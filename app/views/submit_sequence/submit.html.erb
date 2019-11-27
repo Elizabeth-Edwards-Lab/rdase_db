@@ -44,7 +44,7 @@
             <div class="col">
               <div>
                 <h5>Nucleotide Sequence(s)</h5>
-                <%= f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", :placeholder => "> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Nucleotide Sequence ...".html_safe %>
+                <%= f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", :placeholder => "> Self-assigned ID or Name | Genbank ID | Organism | Citation (optional) | \nYour Nucleotide Sequence ...".html_safe %>
                 <br>
                 <%= f.file_field :nt_fasta, class: 'upload-file-btn', :id => "upload-file-btn-nt", disabled: false %>
               </div>

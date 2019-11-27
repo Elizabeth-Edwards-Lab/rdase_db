@@ -77,22 +77,24 @@ module QueryLogic
 	def package_csv_for_filtered_result(protein)
 		
 		now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
-    filename = "tmp/filtered_result/filtered_#{now}.csv"
+	  filename = "tmp/filtered_result/filtered_#{now}.csv"
 
-    # export the filtered result into csv
-    CSV.open(filename, "w") do |csv|
-      csv << ["header","amino acid sequence","nucleotide sequence","group","organism","publish_date"]
-      protein.each do |p|
-        nt_object = CustomizedNucleotideSequence.find_by(:header => p.header)
-        nt_sequence = ""
-        if !nt_object.nil?
-          nt_sequence = nt_object.chain
-        end
-        csv << [p.header,p.chain,nt_sequence,p.group,p.organism,p.update_date]
-      end
-    end
+	  # export the filtered result into csv
+	  CSV.open(filename, "w") do |csv|
+	    csv << ["header","accession number","amino acid sequence","nucleotide sequence","group","organism",
+	    				"protein name", "is_characterized?","reference", "uploader"]
+	    protein.each do |pro|
+	      nt_object = CustomizedNucleotideSequence.find_by(:header => pro.header)
+	      nt_sequence = ""
+	      if !nt_object.nil?
+	        nt_sequence = nt_object.chain
+	      end
+	      csv << [pro.header, pro.accession_no, pro.chain, nt_sequence, pro.group, pro.organism, 
+	      			pro.protein_name, pro.characterized, pro.reference, pro.uploader]
+	    end
+	  end
 
-    return filename
+	  return filename
 
 	end
 
@@ -100,13 +102,13 @@ module QueryLogic
 	# package the filtered result into fasta file, and zip it 
 	def package_fasta_for_filtered_result(protein)
 		now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
-    filename_protein = "tmp/filtered_result/filtered_#{now}_protein.fasta"
-    filename_gene = "tmp/filtered_result/filtered_#{now}_gene.fasta"
+		filename_protein = "tmp/filtered_result/filtered_#{now}_protein.fasta"
+		filename_gene = "tmp/filtered_result/filtered_#{now}_gene.fasta"
 
 		File.open(filename_protein, "w") do |f|
 		  protein.each do |pt|
-		    f << ">" + pt.header + "\n"
-		    f << pt.chain + "\n"
+		  	f << ">" + pt.header + "\n"
+				f << pt.chain + "\n"
 		  end
 		end
 
