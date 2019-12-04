@@ -193,6 +193,77 @@ module QueryLogic
 
 
 
+	# identify the group of orth
+	# puts "hit.query_len => #{hit.query_len}" # => original sequence length
+	# puts "hit.query_seq.length => #{hit.query_seq.length}" # => hit sequence length
+	def get_identity_with_90(aa_report)
+
+		identity_with_90 = Array.new 
+		aa_report.each do |hit|
+			
+		  match_identity = 0
+		  if hit.query_len > hit.query_seq.length
+		  	match_identity = (hit.identity.to_f / hit.query_seq.length.to_f * 100).round(2)
+		  elsif hit.query_len < hit.query_seq.length
+		  	match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
+		  end
+
+		  if match_identity >= 90.00
+		    identity_with_90 << hit.target_def
+		  end
+		end
+
+		return identity_with_90
+	end
+
+
+
+	def get_existing_groups(aa_report,sequence)
+		is_exist_chain = false
+		existing_matched_group = Array.new
+		aa_report.each do |hit|
+		  if hit.evalue == 0
+		    existing_protein = CustomizedProteinSequence.find_by(:chain => sequence)
+		    if !existing_protein.nil?
+		      is_exist_chain = true
+		      if !existing_protein.group.nil? and !existing_matched_group.include? existing_protein.group
+		        existing_matched_group << existing_protein.group
+		      end
+		    end
+		  end
+		end
+
+		return is_exist_chain, existing_matched_group
+	end
+
+
+	
+	def get_characterized_member(group)
+		final_characterized_member = Array.new
+		all_characterized_strain_id = CompoundStrainRel.all.select('protein_id').map(&:protein_id).uniq
+		group_members = CustomizedProteinSequence.where(:group => group)
+		group_members.each do |group_m|
+			if all_characterized_strain_id.include? group_m.id
+				final_characterized_member << [group_m.id, group_m.header]
+			end
+		end
+		return final_characterized_member
+	end
+
+	# be careful about _s at end of this function
+	def get_characterized_member_s(group)
+		if group.length == 1
+			return get_characterized_member(group[0])
+		else
+			multiple = Array.new
+			group.each do |g|
+				tmp = get_characterized_member(g)
+				multiple.push(*tmp) 
+			end
+			return multiple
+		end
+	end
+
 
 	
 

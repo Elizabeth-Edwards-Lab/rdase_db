@@ -12,7 +12,7 @@ div.container
               br
               | Query length: #{sequence.query_seq.length}
               br
-              | Identity: #{get_percentage_identity(sequence.identity, sequence.query_seq.length)} %
+              | Identity: #{get_percentage_identity(sequence)} %
             .seq-search-title
               - if lookup_context.find_all('seq_search/_hit_link').any?
                 = render '/seq_search/hit_link', sequence: sequence

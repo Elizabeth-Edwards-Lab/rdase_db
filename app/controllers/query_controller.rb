@@ -51,9 +51,10 @@ class QueryController < ApplicationController
         redirect_to :controller => 'query', :action => 'search', params: params.merge(:notice => "Please provide only one sequence.").permit(:notice) and return
       end
 
+      # TODO: limit one sequence to send to new tab
       if params[:new_result_tab] == "1"
         # consider render status (for animation) first, then render the result to result page
-        redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => params[:sequence],
+        redirect_to :controller => 'query', :action => 'result', params: params.merge(:sequence => fasta_array[0],
           :gap_cost => params[:gap_cost], :extend_cost => params[:extend_cost],:mismatch_penalty => params[:mismatch_penalty],
           :match_reward => params[:match_reward], :evalue => params[:evalue], :gapped_alignment => params[:gapped_alignment],
           :filter_query_sequence => params[:filter_query_sequence],:commit => params[:commit]).permit(:sequence, :gap_cost, :extend_cost, 
@@ -78,143 +79,97 @@ class QueryController < ApplicationController
 
       # should do one for each request or can do multiple alignment at same time?
       # haven't check for the inapporiate sequence 
-      fasta_array.each do |fasta_seq|
-        @fasta_seq = fasta_seq
-        @query = Bio::FastaFormat.new( fasta_seq )
-        query_name = @query.definition
-        @sequence = @query.to_seq
-        @sequence.auto # Guess the type of sequence. Changes the class of @sequence.
-        query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
-        program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
-        database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-        sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+      @fasta_seq = fasta_array[0]
+      @query = Bio::FastaFormat.new( @fasta_seq )
+      query_name = @query.definition
+      @sequence = @query.to_seq
+      @sequence.auto # Guess the type of sequence. Changes the class of @sequence.
+      query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
+      program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
+      database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
+      sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
 
-        # Save the query for "each" sequence
-        begin
-          user_input = Query.new
-          user_input.sequence = @sequence.seq
-          user_input.save!
-        rescue 
-          user_input = Query.new
-          user_input.save!
+
+      blast_options = set_blast_options(program,params)
+      blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
+      aa_report = blaster.query(@sequence.seq) # @sequence.seq automatically remove the \n; possibly other wildcard
+
+      @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+      @is_exist_chain, @existing_matched_group = get_existing_groups(aa_report,@sequence.seq)
+      @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
+      # load the group
+      # hash each header to existing group       => reversed_group_hash
+      # hash each group for all avaiable headers => group_hash
+      group_hash = Hash.new
+      reversed_group_hash = Hash.new
+      protein_sequence.each do |single_entry|
+
+        if !@group_number_list.include? single_entry.group
+          @group_number_list << single_entry.group
+        end
+        if !@organism_list.include? single_entry.organism
+          @organism_list << single_entry.organism
         end
 
 
-        blast_options = set_blast_options(program,params)
-        blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
-        aa_report = blaster.query(@sequence.seq) # @sequence.seq automatically remove the \n; possibly other wildcard
+        if single_entry.group.nil?
+          next
+        else
+          reversed_group_hash[single_entry.header] = single_entry.group
+          if group_hash[single_entry.group].nil?
+            group_array = Array.new
+            group_array << single_entry.header
+            group_hash[single_entry.group] = group_array
+          else
 
-        @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+            group_hash[single_entry.group] << single_entry.header
 
-        # if there is sequence in db has evalue 0, indicates the sequence is already in database
-        @is_exist_chain = false
-        @existing_matched_group = nil
-        aa_report.each do |hit|
-          if hit.evalue == 0
-            existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => @sequence.seq)
-            if !existing_matched_group_exist.nil?
-              @is_exist_chain = true
-              @existing_matched_group = existing_matched_group_exist.group
-            end
           end
         end
 
-        @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
-
-        if @aa_similarity > 0.0
-          
-          # load the group
-          # hash each header to existing group       => reversed_group_hash
-          # hash each group for all avaiable headers => group_hash
-          group_hash = Hash.new
-          reversed_group_hash = Hash.new
-          protein_sequence.each do |single_entry|
-
-            if !@group_number_list.include? single_entry.group
-              @group_number_list << single_entry.group
-            end
-            if !@organism_list.include? single_entry.organism
-              @organism_list << single_entry.organism
-            end
+      end # end protein_sequence.each do |single_entry|
 
 
-            if single_entry.group.nil?
-              next
+      identity_with_90 = get_identity_with_90(aa_report)
+      puts "identity_with_90 => #{identity_with_90.inspect}"
+      @identity_groups = Array.new  # identity_group contains the eligiable group number      
+
+      if identity_with_90.length > 0
+        identity_with_90.each do |definition|
+          group_number = reversed_group_hash[definition]
+          if !group_number.blank? && !group_number.nil?
+            is_belong_to_group = true
+            if group_hash[group_number].length == 1
+              # if the group just have one member, then if the query is 90% identical to this member
+              # then the query belong to the group
+              is_belong_to_group = true
+
             else
-              reversed_group_hash[single_entry.header] = single_entry.group
-              if group_hash[single_entry.group].nil?
-                group_array = Array.new
-                group_array << single_entry.header
-                group_hash[single_entry.group] = group_array
-              else
 
-                group_hash[single_entry.group] << single_entry.header
-
+              group_hash[group_number].each do |s_identity|
+                
+                if identity_with_90.include? s_identity
+                  next
+                else
+                  is_belong_to_group = false
+                end
               end
             end
 
-          end # end protein_sequence.each do |single_entry|
-
-
-          # identify the group of orth
-          identity_with_90 = Array.new 
-          aa_report.each do |hit|
-            match_identity = (hit.identity * 100) / hit.query_len
-            # puts "#{hit.target_def} => #{match_identity}"
-            if match_identity >= 90
-              identity_with_90 << hit.target_def
-            end
-
-          end
-
-
-          @identity_groups = Array.new  # identity_group contains the eligiable group number
-          
-          # if there is no sequence that is identity with 90%
-          # conclude no group matched and but greater 80% similarity with entire database in AA level
-          # just run the tree feature
-          if identity_with_90.length > 0
-            identity_with_90.each do |definition|
-              group_number = reversed_group_hash[definition]
-              if !group_number.blank? && !group_number.nil?
-                is_belong_to_group = true
-                if group_hash[group_number].length == 1
-                  # if the group just have one member, then if the query is 90% identical to this member
-                  # then the query belong to the group
-                  is_belong_to_group = true
-
-                else
-
-                  group_hash[group_number].each do |s_identity|
-                    
-                    if identity_with_90.include? s_identity
-                      next
-                    else
-                      is_belong_to_group = false
-                    end
-                  end
-                end
-
-                if is_belong_to_group == true
-                  if !@identity_groups.include? group_number
-                    @identity_groups << group_number
-                  end
-                end 
-
-              end 
-
+            if is_belong_to_group == true
+              if !@identity_groups.include? group_number
+                @identity_groups << group_number
+              end
             end 
 
-          end # end of identity_with_90.length > 0
+          end 
 
+        end 
 
-        end # end of @aa_similarity > 0.80
-        break # only parse one fasta file
-      end # end of fasta_array.each
+      end
+      @identity_groups.concat @existing_matched_group
+      @possible_group_number = get_characterized_member_s(@identity_groups.uniq)
     end
-
-    
-
   end
 
   # This is for rendering the result at new page
@@ -262,99 +217,75 @@ class QueryController < ApplicationController
       end
       @group_number_list = Array.new
       @organism_list = Array.new
-      fasta_array.each do |fasta_seq|
-        @fasta_seq = fasta_seq
-        @query = Bio::FastaFormat.new( fasta_seq )
-        query_name = @query.definition
-        @sequence = @query.to_seq
-        @sequence.auto # Guess the type of sequence. Changes the class of @sequence.
-        query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
-        program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
-        database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-        sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
-        blast_options = set_blast_options(program,params)
-        blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
-        aa_report = blaster.query(@sequence.seq)
-        @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+      @fasta_seq = fasta_array[0]
+      @query = Bio::FastaFormat.new( @fasta_seq )
+      query_name = @query.definition
+      @sequence = @query.to_seq
+      @sequence.auto # Guess the type of sequence. Changes the class of @sequence.
+      query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
+      program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
+      database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
+      sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+      blast_options = set_blast_options(program,params)
+      blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
+      aa_report = blaster.query(@sequence.seq)
+      @aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
 
-        @is_exist_chain = false
-        @existing_matched_group = nil
-        aa_report.each do |hit|
-          if hit.evalue == 0
-            existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => @sequence.seq)
-            if !existing_matched_group_exist.nil?
-              @is_exist_chain = true
-              @existing_matched_group = existing_matched_group_exist.group
-            end
+
+      @is_exist_chain, @existing_matched_group = get_existing_groups(aa_report,@sequence.seq)
+      @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
+      group_hash = Hash.new
+      reversed_group_hash = Hash.new
+      protein_sequence.each do |single_entry|
+        if !@group_number_list.include? single_entry.group
+          @group_number_list << single_entry.group
+        end
+        if !@organism_list.include? single_entry.organism
+          @organism_list << single_entry.organism
+        end
+        if single_entry.group.nil?
+          next
+        else
+          reversed_group_hash[single_entry.header] = single_entry.group
+          if group_hash[single_entry.group].nil?
+            group_array = Array.new
+            group_array << single_entry.header
+            group_hash[single_entry.group] = group_array
+          else
+            group_hash[single_entry.group] << single_entry.header
           end
         end
-        
-        @aa_sequence_result = generate_hit_array(aa_report,query_name,"protein")
-        if @aa_similarity > 0.0
-          group_hash = Hash.new
-          reversed_group_hash = Hash.new
-          protein_sequence.each do |single_entry|
-            if !@group_number_list.include? single_entry.group
-              @group_number_list << single_entry.group
-            end
-            if !@organism_list.include? single_entry.organism
-              @organism_list << single_entry.organism
-            end
-            if single_entry.group.nil?
-              next
-            else
-              reversed_group_hash[single_entry.header] = single_entry.group
-              if group_hash[single_entry.group].nil?
-                group_array = Array.new
-                group_array << single_entry.header
-                group_hash[single_entry.group] = group_array
-              else
-                group_hash[single_entry.group] << single_entry.header
+      end # end protein_sequence.each do |single_entry|
+
+
+      identity_with_90 = get_identity_with_90(aa_report)
+      @identity_groups = Array.new  # identity_group contains the eligiable group number
+      if identity_with_90.length > 0
+        identity_with_90.each do |definition|
+          group_number = reversed_group_hash[definition]
+          if !group_number.blank? && !group_number.nil?
+            is_belong_to_group = true
+            if group_hash[group_number].length == 1
+              is_belong_to_group = true
+            else 
+              group_hash[group_number].each do |s_identity|
+                if identity_with_90.include? s_identity
+                  next
+                else
+                  is_belong_to_group = false
+                end
               end
-            end
-          end # end protein_sequence.each do |single_entry|
-
-
-
-          identity_with_90 = Array.new 
-          aa_report.each do |hit|
-            match_identity = (hit.identity * 100) / hit.query_len
-            if match_identity >= 90
-              identity_with_90 << hit.target_def
-            end
-          end # end of aa_report.each do |hit|
-
-          @identity_groups = Array.new  # identity_group contains the eligiable group number
-          if identity_with_90.length > 0
-            identity_with_90.each do |definition|
-              group_number = reversed_group_hash[definition]
-              if !group_number.blank? && !group_number.nil?
-                is_belong_to_group = true
-                if group_hash[group_number].length == 1
-                  is_belong_to_group = true
-                else 
-                  group_hash[group_number].each do |s_identity|
-                    if identity_with_90.include? s_identity
-                      next
-                    else
-                      is_belong_to_group = false
-                    end
-                  end
-                end # end of if group_hash[group_number].length == 1
-                if is_belong_to_group == true
-                  if !@identity_groups.include? group_number
-                    @identity_groups << group_number
-                  end
-                end # end of is_belong_to_group == true
-              end # end of if !group_number.blank? && !group_number.nil?
-            end # end of identity_with_90.each do |identity|
-          end
-
-        end # end of @aa_similarity > 0.80
-
-        
-        break # only parse one fasta file
-      end # end of fasta_array.each
+            end # end of if group_hash[group_number].length == 1
+            if is_belong_to_group == true
+              if !@identity_groups.include? group_number
+                @identity_groups << group_number
+              end
+            end # end of is_belong_to_group == true
+          end # end of if !group_number.blank? && !group_number.nil?
+        end # end of identity_with_90.each do |identity|
+      end
+      @identity_groups.concat @existing_matched_group
+      @possible_group_number = get_characterized_member_s(@identity_groups.uniq)
       
     else
       redirect_to :controller => 'query', :action => 'search'

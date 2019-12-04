@@ -31,17 +31,20 @@ module SequenceSubmitter
     identity_with_90 = Array.new 
     report.each do |hit|
 
-      match_identity = hit.identity.to_f / hit.query_len.to_f * 100 
+      match_identity = 0
+      if hit.query_len > hit.query_seq.length
+        match_identity = (hit.identity.to_f / hit.query_seq.length.to_f * 100).round(2)
+      elsif hit.query_len < hit.query_seq.length
+        match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
+      end
 
       if match_identity >= threshold
         identity_with_90 << hit.target_def
       end
-
     end
 
     return identity_with_90
   end
-
 
 
   def get_group_sequence_table
