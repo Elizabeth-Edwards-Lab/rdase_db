@@ -168,7 +168,8 @@ class QueryController < ApplicationController
 
       end
       @identity_groups.concat @existing_matched_group
-      @possible_group_number = get_characterized_member_s(@identity_groups.uniq)
+      @identity_groups = @identity_groups.uniq
+      @possible_group_number = get_characterized_member_s(@identity_groups)
     end
   end
 

@@ -44,7 +44,7 @@
         <% if @possible_group_number.length == 0 %>
           No matching characterized members
         <% else %>  
-          <%= @possible_group_number.each do |member| %>
+          <% @possible_group_number.each do |member| %>
             <%= link_to "#{member[1]}", protein_path(member[0]), target: "_blank" %> &nbsp;
           <% end %>
         <% end %>
