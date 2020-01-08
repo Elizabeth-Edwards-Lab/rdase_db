@@ -1,6 +1,10 @@
 <div class="container protein-info">
 
+<% if @protein_s.header != "None" %>
   <h2>Showing Protein Sequence: <%= @protein_s.header %></h2>
+<% else %>
+  <h2>Showing Protein Sequence: <%= @protein_s.accession_no %></h2>
+<% end %>
 
 
 <hr>
@@ -8,16 +12,8 @@
 <div id = "tablediv">
   <table>
     <tr>
-      <th>Accession Number</th>
-      <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.accession_no %>" target="_blank"> <%= @protein_s.accession_no %></td>
-    </tr>
-    <tr>
       <th>Common Name</th>
       <td><%= @protein_s.header %></td>
-    </tr>
-    <tr>
-      <th>Protein Type</th>
-      <td>Enzyme</td>
     </tr>
     <tr>
       <th>Orthologous Group</th>
@@ -36,13 +32,10 @@
 
     <tr>
       <th>Protein Name</th>
-      <th><%= @protein_s.protein_name || nil %></th>
+      <td><%= @protein_s.protein_name || "Un-Characterized" %></td>
     </tr>
 
-    <tr>
-      <th>Last Updated </th>
-      <td><%= @protein_s.updated_at || nil %></td>
-    </tr>
+    
 
     <tr>
       <th> Submitter </th>
@@ -55,8 +48,22 @@
 
     <tr>
       <th>Reference </th>
-      <td><%= @protein_s.reference || nil %></td>
+      <td>
+        <% if @reference.length != 0 %>
+          <% @reference.each do |ref| %>
+            <a href="https://www.ncbi.nlm.nih.gov/pubmed/<%= ref.pubmed_id %>" target="_blank"> <%= ref.pubmed_id %>
+          <% end %>
+        <% else %>
+          Unpublished
+        <% end %>
+      </td>
     </tr>
+
+    <tr>
+      <th>Last Updated </th>
+      <td><%= @protein_s.updated_at || nil %></td>
+    </tr>
+
   </table>
 </div>
 
@@ -90,6 +97,10 @@
         <tr>
           <th>Predicted PI (EMBOSS)</th>
           <td id="ppi-emboss"></td>
+        </tr>
+        <tr>
+          <th>Accession Number</th>
+          <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.accession_no %>" target="_blank"> <%= @protein_s.accession_no %></td>
         </tr>
       </table>
     </div>
@@ -131,6 +142,11 @@
           <th>Molecular Weight</th>
           <td id="gene-pmw"></td>
         </tr>
+        <tr>
+          <th>NCBI GeneBank ID</th>
+          <th id="gene-pmw">
+            <a href="https://www.ncbi.nlm.nih.gov/nuccore/<%= @gene_s.accession_no %>" target="_blank"> <%= @gene_s.accession_no %></th>
+        </tr>
       </table>
     </div>
 
@@ -161,7 +177,7 @@
       <% end %>
 
     <% else %>
-      <p> Not Available </p>
+      <p> This strain doesn't have any associated compounds </p>
     <% end %>
   </div>
 </div>

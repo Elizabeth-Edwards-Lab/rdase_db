@@ -1,0 +1,115 @@
+namespace :import_aa_nt_data_2020_1_7 do
+
+
+	# rake import_aa_nt_data_2020_1_7:import_aa_nt
+	task :import_aa_nt => [:environment] do
+		# ind = 0
+		wrong_entry = Array.new
+		CSV.foreach("data/Final_RDase_Database.tsv", {:col_sep => "\t", headers: true}) do |row|
+			# ind = ind+=1
+			# puts "#{ind}"
+
+			begin
+				orth_group = row[0].gsub("S-","").to_i
+				old_gene_id = row[1]
+				protein_accession_no = row[2].gsub(".1","").gsub(".2","")
+				gene_accession_no = row[3]
+				ref_pmid = row[4]
+				organism = row[5]
+				char_function = row[6]
+				nt_seq = row[7]
+				aa_seq = row[8]
+
+				if old_gene_id == "none"
+					old_gene_id = "None"
+				end
+
+				# save protein info; if old_gene_id is None, then display the protein_accession_no on the show page
+				new_aa_seq = CustomizedProteinSequence.new
+				new_aa_seq.header = old_gene_id
+				new_aa_seq.chain = aa_seq
+				new_aa_seq.group = orth_group
+				new_aa_seq.organism = organism
+				new_aa_seq.uploader = "RDDB"
+				new_aa_seq.accession_no = protein_accession_no
+				new_aa_seq.protein_name = char_function
+				new_aa_seq.single = 1 if row[0].include? "S-"
+				new_aa_seq.save!
+				new_aa_seq_id = new_aa_seq.id
+
+				
+				# reference
+				if ref_pmid.include? ","
+					pmid = ref_pmid.split(",")
+					
+					pmid.each do |pd|
+						ref = Reference.new
+						ref.pubmed_id = pd.strip
+						ref.strain_id = new_aa_seq_id
+						ref.save!
+					end
+				elsif ref_pmid != "Unpublished"
+					ref = Reference.new
+					ref.pubmed_id = ref_pmid.strip
+					ref.strain_id = new_aa_seq_id
+					ref.save!
+				end
+
+				# nt sequence
+				new_nt_seq = CustomizedNucleotideSequence.new
+				new_nt_seq.protein_id = new_aa_seq_id
+				new_nt_seq.chain = nt_seq
+				new_nt_seq.accession_no = gene_accession_no
+				new_nt_seq.uploader = "RDDB"
+				new_nt_seq.save!
+				# puts "#{ind} finished"
+			rescue => e
+				puts e
+				wrong_entry << row
+			end
+		end
+
+		CSV.open("data/Final_RDase_Database_exception.tsv", 'w', col_sep: "\t") do |csv|
+			wrong_entry.each do |e|
+				csv << e
+			end
+		end
+
+	end
+
+	# rake import_aa_nt_data_2020_1_7:reinitialize_db
+	task :reinitialize_db => [:environment] do
+		CustomizedNucleotideSequence.delete_all
+		CustomizedProteinSequence.delete_all
+		NucleotideSequence.delete_all
+		ProteinSequence.delete_all
+		CompoundStrainRel.delete_all
+		Reference.delete_all
+
+		CustomizedNucleotideSequence.destroy_all
+		CustomizedProteinSequence.destroy_all
+		NucleotideSequence.destroy_all
+		ProteinSequence.destroy_all
+		CompoundStrainRel.destroy_all
+		Reference.destroy_all
+
+
+		ActiveRecord::Base.connection.truncate(:customized_protein_sequences)
+		ActiveRecord::Base.connection.truncate(:customized_nucleotide_sequences)
+		ActiveRecord::Base.connection.truncate(:references)
+		ActiveRecord::Base.connection.truncate(:compound_strain_rels)
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+end

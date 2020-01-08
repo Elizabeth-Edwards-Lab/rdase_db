@@ -156,7 +156,7 @@ class ProteinController < ApplicationController
       end
     end
 
-    @gene_s = CustomizedNucleotideSequence.find_by(:header => @protein_s.header)
+    @gene_s = CustomizedNucleotideSequence.find_by(:protein_id => @protein_s.id)
 
     @compound = Array.new
     associated_compound = CompoundStrainRel.where(:protein_id => @protein_s.id)
@@ -164,6 +164,7 @@ class ProteinController < ApplicationController
       @compound << Compound.find(comp.compound_id)
     end
     
+    @reference = Reference.where(:strain_id => @protein_s.id)
     @mw = calculateMolecularWeight(@protein_s.chain)
     
   end

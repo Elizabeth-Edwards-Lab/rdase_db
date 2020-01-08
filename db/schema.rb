@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_19_054251) do
+ActiveRecord::Schema.define(version: 2020_01_08_192605) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_054251) do
     t.string "protein_name"
     t.string "uploader_name"
     t.string "uploader_email"
+    t.integer "protein_id"
   end
 
   create_table "customized_protein_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -147,6 +148,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_054251) do
     t.string "uploader_name"
     t.string "uploader_email"
     t.integer "characterized", limit: 1
+    t.integer "single", limit: 1
   end
 
   create_table "nucleotide_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -202,6 +204,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_054251) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "strain_id"
   end
 
   create_table "sequence_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
