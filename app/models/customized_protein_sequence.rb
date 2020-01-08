@@ -1,11 +1,7 @@
 class CustomizedProteinSequence < ApplicationRecord
 
 	UPLOADER_TYPES = ['RDDB','USER']
-	# association
-	# more information about association: https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
-	# has_many :compounds
 
-	# validation
 	validates :chain, format: { with: /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ } # accept wild * in sequence 
 	before_validation :convert_to_short_form
 	validates_inclusion_of :uploader, 

@@ -64,7 +64,9 @@ namespace :import_aa_nt_data_2020_1_7 do
 				new_nt_seq.save!
 				# puts "#{ind} finished"
 			rescue => e
-				puts e
+				# puts e.backtrace
+				puts old_gene_id
+				puts "-----------"
 				wrong_entry << row
 			end
 		end
@@ -100,16 +102,51 @@ namespace :import_aa_nt_data_2020_1_7 do
 		ActiveRecord::Base.connection.truncate(:compound_strain_rels)
 	end
 
+	# rake import_aa_nt_data_2020_1_7:destroy_protein_compound_relation
+	task :destroy_protein_compound_relation => [:environment] do
+		CompoundStrainRel.delete_all
+		CompoundStrainRel.destroy_all
+		ActiveRecord::Base.connection.truncate(:compound_strain_rels)
+	end
 
 
 
+	# rake import_aa_nt_data_2020_1_7:construct_metabolite_protein
+	task :construct_metabolite_protein => [:environment] do
+
+		CSV.foreach("data/strain_rddb_id_rel.csv") do |row|
+			begin
+				# protein = CustomizedProteinSequence.where(:header => row[0])
+				compound = Compound.find_by(:public_id => row[2])
+				protein = CustomizedProteinSequence.where(:chain => row[1])
+				protein_id = nil
+				protein_header = nil
+				if protein.length !=0
+					protein.each do |pro|
+						construct_protein_compound_rel(compound,pro)
+					end
+					
+				else
+					puts "zero returns => #{row[0]}"
+				end
 
 
+			rescue => e
+				puts e
+				puts "error => #{row[0]}"
+			end
 
+		end
+		
+	end
 
-
-
-
-
+	def construct_protein_compound_rel(compound,protein)
+			new_rel  = CompoundStrainRel.new
+			new_rel.compound_id = compound.id
+			new_rel.protein_id = protein.id
+			new_rel.rddb_id = compound.public_id
+			new_rel.strain_header = protein.header
+			new_rel.save!
+		end
 
 end
