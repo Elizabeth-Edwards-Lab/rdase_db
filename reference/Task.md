@@ -4,10 +4,10 @@
 
 2020-1-7
 1. update the new database => done
-2. enable xml and json format
+2. enable xml and json format 
 3. enable the cache?
-4. fix the export field after fixed the schema (normalization)
-5. generate a new demo tree 
+4. fix the export field after fixed the schema (normalization) => done
+5. generate a new demo tree => pending
 
 2019-11-17
 1. HMDB use https://github.com/BetterErrors/better_errors to create better error page
