@@ -116,23 +116,20 @@ namespace :import_aa_nt_data_2020_1_7 do
 
 		CSV.foreach("data/strain_rddb_id_rel.csv") do |row|
 			begin
-				# protein = CustomizedProteinSequence.where(:header => row[0])
+				
 				compound = Compound.find_by(:public_id => row[2])
-				protein = CustomizedProteinSequence.where(:chain => row[1])
+				# protein = CustomizedProteinSequence.where(:chain => row[1])
+				protein = CustomizedProteinSequence.where(:header => row[0])
 				protein_id = nil
 				protein_header = nil
-				if protein.length !=0
-					protein.each do |pro|
-						construct_protein_compound_rel(compound,pro)
-					end
-					
+				if protein.length == 1
+					construct_protein_compound_rel(compound,protein[0])
 				else
-					puts "zero returns => #{row[0]}"
+					puts "zero/more returns => #{row[0]}"
 				end
 
 
 			rescue => e
-				puts e
 				puts "error => #{row[0]}"
 			end
 

@@ -3,7 +3,7 @@
 
 
 2020-1-7
-1. update the new database
+1. update the new database => done
 2. enable xml and json format
 3. enable the cache?
 4. fix the export field after fixed the schema (normalization)
