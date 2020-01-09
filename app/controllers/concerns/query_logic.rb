@@ -81,16 +81,22 @@ module QueryLogic
 
 	  # export the filtered result into csv
 	  CSV.open(filename, "w") do |csv|
-	    csv << ["header","accession number","amino acid sequence","nucleotide sequence","group","organism",
+	    csv << ["protein header","protein accession number","amino acid sequence","nucleotide sequence","group","organism",
 	    				"protein name", "is_characterized?","reference", "uploader"]
 	    protein.each do |pro|
-	      nt_object = CustomizedNucleotideSequence.find_by(:header => pro.header)
+
+	    	reference = Reference.where(:strain_id => pro.id).select(:pubmed_id)
+	    	reference_s = ""
+	    	reference.each do |ref|
+	    		reference_s += "#{ref.pubmed_id}|"
+	    	end
+	      nt_object = CustomizedNucleotideSequence.find_by(:protein_id => pro.id)
 	      nt_sequence = ""
 	      if !nt_object.nil?
 	        nt_sequence = nt_object.chain
 	      end
 	      csv << [pro.header, pro.accession_no, pro.chain, nt_sequence, pro.group, pro.organism, 
-	      			pro.protein_name, pro.characterized, pro.reference, pro.uploader]
+	      			pro.protein_name, pro.characterized,reference_s, pro.uploader]
 	    end
 	  end
 
@@ -107,17 +113,17 @@ module QueryLogic
 
 		File.open(filename_protein, "w") do |f|
 		  protein.each do |pt|
-		  	f << ">" + pt.header + "\n"
-				f << pt.chain + "\n"
+		  	f << "> #{pt.header} | #{pt.accession_no} | #{pt.organism} | #{pt.group} \n"
+				f << "#{pt.chain}\n"
 		  end
 		end
 
 		File.open(filename_gene, "w") do |f|
 		  protein.each do |pt|
-		    gene = CustomizedNucleotideSequence.find_by(:header => pt.header)
+		    gene = CustomizedNucleotideSequence.find_by(:protein_id => pt.id)
 		    if !gene.nil?
-		      f << ">" + gene.header + "\n"
-		      f << gene.chain + "\n"
+		      f << "> #{pt.header} | #{gene.accession_no} | #{pt.organism} | #{pt.group}\n"
+		      f << "#{gene.chain}\n"
 		    end
 		  end
 		end

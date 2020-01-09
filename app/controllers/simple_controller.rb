@@ -22,47 +22,40 @@ class SimpleController < ApplicationController
 	end
 
 	def download_aa_original
-		send_file 'data/rdhA_all_aa_16-Oct-2019.fasta', :type => "application/fasta", :filename =>  "rdhA_all_aa_17-June-2019.fasta"		
+		send_file 'data/2020_01_09_protein.fasta', :type => "application/fasta", :filename =>  "2020_01_09_protein.fasta"		
 	end
 
 	def download_nt_original
-		send_file 'data/rdhA_all_nt_16-Oct-2019.fasta', :type => "application/fasta", :filename =>  "rdhA_all_nt_17-June-2019.fasta"		
+		send_file 'data/2020_01_09_gene.fasta', :type => "application/fasta", :filename =>  "2020_01_09_gene.fasta"		
 	end
 
 	def download_aa_cus
 		sequence = CustomizedProteinSequence.all
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		filename = "tmp/tmp_fasta/rdhA_aa_all_customized_#{now}.fasta"
-		aa_fasta_file = File.open(filename,"w")
 
-		sequence.each{ |x|
-			aa_fasta_file.write(">")
-			aa_fasta_file.write(x.header)
-			aa_fasta_file.write("\n")
-			aa_fasta_file.write(x.chain)
-			aa_fasta_file.write("\n")
-		}
+		File.open(filename, "w") do |f|
+		  CustomizedProteinSequence.all.each do |pt|
+		  	f << "> #{pt.header} | #{pt.accession_no} | #{pt.organism} | #{pt.group} \n"
+				f << "#{pt.chain}\n"
+		  end
+		end
 
-		aa_fasta_file.close
 		send_file filename, :type => "application/fasta", :filename =>  "rdhA_aa_all_customized_#{now}.fasta"
 	end
 
 
 	def download_nt_cus
-		sequence = CustomizedNucleotideSequence.all
 		now = Time.now.strftime("%Y_%m_%d_%H_%M")
 		filename = "tmp/tmp_fasta/rdhA_nt_all_customized_#{now}.fasta"
-		aa_fasta_file = File.open(filename,"w")
 
-		sequence.each{ |x|
-			aa_fasta_file.write(">")
-			aa_fasta_file.write(x.header)
-			aa_fasta_file.write("\n")
-			aa_fasta_file.write(x.chain)
-			aa_fasta_file.write("\n")
-		}
+		File.open(filename, "w") do |f|
+		  CustomizedNucleotideSequence.all.each do |gene|
+		  	f << "> #{gene.accession_no} \n"
+		  	f << "#{gene.chain}\n"
+		  end
+		end
 
-		aa_fasta_file.close
 		send_file filename, :type => "application/fasta", :filename =>  "rdhA_nt_all_customized_#{now}.fasta"
 	end
 
@@ -71,42 +64,31 @@ class SimpleController < ApplicationController
 		send_file "data/old-data/rdase_names_accessions_09052016.docx", :type => "application/docx", :filename =>  "Entry_Table_Gene.docx"
 	end
 
-
-	def download_entry_table_nt_orignal_csv
-		sequence = NucleotideSequence.all
-		now = Time.now.strftime("%Y_%m_%d_%H_%M")
-		filename = "tmp/csv/Entry_Table_Gene_#{now}.csv"
-		CSV.open(filename, 'wb') do |csv|
-			csv << ["Table S1: Reductive dehalogenase homologous genes curated dataset information, with tree identifiers linked to NCBI, JGI, or in-house accession numbers and organism of origin."]
-			csv << ["Name On Tree", "AA sequence","Organism","Key","What Key Is"]
-			sequence.each  do |s|
-				csv << [s.header, s.chain, s.organism, s.key, s.key_group]
-			end
-		end
-
-		send_file filename, :type => "application/csv", :filename =>  "Entry_Table_Gene_#{now}.csv"
-		# File.delete("tmp/Entry_Table_Gene_#{now}.csv") if File.exist?("tmp/Entry_Table_Gene_#{now}.csv")
-	end
-
 	def download_entry_table_cus
-		aa_sequence = CustomizedProteinSequence.all
-		now = Time.now.strftime("%Y_%m_%d_%H_%M")
-		filename = "tmp/csv/Entry_Table_Customized_#{now}.csv"
-		# name of the tree; organism; key; what key is;
-		CSV.open(filename, "wb") do |csv|
-		  csv << ["header","accession number","amino acid sequence","nucleotide sequence","group","organism",
-		  				"protein name", "is_characterized?","reference", "uploader"]
-		  aa_sequence.each do |pro|
-		    nt_object = CustomizedNucleotideSequence.find_by(:header => pro.header)
-		    nt_sequence = ""
-		    if !nt_object.nil?
-		      nt_sequence = nt_object.chain
-		    end
-		    csv << [pro.header, pro.accession_no, pro.chain, nt_sequence, pro.group, pro.organism, 
-		    			pro.protein_name, pro.characterized, pro.reference, pro.uploader]
-		  end
-		end
 
+		now = Time.now.strftime("%Y_%m_%d_%H_%M_%S_%L")
+	  filename = "tmp/filtered_result/filtered_#{now}.csv"
+
+	  # export the filtered result into csv
+	  CSV.open(filename, "w") do |csv|
+	    csv << ["protein header","protein accession number","amino acid sequence","nucleotide sequence","group","organism",
+	    				"protein name", "is_characterized?","reference", "uploader"]
+	    CustomizedProteinSequence.all.each do |pro|
+
+	    	reference = Reference.where(:strain_id => pro.id).select(:pubmed_id)
+	    	reference_s = ""
+	    	reference.each do |ref|
+	    		reference_s += "#{ref.pubmed_id}|"
+	    	end
+	      nt_object = CustomizedNucleotideSequence.find_by(:protein_id => pro.id)
+	      nt_sequence = ""
+	      if !nt_object.nil?
+	        nt_sequence = nt_object.chain
+	      end
+	      csv << [pro.header, pro.accession_no, pro.chain, nt_sequence, pro.group, pro.organism, 
+	      			pro.protein_name, pro.characterized,reference_s, pro.uploader]
+	    end
+	  end
 
 		send_file filename, :type => "application/csv", :filename =>  "Entry_Table_Gene_#{now}.csv"
 		# File.delete("tmp/Entry_Table_Gene_Customized_#{now}.csv") if File.exist?("tmp/Entry_Table_Gene_Customized_#{now}.csv")
