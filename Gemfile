@@ -25,7 +25,6 @@ gem 'recaptcha'
 gem 'will_paginate', '~> 3.1.0'
 gem 'rubyzip'
 gem 'font-awesome-sass', '~> 5.11.1'
-gem 'nokogiri'
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

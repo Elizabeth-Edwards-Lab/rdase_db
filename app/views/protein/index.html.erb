@@ -5,6 +5,7 @@
 	<h1>Sequence Database</h1>
 	<hr>
 	<table id='strain-table'>
+
 	  <thead>
 	    <tr>
 	      <th colspan="1"></th>
@@ -13,8 +14,10 @@
 	      <%# table_sort_link 'Locus Tag', :header %>
 	      <th><%= table_sort_link "Accession No.", :accession_no %></th>
 	      <th><%= table_sort_link "Common Name", :header %></th>
+	      <th><%= table_sort_link "GeneBankID", :gene_accession_no %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
+	      <th>Protein</th>
 	      <th><%= table_sort_link "Characterized", :characterized %></th>
 	      
 	    </tr>
@@ -24,9 +27,11 @@
 	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
 	      <th><%= f.text_field 	:accession_no %></th>
 	      <th><%= f.text_field 	:header %></th>
-	      <th><%= f.text_field  :group %></th>
+	      <th><%= f.text_field  :gene_accession_no %></th>
+	      <th><%= f.text_field  :group, :style => "width:60px"%></th>
 	      <th><%= f.text_field  :organism %></th>
-	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:125px" %></th>
+	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:70px" %></th>
+	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:120px" %></th>
 	    <% end %>
 	      
 	    </tr>
@@ -49,6 +54,17 @@
 
 	        <td><%= pt.header %></td>
 
+	        <td>
+
+	        	<% if !get_genbank_id(pt.id).nil? %>
+	        		<%= link_to get_genbank_id(pt.id), "https://www.ncbi.nlm.nih.gov/nuccore/#{get_genbank_id(pt.id)}" %>
+	        	<% else %>
+	        		None
+	        	<% end %>
+
+
+	        </td>
+
 	        <!-- display group -->
 	        <% if pt.group.nil? %>
 	        	<td>No Group</td>
@@ -66,11 +82,13 @@
 	        	<td><%= itatic_species_genus(pt.organism) %></td>
 	        <% end %>
 	        
+
+	        <td><%=  pt.protein_name %></td>
 	        <!-- display characteristics -->
 	        <% if pt.characterized == 1 %>
-	        	<td style="color:red;"><strong>Yes</strong></td>
+	        	<td style="color:red;text-align: right;"><strong>Yes</strong></td>
 	        <% else %>
-	        	<td>No</td>
+	        	<td style="text-align: right;">No</td>
 	        <% end %>
 	        
 	      </tr>

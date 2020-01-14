@@ -36,6 +36,12 @@ module ProteinHelper
 	end
 
 
+	def get_genbank_id(protein_id)
+		gene = CustomizedNucleotideSequence.find_by(:protein_id => protein_id)
+		
+		return gene.accession_no
+	end
+
 	def itatic_species_genus(organism)
 		species = ["Dehalococcoides", "mccartyi",
 							"Anaeromyxobacter","dehalogenans",
