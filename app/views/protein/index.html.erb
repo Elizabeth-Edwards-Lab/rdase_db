@@ -14,7 +14,7 @@
 	      <%# table_sort_link 'Locus Tag', :header %>
 	      <th><%= table_sort_link "Accession No.", :accession_no %></th>
 	      <th><%= table_sort_link "Common Name", :header %></th>
-	      <th><%= table_sort_link "GeneBankID", :gene_accession_no %></th>
+	      <th><%= table_sort_link "GeneBankID", :genbank_id %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
 	      <th>Protein</th>
@@ -27,7 +27,7 @@
 	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
 	      <th><%= f.text_field 	:accession_no %></th>
 	      <th><%= f.text_field 	:header %></th>
-	      <th><%= f.text_field  :gene_accession_no %></th>
+	      <th><%= f.text_field  :genbank_id %></th>
 	      <th><%= f.text_field  :group, :style => "width:60px"%></th>
 	      <th><%= f.text_field  :organism %></th>
 	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:70px" %></th>

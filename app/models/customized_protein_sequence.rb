@@ -2,6 +2,11 @@ class CustomizedProteinSequence < ApplicationRecord
 
 	UPLOADER_TYPES = ['RDDB','USER']
 
+	# has_one/has_many/belong_to enable ActiveRecord.joins() operations
+	# has_many pair with belongs_to; to join based on one specific field, use foreign_key on both models
+	# has_many/belongs_to are too difficult to use; use raw sql
+	# has_many :customized_nucleotide_sequences, :foreign_key => :protein_id
+
 	validates :chain, format: { with: /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ } # accept wild * in sequence 
 	before_validation :convert_to_short_form
 	validates_inclusion_of :uploader, 

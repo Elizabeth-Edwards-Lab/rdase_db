@@ -41,21 +41,6 @@ module SeqSummarizer
 							- (d_count * partial_charge(pH, d_pK)) - (e_count * partial_charge(pH, e_pK))
 							- (c_count * partial_charge(pH, c_pK)) - (y_count * partial_charge(pH, y_pK))
 							- (partial_charge(pH, c_term_pK)))
-
-			# puts "partial_charge(n_term_pK, pH) => #{partial_charge(n_term_pK, pH)}"
-			# puts "k_count * partial_charge(k_pK, pH) => #{k_count * partial_charge(k_pK, pH)}"
-			# puts "r_count * partial_charge(r_pK, pH) => #{r_count * partial_charge(r_pK, pH)}"
-			# puts "h_count * partial_charge(h_pK, pH) => #{h_count * partial_charge(h_pK, pH)}"
-			# puts "d_count * partial_charge(pH, d_pK) => #{d_count * partial_charge(pH, d_pK)}"
-			# puts "e_count * partial_charge(pH, e_pK) => #{e_count * partial_charge(pH, e_pK)}"
-			# puts "c_count * partial_charge(pH, c_pK) => #{c_count * partial_charge(pH, c_pK)}"
-			# puts "y_count * partial_charge(pH, y_pK) => #{y_count * partial_charge(pH, y_pK)}"
-			# puts "partial_charge(pH, c_term_pK))     => #{partial_charge(pH, c_term_pK)}"
-			# puts "=============================================="
-			# puts "charge => #{charge}"
-			# puts "charge.round(2) => #{charge.round(2)}"
-			# puts "last_charge => #{last_charge}"
-			# puts "(last_charge*100).round(2) => #{(last_charge*100).round(2)}"
 			break
 			if charge.round(2) == (last_charge*100).round(2)
 				break

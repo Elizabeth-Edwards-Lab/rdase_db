@@ -143,6 +143,7 @@ module QueryLogic
 		header    = params[:header]
 		group     = params[:group]
 		organism  = params[:organism]
+		genbankID = params[:genbank_id]
 		if accession.present? and !header.present? and !group.present? and !organism.present? # 1 field
 		  protein = CustomizedProteinSequence.where("accession_no like ?", "%#{accession}%")
 		elsif !accession.present? and header.present? and !group.present? and !organism.present? # 1 field
@@ -174,6 +175,7 @@ module QueryLogic
 		end
 
 		if sort.nil?
+			# just filter, no sort
 
 			if download.nil?
 				# no download; just render the page
@@ -186,14 +188,22 @@ module QueryLogic
 			end
 
 		else
+			# filter and sort...
 			sort_order = nil
+			protein_sorted = nil
 			if params[:d] == "up"
 			  sort_order = "asc"
 			else
 			  sort_order = "desc"
 			end
+			if params[:c] != "genbank_id"
+				protein_sorted = protein.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
+			else
+				protein_sorted = protein.joins("left join customized_nucleotide_sequences on customized_nucleotide_sequences.protein_id = customized_protein_sequences.id")
+												.order("customized_nucleotide_sequences.accession_no is NULL, customized_nucleotide_sequences.accession_no #{sort_order}").limit(25).page(params[:page])
+			end
 
-			return protein.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
+			return protein_sorted
 		end
 	end
 
@@ -268,34 +278,6 @@ module QueryLogic
 			end
 			return multiple
 		end
-	end
-
-
-	
-
-	def describt_hit(hit)
-		puts hit.evalue           # E-value
-		puts hit.sw               # Smith-Waterman score (*)
-		puts hit.identity         # % identity use this to compare the sequence 
-		puts hit.overlap          # length of overlapping region
-		puts hit.query_id         # identifier of query sequence
-		puts hit.query_def        # definition(comment line) of query sequence
-		puts hit.query_len        # length of query sequence
-		puts hit.query_seq        # sequence of homologous region
-		puts hit.target_id        # identifier of hit sequence
-		puts hit.target_def       # definition(comment line) of hit sequence
-		puts hit.target_len       # length of hit sequence
-		puts hit.target_seq       # hit of homologous region of hit sequence
-		puts hit.query_start      # start position of homologous
-		                          # region in query sequence
-		puts hit.query_end        # end position of homologous region
-		                          # in query sequence
-		puts hit.target_start     # start position of homologous region
-		                          # in hit(target) sequence
-		puts hit.target_end       # end position of homologous region
-		                          # in hit(target) sequence
-		puts hit.lap_at           # array of above four numbers
-		puts "============================================================="
 	end
 
 end
