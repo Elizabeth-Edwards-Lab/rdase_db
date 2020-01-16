@@ -12,26 +12,27 @@
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
 	      <%# table_sort_link 'Locus Tag', :header %>
-	      <th><%= table_sort_link "Accession No.", :accession_no %></th>
-	      <th><%= table_sort_link "Common Name", :header %></th>
+	      <th><%= table_sort_link "AccessionID", :accession_no %></th>
+	      <th><%= table_sort_link "Name", :header %></th>
 	      <th><%= table_sort_link "GeneBankID", :genbank_id %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
 	      <th>Protein</th>
-	      <th><%= table_sort_link "Characterized", :characterized %></th>
+	      <th>Reference</th>
 	      
 	    </tr>
 
 	    <tr>
 	    <%= form_with url:'protein', method: :get do |f| %>
 	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
-	      <th><%= f.text_field 	:accession_no %></th>
+	      <th><%= f.text_field 	:accession_no, :style => "width:140px"%></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :genbank_id %></th>
 	      <th><%= f.text_field  :group, :style => "width:60px"%></th>
 	      <th><%= f.text_field  :organism %></th>
-	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:70px" %></th>
-	      <th><%= f.text_field  :organism, :disabled => true, :placeholder => "N/A", :style => "width:120px" %></th>
+	      <th><%= f.text_field  :fake, :disabled => true, :placeholder => "N/A", :style => "width:70px" %></th>
+	      <th><%= f.text_field  :fake, :disabled => true, :placeholder => "N/A", :style => "width:100px" %></th> 
+	      <!-- :fake means nothing, just for styling -->
 	    <% end %>
 	      
 	    </tr>
@@ -54,12 +55,13 @@
 
 	        <td><%= pt.header %></td>
 
+
 	        <td>
 
-	        	<% if !get_genbank_id(pt.id).nil? %>
-	        		<%= link_to get_genbank_id(pt.id), "https://www.ncbi.nlm.nih.gov/nuccore/#{get_genbank_id(pt.id)}" %>
-	        	<% else %>
+	        	<% if get_genbank_id(pt.id).nil? %>
 	        		None
+	        	<% else %>
+	        		<%= link_to get_genbank_id(pt.id), "https://www.ncbi.nlm.nih.gov/nuccore/#{get_genbank_id(pt.id)}" %>
 	        	<% end %>
 
 
@@ -83,13 +85,24 @@
 	        <% end %>
 	        
 
-	        <td><%=  pt.protein_name %></td>
-	        <!-- display characteristics -->
-	        <% if pt.characterized == 1 %>
-	        	<td style="color:red;text-align: right;"><strong>Yes</strong></td>
+	        <% if pt.protein_name.nil? %>
+	        	<td style="text-align: center;">None</td>
 	        <% else %>
-	        	<td style="text-align: right;">No</td>
+	        	<td style="color:red; text-align: center;"><strong><%=  pt.protein_name %></strong></td>
 	        <% end %>
+	        	
+	        	
+	        <!-- display characteristics -->
+	        <td style="text-align: right;">
+	        	<% if get_reference(pt.id).nil? %>
+		        	Unpublished
+		        <% else %>
+		        	
+		        	<%= link_to get_reference(pt.id), "https://www.ncbi.nlm.nih.gov/pubmed/#{get_reference(pt.id)}" %>
+		        <% end %>
+
+		        <%# link_to get_reference(pt.id), "https://www.ncbi.nlm.nih.gov/pubmed/#{get_reference(pt.id)}" %>
+	    	</td>
 	        
 	      </tr>
 	    <% end %>

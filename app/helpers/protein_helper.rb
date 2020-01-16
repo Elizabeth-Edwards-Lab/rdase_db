@@ -42,6 +42,16 @@ module ProteinHelper
 		return gene.accession_no
 	end
 
+	def get_reference(protein_id)
+		reference = Reference.find_by(:strain_id => protein_id)
+		pubmed_id = nil
+		if !reference.nil?
+			pubmed_id = reference.pubmed_id
+		end
+		return pubmed_id
+		
+	end
+
 	def itatic_species_genus(organism)
 		species = ["Dehalococcoides", "mccartyi",
 							"Anaeromyxobacter","dehalogenans",
