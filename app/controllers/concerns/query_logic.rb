@@ -143,35 +143,30 @@ module QueryLogic
 		header    = params[:header]
 		group     = params[:group]
 		organism  = params[:organism]
-		genbankID = params[:genbank_id]
-		if accession.present? and !header.present? and !group.present? and !organism.present? # 1 field
-		  protein = CustomizedProteinSequence.where("accession_no like ?", "%#{accession}%")
-		elsif !accession.present? and header.present? and !group.present? and !organism.present? # 1 field
-		  protein = CustomizedProteinSequence.where("header like ?", "%#{header}%")
-		elsif !accession.present? and !header.present? and group.present? and !organism.present? # 1 field
-		  protein = CustomizedProteinSequence.where("customized_protein_sequences.group like ?", "#{group}")
-		elsif !accession.present? and !header.present? and !group.present? and organism.present? # 1 field
-		  protein = CustomizedProteinSequence.where("organism like ?", "%#{organism}%")
-		elsif accession.present? and header.present? and !group.present? and !organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ?", "%#{accession}%","%#{header}%")
-		elsif accession.present? and !header.present? and group.present? and !organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("accession_no like ? and customized_protein_sequences.group like ?", "%#{accession}%","#{group}")
-		elsif accession.present? and !header.present? and !group.present? and organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("accession_no like ? and organism like ?", "%#{accession}%","%#{organism}%")
-		elsif !accession.present? and header.present? and group.present? and !organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("header like ? and group like ?", "%#{header}%","#{group}")
-		elsif !accession.present? and header.present? and !group.present? and organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("header like ? and organism like ?", "%#{header}%","%#{organism}%")
-		elsif !accession.present? and !header.present? and group.present? and organism.present? # 2 field
-		  protein = CustomizedProteinSequence.where("group like ? and organism like ?", "#{group}","%#{organism}%")
-		elsif accession.present? and header.present? and group.present? and !organism.present? # 3 field
-		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ? and group like ?", "%#{accession}%", "%#{header}%", "#{group}")
-		elsif accession.present? and header.present? and !group.present? and organism.present?
-		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ? and organism like ?", "%#{accession}%", "%#{header}%", "%#{organism}%")
-		elsif !accession.present? and header.present? and group.present? and organism.present?
-		  protein = CustomizedProteinSequence.where("accession_no like ? and group like ? and organism like ?", "%#{header}%", "#{group}", "%#{organism}%")
-		else
-		  protein = CustomizedProteinSequence.where("accession_no like ? and header like ? and group like ? and organism like ?", "%#{accession}%", "%#{header}%", "#{group}","%#{organism}%")
+		genbank_id = params[:genbank_id]
+		# puts accession, header, group, organism, genbank_id
+
+		protein = CustomizedProteinSequence.all
+
+		if accession.present?
+			protein = protein.where("accession_no like ?", "%#{accession}%")
+		end
+
+		if header.present?
+			protein = protein.where("header like ?", "%#{header}%")
+		end
+
+		if organism.present?
+			protein = protein.where("organism like ?", "%#{organism}%")
+		end
+
+		if group.present?
+			protein = protein.where("customized_protein_sequences.group = ?", group.to_i)
+		end
+
+		if genbank_id.present?
+			protein = protein.joins("left join customized_nucleotide_sequences on customized_nucleotide_sequences.protein_id = customized_protein_sequences.id")
+											 .where("customized_nucleotide_sequences.accession_no like ?","%#{genbank_id}%")
 		end
 
 		if sort.nil?

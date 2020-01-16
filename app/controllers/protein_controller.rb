@@ -50,31 +50,20 @@ class ProteinController < ApplicationController
   end
 	
   def index
-  	# puts "params.inspect => #{params.inspect}"
-    # after add search feature
-    # Parameters {"utf8"=>"✓", "commit"=>"Filter", "header"=>"", "group"=>"sdf", "organism"=>"", "update"=>"", "controller"=>"protein", "action"=>"index"}
-    # after add sorting feature 
-    # params.inspect => <ActionController::Parameters {"c"=>"group", "commit"=>"Filter", "d"=>"up", "group"=>"", "header"=>"", "organism"=>"", "utf8"=>"✓", "controller"=>"protein", "action"=>"index"} permitted: false>
-    
-    # group => filter
-    # no group info anymore, but I think that's fine, user want to see that particular name anyway
-    # Parameters: {"utf8"=>"✓", "commit"=>"Filter", "accession"=>"", "header"=>"1395", "group"=>"", "organism"=>""}
-    # if just click filter, no sorting params
-    # if just click sort first time, not filter params
-    # if just click sort after first time, both filter and sorting params
- 
 
   	if params[:commit] == "Filter"
       accession = params[:accession_no]
       header    = params[:header]
       group     = params[:group]
       organism  = params[:organism]
+      genbank_id = params[:genbank_id]
+      # puts "params[:genbank_id] => #{params[:genbank_id]}"
       if params[:c].nil? and params[:d].nil?
-        # user didn't click the sort link, just simple filter
-        if !accession.present? and !header.present? and !group.present? and !organism.present?
-          @protein = CustomizedProteinSequence.order(group: :ASC).limit(25).page(params[:page])
-        elsif accession.present? or header.present? or group.present? or organism.present?
+
+        if accession.present? or header.present? or group.present? or organism.present? or genbank_id.present?
           @protein = protein_index_just_filter(params)
+        else
+          @protein = CustomizedProteinSequence.order(group: :ASC).limit(25).page(params[:page])
         end
 
       else
