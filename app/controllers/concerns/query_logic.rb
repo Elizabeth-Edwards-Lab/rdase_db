@@ -144,6 +144,7 @@ module QueryLogic
 		group     = params[:group]
 		organism  = params[:organism]
 		genbank_id = params[:genbank_id]
+		protein_name = params[:protein_name]
 		# puts accession, header, group, organism, genbank_id
 
 		protein = CustomizedProteinSequence.all
@@ -162,6 +163,10 @@ module QueryLogic
 
 		if group.present?
 			protein = protein.where("customized_protein_sequences.group = ?", group.to_i)
+		end
+
+		if protein_name.present?
+			protein = protein.where("protein_name like ?", "%#{protein_name}%")
 		end
 
 		if genbank_id.present?

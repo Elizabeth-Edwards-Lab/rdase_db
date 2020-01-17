@@ -57,10 +57,11 @@ class ProteinController < ApplicationController
       group     = params[:group]
       organism  = params[:organism]
       genbank_id = params[:genbank_id]
+      protein_name = params[:protein_name]
       # puts "params[:genbank_id] => #{params[:genbank_id]}"
       if params[:c].nil? and params[:d].nil?
 
-        if accession.present? or header.present? or group.present? or organism.present? or genbank_id.present?
+        if accession.present? or header.present? or group.present? or organism.present? or genbank_id.present? or protein_name.present?
           @protein = protein_index_just_filter(params)
         else
           @protein = CustomizedProteinSequence.order(group: :ASC).limit(25).page(params[:page])
@@ -75,7 +76,7 @@ class ProteinController < ApplicationController
           sort_order = "desc"
         end
 
-        if !accession.present? and !header.present? and !group.present? and !organism.present?
+        if !accession.present? and !header.present? and !group.present? and !organism.present? and !genbank_id.present? and !protein_name.present?
           # no filter certiera given, sort by default (which is sort by group); this invoke when filter first, then sort second
           if params[:c] != "genbank_id"
             protein_sorted = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
@@ -86,7 +87,7 @@ class ProteinController < ApplicationController
           @protein = protein_sorted
           # @protein = CustomizedProteinSequence.order("customized_protein_sequences.#{params[:c]} is NULL, customized_protein_sequences.#{params[:c]} #{sort_order}").limit(25).page(params[:page])
           
-        elsif accession.present? or header.present? or group.present? or organism.present?
+        elsif accession.present? or header.present? or group.present? or organism.present? or genbank_id.present? or protein_name.present?
 
           @protein = protein_index_just_filter(params, sort=true)
 
