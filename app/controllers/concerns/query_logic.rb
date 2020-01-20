@@ -222,8 +222,10 @@ module QueryLogic
 		  	match_identity = (hit.identity.to_f / hit.query_seq.length.to_f * 100).round(2)
 		  elsif hit.query_len < hit.query_seq.length
 		  	match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
+		  elsif hit.query_len == hit.query_seq.length
+		  	match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
 		  end
-
+		  # puts "#{hit.target_def} => #{match_identity} => #{hit.identity}"
 		  if match_identity >= 90.00
 		    identity_with_90 << hit.target_def
 		  end
