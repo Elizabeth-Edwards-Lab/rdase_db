@@ -16,6 +16,8 @@ module QueryHelper
 			match_identity = (hit.identity.to_f / hit.query_seq.length.to_f * 100).round(2)
 		elsif hit.query_len < hit.query_seq.length
 			match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
+		elsif hit.query_len == hit.query_seq.length
+			match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
 		end
 		return match_identity
 	end
