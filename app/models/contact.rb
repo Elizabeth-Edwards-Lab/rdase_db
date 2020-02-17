@@ -9,8 +9,7 @@ class Contact < MailForm::Base
     def headers
       {
         :subject => 'RDDB Contact Form Submitted',
-        :to => 'me@herbertm.ca',
-        :from => 'rddb@herbertm.ca'
+        :to => Rails.configuration.x.contact_to
       }
     end
   end

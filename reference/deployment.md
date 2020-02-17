@@ -70,4 +70,4 @@ If the system is under ubuntu, the following file should be modified
 2. database.yml => change the location of msyql.sock due to installation place
 
 # mailer / contact form
-- Set action_mailer SMTP settings accordingly in config/environments/*
+- Set action_mailer to/from address and SMTP settings accordingly in config/environments/*
