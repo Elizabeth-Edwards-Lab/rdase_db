@@ -1,5 +1,15 @@
 .well
-  = form_tag search_path(anchor: :results), :target => "_blank", id: 'seq-search-form' do
+  - if @error.present?
+    .loading-animation
+    - if @error.class == String
+      p.alert.alert-danger
+        = @error
+    - elsif @error.class == Hash
+      p.alert.alert-danger
+        - @error.each do |key, array|
+          = array
+
+  = form_tag search_path(anchor: :results), id: 'seq-search-form' do
     fieldset
       legend
         | Enter An Amino Acid Sequence in
@@ -7,7 +17,7 @@
       = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
       .form-actions
         = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
-        = link_to 'Reset', search_path, class: 'btn', :id => 'reset-button'
+        = button_tag 'Reset', type: 'button', class: 'btn btn-secondary reset-btn', id: 'reset-button'
 
     / in the future, you can add more fieldset with more options
 
@@ -51,18 +61,7 @@
               = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
               | Filter query sequence (DUST &amp; SEG)
 
-    
-- if @error.present?
-  .loading-animation
-  - if @error.class == String
-    p.alert.alert-danger
-      = @error
-  - elsif @error.class == Hash
-    p.alert.alert-danger
-      - @error.each do |key, array|
-        = array
-
-- elsif @aa_similarity.present?
+- if @aa_similarity.present?
   .loading-animation
   hr
   = render partial: "result"
@@ -82,6 +81,3 @@
   p.alert.alert-danger No Results
 
 .modal
-
-
-

@@ -8,8 +8,10 @@
 #first{
   width: 300px;
   text-align: center;
+  img {
+    width: 100%;
+  }
 }
-
 
 html #first{
   font-family: "helvetica neue";
@@ -22,8 +24,8 @@ html #first{
 
 @media (min-width: 1000px){
   #firstli{
-  padding-top: 47px;
-  width: 250px;
+    // padding-top: 36px;
+    width: 300px;
   }
 }
 
@@ -47,16 +49,18 @@ html #first{
   color: grey !important;
 }
 
-
 .nav-link{
   color: #002a5c !important;
   font-size: 20px;
 }
 
-.navbar-nav mr-auto{
+.navbar-nav {
   vertical-align: middle;
   text-align: left;
-
+  li:first-child {
+    width: 11%;
+    margin-right: 1em;
+  }
 }
 
 .navbar navbar-expand-lg navbar-light bg-light{

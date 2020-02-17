@@ -25,10 +25,10 @@ gem 'recaptcha'
 gem 'will_paginate', '~> 3.1.0'
 gem 'rubyzip'
 gem 'font-awesome-sass', '~> 5.11.1'
-
+gem 'mail_form'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+#gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :production do
   gem 'newrelic_rpm'
@@ -50,9 +50,9 @@ group :development do
   gem 'thin'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'syncfast', git: 'git@bitbucket.org:wishartlab/syncfast'
+  #gem 'syncfast', git: 'git@bitbucket.org:wishartlab/syncfast'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  #gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

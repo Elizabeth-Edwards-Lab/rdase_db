@@ -1,19 +1,6 @@
-# README
+# Deployment
 
-# Schema Explaination
-customized_nucleotide_sequences: orignal database + user uploaded sequence
-customized_protein_sequences: orignal database + user uploaded sequence
-nucleotide_sequences: orignal database (forbid to change)
-protein_sequences: orignal database (forbid to change)
-queries: keep track of user's query
-uploaders: keep track of uploaders' information
-
-
-# Table Explaination
-nucleotide_sequences: update_date and publication_date are different, make publication_date as primary reference.
-
-
-# for blast+ installation
+# Blast+ installation
 ## ubuntu
 apt update
 apt upgrade
@@ -38,8 +25,6 @@ def make_command_line
 end
 
 I guess have to run some sort script to replace the blast.rb for every deployment
-
-
 
 ## MacOS
 Below instruction is for using old blastall program 
@@ -75,20 +60,14 @@ IMPORTANT:
 legacy_blast.pl use default /usr/bin for all executable blast program.
 if use legacy_blast.pl, should modify the legacy_blast.pl
 
-
 # how to deploy new changes on ubuntu
 bundle exec cap production deploy # pull changes from repo
 // change blast.rb and possible restart puma.sh
 bundle exec cap production deploy:restart # apply the changes from blast.rb
 
-
-
-
 If the system is under ubuntu, the following file should be modified
 1. config/initializers/blast.rb => change back to original code because blastall exist in ubuntu
 2. database.yml => change the location of msyql.sock due to installation place
 
-
-
-
-
+# mailer / contact form
+- Set action_mailer SMTP settings accordingly in config/environments/*

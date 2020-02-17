@@ -2,22 +2,24 @@
 <h3 id="seqresulttag"> BLASTP Results for <%= @query.definition %></h3>
 <table class="each-result">
 
+  <!--
   <tr>
     <th>Number of aligned sequences</th>
     <td>
       <%= @aa_sequence_result.length %>
     </td>
   </tr>
+  -->
   
 
   <% if @identity_groups.length == 0 %>
     
     <tr>
-      <th>Orthologous Group</th>
-      <td>No matching orthologous group</td>
+      <th>Classification: Otholog group number</th>
+      <td>No matching ortholog group</td>
     </tr>
     <tr>
-      <th>Characterized Members</th>
+      <th>Biochemically characterized members in group</th>
       <td>No matching characterized members</td>
     </tr>
 
@@ -54,7 +56,7 @@
   <% end %>
 
   <tr>
-    <th>Exist In Database</th>
+    <th>Exists In Database</th>
     <td>
       <% if @is_exist_chain == false %>
         No

@@ -1,13 +1,8 @@
 Rails.application.routes.draw do
 
-
-
-
-
 	# static routes
 	get 'statistics' => 'simple#statistics', as: :statistics
 	get 'downloads' => 'simple#downloads', as: :downloads
-	get 'contact'  => 'simple#contact', as: :contact
 	get 'citation' => 'simple#citation', as: :cite
 	get 'about' => 'simple#about', as: :about
 	get 'other_database' => 'simple#other_database', as: :other_database
@@ -47,6 +42,11 @@ Rails.application.routes.draw do
 	match "phylogeny" => "phylogeny#show",
 		as: :phylogeny,
 		via: [:get, :post]
+	
+	match "contact" => "contacts#new",
+		as: :contact,
+		via: [:get, :post]
+	resources :contacts, only: [:new, :create]
 
 
 	resources :protein, only: [:show, :index] do
@@ -55,7 +55,5 @@ Rails.application.routes.draw do
 	resources :compound, only: [:show, :index] do 
 	end
 
-
 	root to: 'simple#home'
-
 end

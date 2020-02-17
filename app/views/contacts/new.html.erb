@@ -1,0 +1,44 @@
+<% content_for(:title) { "Contact Us" } %>
+<div class="container">
+  <h2>Contact Us</h2>
+<hr>
+<div class="container">
+  <p>
+    The Reductive Dehalogenase Database data curation was prepared by the
+    <a id = "contact-href" target = "_blank" href = "https://www.labs.chem-eng.utoronto.ca/edwards">Elizabeth Edwards Lab</a>.
+    To submit relative amino acid or nucleotide sequences to the lab or database, please contact us using the form below.
+    We would also love to hear your feedback, suggestions, or reports on errors or inconsistencies in the data.
+  </p>
+  <% flash.each do |message_type, message| %>
+    <%= content_tag(:p, message, class: "alert alert-#{message_type}") %>
+  <% end %>
+  <%= form_with model: @contact, class: '', method: "POST" do |f| %>
+    <fieldset>
+      <div class="col-md-6">
+          <%= f.label :name %></br>
+          <%= f.text_field  :name, required: true, class: "contact-form-text-area" %></br>
+
+          <%= f.label :email %></br>
+          <%= f.text_field :email, required: true, type: :email, class: "contact-form-text-area" %></br>
+
+          <%= f.label :message %></br>
+          <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "contact-form-text-area" %></br>
+
+          <div style="display:none;">
+            <%= f.label :nickname %>
+            <%= f.text_field :nickname, :hint => 'Leave this field blank!' %>
+          </div>
+          <br />
+
+        <%= f.submit 'Send', class: 'btn btn-primary' %>
+      </div>
+    </fieldset>
+  <% end %>  
+</div>
+<div class="container">
+  <p>
+    This website was developed by the
+    <a id = "contact-href" target = "_blank" href = "http://www.wishartlab.com">Wishart Research Group</a>. Feedback and bugs regarding the website can be submitted to our <a id ="contact-href" target = "_blank" href = "https://bitbucket.org/xcao2333/orthology_db/issues">BitBucket repository</a>.
+  </p>
+</div>
+</div>

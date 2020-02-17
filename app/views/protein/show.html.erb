@@ -1,11 +1,12 @@
 <div class="container protein-info">
 
 <% if @protein_s.header != "None" %>
-  <h2>Showing Protein Sequence: <%= @protein_s.header %></h2>
+  <h2>Dehalogenase: <%= @protein_s.header %></h2>
+  <% content_for(:title) { @protein_s.header } %>
 <% else %>
-  <h2>Showing Protein Sequence: <%= @protein_s.accession_no %></h2>
+  <h2>Dehalogenase: <%= @protein_s.accession_no %></h2>
+  <% content_for(:title) { @protein_s.accession_no } %>
 <% end %>
-
 
 <hr>
 <h4>Identification</h4>
@@ -40,14 +41,14 @@
     <tr>
       <th> Submitter </th>
       <% if @protein_s.uploader == "RDDB" %>
-        <td>Reductive Dehalogenases Database</td>
+        <td>Reductive Dehalogenase Database</td>
       <% else %>
         <td><%= @protein_s.uploader_name %>. Email: <%= @protein_s.uploader_email %></td>
       <% end %>
     </tr>
 
     <tr>
-      <th>Reference </th>
+      <th>Reference (PMID)</th>
       <td>
         <% if @reference.length != 0 %>
           <% @reference.each do |ref| %>
@@ -167,7 +168,7 @@
 </div>
 
 <hr>
-<h4>Interactive Compounds</h4>
+<h4>Substrate Range</h4>
 <div id = "tablediv">
   <div class="well-panel">
     <% if @compound.length > 0 %>

@@ -11,14 +11,14 @@
   hr
   = render partial: "result"
   
-  .result-div
-    #result-text
-      p#result-textt 
-      | #{link_to 'Submit your sequence to our database!', submit_sequence_path, target: '_blank'}
-      p#result-textt
-        a href="/help#how-to-construct-tree" target="_blank"  How the phylogenetic tree is constructed?
-      hr
-      = render partial: "phylogenies"
+  / .result-div
+  /   #result-text
+  /     p#result-textt 
+  /     | #{link_to 'Submit your sequence to our database!', submit_sequence_path, target: '_blank'}
+  /     p#result-textt
+  /       a href="/help#how-to-construct-tree" target="_blank"  How the phylogenetic tree is constructed?
+  /     hr
+  /     = render partial: "phylogenies"
       
   = render partial: "results_view"
       

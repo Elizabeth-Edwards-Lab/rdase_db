@@ -1,8 +1,6 @@
 require 'csv'
-class SimpleController < ApplicationController
 
-	def contact
-	end
+class SimpleController < ApplicationController
 
 	def statistics
 		@number_of_original_aa_sequence = ProteinSequence.all.length
