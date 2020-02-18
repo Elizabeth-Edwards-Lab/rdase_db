@@ -26,7 +26,7 @@
   <% else %>
 
     <tr>
-      <th>Orthologous Groups</th>
+      <th>Classification: Otholog group number</th>
       <td>
         
         <% @identity_groups.each do |group_number| %>
@@ -40,7 +40,7 @@
     </tr>
 
     <tr>
-      <th>Characterized Members</th>
+      <th>Biochemically characterized members in group</th>
       <td>
         <!-- find the characterized member -->
         <% if @possible_group_number.length == 0 %>
@@ -56,7 +56,7 @@
   <% end %>
 
   <tr>
-    <th>Exists In Database</th>
+    <th>Exists in Database</th>
     <td>
       <% if @is_exist_chain == false %>
         No
