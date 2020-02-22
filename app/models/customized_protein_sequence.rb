@@ -1,6 +1,6 @@
 class CustomizedProteinSequence < ApplicationRecord
 
-	UPLOADER_TYPES = ['RDDB','USER']
+	UPLOADER_TYPES = ['RDaseDB', 'Public']
 
 	# has_one/has_many/belong_to enable ActiveRecord.joins() operations
 	# has_many pair with belongs_to; to join based on one specific field, use foreign_key on both models
@@ -11,7 +11,7 @@ class CustomizedProteinSequence < ApplicationRecord
 	before_validation :convert_to_short_form
 	validates_inclusion_of :uploader, 
     	in: UPLOADER_TYPES, 
-    	message: 'can only be RDDB, USER', 
+    	message: 'can only be RDaseDB or Public', 
     	allow_blank: false
 
 	protected

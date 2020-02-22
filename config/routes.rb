@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
 	# static routes
 	get 'statistics' => 'simple#statistics', as: :statistics
 	get 'downloads' => 'simple#downloads', as: :downloads

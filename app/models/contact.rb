@@ -8,7 +8,7 @@ class Contact < MailForm::Base
   
     def headers
       {
-        :subject => 'RDDB Contact Form Submitted',
+        :subject => 'RDaseDB Contact Form Submitted',
         :to => Rails.configuration.x.contact_to
       }
     end

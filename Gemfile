@@ -22,10 +22,17 @@ gem 'bio'
 gem 'whenever', require: false
 gem 'kaminari'
 gem 'recaptcha'
-gem 'will_paginate', '~> 3.1.0'
+#gem 'will_paginate', '~> 3.1.0'
 gem 'rubyzip'
 gem 'font-awesome-sass', '~> 5.11.1'
 gem 'mail_form'
+
+# activeadmin
+gem 'activeadmin'
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 #gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

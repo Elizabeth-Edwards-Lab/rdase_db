@@ -249,7 +249,7 @@ module SequenceSubmitter
               puts "groups => #{gp}"
               new_sequence = CustomizedProteinSequence.new
               new_sequence.header = result["header"]
-              new_sequence.uploader = "USER"
+              new_sequence.uploader = "Public"
               new_sequence.uploader_name = uploader_name
               new_sequence.uploader_email = uploader_email
               new_sequence.group = gp
@@ -261,7 +261,7 @@ module SequenceSubmitter
               # don't ask user for nt sequence yet. probably ask later through email
               new_nt_sequence = CustomizedNucleotideSequence.new
               new_nt_sequence.header = result["header"]
-              new_nt_sequence.uploader = "USER"
+              new_nt_sequence.uploader = "Public"
               new_nt_sequence.uploader_name = uploader_name
               new_nt_sequence.uploader_email = uploader_email
               new_nt_sequence.group = gp
@@ -354,7 +354,7 @@ module SequenceSubmitter
 
     new_sequence = CustomizedProteinSequence.new
     new_sequence.header         = header
-    new_sequence.uploader       = "USER"
+    new_sequence.uploader       = "Public"
     new_sequence.uploader_name  = uploader_name
     new_sequence.uploader_email = uploader_email
     new_sequence.group          = group
@@ -367,7 +367,7 @@ module SequenceSubmitter
     # don't ask user for nt sequence yet. probably ask later through email
     new_nt_sequence = CustomizedNucleotideSequence.new
     new_nt_sequence.header         = header
-    new_nt_sequence.uploader       = "USER"
+    new_nt_sequence.uploader       = "Public"
     new_nt_sequence.uploader_name  = uploader_name
     new_nt_sequence.uploader_email = uploader_email
     new_nt_sequence.group          = group
