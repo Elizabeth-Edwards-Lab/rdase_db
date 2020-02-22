@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.0'
+ruby '~> 2.5'
 
 # git_source(:github) do |repo_name|
 #   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -14,7 +14,7 @@ gem 'turbolinks', github: 'turbolinks/turbolinks-classic'
 gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'jquery-rails'
-gem 'sass-rails', '~> 5.0'
+#gem 'sass-rails', '~> 5.0'
 gem 'bootstrap-kaminari-views'
 gem 'bootstrap', '~> 4.3.1'
 gem 'popper_js', '~> 1.14.5'
