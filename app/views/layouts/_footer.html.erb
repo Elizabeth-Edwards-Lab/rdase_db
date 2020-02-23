@@ -1,14 +1,12 @@
-  <footer class="page-footer font-small blue">
+<div class="container">
+  <footer class="my-md-5 pt-md-5">
     <hr>
-    <!-- Footer Links -->
-      <div class="container-fluid text-center text-md-left">
-
         <!-- Grid row -->
         <div class="row">
           <!-- Grid column -->
-          <div class="col-md-6_mt-md-0_mt-3">
+          <div class="col">
             <p id="FundingText">
-              The Reductive Dehalogenase Database is a joint project from <a href="http://www.wishartlab.com/" target="_blank"> Wishart Lab Group</a> at University of Alberta and <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a> at
+              The <a href="/contact">Reductive Dehalogenase Database</a> is a joint project from <a href="http://www.wishartlab.com/" target="_blank"> Wishart Lab Group</a> at University of Alberta and <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a> at
             University of Toronto. BLAST is a registered trademark of the <a href="https://www.nlm.nih.gov/" target="_blank"> National Library of Medicine</a>.
             </p>
 
@@ -16,34 +14,25 @@
           <!-- Grid column -->
 
           <!-- Grid column -->
-          <div class="col-md-6_mb-md-0_mb-3">
+          <div class="col">
             <ul class="list-unstyled">
               <li>
-                <%= link_to href: 'https://www.utoronto.ca/', target: "_blank" do %>
+                <%= link_to 'https://www.utoronto.ca/', target: "_blank" do %>
                 <%= image_tag 'UofT-Logo.png', width: 160, height: 60, alt: 'UofT'%>
                 <% end %>
               </li>
               <li>
-                <%= link_to href: 'https://www.ualberta.ca/', target: "_blank" do %>
+                <%= link_to 'https://www.ualberta.ca/', target: "_blank" do %>
                   <%= image_tag 'uofa.png', width: 140, height: 60, alt: 'UofA'%>
                 <% end %>
               </li>
               <li id="uwaterloo">
-                <%= link_to href: 'https://uwaterloo.ca/', target: "_blank" do %>
+                <%= link_to 'https://uwaterloo.ca/', target: "_blank" do %>
                   <%= image_tag 'Waterloo_logo.jpg', width: 200, height: 60, alt: 'UWaterloo'%>
                 <% end %>
               </li>
             </ul>
-
           </div>
-          <!-- Grid column -->
-
         </div>
-        <!-- Grid row -->
-
-      </div>
-      <!-- Footer Links -->
-      <div class ="col-md-6_mt-md-0_mt-3">
-        <p> Reductive Dehalogenase Database &ndash; <a href="/contact">Contact Us </a> </p>
-      </div>
   </footer>
+</div>

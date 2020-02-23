@@ -1,5 +1,5 @@
 // jQuery(function($){}) and $(document).ready(function(){} are equivalent.
-$(document).ready(function(){
+$(document).on('ready', function(){
 
 	// every time the new page load, the entire javascript will reload; so it won't be blast-btn.click event!
 	$('.btn.btn-primary.blast-btn').click(function(){

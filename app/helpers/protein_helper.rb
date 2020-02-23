@@ -38,8 +38,11 @@ module ProteinHelper
 
 	def get_genbank_id(protein_id)
 		gene = CustomizedNucleotideSequence.find_by(:protein_id => protein_id)
-		
-		return gene.accession_no
+		if gene
+			return gene.accession_no
+		else
+			return "Unknown"
+		end
 	end
 
 	def get_reference(protein_id)

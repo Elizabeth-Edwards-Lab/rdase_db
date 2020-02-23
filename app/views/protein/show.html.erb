@@ -33,19 +33,19 @@
 
     <tr>
       <th>Protein Name</th>
-      <td><%= @protein_s.protein_name || "Un-Characterized" %></td>
+      <td><%= @protein_s.protein_name || "Uncharacterized" %></td>
     </tr>
 
-    
-
+    <!--
     <tr>
       <th> Submitter </th>
       <% if @protein_s.uploader == "RDDB" %>
         <td>Reductive Dehalogenase Database</td>
       <% else %>
-        <td><%= @protein_s.uploader_name %>. Email: <%= @protein_s.uploader_email %></td>
+        <td><%= @protein_s.uploader_name %></td>
       <% end %>
     </tr>
+    -->
 
     <tr>
       <th>Reference (PMID)</th>
