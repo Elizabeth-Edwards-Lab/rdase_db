@@ -3,8 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #sequence {
-  width: 1000px;
-  height: 200px;
+  // width: 1000px;
+  // height: 200px;
 }
 .well {
     min-height: 20px;
@@ -124,10 +124,6 @@
     
 }
 
-#reset-button {
-    color: #CED6E0;
-}
-
 .load-example {
   background: none!important;
   border: none;
@@ -151,9 +147,9 @@
   /*optional*/
   font-family: arial, sans-serif;
   /*input has OS specific font-family*/
-  color: #ffffff;
+  // color: #ffffff;
   font-size: 20px;
-  text-decoration: underline;
+  // text-decoration: underline;
   cursor: pointer;
 }
 
@@ -174,14 +170,6 @@
 .group-number-form{
   display: inline;
 }
-
-.form-actions input,
-.form-actions button {
-  margin: 1em;
-}
-
-
-
 
 
 

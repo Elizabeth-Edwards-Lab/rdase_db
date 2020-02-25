@@ -17,7 +17,7 @@
       <td><%= @protein_s.header %></td>
     </tr>
     <tr>
-      <th>Orthologous Group</th>
+      <th>Ortholog Group</th>
       <td>
         <%= form_with url:'/protein', method: :get do |f| %>
           <%= hidden_field_tag(:group, @protein_s.group) %>

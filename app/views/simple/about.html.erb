@@ -1,33 +1,8 @@
-<div class="about-page-header">
-  <h2>About the Reductive Dehalogenase Database</h2>
+<% content_for(:title) { "About" } %>
+<div class="container">
+  <h3>About Reductive Dehalogenases and the Ortholog Group Classification System</h3>
+  <p>Reductive Dehalogenases (RdhA or RDases if characterized) are enzymes which catalyze the elimination of a halide from a carbon-halogen bond through reductive dehalogenation or dihaloelimination. Reductive dehalogenases are oxygen-sensitive and require reducing equivalents to function. These enzymes have been isolated from phylogenetically distant anaerobic microbes who dehalogenate as part of a facultative or obligate metabolism. Obligate organohalide respiring bacteria (OHRB) conserve energy for growth from using halogenated organic compounds as terminal electron acceptors in respiration and H<sub></sub> as an electron donor. These OHRB express respiratory reductive dehalogenases which can be categorized as part of a quinone-dependent or quinone-independent electron transport chain. Facultative OHRB can use different electron donors (such as small organic compounds) and can use electron acceptors (such as Fe(III), SO<sub>4</sub><sup>2-</sup> or NO<sub>3</sub><sup>-</sup>) other than organohalides for growth.</p>
+  <p>Obligate OHRB genomes typically contain more copies of reductive dehalogenase genes than non-obligate bacteria. Some of these <em>rdhA</em> genes code for enzymes which catalyze the reductive dehalogenation of chlorinated and brominated pollutants in anaerobic subsurface environments, providing a valuable ecosystem service in the detoxification of these compounds. Natural attenuation, biostimulation, and bioaugmentation using mixed microbial consortia capable of reductive dechlorination are now commonly used to remediate sites contaminated with chlorinated or brominated pollutants. The success of bioremediation is largely due to the discovery of highly substrate-specific OHRB that link dehalogenation with growth, and thus whose populations increase as dehalogenation proceeds.</p>
+  <p>Several decades of study of obligate and non-obligate OHRB has documented thousands of reductive dehalogenase sequences, of which less than 1% have been biochemically characterized to any degree and even fewer with an available crystal structure. In 2013, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3638463/" target="_blank">Hug et al.</a> developed a classification system for all reductive dehalogenases based on orthology that had been inferred from sequence similarity. An Ortholog Group contains reductive dehalogenases whose amino acid sequences have 90% or greater full-length pair-wise identity. This was done in order to unify and organize new sequences, especially for sequences with unknown function. Due to high sequence similarity, Ortholog Groups are also likely to share some related functions. We developed this website in order to aid in the classification of new sequences, and to store and share a manually curated list of reductive dehalogenases with links to functional information, where available. We hope that this project will continue to grow with the growing database in order to eventually predict function and structure of new dehalogenase sequences. We welcome suggestions from community members on how to improve this resource via our <a href="/contact">contact page</a>.</a>
 </div>
-
-<div class="well about-page-header">
-  <h3 class ="about-page-header">What is the Reductive Dehalogenase Database?</h3>
-    <div id="abouttext">
-      <p id = "theabouttext">
-      TEST Reductive Dehalogenase Database is a freely available electronic database containing the largest and most comprehensive set of amino acid sequence and nucleotide sequence of reductive dehalogenase enzymes. Organohalide respiring bacteria (OHRB) are the organisms that produce reductive dehalogenase enzymes (RDases or RdhA if uncharacterized) for catalyzing dechlorination. The database currently houses 610 sequences of reductive dehalogenase enzymes. The enzyme responsible for cleaving the halide bond is the reductive dehalogenase A subunit. The use of organohalide respiring bacteria for dechlorination in contaminated soil and groundwater has had considerable interest and success in recent years. Each organohalide respiring bacteria harbours multiple reductive dehalogenase genes. However, only a very select few proteins have been biochemically characterized to any extent. In 2013, Hug et al. developed an ortholog-based classification system for reductive dehalogenases by defining orthologous groups, in order to integrate new sequencing data and unify the terminology used, especially for reductive dehalogenases whose functions are unknown. All the enzymes are classified into 84 groups based on the similarity of their sequences (>90% identity). The database includes most studied organohalide respiring bacteria such as: Dehalococcoides mccartyi, Dehalobacter WL, Desulfitobacterium sp., Anaeromyxobacter dehalogenans, etc. Reductive Dehalogenase Database also includes information about interactive substrates and inhibitors for each related enzymes. All Reductive Dehalogenase Database data is downloadable and is intended for applications in genomics, ligand-enzyme interaction discovery, and general education. The purpose of this database is to provide public access to a database of all reductive dehalogenase sequences and classify them into orthologous groups with the underlying assumption that sequences found in the same group share the same function.
-      </p>
-      <p id = "theabouttext">
-        Reductive dehalogenase enzymes occur in an operon containing rdhA, rdhB, rdhC, and sometimes additional genes. Protein is identified based on the presence of three motifs: a twin-arginine TAT membrane export sequence (RRXFXK), an eight-iron ferredoxin cluster binding motif (CXXCXXCXXXCP) and various modifications of a cobalamin binding motif (DXHXXGSXLGG).
-        <figure>
-            <%= image_tag 'mechanism.png', :class=> "mechanism-img" ,width: 800, height:400, alt: 'RedOrthDB'%>
-            <figcaption>Figure 1. Cross section of a Dehalococcoides mccartyi cell membrane containing the hypothetical organohalide respiratory protein complex adapted from <a href="https://www.frontiersin.org/articles/10.3389/fmicb.2018.01130/full" target="_blank">[Seidel K, 2018]</a></figcaption>
-        </figure>
-        
-      </p>
-
-    </div>
-</div>
-
-
-<h3 class ="about-page-header">Citing the Reductive Dehalogenase Database</h3>
-<div id="abouttext2">
-  <p id="theabouttext">
-  The Reductive Dehalogenase Database is offered to the public as a freely available resource. Use and re-distribution of the data, in whole or in part, for commercial purposes requires explicit permission of the authors and explicit acknowledgment of the source material (Reductive Dehalogenase Database) and the original publication (see below). We ask that users who download significant portions of the database cite the following paper in any resulting publications.
-  </p>
-  <hr>
-  <h4>Please Cite:</h4>
-  <p>Molenda et al. 2020, Environ Sci-Proc Imp.</p>
-</div>
-</div>
+<%= render partial: 'citation' %>

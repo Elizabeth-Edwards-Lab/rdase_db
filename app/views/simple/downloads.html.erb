@@ -1,52 +1,18 @@
-<style type="text/css">
-	
-</style>
-
-<br>
+<h3 class="mb-sm-3">Downloads</h3>
 <div class = "container">
-<h3>Downloads</h3>
-<hr>
-</div>
-<div class = "container" id="abouttext-downloads">
-  <p id="theabouttext">
-			<!-- two options: download the original file (revised) or download customized one( un-revised) -->
-		Currently, two versions of the database are available for download: <br/>
-		<br>
-		<b>Original database:</b> Compiled at the time of publication of this website. All sequences in this version have been curated by experts. <br/>
-		<b>Updated database:</b> Updated daily with user submissions of new sequences. Some sequences have not been revised by experts. <br/>
-  </p>
-</div>
-
-<div class = "container">
-
-
 	<!-- fasta file  -->
-
 	<table class="download-table">
 		<tr>
-			<th>Type</th>
 			<th>Amino Acid Sequence</th>
 			<th>Nucleotide Sequence</th>
 			<th>Entire Database</th>
 			<th>Last Update</th>
 		</tr>
-
 		<tr>
-			<td>Original</td>
-			<td><%= link_to "AA.fasta", :action => :download_aa_original %></td>
-			<td><%= link_to "NT.fasta", :action => :download_nt_original %></td>
-			<td><%= link_to "docx", :action => :download_entry_table_nt_orignal_docx %></td>
-			<td>2019-7-31</td>
-		</tr>
-
-		<tr>
-			<td>Updated</td>
 			<td><%= link_to "AA.fasta", :action => :download_aa_cus %></td>
 			<td><%= link_to "NT.fasta", :action => :download_nt_cus %></td>
 			<td><%= link_to "csv", :action => :download_entry_table_cus %></td>
 			<td><%= @last_update_date %></td>
 		</tr>
-
 	</table>
-
 </div>

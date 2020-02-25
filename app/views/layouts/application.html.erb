@@ -2,7 +2,7 @@
 <html>
   <head>
     <% unless yield(:title).empty? %>
-    <title><%= yield(:title) %></title>
+    <title><%= yield(:title) %> RDaseDB</title>
     <% else %>
     <title>Reductive Dehalogenase Database</title>
     <% end %>
@@ -17,7 +17,11 @@
     <div class="alert alert-primary" role="alert"><%= notice %></div>
     <div class="alert alert-danger" role="alert"><%= alert %></div>
     -->
-    <%= yield %>
-    <%= render "layouts/footer" %>
+    <div class="container">
+      <%= yield %>
+    </div>
+    <div class="container">
+      <%= render "layouts/footer" %>
+    </div>
   </body>
 </html>

@@ -1,4 +1,3 @@
-.well
   - if @error.present?
     .loading-animation
     - if @error.class == String
@@ -8,76 +7,79 @@
       p.alert.alert-danger
         - @error.each do |key, array|
           = array
-
-  = form_tag search_path(anchor: :results), id: 'seq-search-form' do
-    fieldset
-      legend
-        | Enter An Amino Acid Sequence in
-        | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'} #{button_tag 'Example', type: 'button', class: 'btn btn-primary load-example' }
-      = text_area_tag :sequence, params[:sequence], class: 'seq-search-sequence'
-      .form-actions
-        = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
-        = button_tag 'Reset', type: 'button', class: 'btn btn-secondary reset-btn', id: 'reset-button'
-
-    / in the future, you can add more fieldset with more options
-
-    fieldset 
-      i#blast-param-sign.fas.fa-plus
-      span &nbsp;
-      = button_tag "BLAST Parameters", :id => "blast-parameters", type: "button"
-      .row#parameter-box style=("display: none;")
-        .col-md-4.col-sm-4
+  
+  .card
+    .card-body
+      h5.card-title
+        | Enter the amino acid sequence of the reductive dehalogenase you would like to classify in
+        | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'}
+      p.card-text
+        = form_tag search_path(anchor: :results), id: 'seq-search-form' do
           .form-group
-            = label_tag :gap_cost, 'Cost to open a gap'
-            = text_field_tag :gap_cost, params[:gap_cost], class: 'form-control'
+            = text_area_tag :sequence, params[:sequence], class: 'form-control seq-search-sequence'
           .form-group
-            = label_tag :extend_cost, 'Cost to extend a gap'
-            = text_field_tag :extend_cost, params[:extend_cost], class: 'form-control'
-        .col-md-4.col-sm-4
+            = submit_tag 'BLAST', class: 'btn btn-primary blast-btn', disabled: false
+            = button_tag 'Example', id: 'load-example', type: 'button', class: 'btn btn-link'
+            = button_tag 'Reset', type: 'button', class: 'btn btn-link reset-btn', id: 'reset-button'
+
+          / in the future, you can add more fieldset with more options
           .form-group
-            = label_tag :mismatch_penalty, 'Penalty for mismatch'
-            = text_field_tag :mismatch_penalty, params[:mismatch_penalty], class: 'form-control'
-          .form-group
-            = label_tag :match_reward, 'Reward for match'
-            = text_field_tag :match_reward, params[:match_reward], class: 'form-control'
-        .col-md-4.col-sm-4
-          .form-group
-            = label_tag :evalue, 'Expectation value'
-            = text_field_tag :evalue, (params[:evalue]), class: 'form-control'
-          .checkbox
-            = label_tag :new_result_tab, class: 'checkbox' do
-              = check_box_tag :new_result_tab, 1, params[:new_result_tab]
-              | Show result in new windows
-          .checkbox
-            = label_tag :gapped_alignment, class: 'checkbox' do
-              = check_box_tag :gapped_alignment, 1, params[:gapped_alignment]
-              | Perform gapped alignment
-          .checkbox
-            = label_tag :lower_case_filtering, class: 'checkbox' do
-              = check_box_tag :lower_case_filtering, 1, params[:lower_case_filtering]
-              | Lower case filtering of FASTA sequence
-          .checkbox
-            = label_tag :filter_query_sequence, class: 'checkbox' do
-              = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
-              | Filter query sequence (DUST &amp; SEG)
+            i#blast-param-sign.fas.fa-plus
+            span &nbsp;
+            = button_tag "BLAST Parameters", :id => "blast-parameters", type: "button", class: 'btn btn-default'
+            .row#parameter-box style=("display: none;")
+              .col-md-4.col-sm-4
+                .form-group
+                  = label_tag :gap_cost, 'Cost to open a gap'
+                  = text_field_tag :gap_cost, params[:gap_cost], class: 'form-control'
+                .form-group
+                  = label_tag :extend_cost, 'Cost to extend a gap'
+                  = text_field_tag :extend_cost, params[:extend_cost], class: 'form-control'
+              .col-md-4.col-sm-4
+                .form-group
+                  = label_tag :mismatch_penalty, 'Penalty for mismatch'
+                  = text_field_tag :mismatch_penalty, params[:mismatch_penalty], class: 'form-control'
+                .form-group
+                  = label_tag :match_reward, 'Reward for match'
+                  = text_field_tag :match_reward, params[:match_reward], class: 'form-control'
+              .col-md-4.col-sm-4
+                .form-group
+                  = label_tag :evalue, 'Expectation value'
+                  = text_field_tag :evalue, (params[:evalue]), class: 'form-control'
+                .checkbox
+                  = label_tag :new_result_tab, class: 'checkbox' do
+                    = check_box_tag :new_result_tab, 1, params[:new_result_tab]
+                    | Show result in new windows
+                .checkbox
+                  = label_tag :gapped_alignment, class: 'checkbox' do
+                    = check_box_tag :gapped_alignment, 1, params[:gapped_alignment]
+                    | Perform gapped alignment
+                .checkbox
+                  = label_tag :lower_case_filtering, class: 'checkbox' do
+                    = check_box_tag :lower_case_filtering, 1, params[:lower_case_filtering]
+                    | Lower case filtering of FASTA sequence
+                .checkbox
+                  = label_tag :filter_query_sequence, class: 'checkbox' do
+                    = check_box_tag :filter_query_sequence, 1, params[:filter_query_sequence]
+                    | Filter query sequence (DUST &amp; SEG)      
 
-- if @aa_similarity.present?
-  .loading-animation
-  hr
-  = render partial: "result"
-  .result-div
-    #result-text
-      p#result-textt 
-      | #{link_to 'Submit your sequence to our database!', submit_sequence_path, :method => :get, target: '_blank'}
-      p#result-textt
-        a href="/help#how-to-construct-tree" target="_blank"  How phylogenetic tree (including user sequence) is constructed?
-      hr
-      = render partial: "phylogenies"
-      
-  = render partial: "results_view"
+  - if @aa_similarity.present?
+    .loading-animation
+    hr
+    = render partial: "result"
+    .result-div
+      #result-text
+        p#result-textt 
+        | #{link_to 'Submit your sequence to our database!', submit_sequence_path, :method => :get, target: '_blank'}
+        p#result-textt
+          a href="/help#how-to-construct-tree" target="_blank"  How phylogenetic tree (including user sequence) is constructed?
+        hr
+        = render partial: "phylogenies"
+        
+    = render partial: "results_view"
 
 
-- elsif params[:commit].present?
-  p.alert.alert-danger No Results
+  - elsif params[:commit].present?
+    p.alert.alert-danger No Results
 
-.modal
+  .modal
