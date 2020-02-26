@@ -17,7 +17,7 @@ module QueryValidator
       error_msg["empty"] = "Please enter an amino acid sequence. Or try our example!"
     
     else
-    	if sequence.length > 1000
+    	if sequence.length > 2000
     	
     		error_msg["length"] = "Your sequence is #{sequence.length} long. Please keep it within 2000 characters."
     	

@@ -131,8 +131,8 @@ class QueryController < ApplicationController
 
 
       identity_with_90 = get_identity_with_90(aa_report)
-      puts "identity_with_90 => #{identity_with_90.inspect}"
-      @identity_groups = Array.new  # identity_group contains the eligiable group number      
+      # puts "identity_with_90 => #{identity_with_90.inspect}"
+      @identity_groups = Array.new  # identity_group contains the eligible group number      
 
       if identity_with_90.length > 0
         identity_with_90.each do |definition|
@@ -145,9 +145,7 @@ class QueryController < ApplicationController
               is_belong_to_group = true
 
             else
-
               group_hash[group_number].each do |s_identity|
-                
                 if identity_with_90.include? s_identity
                   next
                 else
@@ -260,7 +258,8 @@ class QueryController < ApplicationController
 
 
       identity_with_90 = get_identity_with_90(aa_report)
-      @identity_groups = Array.new  # identity_group contains the eligiable group number
+      puts "identity_with_90 => #{identity_with_90.inspect}"
+      @identity_groups = Array.new  # identity_group contains the eligible group number
       if identity_with_90.length > 0
         identity_with_90.each do |definition|
           group_number = reversed_group_hash[definition]
@@ -269,6 +268,7 @@ class QueryController < ApplicationController
             if group_hash[group_number].length == 1
               is_belong_to_group = true
             else 
+              puts group_hash[group_number].inspect
               group_hash[group_number].each do |s_identity|
                 if identity_with_90.include? s_identity
                   next
@@ -286,6 +286,7 @@ class QueryController < ApplicationController
         end # end of identity_with_90.each do |identity|
       end
       @identity_groups.concat @existing_matched_group
+      @identity_groups = @identity_groups.uniq
       @possible_group_number = get_characterized_member_s(@identity_groups.uniq)
       
     else

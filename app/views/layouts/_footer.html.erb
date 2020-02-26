@@ -1,36 +1,21 @@
-<footer class="my-md-5 pt-md-5">
+<footer class="my-md-5">
   <hr>
-      <!-- Grid row -->
-      <div class="row">
-        <!-- Grid column -->
-        <div class="col">
-          <p id="FundingText">
-            The <a href="/contact">Reductive Dehalogenase Database</a> is a joint project from <a href="http://www.wishartlab.com/" target="_blank"> Wishart Lab Group</a> at University of Alberta and <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a> at
-          University of Toronto. BLAST is a registered trademark of the <a href="https://www.nlm.nih.gov/" target="_blank"> National Library of Medicine</a>.
-          </p>
+    <div class="row">
+      <div class="col-md-6">
+        <p id="FundingText">
+          The <a href="/contact">Reductive Dehalogenase Database</a> is a joint project from <a href="http://www.wishartlab.com/" target="_blank"> Wishart Lab Group</a> at University of Alberta and <a href="https://www.labs.chem-eng.utoronto.ca/edwards/" target="_blank">Elizabeth Edwards Lab</a> at
+        University of Toronto. BLAST is a registered trademark of the <a href="https://www.nlm.nih.gov/" target="_blank"> National Library of Medicine</a>.
+        </p>
 
-        </div>
-        <!-- Grid column -->
-
-        <!-- Grid column -->
-        <div class="col">
-          <ul class="list-unstyled">
-            <li>
-              <%= link_to 'https://www.utoronto.ca/', target: "_blank" do %>
-              <%= image_tag 'UofT-Logo.png', width: 160, height: 60, alt: 'UofT'%>
-              <% end %>
-            </li>
-            <li>
-              <%= link_to 'https://www.ualberta.ca/', target: "_blank" do %>
-                <%= image_tag 'uofa.png', width: 140, height: 60, alt: 'UofA'%>
-              <% end %>
-            </li>
-            <li id="uwaterloo">
-              <%= link_to 'https://uwaterloo.ca/', target: "_blank" do %>
-                <%= image_tag 'Waterloo_logo.jpg', width: 200, height: 60, alt: 'UWaterloo'%>
-              <% end %>
-            </li>
-          </ul>
-        </div>
       </div>
+      <div class="col">
+        <%= image_tag 'UofT-Logo.png', width: '100%', alt: 'UofT'%>
+      </div>
+      <div class="col">
+        <%= image_tag 'uofa.png',  width: '100%', alt: 'UofA'%>
+      </div>
+      <div class="col">
+        <%= image_tag 'Waterloo_logo.jpg',  width: '100%', alt: 'UWaterloo'%>
+      </div>
+    </div>
 </footer>
