@@ -1,4 +1,4 @@
-# RDDB Joint Project
+# RDaseDB Project
 The Reductive Dehalogenase Database is a joint project from Wishart Lab Group at University of Alberta and Elizabeth Edwards Lab at University of Toronto. BLAST is a registered trademark of the National Library of Medicine.
 
 # Schema Explanation
