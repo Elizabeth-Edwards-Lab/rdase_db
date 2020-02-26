@@ -81,7 +81,7 @@ namespace :update_protein_information do
 					else
 						new_protein.accession_no = nil
 					end
-					new_protein.uploader = "RDDB"
+					new_protein.uploader = "RDaseDB"
 					new_protein.save!
 
 					array_idx = nt_array.find_index(row[2])
@@ -89,7 +89,7 @@ namespace :update_protein_information do
 					new_nt.header = row[2]
 					new_nt.chain = nt_array[array_idx + 1]
 					new_nt.reference = row[6]
-					new_nt.uploader = "RDDB"
+					new_nt.uploader = "RDaseDB"
 					new_nt.save!
 				end
 

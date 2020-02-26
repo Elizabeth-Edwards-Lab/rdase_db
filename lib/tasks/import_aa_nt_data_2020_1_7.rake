@@ -30,7 +30,7 @@ namespace :import_aa_nt_data_2020_1_7 do
 				new_aa_seq.chain = aa_seq
 				new_aa_seq.group = orth_group
 				new_aa_seq.organism = organism
-				new_aa_seq.uploader = "RDDB"
+				new_aa_seq.uploader = "RDaseDB"
 				new_aa_seq.accession_no = protein_accession_no
 				new_aa_seq.protein_name = char_function
 				new_aa_seq.single = 1 if row[0].include? "S-"
@@ -60,7 +60,7 @@ namespace :import_aa_nt_data_2020_1_7 do
 				new_nt_seq.protein_id = new_aa_seq_id
 				new_nt_seq.chain = nt_seq
 				new_nt_seq.accession_no = gene_accession_no
-				new_nt_seq.uploader = "RDDB"
+				new_nt_seq.uploader = "RDaseDB"
 				new_nt_seq.save!
 				# puts "#{ind} finished"
 			rescue => e

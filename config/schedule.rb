@@ -19,8 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :output, { error: '/apps/orthdb/project/shared/log/whenever-error.log',
-               standard: '/apps/orthdb/project/shared/log/whenever.log' }
+set :output, { error: '/dev/null',
+               standard: '/dev/null' }
 
 # remove the temporary file that generated everyday
 every :day, at: '12am' do
