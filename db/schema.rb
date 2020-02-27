@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_185813) do
+ActiveRecord::Schema.define(version: 2020_02_27_212119) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -184,37 +184,6 @@ ActiveRecord::Schema.define(version: 2020_02_22_185813) do
     t.string "uploader_email", limit: 191
     t.integer "characterized", limit: 1
     t.integer "single", limit: 1
-  end
-
-  create_table "nucleotide_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "header", limit: 191
-    t.text "chain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "reference", limit: 191
-    t.integer "group"
-    t.date "update_date"
-    t.date "publication_date"
-    t.string "tree_name", limit: 191
-    t.string "key_group", limit: 191
-    t.string "organism", limit: 191
-    t.string "key", limit: 191
-  end
-
-  create_table "protein_sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "header", limit: 191
-    t.text "chain"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "uploader", limit: 191
-    t.string "reference", limit: 191
-    t.integer "group"
-    t.date "update_date"
-    t.date "publication_date"
-    t.string "tree_name", limit: 191
-    t.string "key_group", limit: 191
-    t.string "organism", limit: 191
-    t.string "key", limit: 191
   end
 
   create_table "queries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
