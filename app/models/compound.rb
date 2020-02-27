@@ -2,7 +2,9 @@ class Compound < ApplicationRecord
 	before_validation :increment_public_id, on: :create
   # to attach file => Compound.image.attach(io: File.open('/path/to/file'), filename: 'file.pdf')
   has_one_attached :image
-  belongs_to :customized_protein_sequence
+  has_and_belongs_to_many :customized_protein_sequences,
+    join_table: "compound_strain_rels",
+    association_foreign_key: "protein_id"
 
 
 	private
