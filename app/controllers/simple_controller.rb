@@ -3,13 +3,12 @@ require 'csv'
 class SimpleController < ApplicationController
 
 	def statistics
-		@number_of_original_aa_sequence = ProteinSequence.all.length
-		@number_of_original_nt_sequence = NucleotideSequence.all.length
-		@number_of_cus_aa_sequence = CustomizedProteinSequence.all.length
-		customized_nucleotide_sequence = CustomizedNucleotideSequence.all
-		@number_of_cus_nt_sequence = customized_nucleotide_sequence.length
-		@number_of_group = customized_nucleotide_sequence.distinct.pluck(:group).length - 1 # remove null
-		@number_of_organism = customized_nucleotide_sequence.distinct.pluck(:organism).length - 1 # remove null
+		protein_sequence = CustomizedProteinSequence.all
+		@number_of_cus_aa_sequence = protein_sequence.length
+		# customized_nucleotide_sequence = CustomizedNucleotideSequence.all
+		# @number_of_cus_nt_sequence = customized_nucleotide_sequence.length
+		@number_of_group = protein_sequence.distinct.pluck(:group).length - 1 # remove null
+		@number_of_organism = protein_sequence.distinct.pluck(:organism).length - 1 # remove null
   		@number_of_compound = Compound.all.length
   	end
 
