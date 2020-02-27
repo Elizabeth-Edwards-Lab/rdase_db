@@ -215,14 +215,15 @@ module QueryLogic
 	def get_identity_with_90(aa_report)
 
 		identity_with_90 = Array.new 
+		# puts aa_report.inspect
 		aa_report.each do |hit|
-			
+		  
 		  match_identity = 0
-		  if hit.query_len > hit.query_seq.length
-		  	match_identity = (hit.identity.to_f / hit.query_seq.length.to_f * 100).round(2)
-		  elsif hit.query_len < hit.query_seq.length
+		  if hit.query_len > hit.query_seq().length
+		  	match_identity = (hit.identity.to_f / hit.query_seq().length.to_f * 100).round(2)
+		  elsif hit.query_len < hit.query_seq().length
 		  	match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
-		  elsif hit.query_len == hit.query_seq.length
+		  elsif hit.query_len == hit.query_seq().length
 		  	match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
 		  end
 		  # puts "#{hit.target_def} => #{match_identity} => #{hit.identity}"

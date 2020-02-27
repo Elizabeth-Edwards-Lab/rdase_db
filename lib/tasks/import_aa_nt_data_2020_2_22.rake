@@ -6,7 +6,7 @@ namespace :import_aa_nt_data_2020_2_22 do
 	task :import_aa_nt => [:environment] do
 		# ind = 0
 		wrong_entry = Array.new
-		CSV.foreach("data/20200222_RDase_Database.csv", {headers: true}) do |row|
+		CSV.foreach("data/20200226_RDase_Database.csv", {headers: true}) do |row|
 			# ind = ind+=1
 			# puts "#{ind}"
 

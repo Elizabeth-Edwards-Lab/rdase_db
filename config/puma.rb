@@ -1,6 +1,7 @@
 threads 1, 4
 workers 3
-environment 'production'
+#environment 'production'
+environment 'development'
 stdout_redirect 'log/puma.log', 'log/puma_error.log', true
 preload_app!
 
@@ -30,6 +31,6 @@ before_fork do
     config.reaper_status_logs = true # setting this to false will not log lines like:
     # PumaWorkerKiller: Consuming 54.34765625 mb with master and 2 workers.
   end
-#   PumaWorkerKiller.enable_rolling_restart
+  PumaWorkerKiller.enable_rolling_restart
   PumaWorkerKiller.start
 end
