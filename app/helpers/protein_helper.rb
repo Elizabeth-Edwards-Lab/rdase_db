@@ -46,7 +46,7 @@ module ProteinHelper
 	end
 
 	def get_reference(protein_id)
-		reference = Reference.find_by(:strain_id => protein_id)
+		reference = PubmedReference.find_by(:strain_id => protein_id)
 		pubmed_id = nil
 		if !reference.nil?
 			pubmed_id = reference.pubmed_id

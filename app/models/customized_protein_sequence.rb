@@ -3,6 +3,7 @@ class CustomizedProteinSequence < ApplicationRecord
 	UPLOADER_TYPES = ['RDaseDB', 'Public']
 	has_many :customized_nucleotide_sequences, :foreign_key => "protein_id"
 	has_many :compounds, :foreign_key => "protein_id"
+	has_many :pubmed_references, :foreign_key => "strain_id"
 	belongs_to :uploader
 
 	validates :chain, format: { with: /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ } # accept wild * in sequence 

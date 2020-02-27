@@ -73,7 +73,7 @@ class SimpleController < ApplicationController
 	    				"protein name", "is_characterized?","reference", "uploader"]
 	    CustomizedProteinSequence.all.each do |pro|
 
-	    	reference = Reference.where(:strain_id => pro.id).select(:pubmed_id)
+	    	reference = PubmedReference.where(:strain_id => pro.id).select(:pubmed_id)
 	    	reference_s = ""
 	    	reference.each do |ref|
 	    		reference_s += "#{ref.pubmed_id}|"

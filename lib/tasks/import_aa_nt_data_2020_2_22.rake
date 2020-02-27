@@ -47,13 +47,13 @@ namespace :import_aa_nt_data_2020_2_22 do
 					pmid = ref_pmid.split(",")
 					
 					pmid.each do |pd|
-						ref = Reference.new
+						ref = PubmedReference.new
 						ref.pubmed_id = pd.strip
 						ref.strain_id = new_aa_seq_id
 						ref.save!
 					end
 				elsif ref_pmid != "Unpublished"
-					ref = Reference.new
+					ref = PubmedReference.new
 					ref.pubmed_id = ref_pmid.strip
 					ref.strain_id = new_aa_seq_id
 					ref.save!
@@ -90,14 +90,14 @@ namespace :import_aa_nt_data_2020_2_22 do
 		NucleotideSequence.delete_all
 		ProteinSequence.delete_all
 		CompoundStrainRel.delete_all
-		Reference.delete_all
+		PubmedReference.delete_all
 
 		CustomizedNucleotideSequence.destroy_all
 		CustomizedProteinSequence.destroy_all
 		NucleotideSequence.destroy_all
 		ProteinSequence.destroy_all
 		CompoundStrainRel.destroy_all
-		Reference.destroy_all
+		PubmedReference.destroy_all
 
 		CompoundStrainRel.delete_all
 		CompoundStrainRel.destroy_all

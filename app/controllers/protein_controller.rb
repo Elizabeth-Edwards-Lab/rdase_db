@@ -153,7 +153,7 @@ class ProteinController < ApplicationController
       @compound << Compound.find(comp.compound_id)
     end
     
-    @reference = Reference.where(:strain_id => @protein_s.id)
+    @reference = PubmedReference.where(:strain_id => @protein_s.id)
     @mw = calculateMolecularWeight(@protein_s.chain)
     
   end
