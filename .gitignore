@@ -7,21 +7,31 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore the default SQLite database.
+*.rbc
+capybara-*.html
+.rspec
 /db/*.sqlite3
 /db/*.sqlite3-journal
+/db/*.sqlite3-[0-9]*
+/public/system
+/coverage/
+/spec/tmp
+*.orig
+rerun.txt
+pickle-email-*.html
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/csv/*
-/tmp/tmp_fasta/*
-/tmp/cache/*
-/tmp/pids/*
-/tmp/database_fasta_db/*
-/tmp/filtered_result/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+.env
+.env.*
 
 /node_modules
 /yarn-error.log
 
 .byebug_history
 .vscode/
+data/

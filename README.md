@@ -4,10 +4,8 @@ The Reductive Dehalogenase Database is a joint project from Wishart Lab Group at
 # Schema Explanation
 customized_nucleotide_sequences: original database + user uploaded sequence
 customized_protein_sequences: original database + user uploaded sequence
-nucleotide_sequences: original database (forbid to change)
-protein_sequences: original database (forbid to change)
-queries: keep track of user's query
-uploaders: keep track of uploaders' information
+queries: keep track of user's queries
+uploaders: keep track of uploader's information
 
 # Table Explanation
 nucleotide_sequences: update_date and publication_date are different, make publication_date as primary reference.
