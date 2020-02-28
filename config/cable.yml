@@ -7,4 +7,4 @@ test:
 production:
   adapter: redis
   url: redis://localhost:6379/1
-  channel_prefix: orthology_db_production
+  channel_prefix: rdase_db_production

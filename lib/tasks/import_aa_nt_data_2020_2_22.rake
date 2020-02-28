@@ -99,10 +99,7 @@ namespace :import_aa_nt_data_2020_2_22 do
 		CompoundStrainRel.destroy_all
 		PubmedReference.destroy_all
 
-		CompoundStrainRel.delete_all
-		CompoundStrainRel.destroy_all
         ActiveRecord::Base.connection.truncate(:compound_strain_rels)
-        
 		ActiveRecord::Base.connection.truncate(:customized_protein_sequences)
 		ActiveRecord::Base.connection.truncate(:customized_nucleotide_sequences)
 		ActiveRecord::Base.connection.truncate(:references)
@@ -111,6 +108,9 @@ namespace :import_aa_nt_data_2020_2_22 do
 
 	# rake import_aa_nt_data_2020_2_22:construct_metabolite_protein
 	task :construct_metabolite_protein => [:environment] do
+		
+		CompoundStrainRel.delete_all
+		CompoundStrainRel.destroy_all
 
 		CSV.foreach("data/strain_rddb_id_rel.csv") do |row|
 			begin
