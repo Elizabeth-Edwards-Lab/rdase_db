@@ -87,7 +87,7 @@ class QueryController < ApplicationController
       query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
       program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
       database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-      sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+      # sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
 
 
       blast_options = set_blast_options(program,params)
@@ -224,7 +224,7 @@ class QueryController < ApplicationController
       query_sequence_type = @sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
       program = @sequence.seq.class == Bio::Sequence::AA ? 'blastp' : 'blastn'
       database = query_sequence_type == 'protein' ? 'reductive_dehalogenase_protein' : 'reductive_dehalogenase_gene'
-      sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
+      # sequence_class = query_sequence_type == 'protein'? ProteinSequence : NucleotideSequence
       blast_options = set_blast_options(program,params)
       blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
       aa_report = blaster.query(@sequence.seq)

@@ -1,5 +1,5 @@
 class SubmitSequenceController < ApplicationController
-
+	include QueryLogic
 	include SequenceSubmitter
 	# skip_before_action :verify_authenticity_token #if you skip before action, you will likely cause security violation
 

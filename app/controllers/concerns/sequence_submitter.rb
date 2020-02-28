@@ -25,28 +25,6 @@ module SequenceSubmitter
 
   end
 
-
-  def check_alignment_identity(report, threshold)
-    # check identity with 90 
-    identity_with_90 = Array.new 
-    report.each do |hit|
-
-      match_identity = 0
-      if hit.query_len > hit.query_seq.length
-        match_identity = (hit.identity.to_f / hit.query_seq.length.to_f * 100).round(2)
-      elsif hit.query_len < hit.query_seq.length
-        match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
-      end
-
-      if match_identity >= threshold
-        identity_with_90 << hit.target_def
-      end
-    end
-
-    return identity_with_90
-  end
-
-
   def get_group_sequence_table
     protein_sequence = CustomizedProteinSequence.all
     group_hash = Hash.new
@@ -175,7 +153,7 @@ module SequenceSubmitter
       blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
       aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
       aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
-      identity_with_90 = check_alignment_identity(aa_report, 90)  # identity_with_90 contains all the header that share >=90% identity
+      identity_with_90 = get_identity_with_90(aa_report)  # identity_with_90 contains all the header that share >=90% identity
 
       # group_hash => group : Array {seq_definition}
       # reversed_group_hash = seq_definition : group
@@ -321,7 +299,7 @@ module SequenceSubmitter
     
     aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
     aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
-    identity_with_90 = check_alignment_identity(aa_report, 90)  # identity_with_90 contains all the header that share >=90% identity
+    identity_with_90 = get_identity_with_90(aa_report)  # identity_with_90 contains all the header that share >=90% identity
 
     # group_hash => group : Array {seq_definition}
     # reversed_group_hash = seq_definition : group
@@ -331,7 +309,7 @@ module SequenceSubmitter
       if aa_similarity >= aa_threshold
         last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
         new_group_number = last_group + 1
-        result_array << collection_v2(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number, reference)
+        result_array << collection_v2(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new OG group: #{new_group_number}",new_group_number, reference)
       else
         result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.", nil, reference)
       end
@@ -340,7 +318,7 @@ module SequenceSubmitter
     end
 
     if identified_group_at_aa_level.length > 0
-      result_array << collection_v2(header_info, accession_no, organism, "SUCCESS","Your sequence belongs RD group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
+      result_array << collection_v2(header_info, accession_no, organism, "SUCCESS","Your sequence belongs to OG group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
     else
       result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.",nil, reference)
     end
@@ -772,7 +750,9 @@ module SequenceSubmitter
     if seq_type == "aa"
       ncbi_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?api_key=#{api_key}&db=protein&id=#{accession_no}"
     elsif seq_type == "nt"
-      ncbi_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/epost.fcgi?api_key=#{api_key}&db=nuccore&id=#{accession_no}"
+      # ncbi_api = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/epost.fcgi?api_key=#{api_key}&db=nuccore&id=#{accession_no}"
+      # TODO accession_no validation for nucleotide / locus tag
+      return true
     end
 
     ncbi_res = open(ncbi_api) # StringIO object
@@ -804,29 +784,4 @@ module SequenceSubmitter
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -2,9 +2,9 @@
 <html>
   <head>
     <% unless yield(:title).empty? %>
-    <title><%= yield(:title) %> RDaseDB</title>
+    <title><%= yield(:title) %> - RDaseDB</title>
     <% else %>
-    <title>Reductive Dehalogenase Database</title>
+    <title>Reductive Dehalogenase Database - RDaseDB</title>
     <% end %>
     <%= csrf_meta_tags %>
     <%= favicon_link_tag asset_path('RDaseDB_favicon.png') %>
