@@ -4,14 +4,14 @@ class CustomizedProteinSequence < ApplicationRecord
 	has_many :customized_nucleotide_sequences, :foreign_key => "protein_id"
 	has_and_belongs_to_many :compounds, join_table: "compound_strain_rels", :foreign_key => "protein_id"
 	has_many :pubmed_references, :foreign_key => "strain_id"
-	belongs_to :uploader
+	# belongs_to :uploader
 
 	validates :chain, format: { with: /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ } # accept wild * in sequence 
 	before_validation :convert_to_short_form
-	validates_inclusion_of :uploader, 
-    	in: UPLOADER_TYPES, 
-    	message: 'can only be RDaseDB or Public', 
-    	allow_blank: false
+	# validates_inclusion_of :uploader, 
+    # 	in: UPLOADER_TYPES, 
+    # 	message: 'can only be RDaseDB or Public', 
+    # 	allow_blank: false
 
 	protected
 
