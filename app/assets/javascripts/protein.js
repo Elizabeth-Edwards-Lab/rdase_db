@@ -320,7 +320,7 @@ function writeFASTA(sequence, header, accession_no, organism){
 		scrollbars=yes, resizable=yes, copyhistory=no, width=800, height=400");
 	outputWindow.focus();
 	var sequence_br = 60;
-	var fasta_header = `>${header} | ${accession_no} | ${organism} |`
+	var fasta_header = `>${header} | ${accession_no} | ${organism}\n`
 	var fasta_chain = `${sequence.charAt(0)}`;
 	for(var i = 1; i < sequence.length; i++){
 		if(i%sequence_br != 0){

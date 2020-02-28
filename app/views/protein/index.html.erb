@@ -8,12 +8,12 @@
 	    <tr>
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
-	      <th><%= table_sort_link "AccessionID", :accession_no %></th>
-	      <th><%= table_sort_link "Name", :header %></th>
-	      <th><%= table_sort_link "GeneBankID", :genbank_id %></th>
+	      <th><%= table_sort_link "Protein Accession", :accession_no %></th>
+	      <th><%= table_sort_link "Alt. Name", :header %></th>
+	      <th><%= table_sort_link "Gene Accession", :genbank_id %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
-		  <th><%= table_sort_link "Protein", :protein_name %></th>
+		  <th><%= table_sort_link "Characterized Function", :protein_name %></th>
 		  <th>References</th>
 		  <th>&nbsp;</th>
 	    </tr>
@@ -103,12 +103,12 @@
 	    
 	  </tbody>
 	</table>
-	<div class="row mt-sm-3">
-		<div class="col-sm-12 col-md-5">
+	<div class="row mt-sm-3">	
+		<div class="col-sm-12 col-md-6">
 			<%= link_to "Export CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-primary' %>
 			<%= link_to "Export FASTA", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-primary' %>
 		</div>
-		<div class="col-sm-12 col-md-7">
+		<div class="col-sm-12 col-md-6">
 			<%= paginate @protein %>
 		</div>
 	</div>

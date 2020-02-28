@@ -5,15 +5,17 @@
 	<h3>Phylogenetic Tree</h3>
 	<hr>
 
-	<p>This is pre-constructed phylogenetic tree by one of our experts (Last Updated: <%= @last_update_date %>) </p>
-	<div id="pre-rendered-tree" style="border-style: solid; border-width: 5px;">
+	<p>This is a pre-constructed phylogenetic tree by one of our experts based on the current database.</p>
+	<div id="pre-rendered-tree" style="border-style: solid; border-width: 2px;">
 		
 		<%= content_tag :div, class: "controller-phy_data", data: {phy_data: @phy_data} do %>
 		<% end %>
 		<%= content_tag :div, class: "controller-group_info", data: {group_info: @group_info} do %>
 		<% end %>
 	</div>
+	<p>Last Updated: <%= @last_update_date %></p>
 	
+	<% if false %>
 	<hr>
 	<div class="container" id="tree-construction-interface">
 		<h4>Create your customized phylogenetic tree based on our current database: </h4>
@@ -62,18 +64,12 @@
 		</div>
 
 	</div>
-
-	<hr>
-	<div id="tree-description">
-		<p>
-			Sequence alignment and phylogenetic tree (UPGMA) are constructed by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>.<br>
-			Phylogenetic Tree is rendered and presented by  <a href="http://phylocanvas.org/">Phylocanvas</a> Javascript Library.<br>
-			For more advanced graph viewer, please see <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> Wiki </a>
-		</p>
-	</div>
 	
-	
-	
-
+	<% end # commented %>
+	<p>
+		Sequence alignment and phylogenetic tree (UPGMA) are constructed by <a href="http://www.drive5.com/muscle/"> MUSCLE </a>.
+		Phylogenetic Tree is rendered and presented by  <a href="http://phylocanvas.org/">Phylocanvas</a> Javascript Library.
+		For more advanced graph viewer, please see this <a href='https://en.wikipedia.org/wiki/List_of_phylogenetic_tree_visualization_software' target='_blank'> article</a>.
+	</p>
 </div>
 <div class="modal"></div>

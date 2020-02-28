@@ -31,4 +31,4 @@ Uses standard Rails 5.x application structure
 
 ## Project Partners
 
-> The Reductive Dehalogenase Database is a joint project from [Wishart Lab Group](http://www.wishartlab.com/) at University of Alberta and [Elizabeth Edwards' Lab](https://www.labs.chem-eng.utoronto.ca/edwards/) at University of Toronto. BLAST is a registered trademark of the [National Library of Medicine](https://www.nlm.nih.gov/).
+> The Reductive Dehalogenase Database is a joint project from [Elizabeth Edwards' Lab](https://www.labs.chem-eng.utoronto.ca/edwards/) in the BioZone Centre for Applied Bioscience and Bioengineering at the University of Toronto and [Wishart Lab Group](http://www.wishartlab.com/) at University of Alberta. BLAST is a registered trademark of the [National Library of Medicine](https://www.nlm.nih.gov/).
