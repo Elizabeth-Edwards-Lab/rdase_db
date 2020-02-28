@@ -1,32 +1,34 @@
-# RDaseDB Project
-The Reductive Dehalogenase Database is a joint project from Wishart Lab Group at University of Alberta and Elizabeth Edwards Lab at University of Toronto. BLAST is a registered trademark of the National Library of Medicine.
+# The Reductive Dehalogenase Database Project
+The RDaseDB is a freely available electronic database containing a curated, comprehensive set of amino acid and nucleotide sequences of reductive dehalogenase enzymes.
 
-# Schema Explanation
-customized_nucleotide_sequences: original database + user uploaded sequence
-customized_protein_sequences: original database + user uploaded sequence
-queries: keep track of user's queries
-uploaders: keep track of uploader's information
+Please see [LICENSE.md](LICENSE.md) for use of data.
 
-# Table Explanation
-nucleotide_sequences: update_date and publication_date are different, make publication_date as primary reference.
 
-# File Structure
+## Schema Explanation
+    customized_nucleotide_sequences: original
+    database + user uploaded sequence
+    customized_protein_sequences: original
+    database + user uploaded sequence
+    queries: keep track of user's queries
+    uploaders: keep track of uploader's information
 
-## Rails file
-app
-bin
-config
-data
-db
-lib
-log
-public
-test
-storage => this is for ActiveStorage
-tmp
-vendor
+## Table Explanation
+    nucleotide_sequences update_date and publication_date are different, make publication_date as primary reference.
 
-## Customized File
-references => contain all the tutorials, to-do list, papers.
-index => contain blast database
-script => contain puma script (for start the application)
+## File Structure
+
+### Rails file
+Uses standard Rails 5.x application structure
+
+### Customized File
+    references => contain all the tutorials, to-do list, papers.
+    index => contain blast database
+    script => contain puma script (for start the application)
+
+## Citing the Database
+
+> Molenda et al. 2020, Environ Sci-Proc Imp.
+
+## Project Partners
+
+> The Reductive Dehalogenase Database is a joint project from [Wishart Lab Group](http://www.wishartlab.com/) at University of Alberta and [Elizabeth Edwards' Lab](https://www.labs.chem-eng.utoronto.ca/edwards/) at University of Toronto. BLAST is a registered trademark of the [National Library of Medicine](https://www.nlm.nih.gov/).
