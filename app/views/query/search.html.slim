@@ -1,3 +1,5 @@
+  - content_for(:title) { "Classify Amino Acid Sequence" }
+  - content_for(:description) { "Classify your amino acid sequence using Blast." }
   - if @error.present?
     .loading-animation
     - if @error.class == String
@@ -11,8 +13,8 @@
   .card
     .card-body
       h5.card-title
-        | Enter the amino acid sequence of the reductive dehalogenase you would like to classify in
-        | #{link_to ' FASTA Format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'}
+        | Enter the amino acid sequence of the reductive dehalogenase you would like to classify using
+        | #{link_to ' FASTA format', 'http://en.wikipedia.org/wiki/Fasta_format', id: 'fasta-link', target: '_blank'}
       p.card-text
         = form_tag search_path(anchor: :results), id: 'seq-search-form' do
           .form-group

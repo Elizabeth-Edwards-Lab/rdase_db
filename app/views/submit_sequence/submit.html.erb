@@ -1,3 +1,5 @@
+<% content_for(:title) { "Submit Amino Acid Sequence" } %>
+<% content_for(:description) { "Submit sequences to our curated database." } %>
 <div class="container">
   <div class="row">
 
@@ -27,34 +29,36 @@
       </div>
 
       <%= form_with url:'/submit_sequence', remote: true, :html => {:id => "upload-seq"} do |f| %>
-        <div class="container">
-          <div class="row">
-            
-            <div class="col">
-              <div>
-                <h5>Animo Acid Sequence(s) in <a href="/help#assign-rules" target="_blank">our fasta format</a></h5>
-                <%= f.text_area :aa_sequence, class: 'upload-div', :id => "upload-div-aa", :placeholder => "> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Amino Acid Sequence ...".html_safe %>
-                <br>
-                <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
-                <%= f.file_field :aa_fasta, class: 'upload-file-btn', :id => "upload-file-btn-aa", disabled: false %>
-              </div>
+        <div class="row form-group">
+          <div class="col">
+          <%= f.label :name %>
+          <%= f.text_field :uploader_name, required: true, class: 'form-control' %>
+          </div>
+          <div class="col">
+          <%= f.label :email %>
+          <%= f.email_field :uploader_email, required: true, class: 'form-control' %>
+          </div>
+        </div>        
+        <div class="row form-group">
+          
+          <div class="col">
+            <div>
+              <h5>Animo Acid Sequence(s) using RDaseDB <a href="/help#assign-rules" target="_blank">FASTA format</a></h5>
+              <%= f.text_area :aa_sequence, class: 'upload-div', :id => "upload-div-aa", required: true, :placeholder => "> Self-assigned ID or Name | Accession No. | Organism | Citation (optional) | \nYour Amino Acid Sequence ...".html_safe %>
+              <!-- it searches for the first available upload-file-btn; that's why submit-to-lab is not working -->
+              <!-- <%= f.file_field :aa_fasta, class: 'upload-file-btn', :id => "upload-file-btn-aa", disabled: false %> -->
             </div>
+          </div>
 
-            <div class="col">
-              <div>
-                <h5>Nucleotide Sequence(s)</h5>
-                <%= f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", :placeholder => "> Self-assigned ID or Name | Genbank ID | Organism | Citation (optional) | \nYour Nucleotide Sequence ...".html_safe %>
-                <br>
-                <%= f.file_field :nt_fasta, class: 'upload-file-btn', :id => "upload-file-btn-nt", disabled: false %>
-              </div>
+          <div class="col">
+            <div>
+              <h5>Nucleotide Sequence(s)</h5>
+              <%= f.text_area :nt_sequence, class: 'upload-div',:id => "upload-div-nt", required: true, :placeholder => "> Self-assigned ID or Name | Genbank ID | Organism | Citation (optional) | \nYour Nucleotide Sequence ...".html_safe %>
+              <!-- <%= f.file_field :nt_fasta, class: 'upload-file-btn', :id => "upload-file-btn-nt", disabled: false %> -->
             </div>
           </div>
         </div>
-        
-        <hr>
-        Name: <%= f.text_field :uploader_name, required: true %>
-        Email: <%= f.email_field :uploader_email, required: true %>
-        <%= f.button 'Upload'.html_safe, :type => :submit, :class => "btn btn-primary upload-btn" %>
+        <%= f.button 'Submit', :type => :submit, :class => "btn btn-primary upload-btn" %>
       <% end %>
     </div>
 

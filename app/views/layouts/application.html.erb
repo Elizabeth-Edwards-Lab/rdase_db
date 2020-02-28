@@ -6,8 +6,13 @@
     <% else %>
     <title>Reductive Dehalogenase Database - RDaseDB</title>
     <% end %>
+    <% unless yield(:description).empty? %>
+    <meta name="description" content="<%= yield(:description) %>">
+    <% end %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= favicon_link_tag asset_path('RDaseDB_favicon.png') %>
+    <%= favicon_link_tag asset_path('RDaseDB_favicon.png'), rel: 'apple-touch-icon' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
