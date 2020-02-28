@@ -3,35 +3,31 @@
 <div class="sequence-index">
 	<h2>Sequence Database</h2>
 	<hr>
-	<table id='strain-table'>
-
+	<table id='table strain-table'>
 	  <thead>
 	    <tr>
-	      <th colspan="1"></th>
 	      <!-- this is how btdb sort protein by BTDBP ID -->
 	      <!-- <a rel="nofollow" class="sort-link" href="/proteins?c=btdbp_id&amp;d=down">BTDBP ID</a> -->
-	      <%# table_sort_link 'Locus Tag', :header %>
 	      <th><%= table_sort_link "AccessionID", :accession_no %></th>
 	      <th><%= table_sort_link "Name", :header %></th>
 	      <th><%= table_sort_link "GeneBankID", :genbank_id %></th>
 	      <th><%= table_sort_link "Group", :group %></th>
 	      <th><%= table_sort_link "Organism", :organism %></th>
-	      <th><%= table_sort_link "Protein", :protein_name %></th>
-	      <th>Reference</th>
-	      
+		  <th><%= table_sort_link "Protein", :protein_name %></th>
+		  <th>References</th>
+		  <th>&nbsp;</th>
 	    </tr>
 
 	    <tr>
 	    <%= form_with url:'protein', method: :get do |f| %>
-	      <th><%= f.submit "Filter", disabled: false, :id => 'filter-button' %></th>
-	      <th><%= f.text_field 	:accession_no, :style => "width:140px"%></th>
+	      <th><%= f.text_field 	:accession_no %></th>
 	      <th><%= f.text_field 	:header %></th>
 	      <th><%= f.text_field  :genbank_id %></th>
-	      <th><%= f.text_field  :group, :style => "width:60px"%></th>
+	      <th><%= f.text_field  :group %></th>
 	      <th><%= f.text_field  :organism %></th>
-	      <th><%= f.text_field  :protein_name, :style => "width:70px" %></th>
-	      <th><%= f.text_field  :fake, :disabled => true, :placeholder => "N/A", :style => "width:100px" %></th> 
-	      <!-- :fake means nothing, just for styling -->
+		  <th><%= f.text_field  :protein_name %></th>
+		  <th></th>
+		  <th><%= f.submit "Filter", disabled: false, :class => 'btn btn-secondary' %></th>
 	    <% end %>
 	      
 	    </tr>
@@ -40,8 +36,6 @@
 	  <tbody>
 	    <% @protein.each do |pt| %>
 	      <tr>
-	      	<td><%= link_to "show", protein_path(pt.id), :id => 'show-button' %></td>
-
 	      	<% if pt.accession_no.nil? %>
 	      		<td>Not Available</td>
 	      	<% else %>
@@ -87,7 +81,7 @@
 	        <% if pt.protein_name.nil? %>
 	        	<td style="text-align: center;">None</td>
 	        <% else %>
-	        	<td style="color:red; text-align: center;"><strong><%=  pt.protein_name %></strong></td>
+	        	<td style="color:red; text-align: center;"><strong><%= pt.protein_name %></strong></td>
 	        <% end %>
 	        	
 	        	
@@ -101,16 +95,21 @@
 		        <% end %>
 
 		        <%# link_to get_reference(pt.id), "https://www.ncbi.nlm.nih.gov/pubmed/#{get_reference(pt.id)}" %>
-	    	</td>
-	        
+			</td>
+			
+			<td><%= link_to "View", protein_path(pt.id), :class => 'btn btn-primary' %></td>
 	      </tr>
 	    <% end %>
 	    
 	  </tbody>
 	</table>
-	<%= link_to "Export As CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
-	<%= link_to "Export As Fasta", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), :id => "export-button" %>
-	<hr>
-	<%= paginate @protein %>
-	<br>
+	<div class="row mt-sm-3">
+		<div class="col-sm-12 col-md-5">
+			<%= link_to "Export CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-primary' %>
+			<%= link_to "Export FASTA", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-primary' %>
+		</div>
+		<div class="col-sm-12 col-md-7">
+			<%= paginate @protein %>
+		</div>
+	</div>
 </div>

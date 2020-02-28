@@ -100,29 +100,6 @@
 	top:1px;
 }
 
-#export-button {
-	background-color:#7d7ae6;
-	-moz-border-radius:7px;
-	-webkit-border-radius:7px;
-	border-radius:7px;
-	border:2px solid #1921ab;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:3px 15px;
-	text-decoration:none;
-	text-shadow:0px 1px 10px #283bb5;
-}
-#export-button:hover {
-	background-color:#3927c2;
-}
-#export-button:active {
-	position:relative;
-	top:1px;
-}
-
 #filter-button {
 	-moz-box-shadow:inset 0px 1px 3px 0px #276873;
 	-webkit-box-shadow:inset 0px 1px 3px 0px #276873;
@@ -191,11 +168,13 @@
 
 
 #strain-table{
+	font-size: 90%;
 	td {
 		border: none;
+		word-break:break-all;
 	}
 	tr{
-	  border: none;
+		border: none;
 	}
 	th{
 		border: none;

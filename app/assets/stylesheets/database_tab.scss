@@ -1,18 +1,18 @@
 ///scss for Database tab////
-.sequence-index table {
-	border-collapse: collapse;
-	width: 100%;
-}
-
-.sequence-index table th,td {
-	text-align: left;
-	padding: 3px;
-}
-
-.sequence-index table tr:nth-child(even) {
-	background-color: #E3EEFC;
-}
-
-.sequence-index{
-	color:black;
+.sequence-index {
+	color: black;
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		th, td {
+			text-align: left;
+			padding: 3px;
+		}
+		th input {
+			width: 100%;
+		}
+		tr:nth-child(even) {
+			background-color: #E3EEFC;
+		}
+	}
 }
