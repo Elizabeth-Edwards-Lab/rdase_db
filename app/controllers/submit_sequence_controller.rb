@@ -12,7 +12,7 @@ class SubmitSequenceController < ApplicationController
 			# puts "here"
 			# submit hit
 			submission_result = validation_submission(params)
-			puts submission_result 
+			# puts submission_result 
 			# puts submission_result.class 
 			# Test passed... Need more test
 

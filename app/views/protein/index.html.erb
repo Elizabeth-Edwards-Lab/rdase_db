@@ -3,7 +3,7 @@
 <div class="sequence-index">
 	<h2>Sequence Database</h2>
 	<hr>
-	<table id='table strain-table'>
+	<table id='table table-responsive-md strain-table'>
 	  <thead>
 	    <tr>
 	      <!-- this is how btdb sort protein by BTDBP ID -->
@@ -66,7 +66,7 @@
 	        <% else %>
 	        	<%= form_with url:'protein', method: :get do |f| %>
 	        		<%= hidden_field_tag(:group, pt.group) %>
-	        		<td><%= f.submit "#{pt.group}", disabled: false, :id => 'group-click-button' %></td>
+	        		<td><%= f.submit "#{pt.group}", disabled: false, :class => 'btn btn-link', :style => 'padding: 0;' %></td>
 	        	<% end %>
 	        <% end %>
 
@@ -105,8 +105,11 @@
 	</table>
 	<div class="row mt-sm-3">	
 		<div class="col-sm-12 col-md-6">
-			<%= link_to "Export CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-primary' %>
-			<%= link_to "Export FASTA", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-primary' %>
+			<%= link_to "Export CSV", protein_download_filtered_result_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-secondary' %>
+			<%= link_to "Export FASTA", protein_download_filtered_result_fasta_path(:accession_no => params[:accession_no],:header => params[:header], :group => params[:group], :organism => params[:organism]), class: 'btn btn-secondary' %>
+			<% if params[:commit] %>
+			<%= link_to "Reset Filter", { :action => 'index'}, class: 'btn btn-warning' %>
+			<% end %>			
 		</div>
 		<div class="col-sm-12 col-md-6">
 			<%= paginate @protein %>

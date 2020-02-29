@@ -212,7 +212,7 @@ module QueryLogic
 	# identify the group of orth
 	# puts "hit.query_len => #{hit.query_len}" # => original sequence length
 	# puts "hit.query_seq.length => #{hit.query_seq.length}" # => hit sequence length
-	def get_identity_with_90(aa_report)
+	def get_identity_by_match(aa_report, threshold=90.00)
 
 		identity_with_90 = Array.new 
 		# puts aa_report.inspect
@@ -227,15 +227,13 @@ module QueryLogic
 		  	match_identity = (hit.identity.to_f / hit.query_len.to_f * 100).round(2)
 		  end
 		  # puts "#{hit.target_def} => #{match_identity} => #{hit.identity}"
-		  if match_identity >= 90.00
+		  if match_identity >= threshold
 		    identity_with_90 << hit.target_def
 		  end
 		end
 
 		return identity_with_90
 	end
-
-
 
 	def get_existing_groups(aa_report,sequence)
 		is_exist_chain = false

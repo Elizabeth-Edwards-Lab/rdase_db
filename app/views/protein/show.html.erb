@@ -9,179 +9,139 @@
 <% end %>
 
 <hr>
-<h4>Identification</h4>
-<div id = "tablediv">
-  <table>
-    <tr>
-      <th>Common Name</th>
-      <td><%= @protein_s.header %></td>
-    </tr>
-    <tr>
-      <th>Ortholog Group</th>
-      <td>
-        <%= form_with url:'/protein', method: :get do |f| %>
-          <%= hidden_field_tag(:group, @protein_s.group) %>
-          <%= f.submit "#{@protein_s.group}", disabled: false, :id => 'group-click-button' %>
-        <% end %>
-      </td>
-    </tr>
-
-    <tr>
-      <th>Organism</th>
-      <th><%= @protein_s.organism || nil %></th>
-    </tr>
-
-    <tr>
-      <th>Protein Name</th>
-      <td><%= @protein_s.protein_name || "Uncharacterized" %></td>
-    </tr>
-
-    <!--
-    <tr>
-      <th> Submitter </th>
-      <% if @protein_s.uploader == "RDaseDB" %>
-        <td>Reductive Dehalogenase Database</td>
-      <% else %>
-        <td><%= @protein_s.uploader_name %></td>
+<h3>Identification</h3>
+<hr>
+<table class="table table-striped table-responsive-sm">
+  <tr>
+    <th>Common Name</th>
+    <td><%= @protein_s.header %></td>
+  </tr>
+  <tr>
+    <th>Ortholog Group</th>
+    <td>
+      <%= form_with url:'/protein', method: :get do |f| %>
+        <%= hidden_field_tag(:group, @protein_s.group) %>
+        <%= f.submit "#{@protein_s.group}", disabled: false, :class => 'btn btn-link', :style => 'padding: 0;' %>
       <% end %>
-    </tr>
-    -->
+    </td>
+  </tr>
 
+  <tr>
+    <th>Organism</th>
+    <td><em><%= @protein_s.organism || nil %></em></td>
+  </tr>
+
+  <tr>
+    <th>Protein Name</th>
+    <td><%= @protein_s.protein_name || "Uncharacterized" %></td>
+  </tr>
+
+  <!--
+  <tr>
+    <th> Submitter </th>
+    <% if @protein_s.uploader == "RDaseDB" %>
+      <td>Reductive Dehalogenase Database</td>
+    <% else %>
+      <td><%= @protein_s.uploader_name %></td>
+    <% end %>
+  </tr>
+  -->
+
+  <tr>
+    <th>Reference (PMID)</th>
+    <td>
+      <% if @reference.length != 0 %>
+        <% @reference.each do |ref| %>
+          <a href="https://www.ncbi.nlm.nih.gov/pubmed/<%= ref.pubmed_id %>" target="_blank"> <%= ref.pubmed_id %></a>&nbsp;<i class="fas fa-external-link-alt"></i>
+        <% end %>
+      <% else %>
+        Unpublished
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <th>Last Updated </th>
+    <td><%= @protein_s.updated_at || nil %></td>
+  </tr>
+
+</table>
+
+<h3>Protein Properties</h3>
+<hr>
+<% if @protein_s.chain.present? %>
+  <table class="table table-striped table-responsive-sm">
     <tr>
-      <th>Reference (PMID)</th>
+      <th>
+        <p>Amino Acid Sequence</p>
+        <button class="btn btn-primary" onclick="writeFASTA('<%= @protein_s.chain %>', 
+        '<%= @protein_s.header %>','<%= @protein_s.accession_no %>', '<%= @protein_s.organism %>')">FASTA</button>
+        <button class="btn btn-secondary" onclick="writeSequenceStats('<%= @protein_s.chain %>','aa')">Statistics</button>        
+        </th>
       <td>
-        <% if @reference.length != 0 %>
-          <% @reference.each do |ref| %>
-            <a href="https://www.ncbi.nlm.nih.gov/pubmed/<%= ref.pubmed_id %>" target="_blank"> <%= ref.pubmed_id %>
-          <% end %>
-        <% else %>
-          Unpublished
+        <em class="sequence-wrap" ><%= style_chain(@protein_s.chain) %></em>
+        <%= content_tag :div, class: "protein_s_chain", data: {proteinChain: @protein_s.chain} do %>
+        <% end %>
+      </td>
+    </tr> 
+    <tr>
+      <th>Sequence Length</th>
+      <td><%= @protein_s.chain.length %></td>
+    </tr> 
+    <tr>
+      <th>Molecular Weight</th>
+      <td><%= @mw %> kDa</td>
+    </tr>
+    <tr>
+      <th>Predicted PI (EMBOSS)</th>
+      <td id="ppi-emboss"></td>
+    </tr>
+    <tr>
+      <th>Accession Number</th>
+      <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.accession_no %>" target="_blank"> <%= @protein_s.accession_no %></a>&nbsp;<i class="fas fa-external-link-alt"></i></td>
+    </tr>
+  </table>
+<% end %>
+
+<h3>Gene Properties</h3>
+<hr>
+<% if !@gene_s.nil? and @gene_s.chain.present? %>
+  <table class="table table-striped table-responsive-sm">
+    <tr>
+      <th>
+        <p>Nucleotide Sequence</p>
+        <button class="btn btn-primary" onclick="writeFASTA('<%= @gene_s.chain %>', 
+        '<%= @protein_s.header %>',undefined, '<%= @protein_s.organism %>')">FASTA</button>
+        <button class="btn btn-secondary" onclick="writeSequenceStats('<%= @gene_s.chain %>','nt')">Statistics</button>        
+      </th>
+      <td>
+        <em class="sequence-wrap" ><%= style_chain(@gene_s.chain) %></em>
+        <%= content_tag :div, class: "gene_s_chain", data: {geneChain: @gene_s.chain} do %>
         <% end %>
       </td>
     </tr>
-
     <tr>
-      <th>Last Updated </th>
-      <td><%= @protein_s.updated_at || nil %></td>
+      <th>Molecular Weight</th>
+      <td id="gene-pmw"></td>
     </tr>
+    <tr>
+      <th>NCBI GeneBank ID</th>
+      <td>
+        <a href="https://www.ncbi.nlm.nih.gov/nuccore/<%= @gene_s.accession_no %>" target="_blank"> <%= @gene_s.accession_no %></a>&nbsp;<i class="fas fa-external-link-alt"></i>
+      </td>
+    </tr>
+  </table>  
+<% end %>
 
-  </table>
-</div>
-
+<h3>Substrate Range (<%= @compound.length %>)</h3>
 <hr>
-<div>
-  <h4>Protein Properties</h4>
-  <% if @protein_s.chain.present? %>
-    <!-- Button for quick view of the sequence -->
-    <button class="little-button" onclick="writeFASTA('<%= @protein_s.chain %>', 
-                          '<%= @protein_s.header %>','<%= @protein_s.accession_no %>', '<%= @protein_s.organism %>')">FASTA</button>
-    <button class="little-button" onclick="writeSequenceStats('<%= @protein_s.chain %>','aa')">Statistics</button>
-    <!-- Button for quick view of the sequence -->
-    <div id = "tablediv">
-      <table>
-        <tr>
-          <th>Amino Acid Sequence</th>
-          <td>
-            <em class="sequence-wrap" ><%= style_chain(@protein_s.chain) %></em>
-            <%= content_tag :div, class: "protein_s_chain", data: {proteinChain: @protein_s.chain} do %>
-            <% end %>
-          </td>
-        </tr> 
-        <tr>
-          <th>Sequence Length</th>
-          <td><%= @protein_s.chain.length %></td>
-        </tr> 
-        <tr>
-          <th>Molecular Weight</th>
-          <td><%= @mw %> kDa</td>
-        </tr>
-        <tr>
-          <th>Predicted PI (EMBOSS)</th>
-          <td id="ppi-emboss"></td>
-        </tr>
-        <tr>
-          <th>Accession Number</th>
-          <td><a href="https://www.ncbi.nlm.nih.gov/protein/<%= @protein_s.accession_no %>" target="_blank"> <%= @protein_s.accession_no %></td>
-        </tr>
-      </table>
-    </div>
-
-  <% else %>
-    <div id = "tablediv">
-      <table>
-        <tr>
-          <th>Amino Acid Sequence</th>
-          <td>
-            <%= nah %>
-          </td>
-        </tr>
-      </table>
-    </div>
-  <% end %>
-</div>
-
-<hr>
-<div>
-  <h4>Gene Properties</h4>
-  <% if !@gene_s.nil? and @gene_s.chain.present? %>
-    <!-- Button for quick view of the sequence -->
-    <button class="little-button" onclick="writeFASTA('<%= @gene_s.chain %>', 
-                          '<%= @protein_s.header %>',undefined, '<%= @protein_s.organism %>')">FASTA</button>
-    <button class="little-button" onclick="writeSequenceStats('<%= @gene_s.chain %>','nt')">Statistics</button>
-    <!-- Button for quick view of the sequence -->
-    <div id = "tablediv">
-      <table>
-        <tr>
-          <th>Nucleotide Sequence</th>
-          <td>
-            <em class="sequence-wrap" ><%= style_chain(@gene_s.chain) %></em>
-            <%= content_tag :div, class: "gene_s_chain", data: {geneChain: @gene_s.chain} do %>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <th>Molecular Weight</th>
-          <td id="gene-pmw"></td>
-        </tr>
-        <tr>
-          <th>NCBI GeneBank ID</th>
-          <th id="gene-pmw">
-            <a href="https://www.ncbi.nlm.nih.gov/nuccore/<%= @gene_s.accession_no %>" target="_blank"> <%= @gene_s.accession_no %></th>
-        </tr>
-      </table>
-    </div>
-
-  <% else %>
-
-    <div id = "tablediv">
-      <table>
-        <tr>
-          <th>Nucleotide Sequence</th>
-          <td>
-            <%= nah %>
-          </td>
-        </tr>
-      </table>
-    </div>
-    
-  <% end %>
-</div>
-
-<hr>
-<h4>Substrate Range</h4>
-<div id = "tablediv">
-  <div class="well-panel">
     <% if @compound.length > 0 %>
-
+    <div class="card-group">
       <% @compound.each do |comp| %>
         <%= render :partial => 'compound_card', :locals => { :compound => comp} %>
       <% end %>
-
+    </div>
     <% else %>
       <p> This strain doesn't have any associated compounds </p>
     <% end %>
-  </div>
-</div>
-
-
 </div>

@@ -1,6 +1,5 @@
-<div class="container protein-info">
-
-  <h2> Showing <%= @compound.name %> </h2>
+<div class="container">
+  <h2>Compound Record</h2>
+  <hr>
   <%= render partial: 'compound/compound_show', locals: {:compound => @compound, :protein => @protein } %>
-
 </div>

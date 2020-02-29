@@ -125,85 +125,85 @@ module SequenceSubmitter
   # members of X group in amino acids level (not all of them); then and if the sequence is also NOT 90% 
   # identical to any members of X group in gene level, this sequence DOES NOT belongs to X group; then 
   # create a new group. 
-  def sequence_check_for_submission(sequence,group_hash,reversed_group_hash)
+  # def sequence_check_for_submission(sequence,group_hash,reversed_group_hash)
 
-    result_array = Array.new
-    aa_threshold = 0.9
+  #   result_array = Array.new
+  #   aa_threshold = 0.9
     
-    begin
+  #   begin
       
-      query = Bio::FastaFormat.new( sequence )
-      query_name = query.definition
-      sequence = query.to_seq
+  #     query = Bio::FastaFormat.new( sequence )
+  #     query_name = query.definition
+  #     sequence = query.to_seq
 
-      existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => sequence.seq)
-      if !existing_matched_group_exist.nil? # find existing sequence
-        result_array << collection(query_name, "WARN", "Your sequence exists in our database. Common Name: #{existing_matched_group_exist.header} ")
-        return result_array
-      end
+  #     existing_matched_group_exist = CustomizedProteinSequence.find_by(:chain => sequence.seq)
+  #     if !existing_matched_group_exist.nil? # find existing sequence
+  #       result_array << collection(query_name, "WARN", "Your sequence exists in our database. Common Name: #{existing_matched_group_exist.header} ")
+  #       return result_array
+  #     end
 
-      sequence.auto # Guess the type of sequence. Changes the class of sequence.
-      query_sequence_type = sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
+  #     sequence.auto # Guess the type of sequence. Changes the class of sequence.
+  #     query_sequence_type = sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
 
-      program = 'blastp'
-      database = 'reductive_dehalogenase_protein'
-      blast_options = get_blast_options
+  #     program = 'blastp'
+  #     database = 'reductive_dehalogenase_protein'
+  #     blast_options = get_blast_options
 
 
-      blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
-      aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
-      aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
-      identity_with_90 = get_identity_with_90(aa_report)  # identity_with_90 contains all the header that share >=90% identity
+  #     blaster = Bio::Blast.local( program, "#{Rails.root}/index/blast/#{database}", blast_options)
+  #     aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
+  #     aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
+  #     identity_with_90 = get_identity_with_90(aa_report)  # identity_with_90 contains all the header that share >=90% identity
 
-      # group_hash => group : Array {seq_definition}
-      # reversed_group_hash = seq_definition : group
-      if identity_with_90.length > 0
-        identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level      
-      else
-        # if identity_with_90.length == 0; no RD with ~=90% identity => create new RD groups
+  #     # group_hash => group : Array {seq_definition}
+  #     # reversed_group_hash = seq_definition : group
+  #     if identity_with_90.length > 0
+  #       identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level      
+  #     else
+  #       # if identity_with_90.length == 0; no RD with ~=90% identity => create new OG groups
 
-        if aa_similarity >= aa_threshold
-          last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
-          new_group_number = last_group + 1
-          result_array << collection(query_name,"NEW", "Your sequence belongs to a new RD group: #{new_group_number}",new_group_number)
-        else
-          result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.")
-        end
+  #       if aa_similarity >= aa_threshold
+  #         last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
+  #         new_group_number = last_group + 1
+  #         result_array << collection(query_name,"NEW", "Your sequence belongs to a new OG group: #{new_group_number}",new_group_number)
+  #       else
+  #         result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.")
+  #       end
 
-        return result_array
-      end
+  #       return result_array
+  #     end
 
-      if identified_group_at_aa_level.length > 0
-        result_array << collection(query_name, "SUCCESS","Your sequence belongs RD group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","))
-      else
-        result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.")
-      end
+  #     if identified_group_at_aa_level.length > 0
+  #       result_array << collection(query_name, "SUCCESS","Your sequence belongs OG group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","))
+  #     else
+  #       result_array << collection(query_name, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.")
+  #     end
 
-      return result_array
+  #     return result_array
       
-    rescue => exception
-      # puts exception
-      result_array << collection(query_name, "ERROR","Your sequence is not validated. Or send it to our lab for manual checking.")
-    end
+  #   rescue => exception
+  #     # puts exception
+  #     result_array << collection(query_name, "ERROR","Your sequence is not validated. Or send it to our lab for manual checking.")
+  #   end
     
-    return result_array
+  #   return result_array
 
-  end
+  # end
 
 
 
-  def submit_sequence_caller(fasta_array)
+  # def submit_sequence_caller(fasta_array)
 
-    uploading_result = Array.new
-    group_hash, reversed_group_hash = get_group_sequence_table
-    fasta_array.each do |fasta_seq|
-      result = sequence_check_for_submission(fasta_seq,group_hash,reversed_group_hash)
-      uploading_result.push(*result)
-    end
-    # add file location at the end, and pop the last items at controller
-    # uploading_result[0]["status"] = "SUCCESS"
-    return uploading_result
-  end
+  #   uploading_result = Array.new
+  #   group_hash, reversed_group_hash = get_group_sequence_table
+  #   fasta_array.each do |fasta_seq|
+  #     result = sequence_check_for_submission(fasta_seq,group_hash,reversed_group_hash)
+  #     uploading_result.push(*result)
+  #   end
+  #   # add file location at the end, and pop the last items at controller
+  #   # uploading_result[0]["status"] = "SUCCESS"
+  #   return uploading_result
+  # end
 
 
   def save_result_to_db(result_array,fasta_array,uploader_name,uploader_email)
@@ -295,35 +295,53 @@ module SequenceSubmitter
 
     sequence.auto # Guess the type of sequence. Changes the class of sequence.
     query_sequence_type = sequence.seq.class == Bio::Sequence::AA ? 'protein' : 'gene'
-    blaster = Bio::Blast.local( 'blastp', "#{Rails.root}/index/blast/reductive_dehalogenase_protein", get_blast_options)
+    blaster = Bio::Blast.local('blastp', "#{Rails.root}/index/blast/reductive_dehalogenase_protein", get_blast_options)
     
     aa_report = blaster.query(sequence.seq) # sequence.seq automatically remove the \n; possibly other wildcard
     aa_similarity =  aa_report.hits().length.to_f / aa_report.db_num().to_f
-    identity_with_90 = get_identity_with_90(aa_report)  # identity_with_90 contains all the header that share >=90% identity
 
-    # group_hash => group : Array {seq_definition}
-    # reversed_group_hash = seq_definition : group
+    # take action based on % similarity
+    last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
+    new_group_number = last_group + 1    
+    identity_with_90 = get_identity_by_match(aa_report)
     if identity_with_90.length > 0
-      identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level      
+      identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash)
+      if identified_group_at_aa_level.length > 0
+        result_array << collection_v2(header_info, accession_no, organism, "SUCCESS","Your sequence belongs to OG group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
+      else
+        result_array << collection_v2(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new OG group: #{new_group_number}",new_group_number, reference)
+      end
     else
-      if aa_similarity >= aa_threshold
-        last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
-        new_group_number = last_group + 1
+      identity_with_30 = get_identity_by_match(aa_report, 30.00)
+      if identity_with_30.length > 0
         result_array << collection_v2(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new OG group: #{new_group_number}",new_group_number, reference)
       else
-        result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.", nil, reference)
+        result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share at least 30\% identity with any sequences in database.", nil, reference)
       end
-
-      return result_array
-    end
-
-    if identified_group_at_aa_level.length > 0
-      result_array << collection_v2(header_info, accession_no, organism, "SUCCESS","Your sequence belongs to OG group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
-    else
-      result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.",nil, reference)
     end
 
     return result_array
+
+
+    # if identity_with_90.length > 0
+    #   identified_group_at_aa_level = get_identified_group(identity_with_90,group_hash,reversed_group_hash) # identified_group_at_aa_level contains confirmed group in aa level
+    # else
+    #   if aa_similarity >= aa_threshold
+    #     last_group = CustomizedProteinSequence.group(:group).order(:group).last.group
+    #     new_group_number = last_group + 1
+    #     result_array << collection_v2(header_info, accession_no, organism, "NEW", "Your sequence belongs to a new OG group: #{new_group_number}",new_group_number, reference)
+    #   else
+    #     result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity of any sequences in database at amino acid level.", nil, reference)
+    #   end
+
+    #   return result_array
+    # end
+
+    # if identified_group_at_aa_level.length > 0
+    #   result_array << collection_v2(header_info, accession_no, organism, "SUCCESS","Your sequence belongs to OG group: #{identified_group_at_aa_level.join(",")}",identified_group_at_aa_level.join(","), reference)
+    # else
+    #   result_array << collection_v2(header_info, accession_no, organism, "FAILED","Your sequence doesn't share 90\% identity with all representatives of the group at amino acid level.",nil, reference)
+    # end
 
   end
 
@@ -337,6 +355,7 @@ module SequenceSubmitter
     new_sequence.uploader_email = uploader_email
     new_sequence.group          = group
     new_sequence.accession_no   = accession_no # result[:header] should be accession no OR manually extract accession number from local blast db
+    new_sequence.organism       = organism
     new_sequence.chain          = aa_sequence
     new_sequence.reference      = reference
     new_sequence.save!
@@ -350,10 +369,11 @@ module SequenceSubmitter
     new_nt_sequence.uploader_email = uploader_email
     new_nt_sequence.group          = group
     new_nt_sequence.accession_no   = accession_no
+    new_nt_sequence.organism       = organism
     new_nt_sequence.chain          = nt_sequence
-    new_sequence.reference         = reference
+    new_nt_sequence.reference      = reference
+    new_nt_sequence.protein_id     = new_sequence.id
     new_nt_sequence.save!
-
 
   end
 
@@ -394,9 +414,7 @@ module SequenceSubmitter
       # group = "1"
       # status = "SUCCESS"
       if status == "SUCCESS" or status == "NEW"
-        group.split(",").each do |g|
-          save_success_sequence(aa_fasta_hash[header], nt_fasta_hash[header], g , accession_no, organism, g, reference, uploader_name, uploader_email)
-        end
+          save_success_sequence(aa_fasta_hash[header], nt_fasta_hash[header], header , accession_no, organism, group, reference, uploader_name, uploader_email)
       end
 
     end
@@ -432,7 +450,7 @@ module SequenceSubmitter
     possible_errors = Array.new
 
     aa_seq_array = is_sequence_empty(params[:aa_sequence], params[:aa_fasta])
-    puts "aa_seq_array => #{aa_seq_array}"
+    # puts "aa_seq_array => #{aa_seq_array}"
     # if user submit more than 20 sequence at time, return error immediately
     if !aa_seq_array.nil? and aa_seq_array.length > 20
       possible_errors << "You submitted more than 20 amino acid sequences. While, we only accept 20 amino acid sequences or less per submission."
@@ -440,7 +458,7 @@ module SequenceSubmitter
     end
 
     nt_seq_array = is_sequence_empty(params[:nt_sequence], params[:nt_fasta])
-    puts "nt_seq_array => #{nt_seq_array}"
+    # puts "nt_seq_array => #{nt_seq_array}"
     if !nt_seq_array.nil? and nt_seq_array.length > 20
       possible_errors << "You submitted more than 20 nucleotide sequences. While, we only accept 20 nucleotide sequences or less per submission."
       return possible_errors

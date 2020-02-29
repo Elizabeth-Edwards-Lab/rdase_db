@@ -1,4 +1,4 @@
-table.compound-table.content-table.table-condensed
+table.table.table-striped.my-sm-3
   tbody
 
     = show_header 'Chemical Information', compound
@@ -154,18 +154,9 @@ table.compound-table.content-table.table-condensed
     /   th HET ID
     /   td = nah bio_link_out :het, compound.het_id
 
-    = show_header 'Associated Sequence', compound
-    table
-
-      .well-panel
-        - if @protein.length > 0
-          - @protein.each do |prot|
-            = render :partial => 'protein_card', :locals => { :protein => prot}
-        - else
-          p Not Available
-
-
-
-
-
-
+- if @protein.length > 0
+h2 Associated Proteins (#{protein.length})
+hr
+.card-group
+  - @protein.each do |prot|
+    = render :partial => 'protein_card', :locals => { :protein => prot}

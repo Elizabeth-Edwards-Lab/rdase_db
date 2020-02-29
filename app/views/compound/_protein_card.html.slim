@@ -2,16 +2,14 @@
   .card-header
     = link_to "#{protein.header}".html_safe, protein_path(protein.id)
   .card-body
-    div.container
-      div.row
-        div.col
-          p
-            | NCBI Accession Number: &nbsp;&nbsp;
-            a href="https://www.ncbi.nlm.nih.gov/protein/#{protein.accession_no}" target="_blank" 
-              = protein.accession_no
-          p
-            | Organism:&nbsp; #{protein.organism}
-          p
-            | Group:&nbsp; #{protein.group}
-          p
-            = link_to "More Infomation".html_safe, protein_path(protein.id)
+    p.card-text
+      | Accession No.&nbsp;
+      a href="https://www.ncbi.nlm.nih.gov/protein/#{protein.accession_no}" target="_blank" 
+        = protein.accession_no
+      <br>
+      | OG Group:&nbsp; #{protein.group}
+      <br>
+      | Organism:&nbsp; <em>#{protein.organism}</em>
+  .card-footer
+    small.text-muted
+      | Last Updated #{time_ago_in_words(protein.updated_at)} ago

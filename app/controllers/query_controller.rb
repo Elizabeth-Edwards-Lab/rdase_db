@@ -130,7 +130,7 @@ class QueryController < ApplicationController
       end # end protein_sequence.each do |single_entry|
 
 
-      identity_with_90 = get_identity_with_90(aa_report)
+      identity_with_90 = get_identity_by_match(aa_report)
       # puts "identity_with_90 => #{identity_with_90.inspect}"
       @identity_groups = Array.new  # identity_group contains the eligible group number      
 
@@ -257,7 +257,7 @@ class QueryController < ApplicationController
       end # end protein_sequence.each do |single_entry|
 
 
-      identity_with_90 = get_identity_with_90(aa_report)
+      identity_with_90 = get_identity_by_match(aa_report)
       puts "identity_with_90 => #{identity_with_90.inspect}"
       @identity_groups = Array.new  # identity_group contains the eligible group number
       if identity_with_90.length > 0

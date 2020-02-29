@@ -1,20 +1,14 @@
 .card
-  .card-header
-    = link_to "#{compound.name}".html_safe, compound
+  - if compound.image.attached?
+    = image_tag(compound.image, :class => 'card-img-top mx-auto', :alt => compound.name + ' structural diagram')
+  - else
+    = image_tag("Photo-Not-Available-Image.jpg", :class => 'card-img-top mx-auto', :alt => 'Diagram not available')     
   .card-body
-    div.container
-      div.row
-        div.col-4
-          - if compound.image.attached?
-            = image_tag(compound.image)
-          - else
-            = image_tag("Photo-Not-Available-Image.jpg", :style => "width:130px;height:130px;")
-        div.col-8
-          p
-            | Compound Name: #{compound.name}
-          p
-            | Compound Formula: #{compound.formula}
-          p
-            | Average Mass: #{compound.average_mass}
-          p
-            = link_to "More Infomation".html_safe, compound
+    h5.card-title = link_to "#{compound.name}".html_safe, compound
+    p.card-text
+      | Compound Formula: #{compound.formula}
+      <br>
+      | Average Mass: #{compound.average_mass}
+  .card-footer
+    small.text-muted
+      | Last Updated #{time_ago_in_words(compound.updated_at)} ago
