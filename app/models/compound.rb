@@ -1,7 +1,9 @@
 class Compound < ApplicationRecord
+  default_scope { order(name: :asc) }
 	before_validation :increment_public_id, on: :create
   # to attach file => Compound.image.attach(io: File.open('/path/to/file'), filename: 'file.pdf')
   has_one_attached :image
+  validates :public_id, uniqueness: true
   has_and_belongs_to_many :customized_protein_sequences,
     join_table: "compound_strain_rels",
     association_foreign_key: "protein_id"

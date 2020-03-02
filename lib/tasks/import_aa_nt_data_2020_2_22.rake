@@ -45,7 +45,6 @@ namespace :import_aa_nt_data_2020_2_22 do
 				# reference
 				if ref_pmid.include? ","
 					pmid = ref_pmid.split(",")
-					
 					pmid.each do |pd|
 						ref = PubmedReference.new
 						ref.pubmed_id = pd.strip
@@ -87,35 +86,15 @@ namespace :import_aa_nt_data_2020_2_22 do
 	task :reinitialize_db => [:environment] do
 		CustomizedNucleotideSequence.delete_all
 		CustomizedProteinSequence.delete_all
-		NucleotideSequence.delete_all
-		ProteinSequence.delete_all
 		CompoundStrainRel.delete_all
 		PubmedReference.delete_all
-
-		CustomizedNucleotideSequence.destroy_all
-		CustomizedProteinSequence.destroy_all
-		NucleotideSequence.destroy_all
-		ProteinSequence.destroy_all
-		CompoundStrainRel.destroy_all
-		PubmedReference.destroy_all
-
-        ActiveRecord::Base.connection.truncate(:compound_strain_rels)
-		ActiveRecord::Base.connection.truncate(:customized_protein_sequences)
-		ActiveRecord::Base.connection.truncate(:customized_nucleotide_sequences)
-		ActiveRecord::Base.connection.truncate(:references)
-		ActiveRecord::Base.connection.truncate(:compound_strain_rels)
 	end
 
 	# rake import_aa_nt_data_2020_2_22:construct_metabolite_protein
 	task :construct_metabolite_protein => [:environment] do
-		
-		CompoundStrainRel.delete_all
-		CompoundStrainRel.destroy_all
-
-		CSV.foreach("data/strain_rddb_id_rel.csv") do |row|
+		CSV.foreach("data/strain_rddb_id_rel_29-Feb-2020.csv") do |row|
 			begin
-				compound = Compound.find_by(:public_id => row[2])
-				# protein = CustomizedProteinSequence.where(:chain => row[1])
+				compound = Compound.find_by(:public_id => row[1])
 				protein = CustomizedProteinSequence.where(:header => row[0])
 				protein_id = nil
 				protein_header = nil

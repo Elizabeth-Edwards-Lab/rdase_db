@@ -157,6 +157,6 @@ table.table.table-striped.my-sm-3
 - if @protein.length > 0
 h2 Associated Proteins (#{protein.length})
 hr
-.card-group
+.card-columns
   - @protein.each do |prot|
-    = render :partial => 'protein_card', :locals => { :protein => prot}
+    = render :partial => 'protein_card', :locals => { :protein => prot }

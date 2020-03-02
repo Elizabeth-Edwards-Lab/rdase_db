@@ -1,14 +1,21 @@
 class CustomizedProteinSequence < ApplicationRecord
 
-	UPLOADER_TYPES = ['RDaseDB', 'Public']
+	alias_attribute :name, :header
 	has_many :customized_nucleotide_sequences, :foreign_key => "protein_id"
 	has_and_belongs_to_many :compounds, join_table: "compound_strain_rels", :foreign_key => "protein_id"
 	has_many :pubmed_references, :foreign_key => "strain_id"
 	# belongs_to :uploader
 
 	validates :chain, format: { with: /\A[*GAVLIMFWPSTCYNQDEKRHXBZUOJ]+\z/ } # accept wild * in sequence 
+	validates :header, uniqueness: true
+	validates :accession_no, uniqueness: true
 	before_validation :convert_to_short_form
-	# validates_inclusion_of :uploader, 
+
+	accepts_nested_attributes_for :pubmed_references, reject_if: :all_blank
+	accepts_nested_attributes_for :compounds, reject_if: :all_blank
+
+	# UPLOADER_TYPES = ['RDaseDB', 'Public']
+	# v`ali`dates_inclusion_of :uploader, 
     # 	in: UPLOADER_TYPES, 
     # 	message: 'can only be RDaseDB or Public', 
     # 	allow_blank: false

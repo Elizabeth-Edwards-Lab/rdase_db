@@ -1,10 +1,25 @@
 .protein-info {
 	.card img.card-img-top {
-		padding: auto 0;
 		width: 130px;
 		height: 130px;
 	}
 }
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+	.protein-info .card-columns {
+	  -webkit-column-count: 4;
+		 -moz-column-count: 4;
+			  column-count: 4;
+	}
+  }
+  
+  @media (min-width: 1200px) {
+	.protein-info .card-columns {
+	  -webkit-column-count: 5;
+		 -moz-column-count: 5;
+			  column-count: 5;
+	}
+  }
 
 // .protein-info table {
 // 	border-collapse: collapse;

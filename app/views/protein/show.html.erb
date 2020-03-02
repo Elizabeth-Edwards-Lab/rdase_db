@@ -125,7 +125,7 @@
       <td id="gene-pmw"></td>
     </tr>
     <tr>
-      <th>NCBI GeneBank ID</th>
+      <th>Gene Accession Number</th>
       <td>
         <a href="https://www.ncbi.nlm.nih.gov/nuccore/<%= @gene_s.accession_no %>" target="_blank"> <%= @gene_s.accession_no %></a>&nbsp;<i class="fas fa-external-link-alt"></i>
       </td>
@@ -136,7 +136,7 @@
 <h3>Substrate Range (<%= @compound.length %>)</h3>
 <hr>
     <% if @compound.length > 0 %>
-    <div class="card-group">
+    <div class="card-columns">
       <% @compound.each do |comp| %>
         <%= render :partial => 'compound_card', :locals => { :compound => comp} %>
       <% end %>
