@@ -17,7 +17,10 @@ $(document).ready(function(){
 
 	$('#public-id-yes').click(function(){
 		$('#public-id-info-div').attr('style',"display: none;");
-		$('#binding-domain-info-div').removeAttr('style');
+		// $('#binding-domain-info-div').removeAttr('style');
+		$('.container.decision-tree').attr('style',"display: none;");
+		$('#submit-interface').removeAttr('style');
+		$('#selection-info').removeAttr('style');		
 	})
 
 	$('#binding-domain-yes').click(function(){
