@@ -1,5 +1,5 @@
 ActiveAdmin.register CustomizedNucleotideSequence, as: "Nucleotide Sequence" do
-  permit_params :id, :header, :chain, :uploader_id, :created_at, :updated_at, :reference, :group, :update_date, :publication_date, :tree_name, :key_group, :organism, :key, :uploader, :accession_no, :species, :protein_name, :uploader_name, :uploader_email, :protein_id
+  permit_params :id, :header, :chain, :updated_at, :reference, :group, :update_date, :publication_date, :tree_name, :key_group, :organism, :key, :uploader, :accession_no, :species, :protein_name, :uploader_name, :uploader_email, :protein_id
   index do
         selectable_column
         column :id do |c|

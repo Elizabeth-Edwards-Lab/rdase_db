@@ -1,5 +1,5 @@
 ActiveAdmin.register CustomizedProteinSequence, as: "Protein Sequence" do
-    permit_params :header, :chain, :uploader_id, :created_at, :updated_at, :group, :update_date, :publication_date, :tree_name, :key_group, :organism, :key, :uploader, :accession_no, :species, :protein_name, :uploader_name, :uploader_email, :characterized, :single, :pubmed_references, :compounds
+    permit_params :header, :chain, :uploader_id, :group, :update_date, :publication_date, :tree_name, :key_group, :organism, :key, :uploader, :accession_no, :species, :protein_name, :uploader_name, :uploader_email, :characterized, :single, :pubmed_references, :compounds
     index do
         selectable_column
         column :header do |c|
